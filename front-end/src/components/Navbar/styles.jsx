@@ -9,7 +9,7 @@ export const Box = styled.main`
   box-shadow: 10px 10px 10px 10px rgb(230 226 226);
   img {
     width: 120px;
-    height: 40px;
+    height: 44px;
   }
   .left-item {
     margin-left: 10px;
