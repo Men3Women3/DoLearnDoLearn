@@ -13,6 +13,7 @@ const Login = React.lazy(() => pMinDelay(import("./pages/Login/index"), 1000));
 const SingUp = React.lazy(() =>
   pMinDelay(import("./pages/SignUp/index"), 1000)
 );
+const User = React.lazy(() => pMinDelay(import("./pages/User/index")));
 const NotFound = React.lazy(() =>
   pMinDelay(import("./pages/NotFound/index"), 1000)
 );
@@ -26,6 +27,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SingUp />} />
+            <Route path="/mypage" element={<User />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
