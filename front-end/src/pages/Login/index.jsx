@@ -1,54 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import loginImg from "../../assets/images/login_img.svg";
 import logoImg from "../../assets/images/logo.png";
-import { SHeader, SMain, SSection, SContainer } from "./styles";
+import { SMain, SForm, SImgSection, SContainer, SSNSContainer, SInputContainer, SEmailFontAwesomeIcon, SEmailInput, SPasswordInput, SLoginButton, SNaverContainer, SKakaoContainer, SGoogleContainer, SMainContainer, SSignUpButton, SFindPassword } from "./styles";
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <SMain>
-      <SSection>
-        <SHeader>
+      <SMainContainer>
+        <NavLink to={'/'} >
           <img src={logoImg} alt="logo_img" />
-        </SHeader>
-        <SContainer>
-          <div>
-            <h1>Welcome Back!</h1>
-            <img src={loginImg} alt="login_img" />
-          </div>
-          <div>
-            <h2>로그인</h2>
-            <div>
-              <input type="text" />
-              <p></p>
-            </div>
-            <div>
-              <input type="text" />
-              <p></p>
-            </div>
-            <div>
-              <input type="checkbox" />
-              <p>아이디 저장</p>
-            </div>
-            <button>로그인</button>
-            <p>아직 회원이 아니신가요?</p>
-            <div></div> {/* 구분선  */}
-            <div>
-              <div>
+        </NavLink>
+        <SImgSection>
+          <h1>Welcome Back!</h1>
+          <img src={loginImg} alt="login_img" />
+        </SImgSection>
+        <SForm>
+          <SContainer>
+            <h1>로그인</h1>
+            <SInputContainer>
+              <SEmailInput className={email ? 'active__input' : ''} value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder="이메일을 입력해주세요"/>
+              <SEmailFontAwesomeIcon className={email ? 'active__icon' : ''} icon={faEnvelope} />
+            </SInputContainer>
+            <SInputContainer>
+              <SPasswordInput className={password ? 'active__input' : ''} value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="비밀번호를 입력해주세요" />
+              <SEmailFontAwesomeIcon className={password ? 'active__icon' : ''} icon={faLock} />
+            </SInputContainer>
+            <SFindPassword>
+              <p>비밀번호 찾기</p>
+            </SFindPassword>
+            <SLoginButton type='submit'>로그인</SLoginButton>
+            <SSignUpButton>회원가입</SSignUpButton>
+            <SSNSContainer>
+              <SNaverContainer>
                 <button>N</button>
-                <p>네이버로 시작하기</p>
-              </div>
-              <div>
+              </SNaverContainer>
+              <SKakaoContainer>
                 <button>K</button>
-                <p>카카오로 시작하기</p>
-              </div>
-              <div>
+              </SKakaoContainer>
+              <SGoogleContainer>
                 <button>G</button>
-                <p>구글로 시작하기</p>
-              </div>
-            </div>
-          </div>
-        </SContainer>
-      </SSection>
+              </SGoogleContainer>
+            </SSNSContainer>
+          </SContainer>
+        </SForm>
+
+      </SMainContainer>
     </SMain>
   );
 };

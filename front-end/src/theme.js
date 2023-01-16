@@ -5,6 +5,7 @@ const theme = {
   lighterYellow: "#FFFAEC",
   red: "#FF7979",
   h1Size: "",
+  fontFamily: "KIMM_Bold",
 };
 
 export default theme;
