@@ -2,9 +2,9 @@ buildscript {
 	ext {
 		springBootVer = '2.7.7'
 		springDependencyMgmtVer = '1.1.0'
-		querydslVer = '4.4.0'
+		querydslVer = '5.0.0'
 		querydslPluginVer = '1.0.10'
-		jwtVer = '1.0.10'
+		jwtVer = '0.11.5'
 	}
 }
 
@@ -12,6 +12,9 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version "${springBootVer}"
 	id 'io.spring.dependency-management' version "${springDependencyMgmtVer}"
+	
+	//Query dsl 을 프로젝트로 설정할 때 gradle이 5.0 이상일 때 추가 작업
+	id "com.ewerk.gradle.plugins.querydsl" version "${querydslPluginVer}"
 }
 
 group = 'com.example'
@@ -37,11 +40,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	//querydsl
 	implementation "com.querydsl:querydsl-jpa:${querydslVer}"
 	implementation "com.querydsl:querydsl-apt:${querydslVer}"
-
-	//annotationProcessor를 쓰면 별도의 querydsl 플러그인 및 플러그인 설정이 불필요
-	annotationProcessor "com.querydsl:querydsl-apt:${querydslVer}:jpa"
 
 	//jwt
 	implementation "io.jsonwebtoken:jjwt-api:${jwtVer}"
@@ -51,4 +52,32 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// querydsl 사용할 경로 지정합니다. 현재 지정한 부분은 .gitignore에 포함되므로 git에 올라가지 않습니다.
+def querydslDir = "$buildDir/generated/'querydsl'"
+
+// JPA 사용여부 및 사용 경로 설정
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+// build시 사용할 sourceSet 추가 설정
+sourceSets {
+	main.java.srcDir querydslDir
+}
+
+
+// querydsl 컴파일 시 사용할 옵션 설정
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+
+// querydsl이 compileClassPath를 상속하도록 설정
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
 }
