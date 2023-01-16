@@ -9,9 +9,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faIdCard } from "@fortawesome/free-solid-svg-icons"
-import { faLink } from "@fortawesome/free-solid-svg-icons"
-import { faYoutube } from "@fortawesome/free-brands-svg-icons"
-import { faInstagram } from "@fortawesome/free-brands-svg-icons"
+import { faStaylinked } from "@fortawesome/free-brands-svg-icons"
+import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons"
+import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons"
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons"
 
 const theme = createTheme({
@@ -85,7 +85,7 @@ const Profile = () => {
         <div style={{ display: "absolute" }}>
           <p>
             <FontAwesomeIcon
-              icon={faLink}
+              icon={faStaylinked}
               style={{ color: "black" }}
               size="2x"
             />
@@ -93,7 +93,7 @@ const Profile = () => {
           </p>
           <p>
             <FontAwesomeIcon
-              icon={faYoutube}
+              icon={faSquareYoutube}
               style={{ color: "black" }}
               size="2x"
             />
@@ -101,7 +101,7 @@ const Profile = () => {
           </p>
           <p>
             <FontAwesomeIcon
-              icon={faInstagram}
+              icon={faSquareInstagram}
               style={{ color: "black" }}
               size="2x"
             />
