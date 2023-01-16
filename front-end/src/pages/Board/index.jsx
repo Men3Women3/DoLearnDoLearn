@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import BoardList from '../../components/Board/BoardList';
-import Navbar from '../../components/Navbar';
-import Search from '../../components/Board/Search';
-import WriteButton from '../../components/Board/WriteButton';
+import React, { useState } from "react";
+import BoardList from "../../components/Board/BoardList";
+import Navbar from "../../components/Navbar";
+import Search from "../../components/Board/Search";
+import WriteButton from "../../components/Board/WriteButton";
 // import SmallSchedule from '../../components/SmallSchedule';
 
 // 왜 안되지..ㅇㅅㅇ
