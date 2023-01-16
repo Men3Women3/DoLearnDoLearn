@@ -1,5 +1,8 @@
 const theme = {
-  mainColor: "#f39c12",
+  deepYellow: "#F3BD2A",
+  lightYellow: "#FFF9DB",
+  lighterYellow: "#FFFAEC",
+  red: "#FF7979",
   h1Size: "",
 };
 
