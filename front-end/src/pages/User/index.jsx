@@ -1,5 +1,5 @@
-import React from "react";
-import Profile from "../../components/Profile/index";
+import React from "react"
+import Profile from "../../components/Profile/index"
 
 const User = () => {
   return (
@@ -7,7 +7,7 @@ const User = () => {
       User
       <Profile />
     </div>
-  );
-};
+  )
+}
 
-export default User;
+export default User
