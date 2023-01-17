@@ -17,6 +17,7 @@ const User = React.lazy(() => pMinDelay(import("./pages/User/index")));
 const NotFound = React.lazy(() =>
   pMinDelay(import("./pages/NotFound/index"), 1000)
 );
+const Board = React.lazy(() => pMinDelay(import("./pages/Board"), 0)); // delay 0
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SingUp />} />
+            <Route path="/board" element={<Board />} />
             <Route path="/mypage" element={<User />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
