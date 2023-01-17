@@ -8,7 +8,10 @@ import { NavLink } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmpty, setIsEmpty] = useState('');
+  const [isCorrect, setIsCorrect] = useState(false)
 
+  
   return (
     <SMain>
       <SMainContainer>

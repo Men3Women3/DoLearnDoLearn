@@ -2,10 +2,26 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const SMain = styled.main`
+  z-index: 1;
+  position: relative;
   display: flex;
   height: 100%;
   background-color: ${(props) => props.theme.deepYellow};
 `;
+
+// export const SModal = styled.div`
+//   z-index: 999;
+//   position: fixed;
+//   text-align: center;
+//   top: 150px;
+//   left: 150px;
+//   background-color: white;
+//   width: 360px;
+//   height: 155px;
+//   -webkit-box-shadow: 10px 10px 5px 3000px rgba(0,0,0,0.7);
+//   -moz-box-shadow: 10px 10px 5px 3000px rgba(0,0,0,0.7);
+//   box-shadow: 10px 10px 5px 3000px rgba(0,0,0,0.7);
+// `;
 
 export const SMainContainer = styled.div`
   width: 100%;
