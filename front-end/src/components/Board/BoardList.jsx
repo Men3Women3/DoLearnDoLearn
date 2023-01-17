@@ -11,6 +11,7 @@ const BoardList = () => {
   const [limit, setLimit] = useState(6); // 한 페이지에 보여줄 게시물
   const [page, setPage] = useState(1); // 몇 개 페이지 생성할지 계산
   const offset = (page - 1) * limit; // 게시물의 위치 설정
+
   const [list, setList] = useState([
     {
       writer: "김싸피1",
@@ -107,10 +108,12 @@ const BoardList = () => {
 
   return (
     <>
+      {/* 요 container를 왼쪽에 두고 오른쪽에는 smallSchedule */}
       <SContainer className="container">
         {list.map((item) => {
           return (
             <UniBoard
+              className="uni-board"
               thumbnail={item.thumbnail}
               writer={item.writer}
               title={item.title}
