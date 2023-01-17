@@ -4,6 +4,8 @@ import logoImg from "../../assets/images/logo.png";
 import { SMain, SForm, SImgSection, SContainer, SSNSContainer, SInputContainer, SEmailFontAwesomeIcon, SEmailInput, SPasswordInput, SLoginButton, SNaverContainer, SKakaoContainer, SGoogleContainer, SMainContainer, SSignUpButton, SFindPassword } from "./styles";
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
+import TransitionsModal from '../../components/Modal';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +16,7 @@ const Login = () => {
   
   return (
     <SMain>
+      {/* <TransitionsModal /> */}
       <SMainContainer>
         <NavLink to={'/'} >
           <img src={logoImg} alt="logo_img" />

@@ -9,20 +9,6 @@ export const SMain = styled.main`
   background-color: ${(props) => props.theme.deepYellow};
 `;
 
-// export const SModal = styled.div`
-//   z-index: 999;
-//   position: fixed;
-//   text-align: center;
-//   top: 150px;
-//   left: 150px;
-//   background-color: white;
-//   width: 360px;
-//   height: 155px;
-//   -webkit-box-shadow: 10px 10px 5px 3000px rgba(0,0,0,0.7);
-//   -moz-box-shadow: 10px 10px 5px 3000px rgba(0,0,0,0.7);
-//   box-shadow: 10px 10px 5px 3000px rgba(0,0,0,0.7);
-// `;
-
 export const SMainContainer = styled.div`
   width: 100%;
   display: flex;
