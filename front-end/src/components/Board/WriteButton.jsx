@@ -1,12 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import CreateIcon from "@mui/icons-material/Create";
 
 const WriteButton = () => {
+  const navigate = useNavigate();
+
   function handleWriteBoard() {
     // 글쓰기 게시판으로 보내줭
-    return <Link to="/home" />;
+    // 일단 main으로 가볼게
+    navigate("/write");
   }
 
   return (
@@ -25,7 +28,6 @@ const WriteButton = () => {
     >
       글쓰기
     </Button>
-    // <button onClick={handleWriteBoard}>글쓰기</button>
   );
 };
 

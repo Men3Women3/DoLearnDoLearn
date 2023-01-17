@@ -13,7 +13,4 @@ body {
 #root {
   height: 100%;
   font-family: "KIMM_Bold";
-
-  /* 반응형으로 폰트 크기 조절하고 싶엉 */
-  font-size: calc(2vw + 5px);
 }
