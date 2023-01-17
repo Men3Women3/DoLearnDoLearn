@@ -1,9 +1,11 @@
 package com.example.dolearn.service;
 
 import com.example.dolearn.dto.UserDto;
-import com.example.dolearn.exception.UserDuplicateException;
+import com.example.dolearn.exception.CustomException;
+import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,18 +14,42 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public UserDto signup(UserDto userDto){
-        if (userRepository.findOneByEmail(userDto.getEmail()).orElse(null) != null) {
-            throw new UserDuplicateException(userDto);
+        if (userRepository.findOneByEmail(userDto.getEmail()) != null) {
+            throw new CustomException(ErrorCode.USER_DUPLICATION);
         }
 
         UserDto newUserDto = UserDto.builder()
                 .email(userDto.getEmail())
                 .name(userDto.getName())
-                .password(userDto.getPassword())          // 나중에 encoding 처리하기
+                .password(passwordEncoder.encode(userDto.getPassword()))
                 .build();
 
         return userRepository.save(newUserDto);
+    }
+
+    public UserDto login(UserDto loginUserDto) {
+        UserDto userDto = userRepository.findOneByEmail(loginUserDto.getEmail());
+        if(userDto == null){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+
+        if (!passwordEncoder.matches(loginUserDto.getPassword(), userDto.getPassword())) {
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+
+        return userDto;
+    }
+
+
+    @Transactional
+    public UserDto updateToken(UserDto userDto, String refreshToken, String accessToken) {
+        userDto.setRefreshToken(refreshToken);
+        userDto.setAccessToken(accessToken);
+        return userRepository.save(userDto);
     }
 }

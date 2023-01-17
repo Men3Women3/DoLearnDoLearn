@@ -3,9 +3,12 @@ package com.example.dolearn.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Data
@@ -52,10 +55,13 @@ public class UserDto {
     private String imgSrc;
 
     @Column(name="refresh_token", length = 500)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String refreshToken;
 
+    @Transient
+    private String accessToken;
+
     @Column(name="join_date")
+    @CreationTimestamp
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     Date joinDate;

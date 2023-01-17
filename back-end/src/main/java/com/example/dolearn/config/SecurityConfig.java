@@ -1,19 +1,32 @@
 package com.example.dolearn.config;
 
+import com.example.dolearn.jwt.CustomAuthenticationEntryPoint;
+import com.example.dolearn.jwt.JwtAuthenticationFilter;
+import com.example.dolearn.jwt.JwtTokenProvider;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
+
+    @Autowired
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -23,15 +36,24 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-
+                
+                /* jwt security 적용 */
                 .authorizeRequests()
-                .anyRequest().permitAll()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
+                .anyRequest().authenticated()
+
+                // login 시 Jwt 검증 필터
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+
+                //Jwt 토큰 인증 과정 중 에러 처리를 위한 Entry point 등록
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
 
                 // cors 설정 적용
                 .and()
                 .cors().configurationSource(corsConfigurationSource());
         return http.build();
-
     }
 
     @Bean
