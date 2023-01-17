@@ -1,41 +1,11 @@
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const SContainer = styled.div`
-  .profileContentContainer {
-    width: 100%;
-  }
-
-  .subContainer {
-    padding: 20px 15px;
-    font-size: calc(1vw + 1px);
-    line-height: calc(1vw + 10px);
-    display: flex;
-    flex-direction: column;
-  }
-
-  // 말풍선
-  /* .cd1tip {
-    width: 100%;
-    position: relative;
-    background-color: pink;
-  } */
-
-  // 말풍선 꼬리
-  /* .cd1tip .tip {
-    background: black;
-    color: white;
-    padding: 3%;
-    border-radius: 20px;
-    line-height: 1.5em; */
-  /* 말풍선 위치 잡기*/
-  /* position: absolute;
-    z-index: 1;
-    top: -7px;
-    left: 7vw;
-  } */
+export const SProfileContainer = styled.div`
+  width: 100%;
 
   .cd1tip {
-    width: 100%;
+    width: 98%;
     display: flex;
   }
 
@@ -48,21 +18,6 @@ export const SContainer = styled.div`
     border-radius: 20px;
   }
 
-  /* 말풍선 화살표 */
-  /* .tip:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 0;
-    height: 0;
-    top: 1em;
-    border: 0.781em solid transparent;
-    border-right-color: black;
-    border-left: 0;
-    border-top: 0;
-    margin-left: -0.581em;
-  } */
-
   .oneLineContainer {
     display: flex;
     align-items: center;
@@ -71,4 +26,70 @@ export const SContainer = styled.div`
       margin-left: 10px;
     }
   }
+`;
+
+export const SSubContainerUp = styled.div`
+  display: flex;
+  align-items: center;
+  /* 프로필 이미지 */
+  .profileImg {
+    height: calc(3vw + 90px);
+    width: calc(3vw + 90px);
+    border-radius: 50%;
+    /* border: calc(0.4vw + 1px) solid black; */
+    object-fit: cover;
+    text-align: center;
+  }
+  /* 이름 + 이메일 + 마일리지바 */
+  section {
+    width: 100%;
+    margin-left: 15px;
+    display: inline;
+    /* 이름 */
+    span {
+      font-size: calc(1vw + 8px);
+      margin-left: 5px !important;
+    }
+    /* 이메일 */
+    p {
+      color: #8e8e8e;
+      font-size: calc(1vw + 1.4px);
+    }
+    /* 마일리지바 */
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      width: 60%;
+      height: calc(1vw + 5px);
+    }
+    .wrapper > div {
+      flex: 1;
+      /* border: calc(0.1vw + 1px) solid black; */
+    }
+  }
+`;
+
+export const SSubContainerDown = styled.div`
+  width: 100%;
+  padding: 20px 15px;
+  font-size: calc(1vw + 1px);
+  line-height: calc(1vw + 10px);
+  display: flex;
+  flex-direction: column;
+`;
+
+export const SOneLineContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: calc(0.5vw + 1px) 0;
+  span {
+    margin-left: 10px;
+  }
+`;
+
+export const SFontAwesomeIconAtProfile = styled(FontAwesomeIcon)`
+  color: black;
+  height: calc(1vw + 17px);
 `;
