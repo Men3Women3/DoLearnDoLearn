@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
 export const SMain = styled.main`
   position: relative;
   display: flex;
@@ -63,11 +64,11 @@ export const SContainer = styled.div`
 `;
 
 export const SFindPassword = styled.div`
-  width: 100%;
+  width: 75%;
   /* text-align: right; */
   display: flex;
   justify-content: end;
-  transform: translateX(-42px);
+  /* transform: translateX(-72px); */
   span {
     margin: 20px 0px;
     font-size: 16px;
@@ -200,3 +201,17 @@ export const SGoogleContainer = styled.div`
     height: 42px;
   }
 `;
+
+export const SCancelButton = styled.button`
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #F3BD2A;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  font-weight: bold;
+`

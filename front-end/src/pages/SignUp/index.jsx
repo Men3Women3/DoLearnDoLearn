@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import logoImg from "../../assets/images/logo.png";
 import signupImg from "../../assets/images/sign_img.svg";
 import { Button } from "@mui/joy";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Typography from '@mui/material/Typography';
 import {
   faEnvelope,
   faLock,
@@ -37,7 +42,20 @@ import {
   SMainContainer,
   SNextButton,
   SFindPassword,
+  SCancelButton,
 } from "./styles";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  borderRadius: '8px',
+  boxShadow: 24,
+  outline: 'none',
+};
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -52,19 +70,56 @@ const SignUp = () => {
   const [isNext, setIsNext] = useState(false);
   const [isEmpty, setIsEmpty] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleCreateUser = () => {
+    navigate('/');
+  }
 
   const handleNextForm = (e) => {
     e.preventDefault();
-    setIsNext(!isNext);
+    if (isNext) {
+      navigate('/')
+    }
+
+    if (!username || !email || !password || !passwordCheck) {
+      setOpen(true)
+    } else if (passwordCheck && password !== passwordCheck) {
+      setOpen(true)
+    } else {
+      setIsNext(!isNext);
+    }
+
   };
+  
+  const handleOpen = (e) => {
+    e.preventDefault();
+    if (!username || !email || !password || !passwordCheck) {
+      setOpen(true)
+    }
+
+  };
+  const handleClose = () => setOpen(false);
+
+  const handleModalText = () => {
+    if (!username) return '이름(실명)을 입력해주세요.'
+    if (!email) return '이메일을 입력해주세요.'
+    if (!password) return '비밀번호를 입력해주세요.'
+    if (!passwordCheck) return '비밀번호를 다시 입력해주세요.'
+    if (password !== passwordCheck) return '비밀번호가 일치하지 않습니다.'
+  }
 
   return (
     <SMain>
       {/* <TransitionsModal /> */}
       <SMainContainer>
+        <div>
         <NavLink to={"/"}>
           <img src={logoImg} alt="logo_img" />
         </NavLink>
+
+        </div>
         <SForm>
           <SContainer>
             <h1>회원가입</h1>
@@ -130,12 +185,14 @@ const SignUp = () => {
                 </SSNSInputContainer>
                 <SInputContainer>
                   <SSelfIntroduction
+                    maxLength={500}
                     className={selfIntroduction ? "active__input" : ""}
                     value={selfIntroduction}
                     onChange={(e) => setSelfIntroduction(e.target.value)}
                     type="text"
                     placeholder="자기소개를 입력해주세요"
-                  />
+                    />
+                    <p className='typing-length'>{selfIntroduction.length} / 500</p>
                   <SEmailFontAwesomeIcon
                     className={selfIntroduction ? "active__icon" : ""}
                     icon={faComment}
@@ -212,6 +269,29 @@ const SignUp = () => {
           <img src={signupImg} alt="signup_img" />
         </SImgSection>
       </SMainContainer>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <Typography sx={{textAlign: 'center', marginTop: '32px', fontFamily: "KIMM_Bold"}} id="transition-modal-title" variant="h6" component="h2">
+              {/* {email ? password ? '': '비밀번호를 입력해주세요.' : '아이디를 입력해주세요.'} */}
+              {handleModalText()}
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              <SCancelButton onClick={(e) => setOpen(false)}>확인</SCancelButton>
+            </Typography>
+          </Box>
+        </Fade>
+      </Modal>
     </SMain>
   );
 };

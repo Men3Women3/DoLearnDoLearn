@@ -7,7 +7,7 @@ import mainImg from "../../assets/images/main_img.svg";
 import { useNavigate } from "react-router";
 
 const Home = () => {
-  const [isLogined, setIsLogined] = useState(false);
+  const [isLogined, setIsLogined] = useState(true);
   const navigate = useNavigate();
 
   return (

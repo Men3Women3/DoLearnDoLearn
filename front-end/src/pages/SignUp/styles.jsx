@@ -92,6 +92,11 @@ export const SInputContainer = styled.div`
   .active__icon {
     color: ${(props) => props.theme.deepYellow};
   }
+  .typing-length {
+    text-align: right;
+    color: black;
+    margin-bottom: 0px;
+  }
 `;
 
 export const SUsernameInput = styled.input`
@@ -193,7 +198,7 @@ export const SYouTubeInput = styled.input`
 
 export const SInstagramInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily};
-  width: 140px;
+  width: 150px;
   height: 40px;
   border: 3px solid #cdcdcd;
   border-radius: 8px;
@@ -209,7 +214,7 @@ export const SInstagramInput = styled.input`
 
 export const SFacebookInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily};
-  width: 140px;
+  width: 150px;
   height: 40px;
   border: 3px solid #cdcdcd;
   border-radius: 8px;
@@ -224,7 +229,7 @@ export const SFacebookInput = styled.input`
 `;
 
 export const SSNSInputContainer = styled.div`
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: space-evenly;
 `;
@@ -238,6 +243,7 @@ export const SSelfIntroduction = styled.textarea`
   outline: none;
   padding-left: 50px;
   padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 20px;
   resize: none;
   &::placeholder {
@@ -321,3 +327,17 @@ export const SGoogleContainer = styled.div`
     height: 42px;
   }
 `;
+
+export const SCancelButton = styled.button`
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #F3BD2A;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  font-weight: bold;
+`
