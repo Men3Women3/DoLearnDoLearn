@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
+    
     @Autowired
     private UserRepository userRepository;
 
@@ -37,14 +38,11 @@ public class UserService {
         if(userDto == null){
             throw new CustomException(ErrorCode.NO_USER);
         }
-
         if (!passwordEncoder.matches(loginUserDto.getPassword(), userDto.getPassword())) {
             throw new CustomException(ErrorCode.NO_USER);
         }
-
         return userDto;
     }
-
 
     @Transactional
     public UserDto updateToken(UserDto userDto, String refreshToken, String accessToken) {

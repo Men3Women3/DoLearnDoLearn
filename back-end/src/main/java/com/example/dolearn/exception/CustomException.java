@@ -3,6 +3,7 @@ package com.example.dolearn.exception;
 import com.example.dolearn.exception.error.ErrorCode;
 
 public class CustomException extends RuntimeException{
+    
     private ErrorCode errorCode;
 
     public CustomException(String message, ErrorCode errorCode) {
