@@ -14,7 +14,6 @@ const Board = () => {
       <Navbar />
       <Search />
       <WriteButton />
-      <p>뽀드입니다</p>
       <BoardList />
       <SmallSchedule />
       <Pagination count={10} />
