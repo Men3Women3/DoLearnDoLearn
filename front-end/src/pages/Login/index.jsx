@@ -20,7 +20,7 @@ import {
   SFindPassword,
 } from "./styles";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import TransitionsModal from "../../components/Modal";
 
 const Login = () => {
@@ -28,6 +28,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isEmpty, setIsEmpty] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
+  const navigate = useNavigate();
+
+  const handleMoveToSignUp = () => {
+    navigate("/signup");
+  };
 
   return (
     <SMain>
@@ -70,10 +75,10 @@ const Login = () => {
               />
             </SInputContainer>
             <SFindPassword>
-              <p>비밀번호 찾기</p>
+              <span>비밀번호 찾기</span>
             </SFindPassword>
             <SLoginButton type="submit">로그인</SLoginButton>
-            <SSignUpButton>회원가입</SSignUpButton>
+            <SSignUpButton onClick={handleMoveToSignUp}>회원가입</SSignUpButton>
             <SSNSContainer>
               <SNaverContainer>
                 <button>N</button>
