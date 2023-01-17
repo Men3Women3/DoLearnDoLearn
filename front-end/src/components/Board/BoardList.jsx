@@ -134,8 +134,8 @@ const UniBoard = (props) => {
     <div className="board-container">
       <div className="uni-board">
         <SImg src={props.thumbnail} />
-        <h3>{props.writer}</h3>
-        <h2>{props.title}</h2>
+        <h4>{props.writer}</h4>
+        <h3>{props.title}</h3>
         <p>{props.summary}</p>
         <p>{props.end_time}</p>
         <p>{props.deadline}</p>
