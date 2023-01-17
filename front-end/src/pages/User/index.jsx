@@ -1,17 +1,19 @@
-import React from "react"
-import Navbar from "../../components/Navbar"
-import CardBox from "../../components/CardBox"
-import Profile from "../../components/Profile/index"
+import React from "react";
+import Navbar from "../../components/Navbar";
+// import CardBox from "../../components/CardBox"
+import Profile from "../../components/Profile/index";
 
 const User = () => {
   return (
     <div>
       <Navbar />
-      <CardBox>
+      {/* <CardBox> */}
+      <div style={{ display: "flex", width: "100vw" }}>
         <Profile />
-      </CardBox>
+      </div>
+      {/* </CardBox> */}
     </div>
-  )
-}
+  );
+};
 
-export default User
+export default User;
