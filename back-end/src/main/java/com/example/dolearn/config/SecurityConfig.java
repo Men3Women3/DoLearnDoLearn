@@ -37,7 +37,6 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 
-                /* jwt security 적용 */
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
