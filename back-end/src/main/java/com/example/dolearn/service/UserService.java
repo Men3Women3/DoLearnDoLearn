@@ -1,5 +1,6 @@
 package com.example.dolearn.service;
 
+import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
@@ -23,18 +24,11 @@ public class UserService {
         if (userRepository.findOneByEmail(userDto.getEmail()) != null) {
             throw new CustomException(ErrorCode.USER_DUPLICATION);
         }
-
-        UserDto newUserDto = UserDto.builder()
-                .email(userDto.getEmail())
-                .name(userDto.getName())
-                .password(passwordEncoder.encode(userDto.getPassword()))
-                .build();
-
-        return userRepository.save(newUserDto);
+        return userRepository.save(userDto.toEntity()).toDto();
     }
 
     public UserDto login(UserDto loginUserDto) {
-        UserDto userDto = userRepository.findOneByEmail(loginUserDto.getEmail());
+        UserDto userDto = userRepository.findOneByEmail(loginUserDto.getEmail()).toDto();
         if(userDto == null){
             throw new CustomException(ErrorCode.NO_USER);
         }
@@ -48,6 +42,6 @@ public class UserService {
     public UserDto updateToken(UserDto userDto, String refreshToken, String accessToken) {
         userDto.setRefreshToken(refreshToken);
         userDto.setAccessToken(accessToken);
-        return userRepository.save(userDto);
+        return userRepository.save(userDto.toEntity()).toDto();
     }
 }

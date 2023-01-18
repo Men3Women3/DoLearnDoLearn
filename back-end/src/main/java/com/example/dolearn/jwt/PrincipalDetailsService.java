@@ -1,5 +1,6 @@
 package com.example.dolearn.jwt;
 
+import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String email) {
-        UserDto userDto = userRepository.findOneByEmail(email);
-        return new PrincipalDetails(userDto);
+        User user = userRepository.findOneByEmail(email);
+        return new PrincipalDetails(user.toDto());
     }
 }
