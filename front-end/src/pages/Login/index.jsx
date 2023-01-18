@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import loginImg from "../../assets/images/login_img.svg";
 import logoImg from "../../assets/images/logo.png";
 import Backdrop from '@mui/material/Backdrop';
@@ -49,27 +49,33 @@ const Login = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!open) {
+      console.log(111);
+
+    }
+  }
+
   const handleMoveToSignUp = () => {
     navigate("/signup");
   };
   
   const handleOpen = (e) => {
-    e.preventDefault();
     if (!email || !password) {
       setOpen(true)
-    } else {
-      // api 로직 작성해야 함
-      navigate('/')
     }
-
   };
 
   const handleClose = () => setOpen(false);
 
-  const handleModalText = () => {
-    if (!email) return '이메일을 입력해주세요.'
-    if (!password) return '비밀번호를 입력해주세요.'
-  }
+  const handleOnChangeEmail = useCallback((e) => {
+    setEmail(e.target.value)
+  }, []);
+
+  const handleOnPassword = useCallback((e) => {
+    setPassword(e.target.value);
+  }, []);
 
   return (
     <SMain>
@@ -84,14 +90,14 @@ const Login = () => {
           <h1>Welcome Back!</h1>
           <img src={loginImg} alt="login_img" />
         </SImgSection>
-        <SForm>
+        <SForm onSubmit={onSubmit}>
           <SContainer>
             <h1>로그인</h1>
             <SInputContainer>
               <SEmailInput
                 className={email ? "active__input" : ""}
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleOnChangeEmail}
                 type="text"
                 placeholder="이메일을 입력해주세요"
               />
@@ -104,7 +110,7 @@ const Login = () => {
               <SPasswordInput
                 className={password ? "active__input" : ""}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleOnPassword}
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
               />
@@ -146,7 +152,7 @@ const Login = () => {
         <Fade in={open}>
           <Box sx={style}>
             <Typography sx={{textAlign: 'center', marginTop: '32px', fontFamily: "KIMM_Bold"}} id="transition-modal-title" variant="h6" component="h2">
-              {email ? password ? '': '비밀번호를 입력해주세요.' : '아이디를 입력해주세요.'}
+              {email ? password ? '': '비밀번호를 입력해주세요.' : '이메일을 입력해주세요.'}
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               <SCancelButton onClick={(e) => setOpen(false)}>확인</SCancelButton>
