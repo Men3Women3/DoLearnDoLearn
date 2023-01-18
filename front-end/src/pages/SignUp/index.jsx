@@ -3,11 +3,11 @@ import logoImg from "../../assets/images/logo.png";
 import signupImg from "../../assets/images/sign_img.svg";
 import { Button } from "@mui/joy";
 import { NavLink, useNavigate } from "react-router-dom";
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
 import {
   faEnvelope,
   faLock,
@@ -46,15 +46,15 @@ import {
 } from "./styles";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  borderRadius: '8px',
+  bgcolor: "background.paper",
+  borderRadius: "8px",
   boxShadow: 24,
-  outline: 'none',
+  outline: "none",
 };
 
 const SignUp = () => {
@@ -74,53 +74,50 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleCreateUser = () => {
-    navigate('/');
-  }
+    navigate("/");
+  };
 
   const handleNextForm = (e) => {
     e.preventDefault();
     if (isNext) {
-      navigate('/')
+      navigate("/");
     }
 
     if (!username || !email || !password || !passwordCheck) {
-      setOpen(true)
+      setOpen(true);
     } else if (passwordCheck && password !== passwordCheck) {
-      setOpen(true)
+      setOpen(true);
     } else {
       setIsNext(!isNext);
     }
-
   };
-  
+
   const handleOpen = (e) => {
     e.preventDefault();
     if (!username || !email || !password || !passwordCheck) {
-      setOpen(true)
+      setOpen(true);
     }
-
   };
   const handleClose = () => setOpen(false);
 
   const handleModalText = () => {
-    if (!username) return '이름(실명)을 입력해주세요.'
-    if (!email) return '이메일을 입력해주세요.'
-    if (!password) return '비밀번호를 입력해주세요.'
-    if (!passwordCheck) return '비밀번호를 다시 입력해주세요.'
-    if (password !== passwordCheck) return '비밀번호가 일치하지 않습니다.'
-  }
+    if (!username) return "이름(실명)을 입력해주세요.";
+    if (!email) return "이메일을 입력해주세요.";
+    if (!password) return "비밀번호를 입력해주세요.";
+    if (!passwordCheck) return "비밀번호를 다시 입력해주세요.";
+    if (password !== passwordCheck) return "비밀번호가 일치하지 않습니다.";
+  };
 
   return (
     <SMain>
       {/* <TransitionsModal /> */}
       <SMainContainer>
         <div>
-        <NavLink to={"/"}>
-          <img src={logoImg} alt="logo_img" />
-        </NavLink>
-
+          <NavLink to={"/"}>
+            <img src={logoImg} alt="logo_img" />
+          </NavLink>
         </div>
-        <SForm>
+        <SForm isNext>
           <SContainer>
             <h1>회원가입</h1>
             {isNext ? (
@@ -191,8 +188,10 @@ const SignUp = () => {
                     onChange={(e) => setSelfIntroduction(e.target.value)}
                     type="text"
                     placeholder="자기소개를 입력해주세요"
-                    />
-                    <p className='typing-length'>{selfIntroduction.length} / 500</p>
+                  />
+                  <p className="typing-length">
+                    {selfIntroduction.length} / 500
+                  </p>
                   <SEmailFontAwesomeIcon
                     className={selfIntroduction ? "active__icon" : ""}
                     icon={faComment}
@@ -255,9 +254,6 @@ const SignUp = () => {
                 </SInputContainer>
               </>
             )}
-            {/* <SFindPassword>
-              <span>비밀번호 찾기</span>
-            </SFindPassword> */}
             {/* <SLoginButton type="submit">회원가입</SLoginButton> */}
             <SNextButton onClick={(e) => handleNextForm(e)}>
               {isNext ? "회원가입" : "다음"}
@@ -282,12 +278,23 @@ const SignUp = () => {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography sx={{textAlign: 'center', marginTop: '32px', fontFamily: "KIMM_Bold"}} id="transition-modal-title" variant="h6" component="h2">
+            <Typography
+              sx={{
+                textAlign: "center",
+                marginTop: "32px",
+                fontFamily: "KIMM_Bold",
+              }}
+              id="transition-modal-title"
+              variant="h6"
+              component="h2"
+            >
               {/* {email ? password ? '': '비밀번호를 입력해주세요.' : '아이디를 입력해주세요.'} */}
               {handleModalText()}
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              <SCancelButton onClick={(e) => setOpen(false)}>확인</SCancelButton>
+              <SCancelButton onClick={(e) => setOpen(false)}>
+                확인
+              </SCancelButton>
             </Typography>
           </Box>
         </Fade>

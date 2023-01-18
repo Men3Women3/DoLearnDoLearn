@@ -40,6 +40,7 @@ export const SImgSection = styled.section`
 `;
 
 export const SForm = styled.form`
+  height: ${(props) => (props.isNext ? "580px" : "450px")};
   transform: translateX(-95px);
   transition: all 1000ms linear;
   display: flex;
@@ -229,7 +230,7 @@ export const SFacebookInput = styled.input`
 `;
 
 export const SSNSInputContainer = styled.div`
-  width: 80%;
+  width: 90%;
   display: flex;
   justify-content: space-evenly;
 `;
@@ -331,7 +332,7 @@ export const SGoogleContainer = styled.div`
 export const SCancelButton = styled.button`
   margin-top: 40px;
   margin-bottom: 20px;
-  color: #F3BD2A;
+  color: #f3bd2a;
   cursor: pointer;
   width: 100%;
   height: 100%;
@@ -340,4 +341,4 @@ export const SCancelButton = styled.button`
   outline: none;
   font-size: 20px;
   font-weight: bold;
-`
+`;
