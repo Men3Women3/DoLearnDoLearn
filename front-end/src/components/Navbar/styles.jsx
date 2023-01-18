@@ -6,7 +6,7 @@ export const Box = styled.main`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 10px 10px 10px 10px rgb(230 226 226);
+  /* box-shadow: 10px 10px 10px 10px rgb(230 226 226); */
   img {
     width: 120px;
     height: 44px;
