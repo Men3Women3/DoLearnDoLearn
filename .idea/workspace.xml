@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97dfaf59-d7e4-4743-91b0-424fb4b1d3aa" name="Changes" comment="">
+    <list default="true" id="97dfaf59-d7e4-4743-91b0-424fb4b1d3aa" name="Changes" comment="feat: Board 등록 및 조회">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +127,19 @@
       <option name="presentableId" value="Default" />
       <updated>1673841130896</updated>
     </task>
+    <task id="LOCAL-00001" summary="feat: Board 등록 및 조회">
+      <created>1674026797174</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1674026797174</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: Board 등록 및 조회" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Board 등록 및 조회" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
