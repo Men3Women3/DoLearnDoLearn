@@ -8,8 +8,7 @@ export const Box = styled.main`
   align-items: center;
   /* box-shadow: 10px 10px 10px 10px rgb(230 226 226); */
   img {
-    width: 120px;
-    height: 44px;
+    height: calc(1vw + 43px);
   }
   .left-item {
     margin-left: 10px;
@@ -58,7 +57,7 @@ export const Box = styled.main`
     }
   }
   .link__board {
-    font-size: 20px;
+    font-size: calc(1vw + 7px);
     color: black;
     margin-left: 16px;
   }

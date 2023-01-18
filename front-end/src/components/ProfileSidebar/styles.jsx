@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
 export const SSidebarContainer = styled.section`
-  width: 20%;
+  width: 100%;
+  height: 100%;
   position: relative;
-  padding-top: 80px;
-  border-right: 3px solid #e7e7e7;
+  /* padding-top: 80px; */
+  /* padding-top: calc(1vw + 5px); */
+  border-right: calc(0.5vw + 0.2px) solid #e7e7e7;
   /* background-color: black; */
 `;
 
@@ -16,19 +18,26 @@ export const SButtonContainer = styled.div`
     text-align: left;
     font-family: ${(props) => props.theme.fontFamily};
     /* width: 160px; */
-    font-size: 24px;
-    margin: 40px;
+    /* font-size: 24px; */
+    font-size: calc(1vw + 8px);
+    /* margin: 40px; */
+    margin: calc(1vw + 6px);
     margin-left: 20px;
     background-color: transparent;
     border: none;
     outline: none;
     cursor: pointer;
   }
+  button:hover {
+    cursor: pointer;
+    transform: scale(1.15);
+    /* color: ${(props) => props.theme.deeperYellow}; */
+  }
   div {
     z-index: 1;
     position: absolute;
-    top: 50px;
-    left: 35px;
+    top: calc(1vw + 14px);
+    left: calc(1vw + 28px);
   }
   .profile-page {
     min-width: 86px;
@@ -42,9 +51,9 @@ export const SButtonContainer = styled.div`
   .message-page {
     min-width: 112px;
   }
-  .profile-page__background {
-    width: 70px;
-    height: 28px;
+  .page__background {
+    font-size: calc(1vw + 5px);
+    color: ${(props) => props.theme.deeperYellow};
     background-color: ${(props) => props.theme.deeperYellow};
   }
 `;
@@ -55,14 +64,13 @@ export const SUserDeleteButtonContainer = styled.div`
   left: 10px;
   .user-delete {
     color: rgb(142, 142, 142);
-    width: 25px;
-    height: 25px;
+    height: calc(1vw + 4px);
   }
   button {
     color: rgb(142, 142, 142);
     text-align: left;
     font-family: ${(props) => props.theme.fontFamily};
-    font-size: 20px;
+    font-size: calc(1vw + 4px);
     background-color: transparent;
     border: none;
     outline: none;
