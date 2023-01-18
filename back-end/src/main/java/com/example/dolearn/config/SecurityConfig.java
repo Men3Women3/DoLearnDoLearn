@@ -4,7 +4,6 @@ import com.example.dolearn.jwt.CustomAuthenticationEntryPoint;
 import com.example.dolearn.jwt.JwtAuthenticationFilter;
 import com.example.dolearn.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +39,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
+                .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .anyRequest().authenticated()
 
                 // login 시 Jwt 검증 필터
