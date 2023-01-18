@@ -12,7 +12,9 @@ const Navbar = () => {
   return (
     <Box>
       <div className="left-item">
-        <img src={logoImg} alt="logo" />
+        <NavLink to={"/"}>
+          <img src={logoImg} alt="logo" />
+        </NavLink>
         <NavLink to={"/board"} className="link link__board">
           공부방
         </NavLink>
@@ -23,11 +25,7 @@ const Navbar = () => {
           // isLogined &&
           <NavLink className="link username">
             김싸피
-            <img
-              className="profile-rank"
-              src={startRankImg}
-              alt="start_rank_Img"
-            />
+            <img src={startRankImg} alt="start_rank_Img" />
           </NavLink>
         }
         {

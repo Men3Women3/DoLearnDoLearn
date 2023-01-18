@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 import { Textarea, Input } from "@mui/joy";
 import CardBox from "../CardBox";
 import {
@@ -10,8 +14,10 @@ import {
   SDetail,
   SButton,
 } from "../../pages/WriteBoard/styles";
+import { useNavigate } from "react-router";
 
 const NewBoard = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
   const [summary, setSummary] = useState(""); // 강의 요약
@@ -19,10 +25,13 @@ const NewBoard = () => {
 
   const handleRegister = () => {
     // 까꿍~ 여기서 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
+    // 저장 됐으면 강의 목록 페이지로 가줭
     console.log(title);
     console.log(participant);
     console.log(summary);
     console.log(detail);
+    // 요 위에는 데이터 잘 받아지나 확인하려구 넣었어용 =================
+    navigate("/board");
   };
 
   // 제목 저장해줭
@@ -58,8 +67,9 @@ const NewBoard = () => {
 
         {/* 3. 사용자 지정 제목 */}
         <SBoardTitle>
-          <h3>제목</h3>
+          <div style={{ display: "inline-block" }}>제목</div>
           <Input
+            style={{ display: "inline-block" }}
             value={title}
             placeholder="제목을 입력하세요"
             onChange={handleTitleChange}
@@ -69,10 +79,11 @@ const NewBoard = () => {
         {/* 4. 참여 인원 */}
         <div className="people-number">
           <h3>참여 인원</h3>
-          {/* 문제: 직접 키보드 입력 못하게 막아야함 */}
+          {/* 문제: 키보드로 입력시 5가 넘어감 */}
           <Input
             type="number"
             defaultValue={participant}
+            required={"0-9"} // 키보드로 숫자만 입력할 수 있도록!
             slotProps={{
               input: {
                 min: 1,
@@ -96,6 +107,17 @@ const NewBoard = () => {
           <h3>강의 일시</h3>
           <Input type="date" />
           <Input type="time" />
+          <FormControl>
+            {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel> */}
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="one"
+              name="radio-buttons-group"
+            >
+              <FormControlLabel value="one" control={<Radio />} label="1시간" />
+              <FormControlLabel value="two" control={<Radio />} label="2시간" />
+            </RadioGroup>
+          </FormControl>
         </div>
 
         {/* 7. 강의 summary */}
