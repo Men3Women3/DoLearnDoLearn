@@ -43,8 +43,10 @@ public class Message {
     private LocalDateTime checkTime; //메세지 확인 시간
 
     @Builder
-    public Message(String content, LocalDateTime createdTime) {
+    public Message(String content, LocalDateTime createdTime,LocalDateTime checkTime,int isChecked) {
         this.content = content;
         this.createdTime = createdTime;
+        this.isChecked = isChecked;
+        this.checkTime = checkTime;
     }
 }

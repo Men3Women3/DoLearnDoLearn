@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,7 +42,7 @@ public class MessageControllerTest {
                                 .id(1L)
                                 .rid(1L)
                                 .content("test")
-                                .is_checked(1).build();
+                                .isChecked(1).build();
 
         when(messageService.createMessage(messageDto)).thenReturn(true);
 
@@ -49,6 +50,22 @@ public class MessageControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(messageDto)))
                 .andExpect(status().isCreated())
+                .andExpect(content().string(containsString("SUCCESS")));
+    }
+
+    @DisplayName("메세지 확인 업데이트 테스트")
+    @Test
+    public void messageUpdateTest() throws Exception {
+        MessageDto messageDto = MessageDto.builder()
+                .id(1L)
+                .rid(1L)
+                .content("test")
+                .isChecked(1).build();
+
+        mockMvc.perform(put("/message")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(messageDto)))
+                .andExpect(status().isOk())
                 .andExpect(content().string(containsString("SUCCESS")));
     }
 }

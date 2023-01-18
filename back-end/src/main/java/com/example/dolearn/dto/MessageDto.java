@@ -16,15 +16,16 @@ public class MessageDto {
     private Long id;
     private Long rid;
     private String content;
-    private int is_checked;
+    private int isChecked;
     private LocalDateTime createdTime;
     private LocalDateTime checkTime; //메세지 확인 시간
 
     public Message toEntity() {
 
         return Message.builder()
-                .content(this.content).
-                createdTime(LocalDateTime.now())
+                .content(this.content)
+                .createdTime(LocalDateTime.now())
+                .isChecked(this.isChecked)
                 .build();
     }
 }
