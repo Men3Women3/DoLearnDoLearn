@@ -1,6 +1,7 @@
 package com.example.dolearn.dto;
 
 import com.example.dolearn.domain.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ public class UserDto {
 
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private String info;
