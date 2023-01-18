@@ -20,9 +20,11 @@ const Search = () => {
   };
 
   // Enter 키를 눌렀을 때의 작업 처리
+  // 자꾸 렌더링 되는거 막는 법 찾기 ***
   const onEnter = (e) => {
+    console.log(e);
+    e.preventDefault();
     if (e.key === "Enter") {
-      e.preventDefault();
       console.log(search);
       // 검색~
       // 검색 하고 input은 비워줭
@@ -38,7 +40,7 @@ const Search = () => {
             className="input-box"
             ref={inputRef}
             onChange={onChange}
-            onEnter={onEnter}
+            onKeyUp={(e) => onEnter(e)}
             value={search}
             placeholder="원하는 강의를 검색하세요"
             aria-label="Search"

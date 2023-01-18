@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import BoardList from "../../components/Board/BoardList";
 import Navbar from "../../components/Navbar";
+import BoardList from "../../components/Board/BoardList";
 import Search from "../../components/Board/Search";
 import WriteButton from "../../components/Board/WriteButton";
-// import SmallSchedule from '../../components/SmallSchedule';
+// import SmallSchedule from "../../components/SmallSchedule";
 
-// 왜 안되지..ㅇㅅㅇ
-// import { Pagination } from '@mui/material';
+// import Pagination from "@mui/material/Pagination";
+// import { SContainer } from "../../components/Board/styles";
 
 const Board = () => {
   return (
@@ -14,11 +14,9 @@ const Board = () => {
       <Navbar />
       <Search />
       <WriteButton />
-      <div>
-        <p>뽀드입니다</p>
-        <BoardList />
-      </div>
-      {/* <Pagination count={10} /> */}
+      <BoardList />
+      {/* <SmallSchedule /> */}
+      {/* <Pagination count={10} /> 요거 내가 그냥 직접 만든다..;; */}
     </>
   );
 };

@@ -7,7 +7,7 @@ export const SImg = styled.img`
 // board list 전체에 적용되는 css
 export const SContainer = styled.div`
   width: 60%;
-  margin: 10px;
+  margin: 10px; // 이거 어떻게 주냐에 따라 왔다리 갔다리
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   font-size: calc(1.5vw + 1px);

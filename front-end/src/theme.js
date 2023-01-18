@@ -6,6 +6,7 @@ const theme = {
   red: "#FF7979",
   h1Size: "",
   fontFamily: "KIMM_Bold",
+  // fontSize: "calc(2vw + 5px)",
 };
 
 export default theme;
