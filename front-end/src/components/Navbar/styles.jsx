@@ -8,10 +8,10 @@ export const Box = styled.main`
   align-items: center;
   /* box-shadow: 10px 10px 10px 10px rgb(230 226 226); */
   img {
-    height: calc(1vw + 43px);
+    height: calc(2vw + 25px);
   }
   .left-item {
-    margin-left: 10px;
+    /* margin-left: 10px; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,27 +20,27 @@ export const Box = styled.main`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     img {
-      width: 30px;
-      height: 20px;
-      margin-right: 8px;
+      height: calc(1vw + 2px);
+      margin-left: calc(0.3vw + 2px);
     }
     .unread__notification {
       cursor: pointer;
-      margin-left: 20px;
-      font-size: 24px;
+      margin-left: calc(1vw + 5px);
+      font-size: calc(1vw + 10px);
     }
     div {
       background-color: black;
       padding: 8px 12px;
-      margin-right: 16px;
-      margin-left: 24px;
+      /* margin-right: 16px; */
+      margin-left: calc(1vw + 6px);
       border-radius: 8px;
       color: white;
     }
     .username {
       color: black;
-      font-size: 20px;
+      font-size: calc(1vw + 5px);
     }
     p {
       font-size: 18px;
@@ -53,13 +53,13 @@ export const Box = styled.main`
     }
     .user-state {
       color: white;
-      font-size: 20px;
+      font-size: calc(1vw + 2px);
     }
   }
   .link__board {
-    font-size: calc(1vw + 7px);
-    color: black;
-    margin-left: 16px;
+    font-size: calc(1vw + 6.5px);
+    color: #545151;
+    margin-left: calc(1vw + 6px);
   }
   .link {
     margin-top: 0px;

@@ -16,17 +16,24 @@ const Navbar = () => {
         <NavLink to={"/board"} className="link link__board">
           공부방
         </NavLink>
+        <NavLink className="link link__board">이용안내</NavLink>
       </div>
       <div className="right-item">
-        {isLogined && (
+        {
+          // isLogined &&
           <NavLink className="link username">
-            <img src={startRankImg} alt="start_rank_Img" />
             김싸피
+            <img
+              className="profile-rank"
+              src={startRankImg}
+              alt="start_rank_Img"
+            />
           </NavLink>
-        )}
-        {isLogined && (
+        }
+        {
+          // isLogined &&
           <FontAwesomeIcon className="unread__notification" icon={faBell} />
-        )}
+        }
         <div className="user-state">
           {isLogined ? (
             <>
