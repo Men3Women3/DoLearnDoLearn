@@ -1,11 +1,11 @@
-import React from "react";
-import Navbar from "../../components/Navbar";
-import CardBox from "../../components/CardBox";
-import Profile from "../../components/Profile/index";
-import ProfileSidebar from "../../components/ProfileSidebar";
-import ProfileEdit from "../../components/ProfileEdit";
+import React from "react"
+import Navbar from "../../components/Navbar"
+import CardBox from "../../components/CardBox"
+import Profile from "../../components/Profile/index"
+import ProfileSidebar from "../../components/ProfileSidebar"
+import ProfileEdit from "../../components/ProfileEdit"
 
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid"
 
 const User = () => {
   return (
@@ -25,14 +25,14 @@ const User = () => {
         </Grid>
         <Grid item xs={9} md={7}>
           <CardBox>
-            {/* <Profile /> */}
-            <ProfileEdit />
+            <Profile />
+            {/* <ProfileEdit /> */}
           </CardBox>
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-export default User;
+export default User

@@ -1,25 +1,25 @@
-import React from "react";
+import React from "react"
 import {
   SProfileContainer,
   SSubContainerUp,
   SSubContainerDown,
   SOneLineContainer,
   SFontAwesomeIconAtProfile,
-} from "./styles";
+} from "./styles"
 
-import profile from "../../assets/images/thumbnail.png";
-import startRankImg from "../../assets/images/rank/start_rank.svg";
+import profile from "../../assets/images/thumbnail.png"
+import startRankImg from "../../assets/images/rank/start_rank.svg"
 
-import { Button } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Button } from "@mui/material"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import { faIdCard } from "@fortawesome/free-solid-svg-icons";
-import { faStaylinked } from "@fortawesome/free-brands-svg-icons";
-import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
-import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
+import { faIdCard } from "@fortawesome/free-solid-svg-icons"
+import { faStaylinked } from "@fortawesome/free-brands-svg-icons"
+import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons"
+import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons"
+import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons"
 
 const theme = createTheme({
   status: {
@@ -35,7 +35,7 @@ const theme = createTheme({
       contrastText: "#fff",
     },
   },
-});
+})
 
 const Profile = () => {
   return (
@@ -50,7 +50,7 @@ const Profile = () => {
               <img
                 src={startRankImg}
                 alt="start_rank_Img"
-                style={{ height: "calc(1vw + 8px) !important" }}
+                style={{ height: "calc(1vw + 5px) !important" }}
               />
               <span>김싸피</span>
             </SOneLineContainer>
@@ -153,7 +153,7 @@ const Profile = () => {
         </SSubContainerDown>
       </div>
     </SProfileContainer>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile
