@@ -10,20 +10,26 @@ import Grid from "@mui/material/Grid";
 const User = () => {
   return (
     <div>
-      <Navbar />
-      {/* <div style={{ display: "flex", width: "100vw" }}> */}
       <Grid container>
-        <Grid item xs={2.5}>
+        {/* navbar 부분 그리드 설정 */}
+        <Grid item xs={0} md={1.5} />
+        <Grid item xs={12} md={9}>
+          <Navbar />
+        </Grid>
+        <Grid item xs={0} md={1.5} />
+
+        {/* content 부분 그리드 설정 */}
+        <Grid item xs={0} md={1.5} />
+        <Grid item xs={3} md={2}>
           <ProfileSidebar />
         </Grid>
-        <Grid item xs={9.5} style={{ alignItems: "center" }}>
+        <Grid item xs={9} md={7}>
           <CardBox>
             <Profile />
           </CardBox>
         </Grid>
+        <Grid item xs={0} md={1.5} />
       </Grid>
-
-      {/* </div> */}
     </div>
   );
 };

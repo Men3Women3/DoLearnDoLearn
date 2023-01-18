@@ -19,9 +19,9 @@ export const SButtonContainer = styled.div`
     font-family: ${(props) => props.theme.fontFamily};
     /* width: 160px; */
     /* font-size: 24px; */
-    font-size: calc(1vw + 10px);
+    font-size: calc(1vw + 8px);
     /* margin: 40px; */
-    margin: calc(1vw + 10px);
+    margin: calc(1vw + 6px);
     margin-left: 20px;
     background-color: transparent;
     border: none;
@@ -30,13 +30,14 @@ export const SButtonContainer = styled.div`
   }
   button:hover {
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.15);
+    /* color: ${(props) => props.theme.deeperYellow}; */
   }
   div {
     z-index: 1;
     position: absolute;
-    top: calc(1vw + 20px);
-    left: calc(1vw + 29px);
+    top: calc(1vw + 14px);
+    left: calc(1vw + 28px);
   }
   .profile-page {
     min-width: 86px;
@@ -51,7 +52,7 @@ export const SButtonContainer = styled.div`
     min-width: 112px;
   }
   .page__background {
-    font-size: calc(1vw + 7px);
+    font-size: calc(1vw + 5px);
     color: ${(props) => props.theme.deeperYellow};
     background-color: ${(props) => props.theme.deeperYellow};
   }

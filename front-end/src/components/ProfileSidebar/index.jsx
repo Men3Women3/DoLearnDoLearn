@@ -16,15 +16,15 @@ const ProfileSidebar = () => {
       </SButtonContainer>
       <SButtonContainer>
         <button className="schedule-page">일정</button>
-        <div className="page__background">일정</div>
+        {/* <div className="page__background">일정</div> */}
       </SButtonContainer>
       <SButtonContainer>
         <button className="undecided-lecture-page">미확정 강의</button>
-        <div className="page__background">미확정 강의</div>
+        {/* <div className="page__background">미확정 강의</div> */}
       </SButtonContainer>
       <SButtonContainer>
         <button className="message-page">메시지함</button>
-        <div className="page__background">메시지함</div>
+        {/* <div className="page__background">메시지함</div> */}
       </SButtonContainer>
       <SUserDeleteButtonContainer>
         <FontAwesomeIcon className="user-delete" icon={faUserSlash} />
