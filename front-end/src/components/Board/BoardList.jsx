@@ -7,10 +7,11 @@ import { SImg, SContainer } from "./styles";
 // import data from "./data.js";
 
 const BoardList = () => {
-  // pagination 하려고 만든 칭구들
-  const [limit, setLimit] = useState(6); // 한 페이지에 보여줄 게시물
-  const [page, setPage] = useState(1); // 몇 개 페이지 생성할지 계산
-  const offset = (page - 1) * limit; // 게시물의 위치 설정
+  // pagination 하려고 만든 칭구들 =====================================
+  // const [limit, setLimit] = useState(6); // 한 페이지에 보여줄 게시물
+  // const [page, setPage] = useState(1); // 몇 개 페이지 생성할지 계산
+  // const offset = (page - 1) * limit; // 게시물의 위치 설정
+  // ====================================================================
 
   const [list, setList] = useState([
     {
