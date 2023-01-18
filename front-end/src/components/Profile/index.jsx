@@ -7,8 +7,6 @@ import {
   SFontAwesomeIconAtProfile,
 } from "./styles";
 
-import defaultProfile from "../../assets/images/default_profile.png";
-
 import profile from "../../assets/images/thumbnail.png";
 import startRankImg from "../../assets/images/rank/start_rank.svg";
 
