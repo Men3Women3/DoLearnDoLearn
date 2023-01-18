@@ -19,6 +19,7 @@ const NotFound = React.lazy(() =>
 );
 const Board = React.lazy(() => pMinDelay(import("./pages/Board"), 0)); // delay 0
 const WriteBoard = React.lazy(() => pMinDelay(import("./pages/WriteBoard"), 0)); // 요 친구도 delay 0
+const Lecture = React.lazy(() => pMinDelay(import("./pages/Lecture"), 0)); // 나도 delay 0 할래
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/board" element={<Board />} />
             <Route path="/write" element={<WriteBoard />} />
             <Route path="/mypage" element={<User />} />
+            <Route path="/lecture" element={<Lecture />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
