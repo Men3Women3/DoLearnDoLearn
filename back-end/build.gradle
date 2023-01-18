@@ -41,8 +41,6 @@ dependencies {
 
 	// spring security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.security:spring-security-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	//querydsl
 	implementation "com.querydsl:querydsl-jpa:${querydslVer}"
@@ -52,6 +50,10 @@ dependencies {
 	implementation "io.jsonwebtoken:jjwt-api:${jwtVer}"
 	implementation "io.jsonwebtoken:jjwt-jackson:${jwtVer}"
 	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jwtVer}"
+
+	// test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

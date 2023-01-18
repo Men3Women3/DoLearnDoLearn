@@ -1,6 +1,5 @@
 package com.example.dolearn.service;
 
-import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
