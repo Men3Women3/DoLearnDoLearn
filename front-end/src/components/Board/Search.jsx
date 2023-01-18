@@ -22,25 +22,19 @@ const Search = () => {
   // Enter 키를 눌렀을 때의 작업 처리
   // 자꾸 렌더링 되는거 막는 법 찾기 ***
   const onEnter = (e) => {
-    console.log(e);
     e.preventDefault();
-    if (e.key === "Enter") {
-      console.log(search);
-      // 검색~
-      // 검색 하고 input은 비워줭
-      setSearch("");
-    }
+    setSearch("");
   };
 
   return (
     <>
       <SLabel>
-        <form className="search-bar">
+        <form className="search-bar" onSubmit={(e) => onEnter(e)}>
           <Input
             className="input-box"
             ref={inputRef}
             onChange={onChange}
-            onKeyUp={(e) => onEnter(e)}
+            // onKeyUp={(e) => onEnter(e)}
             value={search}
             placeholder="원하는 강의를 검색하세요"
             aria-label="Search"
