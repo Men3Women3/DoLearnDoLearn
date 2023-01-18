@@ -3,6 +3,7 @@ import { SContainer } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const SmallSchedule = () => {
   const [todaySchedule, setTodayScedule] = useState([
@@ -81,27 +82,30 @@ const SmallSchedule = () => {
         <p>오늘의 일정</p>
         <p>1월 16일</p>
       </div>
-      <div className="todaySchedule">
-        {/* 컴포넌트로 따로 분리해야 됨 */}
-        {todaySchedule.map((item) => (
-          <div className="todaySchedule__item" key={item.id}>
-            <p>
-              <FontAwesomeIcon
-                className="todaySchedule__clock"
-                icon={faClock}
-              />
-              {item.startTime} ~ {item.endTime}
-            </p>
-            <div>
-              <p>{item.title}</p>
-              <button>Live 입장</button>
+        <div className="todaySchedule">
+      <Scrollbars autoHide style={{ height: 190 }}>
+          {/* 컴포넌트로 따로 분리해야 됨 */}
+          {todaySchedule.map((item) => (
+            <div className="todaySchedule__item" key={item.id}>
+              <p>
+                <FontAwesomeIcon
+                  className="todaySchedule__clock"
+                  icon={faClock}
+                />
+                {item.startTime} ~ {item.endTime}
+              </p>
+              <div>
+                <p>{item.title}</p>
+                <button>Live 입장</button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+      </Scrollbars>
+        </div>
       <div className="boundary"></div>
       <p className="totalSchedule__header">신청 내역</p>
       <div className="totalSchedule">
+      <Scrollbars autoHide style={{ height: 190 }}>
         {totalSchedule.map((item) => (
           <div className="totalSchedule__item" key={item.id}>
             <p>
@@ -117,6 +121,7 @@ const SmallSchedule = () => {
             </div>
           </div>
         ))}
+        </Scrollbars>
       </div>
     </SContainer>
   );

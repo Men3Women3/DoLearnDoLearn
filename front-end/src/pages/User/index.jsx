@@ -3,14 +3,19 @@ import Navbar from "../../components/Navbar";
 import CardBox from "../../components/CardBox";
 // import Sidebar from "../../components/Sidebar";
 import Profile from "../../components/Profile/index";
+import ProfileSidebar from "../../components/ProfileSidebar";
 
 const User = () => {
   return (
     <div>
       <Navbar />
-      <CardBox>
-        <Profile />
-      </CardBox>
+      <div style={{ display: "flex", width: "100vw" }}>
+        <ProfileSidebar />
+
+        <CardBox>
+          <Profile />
+        </CardBox>
+      </div>
     </div>
   );
 };
