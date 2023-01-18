@@ -4,15 +4,20 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
 import { Textarea, Input } from "@mui/joy";
 import CardBox from "../CardBox";
 import {
   SContainer,
   STitle,
   SBoardTitle,
+  SParticipant,
+  SRecruit,
+  SLecture,
   SSummary,
   SDetail,
   SButton,
+  SLimit,
 } from "../../pages/WriteBoard/styles";
 import { useNavigate } from "react-router";
 
@@ -34,26 +39,6 @@ const NewBoard = () => {
     navigate("/board");
   };
 
-  // 제목 저장해줭
-  const handleTitleChange = (e) => {
-    setTitle(e.currentTarget.value);
-  };
-
-  // 참여 인원 저장해줭
-  const handlePartChange = (e) => {
-    setParticipant(e.currentTarget.value);
-  };
-
-  // 요약 저장해줭
-  const handleSummaryChange = (e) => {
-    setSummary(e.currentTarget.value);
-  };
-
-  // 상세 저장해줭
-  const handleDetailChange = (e) => {
-    setDetail(e.currentTarget.value);
-  };
-
   return (
     <CardBox>
       <SContainer>
@@ -67,20 +52,34 @@ const NewBoard = () => {
 
         {/* 3. 사용자 지정 제목 */}
         <SBoardTitle>
-          <div style={{ display: "inline-block" }}>제목</div>
+          <h3>강의 제목</h3>
           <Input
-            style={{ display: "inline-block" }}
+            style={{
+              display: "inline-block",
+              margin: "2% 0 2% 0",
+              width: "85%",
+              inlineHeight: "100%",
+              paddingTop: "10px",
+              fontSize: "calc(1vw + 1px)",
+            }}
             value={title}
             placeholder="제목을 입력하세요"
-            onChange={handleTitleChange}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </SBoardTitle>
 
         {/* 4. 참여 인원 */}
-        <div className="people-number">
+        <SParticipant>
           <h3>참여 인원</h3>
           {/* 문제: 키보드로 입력시 5가 넘어감 */}
           <Input
+            style={{
+              display: "inline-block",
+              margin: "2% 0 2% 0",
+              inlineHeight: "100%",
+              paddingTop: "10px",
+              fontSize: "calc(1vw + 1px)",
+            }}
             type="number"
             defaultValue={participant}
             required={"0-9"} // 키보드로 숫자만 입력할 수 있도록!
@@ -91,24 +90,73 @@ const NewBoard = () => {
                 step: 1,
               },
             }}
-            onChange={handlePartChange}
+            onChange={(e) => setParticipant(e.target.value)}
           />
-        </div>
+          <h5>명</h5>
+        </SParticipant>
 
         {/* 5. 모집 기간(달력 넣어줭) */}
-        <div className="recruit-period">
+        <SRecruit>
           <h3>모집 기간</h3>
-          <Input type="date" />
-          <Input type="date" />
-        </div>
+          {/* 요거는 시작날짜 */}
+          <Input
+            type="date"
+            style={{
+              display: "inline-block",
+              margin: "2% 1% 1% 1%",
+              width: "16%",
+              height: "50%",
+              inlineHeight: "100%",
+              paddingTop: "10px",
+              fontSize: "calc(1vw + 1px)",
+            }}
+          />
+          <h5>~</h5>
+          {/* 요거는 마감날짜 */}
+          <Input
+            type="date"
+            style={{
+              display: "inline-block",
+              margin: "2% 1% 1% 1%",
+              width: "16%",
+              height: "50%",
+              inlineHeight: "100%",
+              paddingTop: "10px",
+              fontSize: "calc(1vw + 1px)",
+            }}
+          />
+        </SRecruit>
 
         {/* 6. 강의 일시(달력 + 시간 + 라디오 버튼) */}
-        <div className="lecture-time">
+        <SLecture>
           <h3>강의 일시</h3>
-          <Input type="date" />
-          <Input type="time" />
+          <Input
+            type="date"
+            style={{
+              display: "inline-block",
+              margin: "2% 1% 1% 1%",
+              width: "16%",
+              height: "50%",
+              inlineHeight: "100%",
+              paddingTop: "10px",
+              fontSize: "calc(1vw + 1px)",
+            }}
+          />
+          <h5>&nbsp;&nbsp;</h5>
+          <Input
+            type="time"
+            style={{
+              display: "inline-block",
+              margin: "2% 1% 1% 1%",
+              width: "16%",
+              height: "50%",
+              inlineHeight: "100%",
+              paddingTop: "10px",
+              fontSize: "calc(1vw + 1px)",
+            }}
+          />
+
           <FormControl>
-            {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel> */}
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="one"
@@ -118,34 +166,40 @@ const NewBoard = () => {
               <FormControlLabel value="two" control={<Radio />} label="2시간" />
             </RadioGroup>
           </FormControl>
-        </div>
+        </SLecture>
 
         {/* 7. 강의 summary */}
         {/* 1) 글자수 제한 100 거는 방법 찾아내고 */}
         <SSummary>
-          <h3>요청내용 요약</h3>
+          <h3>내용 요약</h3>
           <Textarea
             defaultValue={summary}
+            maxLength={100}
             color="warning"
             minRows={2}
             size="md"
             placeholder="원하는 강의에 대해 간략하게 설명해주세요! 공부방 목록에 우선으로 표시됩니다"
-            onChange={handleSummaryChange}
+            onChange={(e) => setSummary(e.target.value)}
+            style={{ fontSize: "calc(1vw + 1px)" }}
           />
         </SSummary>
+        <SLimit>{summary.length}/100</SLimit>
 
         {/* 8. 강의 요청 상세 */}
         {/* 1) 글자수 제한 500 거는 방법 찾아내고 */}
         <SDetail>
-          <h3>요청내용 상세</h3>
+          <h3>내용 상세</h3>
           <Textarea
             defaultValue={detail}
+            maxLength={500}
             color="warning"
             minRows={5}
             size="md"
             placeholder="강의에 대해 바라는 점을 자유롭게 작성해주세요"
-            onChange={handleDetailChange}
+            onChange={(e) => setDetail(e.target.value)}
+            style={{ fontSize: "calc(1vw + 1px)" }}
           />
+          <SLimit>{detail.length}/500</SLimit>
         </SDetail>
 
         {/* 9. 등록(작성) 버튼 */}
