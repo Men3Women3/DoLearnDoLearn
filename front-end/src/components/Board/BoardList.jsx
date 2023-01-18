@@ -1,18 +1,11 @@
 // UniBoard들을 가져다 보여주는 component
 
-import React, { useState } from "react";
-// import UniBoard from "../Board/UniBoard";
 import thumbnail from "../../assets/images/thumbnail.png";
+import React, { useState } from "react";
 import { SImg, SContainer } from "./styles";
-// import data from "./data.js";
+import Paging from "../Paging";
 
 const BoardList = () => {
-  // pagination 하려고 만든 칭구들 =====================================
-  // const [limit, setLimit] = useState(6); // 한 페이지에 보여줄 게시물
-  // const [page, setPage] = useState(1); // 몇 개 페이지 생성할지 계산
-  // const offset = (page - 1) * limit; // 게시물의 위치 설정
-  // ====================================================================
-
   const [list, setList] = useState([
     {
       writer: "김싸피1",
@@ -109,7 +102,6 @@ const BoardList = () => {
 
   return (
     <>
-      {/* 요 container를 왼쪽에 두고 오른쪽에는 smallSchedule */}
       <SContainer className="container">
         {list.map((item) => {
           return (
@@ -125,6 +117,7 @@ const BoardList = () => {
           );
         })}
       </SContainer>
+      <Paging />
     </>
   );
 };
