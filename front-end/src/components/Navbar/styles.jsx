@@ -54,6 +54,7 @@ export const Box = styled.main`
     }
     .user-state {
       color: white;
+      font-size: 20px;
     }
   }
   .link__board {

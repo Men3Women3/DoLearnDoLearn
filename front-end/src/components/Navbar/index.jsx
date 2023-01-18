@@ -7,7 +7,7 @@ import logoImg from "../../assets/images/logo.png";
 import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 const Navbar = () => {
-  const [isLogined, setIsLogined] = useState(true);
+  const [isLogined, setIsLogined] = useState(false);
 
   return (
     <Box>

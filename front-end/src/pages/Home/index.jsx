@@ -4,9 +4,11 @@ import SmallSchedule from "../../components/SmallSchedule/index";
 import Typing from "../../components/Typing/index";
 import { SContainer } from "./styles";
 import mainImg from "../../assets/images/main_img.svg";
+import { useNavigate } from "react-router";
 
 const Home = () => {
   const [isLogined, setIsLogined] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <SContainer>

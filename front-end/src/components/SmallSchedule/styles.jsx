@@ -14,16 +14,21 @@ export const SContainer = styled.div`
     font-size: 14px;
     display: flex;
     justify-content: space-between;
+    p {
+
+      margin-top: 0px;
+    }
   }
   .todaySchedule__clock {
     margin-right: 4px;
   }
   .todaySchedule {
-    overflow-y: auto;
-    max-height: 160px;
+    /* overflow-y: auto; */
+    max-height: 190px;
     .todaySchedule__item {
       border-radius: 8px;
       padding: 6px 8px;
+      padding-right: 12px;
       background-color: #fffaec;
       font-size: 10px;
       margin-bottom: 12px;
@@ -49,8 +54,8 @@ export const SContainer = styled.div`
   .boundary {
     text-align: center;
     margin: auto;
-    margin-top: 24px;
-    margin-bottom: 24px;
+    margin-top: 14px;
+    margin-bottom: 14px;
     height: 2px;
     width: 100%;
     background-color: black;
@@ -58,16 +63,17 @@ export const SContainer = styled.div`
 
   .totalSchedule__header {
     font-size: 14px;
+    margin-top: 0px;
   }
   .totalSchedule__calendar {
     margin-right: 4px;
   }
   .totalSchedule {
-    overflow-y: auto;
-    max-height: 160px;
+    max-height: 190px;
     .totalSchedule__item {
       border-radius: 8px;
       padding: 6px 8px;
+      padding-right: 12px;
       background-color: #fffaec;
       font-size: 10px;
       margin-bottom: 12px;
