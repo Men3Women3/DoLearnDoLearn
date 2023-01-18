@@ -21,8 +21,10 @@ public class UserService {
     @Transactional
     public UserDto signup(UserDto userDto){
         if (userRepository.findOneByEmail(userDto.getEmail()) != null) {
-            throw new CustomException(ErrorCode.USER_DUPLICATION);
+            throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
@@ -41,6 +43,7 @@ public class UserService {
     public UserDto updateToken(UserDto userDto, String refreshToken, String accessToken) {
         userDto.setRefreshToken(refreshToken);
         userDto.setAccessToken(accessToken);
-        return userRepository.save(userDto.toEntity()).toDto();
+        userRepository.save(userDto.toEntity());
+        return userDto;
     }
 }
