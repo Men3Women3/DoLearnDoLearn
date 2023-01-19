@@ -1,18 +1,28 @@
-import React, { useEffect, useState } from "react"
-import Navbar from "../../components/Navbar/index"
-import SmallSchedule from "../../components/SmallSchedule/index"
-import Typing from "../../components/Typing/index"
-import { SContainer } from "./styles"
-import mainImg from "../../assets/images/main_img.svg"
-import { useNavigate } from "react-router"
+import React, { useEffect, useState } from "react";
+import Navbar from "../../components/Navbar/index";
+import SmallSchedule from "../../components/SmallSchedule/index";
+import Typing from "../../components/Typing/index";
+import { SContainer } from "./styles";
+import mainImg from "../../assets/images/main_img.svg";
+import { useNavigate } from "react-router";
+
+import Grid from "@mui/material/Grid";
 
 const Home = () => {
-  const [isLogined, setIsLogined] = useState(true)
-  const navigate = useNavigate()
+  const [isLogined, setIsLogined] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <SContainer>
-      <Navbar />
+      <Grid container>
+        {/* navbar 부분 그리드 */}
+        <Grid item xs={0} md={1.5} />
+        <Grid item xs={12} md={9}>
+          <Navbar />
+        </Grid>
+        <Grid item xs={0} md={1.5} />
+      </Grid>
+
       <section className="main__section">
         <div
           className={isLogined ? "added-margin-right" : "normal-margin-right"}
@@ -33,8 +43,9 @@ const Home = () => {
         {isLogined && <SmallSchedule />}
       </section>
       <Typing />
+      {/* <Navbar /> */}
     </SContainer>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
