@@ -15,6 +15,7 @@ export const SProfileContainer = styled.div`
     padding: calc(1vw + 5px);
     margin-left: 10px;
     border-radius: 20px;
+    font-family: ${(props) => props.theme.fontFamily.Black};
   }
 
   .oneLineContainer {
