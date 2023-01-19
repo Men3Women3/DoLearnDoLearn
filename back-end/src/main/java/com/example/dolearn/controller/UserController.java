@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final String SUCCESS = "success";
+    private static final String FAIL = "fail";
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -33,17 +37,27 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
     public ResponseEntity<?> login(@RequestBody UserDto loginUserDto) {
         try{
             UserDto userDto = userService.login(loginUserDto);
             String checkEmail = userDto.getEmail();
             String refreshToken = jwtTokenProvider.createRefreshToken(checkEmail);
-            String accessToken = jwtTokenProvider.createAccessToken(checkEmail);
+            String accessToken = jwtTokenProvider.createAccessToken(refreshToken);
             return new ResponseEntity<>(new SeccessResponse(userService.updateToken(userDto, refreshToken, accessToken)), HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/access")
+    public ResponseEntity<?> getAccessToken(@RequestHeader(value = "Authentication") String token) {
+        try{
+            String accessToken = jwtTokenProvider.createAccessToken(token);
+            return new ResponseEntity<>(new SeccessResponse(accessToken), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TOKEN), HttpStatus.UNAUTHORIZED);
         }
     }
 }

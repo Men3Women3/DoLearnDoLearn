@@ -47,7 +47,8 @@ public class JwtTokenProvider {
     }
 
     // access token 생성
-    public String createAccessToken(String email) {
+    public String createAccessToken(String refreshToken) {
+        String email = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(refreshToken).getBody().getSubject();
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
         return Jwts.builder()
