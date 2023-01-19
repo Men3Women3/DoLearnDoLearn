@@ -81,6 +81,20 @@ export const SMessageContainer = styled.div`
     resize: none;
     font-size: calc(1vw + 2px);
     padding: 10px;
+        /* Chrome, Edge, and Safari */
+        ::-webkit-scrollbar {
+      width: 16px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #c2c2c2;
+      border-radius: 10px;
+      border: 3px solid #ffffff;
+    }
   }
   button {
     position: absolute;

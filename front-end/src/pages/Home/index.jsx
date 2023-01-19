@@ -5,10 +5,21 @@ import Typing from "../../components/Typing/index"
 import { SContainer } from "./styles"
 import mainImg from "../../assets/images/main_img.svg"
 import { useNavigate } from "react-router"
+import Lottie from 'react-lottie';
+import animationData from '../../assets/images/OnlineCourse-Bake';
 
 const Home = () => {
-  const [isLogined, setIsLogined] = useState(true)
+  const [isLogined, setIsLogined] = useState(false)
   const navigate = useNavigate()
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
 
   return (
     <SContainer>
@@ -27,12 +38,21 @@ const Home = () => {
             <img className="main__small-img" src={mainImg} alt="mainImg" />
           )}
         </div>
+        <div className='lottie-container'>
+
         {!isLogined && (
-          <img className="main__normal-img" src={mainImg} alt="mainImg" />
+          // <img className="main__normal-img" src={mainImg} alt="mainImg" />
+          <Lottie 
+          options={defaultOptions}
+            // height={400}
+            // width={600}
+          />
         )}
+        </div>
         {isLogined && <SmallSchedule />}
       </section>
       <Typing />
+
     </SContainer>
   )
 }

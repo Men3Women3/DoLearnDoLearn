@@ -48,7 +48,7 @@ const Navbar = () => {
                 로그인
               </Link>
               <span>|</span>
-              <Link to={"signup"} className="link user-state">
+              <Link to={"/signup"} className="link user-state">
                 회원가입
               </Link>
             </>

@@ -67,6 +67,9 @@ export const SContainer = styled.div`
     margin-top: 0px;
     color: ${(props) => props.theme.red};
   }
+  .username__warning {
+    margin-bottom: ${props => props.username && '0px' };
+  }
 `;
 
 export const SInputContainer = styled.div`

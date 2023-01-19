@@ -4,6 +4,7 @@ export const SContainer = styled.main`
   width: 100%;
   height: 100%;
   .main__section {
+    font-family: ${props => props.theme.fontFamily.Regular};
     position: static;
     width: 100%;
     height: 550px;
@@ -12,22 +13,24 @@ export const SContainer = styled.main`
     justify-content: center;
     align-items: center;
     h1 {
+      font-family: ${props => props.theme.fontFamily.Light};
       margin: 0px;
-      font-size: 60px;
+      font-size: 3.5vw;
       margin-bottom: 40px;
     }
     h3 {
-      font-size: 48px;
+      font-family: ${props => props.theme.fontFamily.Thin};
+      font-size: 2.5vw;
       margin: 0px;
     }
     span {
-      font-size: 22px;
+      font-size: 1.5vw;
     }
     & > div {
       display: flex;
       justify-content: center;
       .main__content {
-        min-width: 525px;
+        /* min-width: 525px; */
         /* padding-left: 50px; */
         display: flex;
         flex-direction: column;
@@ -50,6 +53,10 @@ export const SContainer = styled.main`
       height: 346px;
       margin-right: 146px;
       transform: translateX(-60px);
+    }
+    .lottie-container {
+      cursor: pointer;
+      transform: translateX(60px);
     }
   }
 
