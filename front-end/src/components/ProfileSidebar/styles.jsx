@@ -16,10 +16,10 @@ export const SButtonContainer = styled.div`
     position: relative;
     z-index: 2;
     text-align: left;
-    font-family: ${(props) => props.theme.fontFamily};
+    font-family: ${(props) => props.theme.fontFamily.Bold};
     /* width: 160px; */
     /* font-size: 24px; */
-    font-size: calc(1vw + 2px);
+    font-size: ${(props) => props.theme.fontSize.h3};
     /* margin: 40px; */
     margin: calc(1vw + 6px);
     margin-left: 20px;
