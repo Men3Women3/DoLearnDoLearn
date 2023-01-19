@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SSidebarContainer = styled.section`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: relative;
   padding-top: calc(0.9vw + 0.2px);
   /* padding-top: calc(1vw + 5px); */

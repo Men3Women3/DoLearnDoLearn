@@ -1,13 +1,29 @@
-import React from "react"
-import Navbar from "../../components/Navbar"
-import CardBox from "../../components/CardBox"
-import Profile from "../../components/Profile/index"
-import ProfileSidebar from "../../components/ProfileSidebar"
-import ProfileEdit from "../../components/ProfileEdit"
+import React from "react";
+import { useState } from "react";
 
-import Grid from "@mui/material/Grid"
+import Navbar from "../../components/Navbar";
+import CardBox from "../../components/CardBox";
+import Profile from "../../components/Profile/index";
+import ProfileSidebar from "../../components/ProfileSidebar";
+import ProfileEdit from "../../components/ProfileEdit";
+
+import Grid from "@mui/material/Grid";
+import { useEffect } from "react";
 
 const User = () => {
+  const [isProfileEditActive, setIsProfileEditActive] = useState(false);
+  useEffect(() => {
+    console.log("바뀜!");
+    console.log({ isProfileEditActive });
+  }, [isProfileEditActive]);
+  // const getTextValue = () => {
+  //   console.log("받은 값:");
+  //   console.log(textValue);
+  //   console.log("---------변경 후-------------------");
+  //   setTextValue(props);
+  //   console.log(textValue);
+  // };
+
   return (
     <div>
       <Grid container>
@@ -25,14 +41,29 @@ const User = () => {
         </Grid>
         <Grid item xs={9} md={7}>
           <CardBox>
-            <Profile />
+            {isProfileEditActive ? (
+              <ProfileEdit
+                value={isProfileEditActive}
+                setValue={setIsProfileEditActive}
+              />
+            ) : (
+              <Profile
+                value={isProfileEditActive}
+                setValue={setIsProfileEditActive}
+              />
+            )}
+            {/* {aa && <Profile />}
+            {bb && <Profile />}
+            {cc && <Profile />}
+            {aa && <Profile />}
+            {aa && <Profile />} */}
             {/* <ProfileEdit /> */}
           </CardBox>
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-export default User
+export default User;

@@ -19,7 +19,11 @@ import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 
-const Profile = () => {
+const Profile = (props) => {
+  const handleEditProfile = () => {
+    props.setValue(!props.value);
+  };
+
   return (
     <SProfileContainer>
       <div className="profileContentContainer">
@@ -121,8 +125,8 @@ const Profile = () => {
               <a href="#">faceSsafy</a>
             </SOneLineContainer>
           </section>
-
-          <SBlackButton>프로필 수정</SBlackButton>
+          {/* {props.textValue} */}
+          <SBlackButton onClick={handleEditProfile}>프로필 수정</SBlackButton>
         </SSubContainerDown>
       </div>
     </SProfileContainer>

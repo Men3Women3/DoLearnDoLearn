@@ -37,7 +37,7 @@ export const SSubContainerUp = styled.div`
     height: calc(3vw + 50px);
     width: calc(3vw + 50px);
     border-radius: 50%;
-    /* border: calc(0.4vw + 1px) solid black; */
+    border: calc(0.1vw + 1px) solid black;
     object-fit: cover;
     text-align: center;
   }
@@ -99,13 +99,14 @@ export const SFontAwesomeIconAtProfile = styled(FontAwesomeIcon)`
 `;
 
 export const SBlackButton = styled.button`
-  width: 25%;
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.fontSize.h5};
+  width: 20%;
+  font-family: ${(props) => props.theme.fontFamily.Bold};
+  font-size: ${(props) => props.theme.fontSize.p};
   background-color: black;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: 8px;
   color: white;
+  margin: auto;
   cursor: pointer;
   :hover {
     color: ${(props) => props.theme.deeperYellow};
