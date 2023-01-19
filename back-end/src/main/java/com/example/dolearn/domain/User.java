@@ -8,7 +8,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Date;
+
 
 @Getter
 @NoArgsConstructor
@@ -18,6 +23,7 @@ import java.util.Date;
 @Entity(name="user")
 public class User {
     @Id
+    @Column(name="ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -59,7 +65,10 @@ public class User {
     @CreationTimestamp
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
-    Date joinDate;
+    private Date joinDate;
+
+    @OneToMany(mappedBy = "user")
+    private List<Message> messageList = new ArrayList<>();
 
     public UserDto toDto() {
         return UserDto.builder()
