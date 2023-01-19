@@ -4,21 +4,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const SMain = styled.main`
   position: relative;
   display: flex;
+  justify-content: center;
   height: 100%;
+  width: 100%;
   background-color: ${(props) => props.theme.deepYellow};
 `;
 
 export const SMainContainer = styled.div`
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   justify-content: center;
   background-color: white;
   margin: 40px;
   border-radius: 8px;
   img {
-    width: 120px;
-    height: 44px;
-    padding: 10px;
+    height: calc(2vw + 25px);
   }
 `;
 

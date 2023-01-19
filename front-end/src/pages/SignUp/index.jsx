@@ -43,8 +43,8 @@ import {
   // SFindPassword,
   SCancelButton,
 } from "./styles";
-import useInput from '../../hoocks/useInput';     // 커스텀 훅
-import axios from 'axios';
+import useInput from "../../hoocks/useInput"; // 커스텀 훅
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -72,43 +72,52 @@ const SignUp = () => {
   // const [isEmpty, setIsEmpty] = useState("");
   // const [isCorrect, setIsCorrect] = useState(false);
   const [open, setOpen] = useState(false);
-  const [signUpError, setSignUpError] = useState('');
+  const [signUpError, setSignUpError] = useState("");
 
   // const navigate = useNavigate();
 
   // 회원가입 api를 사용하여 회원가입을 진행하는 함수
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
-    if (isNext === true) {
-      // 서버로 회원가입하기
-      // 비동기 로직 실행 전에 초기화해주면 좋다. 
-      // 요청을 연달아서 연속으로 보내면 이전 요청에 남아있던 결과가 다음 요청에 남아있을 수 있다.
-      setSignUpError('')    
-      axios.post('http://localhost:3090/api/users', {
-        // 보내야 될 데이터
-        username, email, password
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response);
-        setSignUpError(error.response.data);
-      })
-      .finally(() => {})
-    }
-  }, [username, email, password, isNext])
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (isNext === true) {
+        // 서버로 회원가입하기
+        // 비동기 로직 실행 전에 초기화해주면 좋다.
+        // 요청을 연달아서 연속으로 보내면 이전 요청에 남아있던 결과가 다음 요청에 남아있을 수 있다.
+        setSignUpError("");
+        axios
+          .post("http://localhost:3090/api/users", {
+            // 보내야 될 데이터
+            username,
+            email,
+            password,
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error.response);
+            setSignUpError(error.response.data);
+          })
+          .finally(() => {});
+      }
+    },
+    [username, email, password, isNext]
+  );
 
   // 필수입력사항을 모두 입력했으면 추가입력사항을 보여주기 위한 핸들러 함수
-  const handleNextForm = useCallback((e) => {
-    if (!username || !email || !password || !passwordCheck) {
-      setOpen(true);
-    } else if (passwordCheck && password !== passwordCheck) {
-      setOpen(true);
-    } else if (!isNext) {
-      setIsNext(!isNext);
-    }
-  }, [username, email, password, passwordCheck, isNext]);
+  const handleNextForm = useCallback(
+    (e) => {
+      if (!username || !email || !password || !passwordCheck) {
+        setOpen(true);
+      } else if (passwordCheck && password !== passwordCheck) {
+        setOpen(true);
+      } else if (!isNext) {
+        setIsNext(!isNext);
+      }
+    },
+    [username, email, password, passwordCheck, isNext]
+  );
 
   const handleClose = () => setOpen(false);
 
@@ -123,7 +132,6 @@ const SignUp = () => {
 
   return (
     <SMain>
-      {/* <TransitionsModal /> */}
       <SMainContainer>
         <div>
           <NavLink to={"/"}>
@@ -268,7 +276,7 @@ const SignUp = () => {
               </>
             )}
             {/* <SLoginButton type="submit">회원가입</SLoginButton> */}
-            <SNextButton type='submit' onClick={(e) => handleNextForm(e)}>
+            <SNextButton type="submit" onClick={(e) => handleNextForm(e)}>
               {isNext ? "회원가입" : "다음"}
             </SNextButton>
           </SContainer>
