@@ -2,7 +2,7 @@
 
 import thumbnail from "../../assets/images/thumbnail.png";
 import React, { useState } from "react";
-import { SImg, SContainer } from "./styles";
+import { SImg, SContainer, SUniDiv } from "./styles";
 import Paging from "../Paging";
 import LectureModal from "../LectureModal";
 
@@ -106,15 +106,17 @@ const BoardList = () => {
       <SContainer className="container">
         {list.map((item) => {
           return (
-            <UniBoard
-              className="uni-board"
-              thumbnail={item.thumbnail}
-              writer={item.writer}
-              title={item.title}
-              summary={item.summary}
-              time={item.end_time}
-              deadline={item.deadline}
-            />
+            <SUniDiv>
+              <UniBoard
+                className="uni-board"
+                thumbnail={item.thumbnail}
+                writer={item.writer}
+                title={item.title}
+                summary={item.summary}
+                time={item.end_time}
+                deadline={item.deadline}
+              />
+            </SUniDiv>
           );
         })}
       </SContainer>
@@ -127,7 +129,7 @@ const BoardList = () => {
 // 개별 게시물 component
 const UniBoard = (props) => {
   return (
-    <div className="board-container">
+    <div className="board-body">
       <div className="uni-board">
         <SImg src={props.thumbnail} />
         <h4>{props.writer}</h4>
@@ -135,6 +137,7 @@ const UniBoard = (props) => {
         <p>{props.summary}</p>
         <p>{props.end_time}</p>
         <p>{props.deadline}</p>
+        <LectureModal onClick={props.onClick} list={props.list}></LectureModal>
       </div>
     </div>
   );

@@ -23,6 +23,7 @@ import {
   faChalkboardUser,
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
+import { grid } from "@mui/system";
 
 const style = {
   position: "absolute",
@@ -37,14 +38,15 @@ const style = {
   padding: "3vw",
 };
 
-const LectureModal = () => {
+const LectureModal = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const list = props.list; // 우선 list라는 이름으로 받아왔는데... 생각해보니 나는 list가 아니라 데이터 일부만 필요ㅠㅠ
 
   return (
     <div>
-      <Button onClick={handleOpen}>모달 테스트</Button>
+      <SButton onClick={handleOpen}>살펴보기</SButton>
       <Modal
         open={open}
         onClose={handleClose}

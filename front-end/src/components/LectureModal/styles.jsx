@@ -53,15 +53,17 @@ export const SDetail = styled.span`
   font-size: ${(props) => props.theme.fontSize.p};
 `;
 
-// 하단 버튼 태그
+// 살펴보기 버튼
 export const SButton = styled.button`
+  display: grid;
   margin: auto;
+  padding-top: 1vh;
   background-color: black;
   color: white;
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: 16px;
-  width: 20%;
-  height: 36px;
+  font-size: ${(props) => props.theme.fontSize.p};
+  width: 35%;
+  height: 30px;
   border-radius: 4px;
   cursor: pointer;
   :hover {

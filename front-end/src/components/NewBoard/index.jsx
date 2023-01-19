@@ -23,7 +23,7 @@ import {
   SButton,
   SLimit,
   SSummaryText,
-} from "../../pages/WriteBoard/styles";
+} from "./styles.jsx";
 import { useNavigate } from "react-router";
 
 const NewBoard = () => {
