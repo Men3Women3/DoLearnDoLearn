@@ -72,4 +72,20 @@ public class MessageController {
                                         HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/{message_id}")
+    public ResponseEntity<?> deleteMessage(@PathVariable long message_id) {
+        log.info("message 삭제 호출!");
+        log.info(" message id : {}", message_id);
+
+        try {
+            messageService.deleteMessage(message_id);
+            return new ResponseEntity<>(success, HttpStatus.OK);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
+                                        HttpStatus.NOT_FOUND);
+        }
+    }
 }

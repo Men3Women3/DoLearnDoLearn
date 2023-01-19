@@ -63,4 +63,17 @@ public class MessageService {
 
         throw new CustomException(ErrorCode.NO_MESSSAGE);
     }
+
+    public void deleteMessage(long message_id) throws Exception {
+
+        Optional<Message> message = messageRepository.findById(message_id);
+
+        if(message.isPresent()) {
+
+            messageRepository.deleteById(message_id);
+            return;
+        }
+
+        throw new CustomException(ErrorCode.NO_MESSSAGE);
+    }
 }
