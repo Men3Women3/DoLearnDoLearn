@@ -40,9 +40,12 @@ const theme = createTheme({
   },
 });
 
-const ProfileEdit = () => {
+const ProfileEdit = (props) => {
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const fileInput = React.useRef(null);
+  const handleCompleteEditProfile = () => {
+    props.setValue(!props.value);
+  };
 
   // 프로필 이미지 변경
   const handleEditProfileImg = (e) => {
@@ -72,11 +75,11 @@ const ProfileEdit = () => {
           <section>
             {/* 배지 + 이름 */}
             <SOneLineContainer>
-              <img
+              {/* <img
                 src={startRankImg}
                 alt="start_rank_Img"
                 // style={{ height: "calc(1vw + 8px) !important" }}
-              />
+              /> */}
               <span>김싸피</span>
             </SOneLineContainer>
             {/* 이메일 */}
@@ -187,8 +190,9 @@ const ProfileEdit = () => {
               variant="contained"
               size="large"
               style={{ display: "block", margin: "auto" }}
+              onClick={handleCompleteEditProfile}
             >
-              <b>프로필 수정</b>
+              <b>수정 완료</b>
             </Button>
           </ThemeProvider>
         </SSubContainerDown>
