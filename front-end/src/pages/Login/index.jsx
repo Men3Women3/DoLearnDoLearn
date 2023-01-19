@@ -118,7 +118,7 @@ const Login = () => {
               />
             </SInputContainer>
             <SFindPassword>
-              <span>비밀번호 찾기</span>
+              <div>비밀번호 찾기</div>
             </SFindPassword>
             <SLoginButton type="submit" onClick={(e) => handleOpen(e)}>
               로그인

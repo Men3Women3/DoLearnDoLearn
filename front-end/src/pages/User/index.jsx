@@ -6,6 +6,7 @@ import CardBox from "../../components/CardBox";
 import Profile from "../../components/Profile/index";
 import ProfileSidebar from "../../components/ProfileSidebar";
 import ProfileEdit from "../../components/ProfileEdit";
+import Calendar from "../../components/Calendar";
 
 import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
@@ -41,7 +42,8 @@ const User = () => {
         </Grid>
         <Grid item xs={9} md={7}>
           <CardBox>
-            {isProfileEditActive ? (
+            <Calendar />
+            {/* {isProfileEditActive ? (
               <ProfileEdit
                 value={isProfileEditActive}
                 setValue={setIsProfileEditActive}
@@ -51,13 +53,7 @@ const User = () => {
                 value={isProfileEditActive}
                 setValue={setIsProfileEditActive}
               />
-            )}
-            {/* {aa && <Profile />}
-            {bb && <Profile />}
-            {cc && <Profile />}
-            {aa && <Profile />}
-            {aa && <Profile />} */}
-            {/* <ProfileEdit /> */}
+            )} */}
           </CardBox>
         </Grid>
         <Grid item xs={0} md={1.5} />
@@ -67,3 +63,14 @@ const User = () => {
 };
 
 export default User;
+
+{
+  /* {aa && <Profile />}
+{bb && <Profile />}
+{cc && <Profile />}
+{aa && <Profile />}
+{aa && <Profile />} */
+}
+{
+  /* <ProfileEdit /> */
+}

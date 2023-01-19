@@ -4,21 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const SMain = styled.main`
   position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
+  width: 100%;
   background-color: ${(props) => props.theme.deepYellow};
 `;
 
 export const SMainContainer = styled.div`
-  width: 100%;
   display: flex;
   justify-content: center;
   background-color: white;
-  margin: 40px;
   border-radius: 8px;
   img {
-    width: 120px;
-    height: 44px;
-    padding: 10px;
+    height: calc(2vw + 17px);
   }
 `;
 
@@ -27,25 +26,25 @@ export const SImgSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  padding: 80px 60px;
+  padding: 85px 85px;
   h1 {
-    font-size: 40px;
+    font-size: calc(1vw + 36px);
     border-bottom: 5px solid ${(props) => props.theme.deeperYellow};
+    margin-bottom: 40px;
+    margin-top: 0px;
   }
   img {
-    width: 450px;
-    height: 366px;
+    width: calc(1vw + 400px);
+    height: calc(1vh + 310px);
   }
 `;
 
 export const SForm = styled.form`
-  transition: all 1000ms linear;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(1vw + 380px);
   box-shadow: 10px 10px 30px 0px rgb(158 158 158);
-  margin: 60px 120px;
+  margin: 120px 120px;
 `;
 
 export const SContainer = styled.div`
@@ -56,24 +55,22 @@ export const SContainer = styled.div`
   align-items: center;
   justify-content: center;
   h1 {
-    font-size: 36px;
+    font-size: ${(props) => props.theme.fontSize.h1};
     margin-top: 0px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
   }
 `;
 
 export const SFindPassword = styled.div`
-  width: 85%;
-  /* text-align: right; */
-  display: flex;
-  justify-content: end;
-  /* transform: translateX(-72px); */
-  span {
-    margin: 20px 0px;
-    font-size: 16px;
+  width: calc(1vw + 260px);
+  div {
+    display: flex;
+    justify-content: end;
+    margin: 10px 0px;
+    font-size: ${(props) => props.theme.fontSize.p};
     cursor: pointer;
   }
-  span:hover {
+  div:hover {
     color: ${(props) => props.theme.deeperYellow};
   }
 `;
@@ -89,22 +86,22 @@ export const SInputContainer = styled.div`
 `;
 
 export const SEmailInput = styled.input`
-  font-family: ${(props) => props.theme.fontFamily};
-  width: 360px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
   margin-bottom: 12px;
-  padding-left: 50px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
     color: #cdcdcd;
   }
 `;
 
 export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
-  font-size: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   color: #cdcdcd;
   position: absolute;
   top: 10px;
@@ -112,26 +109,26 @@ export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
 `;
 
 export const SPasswordInput = styled.input`
-  width: 360px;
-  height: 40px;
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 50px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
-    font-family: ${(props) => props.theme.fontFamily};
+    font-family: ${(props) => props.theme.fontFamily.Regular};
     color: #cdcdcd;
   }
 `;
 
 export const SSNSContainer = styled.div`
-  width: 100%;
+  width: calc(1vw + 240px);
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 12px;
   div {
-    margin: 10px 60px;
+    margin: 0px 20px;
   }
 `;
 
@@ -140,10 +137,10 @@ export const SLoginButton = styled.button`
   margin-top: 0px;
   background-color: black;
   color: white;
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: 16px;
-  width: 418px;
-  height: 36px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  font-size: ${(props) => props.theme.fontSize.p};
+  width: calc(1vw + 280px);
+  height: calc(1vh + 20px);
   border-radius: 4px;
   cursor: pointer;
 `;
@@ -151,10 +148,10 @@ export const SLoginButton = styled.button`
 export const SSignUpButton = styled.button`
   background-color: white;
   color: black;
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: 16px;
-  width: 418px;
-  height: 36px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  font-size: ${(props) => props.theme.fontSize.p};
+  width: calc(1vw + 280px);
+  height: calc(1vh + 20px);
   border-radius: 4px;
   cursor: pointer;
 `;
@@ -164,12 +161,12 @@ export const SNaverContainer = styled.div`
     background-color: #23c03c;
     cursor: pointer;
     border: none;
-    border-radius: 4px;
     color: white;
-    font-size: 24px;
-    font-family: ${(props) => props.theme.fontFamily};
-    width: 42px;
-    height: 42px;
+    font-size: ${(props) => props.theme.fontSize.h2};
+    font-family: ${(props) => props.theme.fontFamily.SemiBold};
+    width: calc(1vw + 28px);
+    height: calc(1vh + 32px);
+    border-radius: 4px;
   }
 `;
 
@@ -180,10 +177,10 @@ export const SKakaoContainer = styled.div`
     border: none;
     border-radius: 4px;
     color: white;
-    font-size: 24px;
-    font-family: ${(props) => props.theme.fontFamily};
-    width: 42px;
-    height: 42px;
+    font-size: ${(props) => props.theme.fontSize.h2};
+    font-family: ${(props) => props.theme.fontFamily.SemiBold};
+    width: calc(1vw + 28px);
+    height: calc(1vh + 32px);
   }
 `;
 
@@ -194,10 +191,10 @@ export const SGoogleContainer = styled.div`
     border: none;
     border-radius: 4px;
     color: white;
-    font-size: 24px;
-    font-family: ${(props) => props.theme.fontFamily};
-    width: 42px;
-    height: 42px;
+    font-size: ${(props) => props.theme.fontSize.h2};
+    font-family: ${(props) => props.theme.fontFamily.SemiBold};
+    width: calc(1vw + 28px);
+    height: calc(1vh + 32px);
   }
 `;
 
@@ -211,6 +208,6 @@ export const SCancelButton = styled.button`
   background-color: white;
   border: none;
   outline: none;
-  font-size: 20px;
-  font-weight: bold;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  font-size: ${(props) => props.theme.fontSize.h3};
 `;
