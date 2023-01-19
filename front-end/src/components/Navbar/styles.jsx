@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const Box = styled.main`
   width: 100%;
@@ -11,7 +11,6 @@ export const Box = styled.main`
     height: calc(2vw + 17px);
   }
   .left-item {
-    /* margin-left: 10px; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,34 +18,37 @@ export const Box = styled.main`
   .right-item {
     display: flex;
     justify-content: space-between;
+    align-content: center;
     align-items: center;
-
     img {
-      height: calc(1vw + 2px);
-      margin-left: calc(0.3vw + 2px);
+      height: calc(1vw + 10px);
+      width: calc(1vw + 10px);
+      border-radius: 50%;
+      object-fit: cover;
+      text-align: center;
     }
     .unread__notification {
       cursor: pointer;
-      margin-left: calc(1vw + 5px);
+      margin: 0 calc(1vw + 1px);
       font-size: calc(1vw + 4px);
     }
     div {
       background-color: black;
       padding: 8px 12px;
-      /* margin-right: 16px; */
-      margin-left: calc(1vw + 6px);
+      /* margin-left: calc(1vw + 6px); */
       border-radius: 8px;
       color: white;
     }
     .username {
       color: black;
       font-size: calc(1vw + 1px);
+      display: flex;
     }
-    p {
+    /* p {
       font-size: 18px;
       margin-bottom: 0px;
       cursor: pointer;
-    }
+    } */
     span {
       margin: 0px 12px;
       cursor: default;
@@ -69,4 +71,4 @@ export const Box = styled.main`
   .link:hover {
     color: #f3bd2a;
   }
-`
+`;

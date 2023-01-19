@@ -4,7 +4,9 @@ import { Box } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import logoImg from "../../assets/images/logo.png";
-import startRankImg from "../../assets/images/rank/start_rank.svg";
+import profileImg from "../../assets/images/thumbnail.png";
+
+// import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 const Navbar = () => {
   const [isLogined, setIsLogined] = useState(false);
@@ -24,8 +26,11 @@ const Navbar = () => {
         {
           // isLogined &&
           <NavLink className="link username">
-            김싸피
-            <img src={startRankImg} alt="start_rank_Img" />
+            <img src={profileImg} alt="profileImg" />
+            <span style={{ margin: "auto 0 auto 5px", cursor: "pointer" }}>
+              김싸피
+            </span>
+            {/* <img src={startRankImg} alt="start_rank_Img" /> */}
           </NavLink>
         }
         {
