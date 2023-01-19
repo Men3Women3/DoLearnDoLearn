@@ -3,6 +3,7 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.Message;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.MessageDto;
+import com.example.dolearn.repository.MessageRepository;
 import com.example.dolearn.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
