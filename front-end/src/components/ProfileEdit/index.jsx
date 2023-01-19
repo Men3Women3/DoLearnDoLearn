@@ -7,13 +7,12 @@ import {
   SFontAwesomeIconAtProfile,
   SSelfIntroduction,
   SInput,
+  SBlackButton,
 } from "./styles";
 
 import profile from "../../assets/images/thumbnail.png";
-import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 import { Button } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
@@ -23,22 +22,6 @@ import { faStaylinked } from "@fortawesome/free-brands-svg-icons";
 import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
-
-const theme = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#0971f1",
-      darker: "#053e85",
-    },
-    black: {
-      main: "#000000",
-      contrastText: "#fff",
-    },
-  },
-});
 
 const ProfileEdit = (props) => {
   const [selfIntroduction, setSelfIntroduction] = useState("");
@@ -86,13 +69,13 @@ const ProfileEdit = (props) => {
             <p>ssafyKing@naver.com</p>
             {/* 마일리지 바 */}
             <div>
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faLocationPin}
                 style={{
                   color: "#24E843",
                   height: "calc(1vw + 10px) !important",
                 }}
-              />
+              /> */}
               <div className="wrapper">
                 <div
                   style={{
@@ -131,7 +114,7 @@ const ProfileEdit = (props) => {
         {/* 선택항목 */}
         <SSubContainerDown>
           <section>
-            <SOneLineContainer>
+            <div style={{ display: "flex" }}>
               <SFontAwesomeIconAtProfile icon={faIdCard} />
               <SSelfIntroduction
                 maxLength={500}
@@ -140,8 +123,13 @@ const ProfileEdit = (props) => {
                 type="text"
                 placeholder="자기소개를 입력해주세요"
               />
-              <p className="typing-length">{selfIntroduction.length} / 500</p>
-            </SOneLineContainer>
+            </div>
+            <p
+              className="typing-length"
+              style={{ float: "right", marginRight: "9%" }}
+            >
+              {selfIntroduction.length} / 500
+            </p>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faStaylinked} />
               <SInput
@@ -184,17 +172,9 @@ const ProfileEdit = (props) => {
             </SOneLineContainer>
           </section>
 
-          <ThemeProvider theme={theme}>
-            <Button
-              color="black"
-              variant="contained"
-              size="large"
-              style={{ display: "block", margin: "auto" }}
-              onClick={handleCompleteEditProfile}
-            >
-              <b>수정 완료</b>
-            </Button>
-          </ThemeProvider>
+          <SBlackButton onClick={handleCompleteEditProfile}>
+            수정 완료
+          </SBlackButton>
         </SSubContainerDown>
       </div>
     </SProfileEditContainer>

@@ -64,8 +64,12 @@ export const SSubContainerUp = styled.div`
   /* 이름 + 이메일 + 마일리지바 */
   section {
     width: 100%;
-    margin-left: 30px;
+    margin-left: 15px;
     display: inline;
+    /* div {
+      display: flex;
+      background-color: pink;
+    } */
 
     /* 이름 */
     /* span {
@@ -108,7 +112,6 @@ export const SOneLineContainer = styled.div`
   margin: calc(1vw + 1px) 0;
   span {
     font-size: calc(0.9vw + 2px);
-    margin-left: 10px;
   }
   a {
     margin-left: 10px;
@@ -121,16 +124,19 @@ export const SFontAwesomeIconAtProfile = styled(FontAwesomeIcon)`
 `;
 
 export const SSelfIntroduction = styled.textarea`
-  font-family: ${(props) => props.theme.fontFamily};
-  /* width: 360px; */
-  /* height: 167px; */
+  width: 85%;
+  height: calc(3vw + 80px);
+  font-family: ${(props) => props.theme.fontFamily.Medium};
+  font-size: ${(props) => props.theme.fontSize.p};
+  line-height: calc(1vw + 5px);
   border: 2px solid #cdcdcd;
-  border-radius: 8px;
+  border-radius: 3px;
   outline: none;
   /* padding-left: 50px; */
   /* padding-top: 10px; */
   /* padding-bottom: 10px; */
   /* font-size: 20px; */
+  padding: 10px;
   margin-left: 7px;
   resize: none;
   &::placeholder {
@@ -144,11 +150,14 @@ export const SSelfIntroduction = styled.textarea`
 `;
 
 export const SInput = styled.input`
-  font-family: ${(props) => props.theme.fontFamily};
+  width: 85%;
+  font-family: ${(props) => props.theme.fontFamily.Medium};
+  font-size: ${(props) => props.theme.fontSize.p};
   /* width: 150px; */
   /* height: 40px; */
+  padding: 10px;
   border: 2px solid #cdcdcd;
-  border-radius: 8px;
+  border-radius: 3px;
   outline: none;
   margin-left: 10px;
   /* margin-bottom: 12px; */
@@ -156,5 +165,20 @@ export const SInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
     font-size: 10px;
+  }
+`;
+
+export const SBlackButton = styled.button`
+  width: 20%;
+  font-family: ${(props) => props.theme.fontFamily.Bold};
+  font-size: ${(props) => props.theme.fontSize.p};
+  background-color: black;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: white;
+  margin: auto;
+  cursor: pointer;
+  :hover {
+    color: ${(props) => props.theme.deeperYellow};
   }
 `;
