@@ -1,41 +1,23 @@
-import React from "react"
+import React from "react";
 import {
   SProfileContainer,
   SSubContainerUp,
   SSubContainerDown,
   SOneLineContainer,
   SFontAwesomeIconAtProfile,
-} from "./styles"
+  SBlackButton,
+} from "./styles";
 
-import profile from "../../assets/images/thumbnail.png"
-import startRankImg from "../../assets/images/rank/start_rank.svg"
+import profileImg from "../../assets/images/thumbnail.png";
+// import startRankImg from "../../assets/images/rank/start_rank.svg";
 
-import { Button } from "@mui/material"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
-import { faIdCard } from "@fortawesome/free-solid-svg-icons"
-import { faStaylinked } from "@fortawesome/free-brands-svg-icons"
-import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons"
-import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons"
-import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons"
-
-const theme = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#0971f1",
-      darker: "#053e85",
-    },
-    black: {
-      main: "#000000",
-      contrastText: "#fff",
-    },
-  },
-})
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard } from "@fortawesome/free-solid-svg-icons";
+import { faStaylinked } from "@fortawesome/free-brands-svg-icons";
+import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 
 const Profile = () => {
   return (
@@ -43,15 +25,15 @@ const Profile = () => {
       <div className="profileContentContainer">
         <SSubContainerUp>
           {/* 프로필 이미지 */}
-          <img className="profileImg" src={profile} alt="defaultProfile" />
+          <img className="profileImg" src={profileImg} alt="defaultProfile" />
           <section>
             {/* 배지 + 이름 */}
             <SOneLineContainer>
-              <img
+              {/* <img
                 src={startRankImg}
                 alt="start_rank_Img"
                 style={{ height: "calc(1vw + 5px) !important" }}
-              />
+              /> */}
               <span>김싸피</span>
             </SOneLineContainer>
             {/* 이메일 */}
@@ -124,36 +106,27 @@ const Profile = () => {
           <section>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faStaylinked} />
-              <span>Hellossafy@tistory.com</span>
+              <a href="#">Hellossafy@tistory.com</a>
             </SOneLineContainer>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faSquareYoutube} />
-              <span>유튜브 채널 링크</span>
+              <a href="#">유튜브 채널 링크</a>
             </SOneLineContainer>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faSquareInstagram} />
-              <span>instaSsafy</span>
+              <a href="#">instaSsafy</a>
             </SOneLineContainer>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faSquareFacebook} />
-              <span>faceSsafy</span>
+              <a href="#">faceSsafy</a>
             </SOneLineContainer>
           </section>
 
-          <ThemeProvider theme={theme}>
-            <Button
-              color="black"
-              variant="contained"
-              size="large"
-              style={{ display: "block", margin: "auto" }}
-            >
-              <b>프로필 수정</b>
-            </Button>
-          </ThemeProvider>
+          <SBlackButton>프로필 수정</SBlackButton>
         </SSubContainerDown>
       </div>
     </SProfileContainer>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

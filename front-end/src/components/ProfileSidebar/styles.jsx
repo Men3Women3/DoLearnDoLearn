@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const SSidebarContainer = styled.section`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: relative;
-  /* padding-top: 80px; */
+  padding-top: calc(0.9vw + 0.2px);
   /* padding-top: calc(1vw + 5px); */
   border-right: calc(0.5vw + 0.2px) solid #e7e7e7;
   /* background-color: black; */
