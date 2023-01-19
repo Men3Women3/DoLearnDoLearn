@@ -22,6 +22,28 @@ export const SBoardTitle = styled.div`
     margin-right: 15px;
   }
 `;
+export const SCustomTitle = styled.input`
+  /* font-size: calc(1.5vw + 1px);
+  display: inline-block;
+  width: 80%;
+  height: calc(3vh + 5px);
+  inline-size: 100%;
+  padding-top: 10px;
+  border-radius: 5%;
+  border: 0.5px solid black; */
+  font-family: ${(props) => props.theme.fontFamily};
+  width: 80%;
+  height: 40px;
+  border: 3px solid #cdcdcd;
+  border-radius: 8px;
+  /* outline: none; */ // 작성된 내용이 있으면 색 들어오도록
+  margin-bottom: 12px;
+  padding-left: 50px;
+  font-size: 20px;
+  &::placeholder {
+    color: #cdcdcd;
+  }
+`;
 
 // 4. 참여 인원 - people-number
 export const SParticipant = styled.div`

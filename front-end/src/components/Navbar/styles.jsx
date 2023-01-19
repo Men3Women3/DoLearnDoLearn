@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const Box = styled.main`
   width: 100%;
@@ -69,4 +69,4 @@ export const Box = styled.main`
   .link:hover {
     color: #f3bd2a;
   }
-`
+`;

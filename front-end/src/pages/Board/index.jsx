@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../../components/Navbar";
 import BoardList from "../../components/Board/BoardList";
 import Search from "../../components/Board/Search";
