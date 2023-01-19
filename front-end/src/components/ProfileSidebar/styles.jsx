@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SSidebarContainer = styled.section`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: relative;
   /* padding-top: 80px; */
   /* padding-top: calc(1vw + 5px); */
@@ -19,7 +19,7 @@ export const SButtonContainer = styled.div`
     font-family: ${(props) => props.theme.fontFamily};
     /* width: 160px; */
     /* font-size: 24px; */
-    font-size: calc(1vw + 8px);
+    font-size: calc(1vw + 2px);
     /* margin: 40px; */
     margin: calc(1vw + 6px);
     margin-left: 20px;
@@ -36,8 +36,8 @@ export const SButtonContainer = styled.div`
   div {
     z-index: 1;
     position: absolute;
-    top: calc(1vw + 14px);
-    left: calc(1vw + 28px);
+    top: calc(1vw + 11.5px);
+    left: calc(1vw + 26px);
   }
   .profile-page {
     min-width: 86px;
@@ -52,9 +52,11 @@ export const SButtonContainer = styled.div`
     min-width: 112px;
   }
   .page__background {
-    font-size: calc(1vw + 5px);
-    color: ${(props) => props.theme.deeperYellow};
+    font-size: calc(1vw + 2px);
+    /* color: ${(props) => props.theme.deeperYellow}; */
     background-color: ${(props) => props.theme.deeperYellow};
+    transform: skew(-30deg);
+    border-radius: 3px;
   }
 `;
 
@@ -63,14 +65,14 @@ export const SUserDeleteButtonContainer = styled.div`
   bottom: 10px;
   left: 10px;
   .user-delete {
-    color: rgb(142, 142, 142);
-    height: calc(1vw + 4px);
+    color: rgb(190, 190, 190);
+    height: calc(1vw + 2px);
   }
   button {
-    color: rgb(142, 142, 142);
+    color: rgb(190, 190, 190);
     text-align: left;
     font-family: ${(props) => props.theme.fontFamily};
-    font-size: calc(1vw + 4px);
+    font-size: calc(1vw + 1.2px);
     background-color: transparent;
     border: none;
     outline: none;

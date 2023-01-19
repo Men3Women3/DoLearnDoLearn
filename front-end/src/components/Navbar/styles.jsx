@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const Box = styled.main`
   width: 100%;
@@ -8,7 +8,7 @@ export const Box = styled.main`
   align-items: center;
   /* box-shadow: 10px 10px 10px 10px rgb(230 226 226); */
   img {
-    height: calc(2vw + 25px);
+    height: calc(2vw + 17px);
   }
   .left-item {
     /* margin-left: 10px; */
@@ -28,7 +28,7 @@ export const Box = styled.main`
     .unread__notification {
       cursor: pointer;
       margin-left: calc(1vw + 5px);
-      font-size: calc(1vw + 10px);
+      font-size: calc(1vw + 4px);
     }
     div {
       background-color: black;
@@ -40,7 +40,7 @@ export const Box = styled.main`
     }
     .username {
       color: black;
-      font-size: calc(1vw + 5px);
+      font-size: calc(1vw + 1px);
     }
     p {
       font-size: 18px;
@@ -53,11 +53,11 @@ export const Box = styled.main`
     }
     .user-state {
       color: white;
-      font-size: calc(1vw + 2px);
+      font-size: calc(0.6vw + 0.5px);
     }
   }
   .link__board {
-    font-size: calc(1vw + 6.5px);
+    font-size: calc(1vw + 1px);
     color: #545151;
     margin-left: calc(1vw + 6px);
   }
@@ -69,4 +69,4 @@ export const Box = styled.main`
   .link:hover {
     color: #f3bd2a;
   }
-`;
+`
