@@ -4,7 +4,6 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import { Textarea, Input } from "@mui/joy";
 import CardBox from "../CardBox";
 import {
@@ -18,6 +17,7 @@ import {
   SDetail,
   SButton,
   SLimit,
+  SCustomTitle,
 } from "../../pages/WriteBoard/styles";
 import { useNavigate } from "react-router";
 
@@ -53,7 +53,13 @@ const NewBoard = () => {
         {/* 3. 사용자 지정 제목 */}
         <SBoardTitle>
           <h3>강의 제목</h3>
-          <Input
+          <SCustomTitle
+            value={title}
+            placeholder="제목을 입력하세요"
+            onChange={(e) => setTitle(e.target.value)}
+          ></SCustomTitle>
+
+          {/* <Input
             style={{
               display: "inline-block",
               margin: "2% 0 2% 0",
@@ -65,7 +71,7 @@ const NewBoard = () => {
             value={title}
             placeholder="제목을 입력하세요"
             onChange={(e) => setTitle(e.target.value)}
-          />
+          /> */}
         </SBoardTitle>
 
         {/* 4. 참여 인원 */}
@@ -147,7 +153,8 @@ const NewBoard = () => {
             type="time"
             style={{
               display: "inline-block",
-              margin: "2% 1% 1% 1%",
+              // margin: "2% 1% 1% 1%",
+              margin: "calc(1vw+10px)",
               width: "16%",
               height: "50%",
               inlineHeight: "100%",
