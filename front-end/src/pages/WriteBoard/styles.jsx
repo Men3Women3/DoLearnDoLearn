@@ -22,7 +22,7 @@ export const SBoardTitle = styled.div`
     margin-right: 15px;
   }
 `;
-export const SCustomTitle = styled.input`
+export const STitleInput = styled.input`
   /* font-size: calc(1.5vw + 1px);
   display: inline-block;
   width: 80%;
@@ -31,18 +31,19 @@ export const SCustomTitle = styled.input`
   padding-top: 10px;
   border-radius: 5%;
   border: 0.5px solid black; */
+  margin-top: 1.4%;
   font-family: ${(props) => props.theme.fontFamily};
   width: 80%;
-  height: 40px;
+  height: calc(3vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   /* outline: none; */ // 작성된 내용이 있으면 색 들어오도록
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   padding-left: 50px;
   font-size: 20px;
-  &::placeholder {
+  /* &::placeholder {
     color: #cdcdcd;
-  }
+  } */
 `;
 
 // 4. 참여 인원 - people-number
@@ -55,6 +56,30 @@ export const SParticipant = styled.div`
   h5 {
     margin-left: 10px;
   }
+`;
+
+export const SParticipantInput = styled.input`
+  /* font-size: calc(1.5vw + 1px);
+  display: inline-block;
+  width: 80%;
+  height: calc(3vh + 5px);
+  inline-size: 100%;
+  padding-top: 10px;
+  border-radius: 5%;
+  border: 0.5px solid black; */
+  margin-top: 1.5%;
+  font-family: ${(props) => props.theme.fontFamily};
+  width: 10%;
+  height: calc(3vh + 18px);
+  border: 3px solid #cdcdcd;
+  border-radius: 8px;
+  /* outline: none; */ // 작성된 내용이 있으면 색 들어오도록
+  /* margin-bottom: 12px; */
+  padding-left: 50px;
+  font-size: 20px;
+  /* &::placeholder {
+    color: #cdcdcd;
+  } */
 `;
 
 // 5. 모집 기간 - recruit-period

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const SProfileContainer = styled.div`
   width: 100%;
-
   .cd1tip {
     width: 98%;
     display: flex;

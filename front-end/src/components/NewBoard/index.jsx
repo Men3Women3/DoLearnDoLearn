@@ -17,7 +17,8 @@ import {
   SDetail,
   SButton,
   SLimit,
-  SCustomTitle,
+  STitleInput,
+  SParticipantInput,
 } from "../../pages/WriteBoard/styles";
 import { useNavigate } from "react-router";
 
@@ -53,11 +54,11 @@ const NewBoard = () => {
         {/* 3. 사용자 지정 제목 */}
         <SBoardTitle>
           <h3>강의 제목</h3>
-          <SCustomTitle
+          <STitleInput
             value={title}
             placeholder="제목을 입력하세요"
             onChange={(e) => setTitle(e.target.value)}
-          ></SCustomTitle>
+          ></STitleInput>
 
           {/* <Input
             style={{
@@ -78,7 +79,20 @@ const NewBoard = () => {
         <SParticipant>
           <h3>참여 인원</h3>
           {/* 문제: 키보드로 입력시 5가 넘어감 */}
-          <Input
+          <SParticipantInput
+            type="number"
+            defaultValue={participant}
+            required={"0-9"}
+            slotProps={{
+              input: {
+                min: 1,
+                max: 5,
+                step: 1,
+              },
+            }}
+            onChange={(e) => setParticipant(e.target.value)}
+          ></SParticipantInput>
+          {/* <Input
             style={{
               display: "inline-block",
               margin: "2% 0 2% 0",
@@ -97,7 +111,7 @@ const NewBoard = () => {
               },
             }}
             onChange={(e) => setParticipant(e.target.value)}
-          />
+          /> */}
           <h5>명</h5>
         </SParticipant>
 
