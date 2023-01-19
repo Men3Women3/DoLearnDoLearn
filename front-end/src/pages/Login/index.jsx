@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from "react";
 import loginImg from "../../assets/images/login_img.svg";
 import logoImg from "../../assets/images/logo.png";
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import {
   SMain,
   SForm,
@@ -24,21 +24,21 @@ import {
   SMainContainer,
   SSignUpButton,
   SFindPassword,
-  SCancelButton
+  SCancelButton,
 } from "./styles";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  borderRadius: '8px',
+  bgcolor: "background.paper",
+  borderRadius: "8px",
   boxShadow: 24,
-  outline: 'none',
+  outline: "none",
 };
 
 const Login = () => {
@@ -53,24 +53,23 @@ const Login = () => {
     e.preventDefault();
     if (!open) {
       console.log(111);
-
     }
-  }
+  };
 
   const handleMoveToSignUp = () => {
     navigate("/signup");
   };
-  
+
   const handleOpen = (e) => {
     if (!email || !password) {
-      setOpen(true)
+      setOpen(true);
     }
   };
 
   const handleClose = () => setOpen(false);
 
   const handleOnChangeEmail = useCallback((e) => {
-    setEmail(e.target.value)
+    setEmail(e.target.value);
   }, []);
 
   const handleOnPassword = useCallback((e) => {
@@ -81,10 +80,9 @@ const Login = () => {
     <SMain>
       <SMainContainer>
         <div>
-        <NavLink to={"/"}>
-          <img src={logoImg} alt="logo_img" />
-        </NavLink>
-
+          <NavLink to={"/"}>
+            <img src={logoImg} alt="logo_img" />
+          </NavLink>
         </div>
         <SImgSection>
           <h1>Welcome Back!</h1>
@@ -120,9 +118,11 @@ const Login = () => {
               />
             </SInputContainer>
             <SFindPassword>
-              <span>비밀번호 찾기</span>
+              <div>비밀번호 찾기</div>
             </SFindPassword>
-            <SLoginButton type="submit" onClick={(e) => handleOpen(e)}>로그인</SLoginButton>
+            <SLoginButton type="submit" onClick={(e) => handleOpen(e)}>
+              로그인
+            </SLoginButton>
             <SSignUpButton onClick={handleMoveToSignUp}>회원가입</SSignUpButton>
             <SSNSContainer>
               <SNaverContainer>
@@ -151,11 +151,26 @@ const Login = () => {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography sx={{textAlign: 'center', marginTop: '32px', fontFamily: "KIMM_Bold"}} id="transition-modal-title" variant="h6" component="h2">
-              {email ? password ? '': '비밀번호를 입력해주세요.' : '이메일을 입력해주세요.'}
+            <Typography
+              sx={{
+                textAlign: "center",
+                marginTop: "32px",
+                fontFamily: "KIMM_Bold",
+              }}
+              id="transition-modal-title"
+              variant="h6"
+              component="h2"
+            >
+              {email
+                ? password
+                  ? ""
+                  : "비밀번호를 입력해주세요."
+                : "이메일을 입력해주세요."}
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              <SCancelButton onClick={(e) => setOpen(false)}>확인</SCancelButton>
+              <SCancelButton onClick={(e) => setOpen(false)}>
+                확인
+              </SCancelButton>
             </Typography>
           </Box>
         </Fade>
