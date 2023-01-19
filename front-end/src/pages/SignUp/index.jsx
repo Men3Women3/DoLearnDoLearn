@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import logoImg from "../../assets/images/logo.png";
 import signupImg from "../../assets/images/sign_img.svg";
-import { Button } from "@mui/joy";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -38,12 +37,14 @@ import {
   SFacebookInput,
   SSelfIntroduction,
   SSNSInputContainer,
-  SLoginButton,
+  // SLoginButton,
   SMainContainer,
   SNextButton,
-  SFindPassword,
+  // SFindPassword,
   SCancelButton,
 } from "./styles";
+import useInput from "../../hoocks/useInput"; // 커스텀 훅
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -58,48 +59,69 @@ const style = {
 };
 
 const SignUp = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
+  const [username, onChangeUsername] = useInput("");
+  const [email, onChangeEmail] = useInput("");
+  const [password, onChangePassword] = useInput("");
+  const [passwordCheck, onChangePasswordCheck] = useInput("");
   const [blogLing, setBlogLink] = useState("");
   const [youtubeLink, setYoutubeLink] = useState("");
   const [instagramLink, setInstagramLink] = useState("");
   const [facebookLink, setFacebookLink] = useState("");
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const [isNext, setIsNext] = useState(false);
-  const [isEmpty, setIsEmpty] = useState("");
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const navigate = useNavigate();
+  // const [isEmpty, setIsEmpty] = useState("");
+  // const [isCorrect, setIsCorrect] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [signUpError, setSignUpError] = useState("");
 
-  const handleCreateUser = () => {
-    navigate("/");
-  };
+  // const navigate = useNavigate();
 
-  const handleNextForm = (e) => {
-    e.preventDefault();
-    if (isNext) {
-      navigate("/");
-    }
+  // 회원가입 api를 사용하여 회원가입을 진행하는 함수
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (isNext === true) {
+        // 서버로 회원가입하기
+        // 비동기 로직 실행 전에 초기화해주면 좋다.
+        // 요청을 연달아서 연속으로 보내면 이전 요청에 남아있던 결과가 다음 요청에 남아있을 수 있다.
+        setSignUpError("");
+        axios
+          .post("http://localhost:3090/api/users", {
+            // 보내야 될 데이터
+            username,
+            email,
+            password,
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error.response);
+            setSignUpError(error.response.data);
+          })
+          .finally(() => {});
+      }
+    },
+    [username, email, password, isNext]
+  );
 
-    if (!username || !email || !password || !passwordCheck) {
-      setOpen(true);
-    } else if (passwordCheck && password !== passwordCheck) {
-      setOpen(true);
-    } else {
-      setIsNext(!isNext);
-    }
-  };
+  // 필수입력사항을 모두 입력했으면 추가입력사항을 보여주기 위한 핸들러 함수
+  const handleNextForm = useCallback(
+    (e) => {
+      if (!username || !email || !password || !passwordCheck) {
+        setOpen(true);
+      } else if (passwordCheck && password !== passwordCheck) {
+        setOpen(true);
+      } else if (!isNext) {
+        setIsNext(!isNext);
+      }
+    },
+    [username, email, password, passwordCheck, isNext]
+  );
 
-  const handleOpen = (e) => {
-    e.preventDefault();
-    if (!username || !email || !password || !passwordCheck) {
-      setOpen(true);
-    }
-  };
   const handleClose = () => setOpen(false);
 
+  // 필수 입력사항에서 문제가 발생할 경우 모달에 표시될 문구를 반환해주는 함수
   const handleModalText = () => {
     if (!username) return "이름(실명)을 입력해주세요.";
     if (!email) return "이메일을 입력해주세요.";
@@ -110,14 +132,13 @@ const SignUp = () => {
 
   return (
     <SMain>
-      {/* <TransitionsModal /> */}
       <SMainContainer>
         <div>
           <NavLink to={"/"}>
             <img src={logoImg} alt="logo_img" />
           </NavLink>
         </div>
-        <SForm isNext>
+        <SForm isNext onSubmit={onSubmit}>
           <SContainer>
             <h1>회원가입</h1>
             {isNext ? (
@@ -204,7 +225,7 @@ const SignUp = () => {
                   <SUsernameInput
                     className={username ? "active__input" : ""}
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={onChangeUsername}
                     type="text"
                     placeholder="이름(실명)을 입력해주세요"
                   />
@@ -217,7 +238,7 @@ const SignUp = () => {
                   <SEmailInput
                     className={email ? "active__input" : ""}
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={onChangeEmail}
                     type="text"
                     placeholder="이메일을 입력해주세요"
                   />
@@ -230,7 +251,7 @@ const SignUp = () => {
                   <SPasswordInput
                     className={password ? "active__input" : ""}
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={onChangePassword}
                     type="password"
                     placeholder="비밀번호를 입력해주세요"
                   />
@@ -243,7 +264,7 @@ const SignUp = () => {
                   <SPasswordCheckInput
                     className={passwordCheck ? "active__input" : ""}
                     value={passwordCheck}
-                    onChange={(e) => setPasswordCheck(e.target.value)}
+                    onChange={onChangePasswordCheck}
                     type="password"
                     placeholder="비밀번호를 다시 입력해주세요"
                   />
@@ -255,7 +276,7 @@ const SignUp = () => {
               </>
             )}
             {/* <SLoginButton type="submit">회원가입</SLoginButton> */}
-            <SNextButton onClick={(e) => handleNextForm(e)}>
+            <SNextButton type="submit" onClick={(e) => handleNextForm(e)}>
               {isNext ? "회원가입" : "다음"}
             </SNextButton>
           </SContainer>
@@ -288,7 +309,6 @@ const SignUp = () => {
               variant="h6"
               component="h2"
             >
-              {/* {email ? password ? '': '비밀번호를 입력해주세요.' : '아이디를 입력해주세요.'} */}
               {handleModalText()}
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
