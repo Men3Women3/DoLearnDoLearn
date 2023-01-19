@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Section } from "./styles";
+import { SSection } from "./styles";
 
 const Typing = () => {
   const [typingInnerContent, setTypingInnerContent] = useState("");
@@ -59,11 +59,11 @@ const Typing = () => {
   });
 
   return (
-    <Section className="typing__action">
+    <SSection>
       <div>
-        <span>{typingInnerContent}</span>
+        <span className="content">{typingInnerContent}</span>
       </div>
-    </Section>
+    </SSection>
   );
 };
 
