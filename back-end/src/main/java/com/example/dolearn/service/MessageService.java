@@ -53,13 +53,14 @@ public class MessageService {
         return null;
     }
 
-    public Message getMessage(long message_id) {
+    public MessageDto getMessage(long message_id) {
 
         Optional<Message> message = messageRepository.findById(message_id);
         //null이 아니면
         if(message.isPresent()) {
-            return message.get();
+            return message.get().toMessageDto();
         }
+
         throw new CustomException(ErrorCode.NO_MESSSAGE);
     }
 }

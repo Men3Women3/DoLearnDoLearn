@@ -19,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -102,6 +101,22 @@ public class MessageControllerTest {
         when(messageService.getMessageList(anyString())).thenReturn(messageDtoList);
 
         mockMvc.perform(get("/message/{user_id}",userId))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("메세지 디테일 반환 테스트")
+    @Test
+    public void getMessageDetailTest() throws Exception {
+
+        MessageDto messageDto = MessageDto.builder()
+                                        .content("test")
+                                        .id(1L)
+                                        .rid(1L)
+                                        .isChecked(0).build();
+
+        when(messageService.getMessage(anyLong())).thenReturn(messageDto);
+
+        mockMvc.perform(get("/message/{message_id}",1))
                 .andExpect(status().isOk());
     }
 }

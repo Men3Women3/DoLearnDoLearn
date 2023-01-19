@@ -65,7 +65,7 @@ public class MessageController {
         log.info(" message id : {}", message_id);
 
         try {
-            return new ResponseEntity<>(new SuccessResponse(messageService.getMessage(message_id)), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new SuccessResponse(messageService.getMessage(message_id)), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),

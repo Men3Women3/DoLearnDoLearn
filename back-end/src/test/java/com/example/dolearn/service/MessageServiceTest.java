@@ -1,6 +1,7 @@
 package com.example.dolearn.service;
 
 import com.example.dolearn.domain.Message;
+import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.MessageDto;
 import com.example.dolearn.repository.MessageRepository;
 import com.example.dolearn.repository.UserRepository;
@@ -14,10 +15,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -59,5 +62,23 @@ public class MessageServiceTest {
 
         //then
         assertThat(message.getIsChecked()).isEqualTo(1);
+    }
+
+    @DisplayName("메세지 가져오기 서비스")
+    @Test
+    public void getDetailMessageTest() {
+        Message message = Message.builder().content("test").isChecked(1).build();
+        User user = User.builder().name("test").build();
+
+        message.setUser(user);
+
+        Optional<Message> result = Optional.of(message);
+
+        when(messageRepository.findById(anyLong())).thenReturn(result);
+
+        MessageDto messageDto = messageService.getMessage(1L);
+
+        assertThat(messageDto).isNotNull();
+        assertThat(messageDto.getIsChecked()).isEqualTo(1L);
     }
 }

@@ -68,6 +68,7 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date joinDate;
 
+    @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Message> messageList = new ArrayList<>();
