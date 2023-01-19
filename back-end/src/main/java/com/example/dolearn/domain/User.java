@@ -23,7 +23,7 @@ import java.util.Date;
 @Entity(name="user")
 public class User {
     @Id
-    @Column(name="USER_ID")
+    @Column(name="ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

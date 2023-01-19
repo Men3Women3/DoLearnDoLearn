@@ -3,7 +3,7 @@ package com.example.dolearn.dto;
 import com.example.dolearn.domain.Message;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -17,14 +17,14 @@ public class MessageDto {
     private Long rid;
     private String content;
     private int isChecked;
-    private LocalDateTime createdTime;
-    private LocalDateTime checkTime; //메세지 확인 시간
+    private Date createdTime;
+    private Date checkTime; //메세지 확인 시간
 
     public Message toEntity() {
 
         return Message.builder()
                 .content(this.content)
-                .createdTime(LocalDateTime.now())
+                .checkTime(this.checkTime)
                 .isChecked(this.isChecked)
                 .build();
     }
