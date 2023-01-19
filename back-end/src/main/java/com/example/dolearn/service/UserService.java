@@ -46,4 +46,14 @@ public class UserService {
         userRepository.save(userDto.toEntity());
         return userDto;
     }
+
+    @Transactional
+    public UserDto logout(Long id) {
+        UserDto userDto = userRepository.findOneById(id).toDto();
+        if(userDto == null){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        userDto.setRefreshToken(null);
+        return userRepository.save(userDto.toEntity()).toDto();
+    }
 }

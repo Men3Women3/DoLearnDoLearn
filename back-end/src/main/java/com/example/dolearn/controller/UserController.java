@@ -60,4 +60,14 @@ public class UserController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TOKEN), HttpStatus.UNAUTHORIZED);
         }
     }
+
+    @PostMapping("/logout/{user_id}")
+    public ResponseEntity<?> logout(@PathVariable("user_id") Long id) {
+        try{
+            return new ResponseEntity<>(new SeccessResponse(userService.logout(id)), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TOKEN), HttpStatus.UNAUTHORIZED);
+        }
+    }
 }
