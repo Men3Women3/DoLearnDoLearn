@@ -3,6 +3,8 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.Message;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.MessageDto;
+import com.example.dolearn.exception.CustomException;
+import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.MessageRepository;
 import com.example.dolearn.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -44,5 +47,19 @@ public class MessageService {
 
         message.update(messageDto.getIsChecked(),Timestamp.valueOf(LocalDateTime.now()));
         messageRepository.save(message);
+    }
+
+    public List<MessageDto> getMessageList(String userId) {
+        return null;
+    }
+
+    public Message getMessage(long message_id) {
+
+        Optional<Message> message = messageRepository.findById(message_id);
+        //null이 아니면
+        if(message.isPresent()) {
+            return message.get();
+        }
+        throw new CustomException(ErrorCode.NO_MESSSAGE);
     }
 }

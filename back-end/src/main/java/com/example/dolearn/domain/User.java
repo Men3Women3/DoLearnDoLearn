@@ -2,6 +2,7 @@ package com.example.dolearn.domain;
 
 import com.example.dolearn.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -67,6 +68,7 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date joinDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Message> messageList = new ArrayList<>();
 
