@@ -15,7 +15,8 @@ export const SProfileContainer = styled.div`
     padding: calc(1vw + 5px);
     margin-left: 10px;
     border-radius: 20px;
-    font-family: ${(props) => props.theme.fontFamily.Black};
+    font-family: ${(props) => props.theme.fontFamily.Light};
+    font-size: ${(props) => props.theme.fontSize.p};
   }
 
   .oneLineContainer {
@@ -100,6 +101,7 @@ export const SFontAwesomeIconAtProfile = styled(FontAwesomeIcon)`
 export const SBlackButton = styled.button`
   width: 25%;
   font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.fontSize.h5};
   background-color: black;
   padding: 8px 12px;
   border-radius: 8px;

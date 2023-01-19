@@ -4,7 +4,6 @@ const theme = {
   lightYellow: "#FFF9DB",
   lighterYellow: "#FFFAEC",
   red: "#FF7979",
-  // h1Size: "calc()",
   fontFamily: {
     Thin: "Pretendard-Thin",
     ExtraLight: "Pretendard-ExtraLight",
@@ -15,6 +14,14 @@ const theme = {
     Bold: "Pretendard-Bold",
     ExtraBold: "Pretendard-ExtraBold",
     Black: "Pretendard-Black",
+  },
+  fontSize: {
+    h1: "calc(1vw + 8px)",
+    h2: "calc(1vw + 4px)",
+    h3: "calc(1vw + 2px)",
+    h4: "calc(1vw + 1px)",
+    h5: "calc(0.5vw + 0.5px)",
+    p: "calc(0.8vw + 1px)",
   },
 };
 
