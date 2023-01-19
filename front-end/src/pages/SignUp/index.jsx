@@ -40,7 +40,6 @@ import {
   // SLoginButton,
   SMainContainer,
   SNextButton,
-  // SFindPassword,
   SCancelButton,
 } from "./styles";
 import useInput from "../../hoocks/useInput"; // 커스텀 훅
@@ -135,10 +134,10 @@ const SignUp = () => {
       <SMainContainer>
         <div>
           <NavLink to={"/"}>
-            <img src={logoImg} alt="logo_img" />
+            <img className="logo-img" src={logoImg} alt="logo_img" />
           </NavLink>
         </div>
-        <SForm isNext onSubmit={onSubmit}>
+        <SForm isNext={isNext} onSubmit={onSubmit}>
           <SContainer>
             <h1>회원가입</h1>
             {isNext ? (
@@ -214,7 +213,11 @@ const SignUp = () => {
                     {selfIntroduction.length} / 500
                   </p>
                   <SEmailFontAwesomeIcon
-                    className={selfIntroduction ? "active__icon" : ""}
+                    className={
+                      selfIntroduction
+                        ? "self-introduction__img active__icon"
+                        : "self-introduction__img"
+                    }
                     icon={faComment}
                   />
                 </SInputContainer>
@@ -275,8 +278,11 @@ const SignUp = () => {
                 </SInputContainer>
               </>
             )}
-            {/* <SLoginButton type="submit">회원가입</SLoginButton> */}
-            <SNextButton type="submit" onClick={(e) => handleNextForm(e)}>
+            <SNextButton
+              isNext={isNext}
+              type="submit"
+              onClick={(e) => handleNextForm(e)}
+            >
               {isNext ? "회원가입" : "다음"}
             </SNextButton>
           </SContainer>
