@@ -4,6 +4,7 @@ import thumbnail from "../../assets/images/thumbnail.png";
 import React, { useState } from "react";
 import { SImg, SContainer } from "./styles";
 import Paging from "../Paging";
+import LectureModal from "../LectureModal";
 
 const BoardList = () => {
   const [list, setList] = useState([
@@ -117,6 +118,7 @@ const BoardList = () => {
           );
         })}
       </SContainer>
+      <LectureModal></LectureModal>
       <Paging />
     </>
   );

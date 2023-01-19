@@ -175,7 +175,7 @@ export const SRegistButton = styled.button`
   background-color: black;
   color: white;
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: 16px;
+  font-size: ${(props) => props.theme.fontSize.h5};
   width: 20%;
   height: 36px;
   border-radius: 4px;
