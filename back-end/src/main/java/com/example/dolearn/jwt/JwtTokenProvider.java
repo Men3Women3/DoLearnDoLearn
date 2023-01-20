@@ -85,7 +85,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            String refreshToken = userRepository.findOneByEmail(claims.getBody().getSubject()).getRefreshToken();
+            String refreshToken = userRepository.findOneByEmail(claims.getBody().getSubject()).get().getRefreshToken();
             return refreshToken != null && !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;

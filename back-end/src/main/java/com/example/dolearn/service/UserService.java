@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public UserDto login(UserDto reqUserDto) {
-        UserDto userDto = userRepository.findOneByEmail(reqUserDto.getEmail()).toDto();
+        UserDto userDto = userRepository.findOneByEmail(reqUserDto.getEmail()).get().toDto();
         if(userDto == null){
             throw new CustomException(ErrorCode.NO_USER);
         }
