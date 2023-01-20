@@ -13,6 +13,8 @@ export const SCalendar = styled.div`
     /* background: ${(props) => props.theme.lightYellow} !important; */
 
     border: none !important;
+
+    /* 현재 날짜 셀의 우측상단 날짜 */
     .fc-daygrid-day-number {
       /* 후보 1 */
       /* border: 2px solid black; */

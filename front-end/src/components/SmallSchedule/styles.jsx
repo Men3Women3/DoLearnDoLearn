@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const SContainer = styled.div`
-  position: absolute;
-  right: 20px;
+  /* transition: all 300ms linear; */
+  /* position: absolute; */
+  /* right: 20px; */
   min-width: 400px;
   background-color: white;
   padding: 12px 18px;
@@ -10,12 +11,12 @@ export const SContainer = styled.div`
   border: 4px solid #f4e3b4;
   display: flex;
   flex-direction: column;
+  margin-right: 12px;
   .header {
     font-size: 14px;
     display: flex;
     justify-content: space-between;
     p {
-
       margin-top: 0px;
     }
   }

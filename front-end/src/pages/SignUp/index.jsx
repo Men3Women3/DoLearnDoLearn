@@ -44,6 +44,8 @@ import {
 } from "./styles";
 import useInput from "../../hoocks/useInput"; // 커스텀 훅
 import axios from "axios";
+import Lottie from "react-lottie";
+import animationData from "../../assets/images/SIGNUP";
 
 const style = {
   position: "absolute",
@@ -55,6 +57,15 @@ const style = {
   borderRadius: "8px",
   boxShadow: 24,
   outline: "none",
+};
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
 };
 
 const SignUp = () => {
@@ -76,33 +87,49 @@ const SignUp = () => {
   // const navigate = useNavigate();
 
   // 이메일 유효성 검사를 위한 정규표현식
-  const regexEmail = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+  const regexEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
   // 비밀번호 유효성 검사를 위한 정규표현식
-  const regExpPassword = /^.*(?=^.{9,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+  const regExpPassword =
+    /^.*(?=^.{9,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 
   // 이름, 이메일, 비밀번호, 비밀번호 확인을 규칙에 맞게 작성했는지 확인하는 함수
   // 규칙에 맞게 작성하지 않았으면 isCorrect를 false로 만들고, 규칙에 맞게 작성했으면 isCorrect를 true로 만든다.
   const handleInputCorrectChech = useCallback(() => {
-    if (username.length > 30 || !regexEmail.test(email) || !regExpPassword.test(password) || password !== passwordCheck) {
+    if (
+      username.length > 30 ||
+      !regexEmail.test(email) ||
+      !regExpPassword.test(password) ||
+      password !== passwordCheck
+    ) {
       setIsCorrect(false);
     }
-    if (username.length <= 30 && regexEmail.test(email) && regExpPassword.test(password) && password === passwordCheck) {
+    if (
+      username.length <= 30 &&
+      regexEmail.test(email) &&
+      regExpPassword.test(password) &&
+      password === passwordCheck
+    ) {
       setIsCorrect(true);
-    } 
+    }
   }, [username, email, password, passwordCheck, isCorrect]);
 
   // 필수입력사항을 모두 입력했으면 추가입력사항을 보여주기 위한 핸들러 함수
-  const handleNextForm = (
-    (e) => {
-      if (!username || !email || !password || !passwordCheck) {
-        setOpen(true);
-      }
-      if (isCorrect && !isNext) {
-        setIsNext(true);
-      }
+  const handleNextForm = (e) => {
+    if (!username || !email || !password || !passwordCheck) {
+      setOpen(true);
     }
-  );
+    // 수정해야 됨,,, 하나라도 빈 칸이 있으면 위의 로직에 따라 모달 생기게 하고,
+    // 입력단계에서 제대로 입력했으면 다음을 눌렀을 때 이메일 중복 로직 검사를 하고,
+    // 이상이 없으면 다음으로 넘어가야 됨.
+    // 밑의 가정문 위에 이메일 중복 api를 사용하는 코드를 작성해야 될듯
+    // api쏴서 성공하면 setIsCorrect(true)
+    // 실패하면 setIsCorrect(false) 로 하면 되려나...?
+
+    if (isCorrect && !isNext) {
+      setIsNext(true);
+    }
+  };
 
   // 회원가입 api를 사용하여 회원가입을 진행하는 함수
   const onSubmit = useCallback(
@@ -114,7 +141,7 @@ const SignUp = () => {
         // 요청을 연달아서 연속으로 보내면 이전 요청에 남아있던 결과가 다음 요청에 남아있을 수 있다.
         setSignUpError("");
         axios
-          .post("http://localhost:3090/api/users", {
+          .post("http://localhost:8080/user", {
             // 보내야 될 데이터
             username,
             email,
@@ -128,6 +155,8 @@ const SignUp = () => {
             setSignUpError(error.response.data);
           })
           .finally(() => {});
+      } else if (isNext === false) {
+        console.log("이메일 중복 api 사용");
       }
     },
     [username, email, password, isNext]
@@ -252,7 +281,9 @@ const SignUp = () => {
                     className={username ? "active__icon" : ""}
                     icon={faUser}
                   />
-                  {username.length >= 30 &&  <p>최대 30자까지 입력 가능합니다.</p>}
+                  <p>
+                    {username.length >= 30 && "최대 30자까지 입력 가능합니다."}
+                  </p>
                 </SInputContainer>
                 <SInputContainer>
                   <SEmailInput
@@ -267,7 +298,11 @@ const SignUp = () => {
                     className={email ? "active__icon" : ""}
                     icon={faEnvelope}
                   />
-                  {email && !regexEmail.test(email) && <p>올바른 이메일을 입력해주세요.</p>}
+                  <p>
+                    {email &&
+                      !regexEmail.test(email) &&
+                      "올바른 이메일을 입력해주세요."}
+                  </p>
                 </SInputContainer>
                 <SInputContainer>
                   <SPasswordInput
@@ -282,7 +317,11 @@ const SignUp = () => {
                     className={password ? "active__icon" : ""}
                     icon={faLock}
                   />
-                  {password && !regExpPassword.test(password) && <p>9~16자 영문, 숫자, 특수문자를 사용하세요.</p>}
+                  <p>
+                    {password &&
+                      !regExpPassword.test(password) &&
+                      "9~16자 영문, 숫자, 특수문자를 사용하세요."}
+                  </p>
                 </SInputContainer>
                 <SInputContainer>
                   <SPasswordCheckInput
@@ -297,7 +336,9 @@ const SignUp = () => {
                     className={passwordCheck ? "active__icon" : ""}
                     icon={faUnlock}
                   />
-                  {passwordCheck && password !== passwordCheck && <p>비밀번호가 일치하지 않습니다.</p>}
+                  {passwordCheck && password !== passwordCheck && (
+                    <p>비밀번호가 일치하지 않습니다.</p>
+                  )}
                 </SInputContainer>
               </>
             )}
@@ -312,7 +353,14 @@ const SignUp = () => {
         </SForm>
         <SImgSection>
           <h1>Welcome!</h1>
-          <img src={signupImg} alt="signup_img" />
+          {/* <img src={signupImg} alt="signup_img" /> */}
+          <div>
+            <Lottie
+              options={defaultOptions}
+              // height={400}
+              // width={600}
+            />
+          </div>
         </SImgSection>
       </SMainContainer>
       <Modal

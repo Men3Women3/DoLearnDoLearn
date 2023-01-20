@@ -8,9 +8,12 @@ import { useNavigate } from "react-router";
 import Lottie from "react-lottie";
 import animationData from "../../assets/images/OnlineCourse-Bake";
 import Grid from "@mui/material/Grid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
+import SmallScheduleToggle from "../../components/SmallScheduleToggle";
 
 const Home = () => {
-  const [isLogined, setIsLogined] = useState(false);
+  const [isLogined, setIsLogined] = useState(true);
   const navigate = useNavigate();
 
   const defaultOptions = {
@@ -34,33 +37,24 @@ const Home = () => {
       </Grid>
 
       <section className="main__section">
-        <div
-          className={isLogined ? "added-margin-right" : "normal-margin-right"}
-        >
+        <div>
           <div className="main__content">
             <h3>강의 찾기 어려울 땐</h3>
             <h1>두런두런</h1>
             <span># 실시간 # 강의 # 채팅</span>
             <span># 나만의 수업 # 포인트</span>
           </div>
-          {isLogined && (
-            <img className="main__small-img" src={mainImg} alt="mainImg" />
-          )}
         </div>
         <div className="lottie-container">
-          {!isLogined && (
-            // <img className="main__normal-img" src={mainImg} alt="mainImg" />
-            <Lottie
-              options={defaultOptions}
-              // height={400}
-              // width={600}
-            />
-          )}
+          <Lottie
+            options={defaultOptions}
+            // height={400}
+            // width={600}
+          />
         </div>
-        {isLogined && <SmallSchedule />}
+        <SmallScheduleToggle />
       </section>
       <Typing />
-      {/* <Navbar /> */}
     </SContainer>
   );
 };

@@ -30,12 +30,13 @@ export const SImgSection = styled.section`
   h1 {
     font-size: calc(1vw + 36px);
     border-bottom: 5px solid ${(props) => props.theme.deeperYellow};
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     margin-top: 0px;
+    user-select: none;
   }
-  img {
-    width: calc(1vw + 400px);
-    height: calc(1vh + 310px);
+  div {
+    width: calc(1vw + 350px);
+    cursor: pointer;
   }
 `;
 

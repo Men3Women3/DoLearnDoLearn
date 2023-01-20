@@ -5,7 +5,7 @@ export const SContainer = styled.main`
   height: 100%;
   .main__section {
     font-family: ${(props) => props.theme.fontFamily.Regular};
-    position: static;
+    position: relative;
     width: 100%;
     height: 550px;
     background-color: #fff9db;
@@ -36,23 +36,6 @@ export const SContainer = styled.main`
         flex-direction: column;
         justify-content: center;
       }
-    }
-    .added-margin-right {
-      margin-right: 14px;
-    }
-    .normal-margin-right {
-    }
-    img {
-    }
-    .main__normal-img {
-      width: 480px;
-      height: 346px;
-    }
-    .main__small-img {
-      width: 320px;
-      height: 346px;
-      margin-right: 146px;
-      transform: translateX(-60px);
     }
     .lottie-container {
       cursor: pointer;
