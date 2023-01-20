@@ -60,7 +60,7 @@ public class MessageService {
     public List<MessageDto> getMessageList(Long userId) {
 
         //특정 유저 정보 가져오기
-        Optional<User> result = userRepository.findUserById(userId);
+        Optional<User> result = userRepository.findOneById(userId);
 
         if(result.isPresent()) {
             User user = result.get();
@@ -103,7 +103,7 @@ public class MessageService {
 
     public List<MessageDto> getUnCheckMessageList(Long user_id) {
 
-        Optional<User> result = userRepository.findUserById(user_id);
+        Optional<User> result = userRepository.findOneById(user_id);
 
         if(result.isPresent()) {
             User user = result.get();
