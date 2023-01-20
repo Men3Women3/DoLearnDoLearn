@@ -4,91 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97dfaf59-d7e4-4743-91b0-424fb4b1d3aa" name="Changes" comment="feat: Board API 기능 구현">
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/controller/MessageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/domain/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/domain/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/dto/MessageDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/dto/UserDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/exception/CustomException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/exception/error/ErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/jwt/CustomAuthenticationEntryPoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/jwt/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/jwt/JwtTokenProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/jwt/PrincipalDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/jwt/PrincipalDetailsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/jwt/TokenExceptionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/repository/MessageRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/response/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/response/SuccessResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/service/MessageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/test/java/com/example/dolearn/controller/MessageControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/test/java/com/example/dolearn/controller/UserControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/test/java/com/example/dolearn/service/MessageServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/src/test/java/com/example/dolearn/service/UserServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/public/logo192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/public/logo512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/public/robots.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/assets/images/default_profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/assets/images/error404.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/assets/images/error500.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/assets/images/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/assets/images/main_img.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/assets/images/rank/start_rank.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/CardBox/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/CardBox/style.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Navbar/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Navbar/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Profile/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Profile/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Sidebar/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Sidebar/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/SmallSchedule/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/SmallSchedule/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Typing/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/components/Typing/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Board/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Board/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Home/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Home/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Lecture/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Lecture/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Loading/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Loading/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Login/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/Login/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/NotFound/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/NotFound/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/SignUp/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/SignUp/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/User/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/pages/User/styles.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front-end/src/theme.js" afterDir="false" />
+    <list default="true" id="97dfaf59-d7e4-4743-91b0-424fb4b1d3aa" name="Changes" comment="update: git 누락 파일 업데이트">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/controller/BoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/domain/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/domain/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/dto/BoardDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/dto/BoardDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/repository/BoardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/repository/BoardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/service/BoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/java/com/example/dolearn/service/BoardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/resources/application-dev.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,9 +24,17 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/back-end">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="dolearn" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -225,6 +154,17 @@
     </task>
     <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: Board 등록 및 조회" />

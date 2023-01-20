@@ -2,10 +2,6 @@ package com.example.dolearn.dto;
 
 import com.example.dolearn.domain.Board;
 import lombok.*;
-<<<<<<< HEAD
-import java.sql.Timestamp;
-=======
->>>>>>> 3aa42c5e6155d5b3b16e7ca6776799bcbb00100f
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
