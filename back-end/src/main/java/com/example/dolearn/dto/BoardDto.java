@@ -3,12 +3,16 @@ package com.example.dolearn.dto;
 import com.example.dolearn.domain.Board;
 import lombok.*;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Builder
 public class BoardDto {
     private Long id;
@@ -25,17 +29,17 @@ public class BoardDto {
 
     private String summary;
 
-    private Timestamp start_time;
+    private String start_time;
 
-    private Timestamp end_time;
+    private String end_time;
 
-    private Timestamp deadline;
+    private String deadline;
 
     private int is_fixed;
 
 //    private Timestamp created_time;
 
-    public Board toEntity(){
+    public Board toEntity() throws ParseException {
         return Board.builder()
                 .id(id)
                 .uid(uid)
@@ -44,9 +48,17 @@ public class BoardDto {
                 .max_cnt(max_cnt)
                 .content(content)
                 .summary(summary)
-                .start_time(start_time)
-                .end_time(end_time)
-                .deadline(deadline)
+                .start_time(dateConverter(start_time))
+                .end_time(dateConverter(end_time))
+                .deadline(dateConverter(deadline))
                 .is_fixed(is_fixed).build();
+    }
+
+    public Date dateConverter(String input) throws ParseException {
+        SimpleDateFormat foramatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Date date = foramatter.parse(input);
+
+        return date;
     }
 }
