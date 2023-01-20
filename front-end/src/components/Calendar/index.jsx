@@ -7,6 +7,7 @@ import { SCalendar } from "./styles"
 const Calendar = () => {
   const handleEventClick = (arg) => {
     alert(arg.event.title)
+    console.log(arg.event)
   }
 
   return (
@@ -57,10 +58,11 @@ const Calendar = () => {
         ]}
         eventClick={handleEventClick}
         headerToolbar={{
-          center: "title",
-          left: "today prev next",
-          right: "dayGridMonth dayGridWeek dayGridDay",
+          left: "title",
+          right: "prev,next today",
+          center: "dayGridWeek,dayGridMonth",
         }}
+        contentHeight="80vh"
       />
     </SCalendar>
   )

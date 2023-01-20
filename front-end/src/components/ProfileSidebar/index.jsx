@@ -49,9 +49,7 @@ const ProfileSidebar = (props) => {
           메시지함
         </button>
         {props.isMessageTabActive && (
-          <div className="page__background">
-            &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-          </div>
+          <div className="page__background">&emsp;&emsp;&emsp;&nbsp;&nbsp;</div>
         )}
       </SButtonContainer>
       {/* 회원탈퇴 버튼 */}

@@ -72,7 +72,7 @@ const User = () => {
 
         {/* content 부분 그리드 설정 */}
         <Grid item xs={0} md={1.5} />
-        <Grid item xs={3} md={2}>
+        <Grid item xs={2} md={1.5}>
           <ProfileSidebar
             handleTabValue={handleTabValue}
             isProfileTabActive={isProfileTabActive}
@@ -82,7 +82,7 @@ const User = () => {
             isProfileEditActive={isProfileEditActive}
           />
         </Grid>
-        <Grid item xs={9} md={7}>
+        <Grid item xs={10} md={7.5}>
           <CardBox>
             {isProfileTabActive && !isProfileEditActive && (
               <Profile
