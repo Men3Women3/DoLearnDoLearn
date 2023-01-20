@@ -63,6 +63,15 @@ export const SSubContainerUp = styled.div`
       align-items: stretch;
       width: 60%;
       height: calc(0.5vw + 2px);
+      /* 그라데이션 임시로 넣었음. 더 좋은 그라데이션 찾으면 바꾸기 */
+      background: rgb(238, 242, 67);
+      background: linear-gradient(
+        90deg,
+        rgba(238, 242, 67, 1) 0%,
+        rgba(198, 255, 117, 1) 50%,
+        rgba(36, 232, 67, 1) 100%
+      );
+      border-radius: 4px;
     }
     .wrapper > div {
       flex: 1;

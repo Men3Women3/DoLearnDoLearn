@@ -27,7 +27,7 @@ export const SImgSection = styled.section`
   align-items: center;
   justify-content: center;
   transform: translateX(-100px);
-  padding: 80px 60px;
+  padding: 90px 60px;
   h1 {
     font-size: calc(1vw + 36px);
     border-bottom: 5px solid ${(props) => props.theme.deeperYellow};
@@ -42,7 +42,6 @@ export const SImgSection = styled.section`
 export const SForm = styled.form`
   height: ${(props) => (props.isNext ? "1vh + 580px" : "1vh + 80px")};
   transform: translateX(-95px);
-  /* transition: all 1000ms linear; */
   display: flex;
   flex-direction: column;
   width: ${(props) =>
@@ -67,6 +66,9 @@ export const SContainer = styled.div`
     font-size: ${(props) => props.theme.fontSize.p};
     margin-top: 0px;
     color: ${(props) => props.theme.red};
+  }
+  .username__warning {
+    margin-bottom: ${props => props.username && '0px' };
   }
 `;
 

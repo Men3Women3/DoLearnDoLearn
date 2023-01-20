@@ -26,7 +26,7 @@ export const SImgSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 85px 85px;
+  padding: 95px 85px;
   h1 {
     font-size: calc(1vw + 36px);
     border-bottom: 5px solid ${(props) => props.theme.deeperYellow};

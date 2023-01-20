@@ -69,11 +69,40 @@ const SignUp = () => {
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const [isNext, setIsNext] = useState(false);
   // const [isEmpty, setIsEmpty] = useState("");
-  // const [isCorrect, setIsCorrect] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
   const [open, setOpen] = useState(false);
   const [signUpError, setSignUpError] = useState("");
 
   // const navigate = useNavigate();
+
+  // 이메일 유효성 검사를 위한 정규표현식
+  const regexEmail = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+
+  // 비밀번호 유효성 검사를 위한 정규표현식
+  const regExpPassword = /^.*(?=^.{9,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+
+  // 이름, 이메일, 비밀번호, 비밀번호 확인을 규칙에 맞게 작성했는지 확인하는 함수
+  // 규칙에 맞게 작성하지 않았으면 isCorrect를 false로 만들고, 규칙에 맞게 작성했으면 isCorrect를 true로 만든다.
+  const handleInputCorrectChech = useCallback(() => {
+    if (username.length > 30 || !regexEmail.test(email) || !regExpPassword.test(password) || password !== passwordCheck) {
+      setIsCorrect(false);
+    }
+    if (username.length <= 30 && regexEmail.test(email) && regExpPassword.test(password) && password === passwordCheck) {
+      setIsCorrect(true);
+    } 
+  }, [username, email, password, passwordCheck, isCorrect]);
+
+  // 필수입력사항을 모두 입력했으면 추가입력사항을 보여주기 위한 핸들러 함수
+  const handleNextForm = (
+    (e) => {
+      if (!username || !email || !password || !passwordCheck) {
+        setOpen(true);
+      }
+      if (isCorrect && !isNext) {
+        setIsNext(true);
+      }
+    }
+  );
 
   // 회원가입 api를 사용하여 회원가입을 진행하는 함수
   const onSubmit = useCallback(
@@ -104,20 +133,6 @@ const SignUp = () => {
     [username, email, password, isNext]
   );
 
-  // 필수입력사항을 모두 입력했으면 추가입력사항을 보여주기 위한 핸들러 함수
-  const handleNextForm = useCallback(
-    (e) => {
-      if (!username || !email || !password || !passwordCheck) {
-        setOpen(true);
-      } else if (passwordCheck && password !== passwordCheck) {
-        setOpen(true);
-      } else if (!isNext) {
-        setIsNext(!isNext);
-      }
-    },
-    [username, email, password, passwordCheck, isNext]
-  );
-
   const handleClose = () => setOpen(false);
 
   // 필수 입력사항에서 문제가 발생할 경우 모달에 표시될 문구를 반환해주는 함수
@@ -126,7 +141,6 @@ const SignUp = () => {
     if (!email) return "이메일을 입력해주세요.";
     if (!password) return "비밀번호를 입력해주세요.";
     if (!passwordCheck) return "비밀번호를 다시 입력해주세요.";
-    if (password !== passwordCheck) return "비밀번호가 일치하지 않습니다.";
   };
 
   return (
@@ -231,11 +245,14 @@ const SignUp = () => {
                     onChange={onChangeUsername}
                     type="text"
                     placeholder="이름(실명)을 입력해주세요"
+                    maxLength={30}
+                    onKeyUp={handleInputCorrectChech}
                   />
                   <SEmailFontAwesomeIcon
                     className={username ? "active__icon" : ""}
                     icon={faUser}
                   />
+                  {username.length >= 30 &&  <p>최대 30자까지 입력 가능합니다.</p>}
                 </SInputContainer>
                 <SInputContainer>
                   <SEmailInput
@@ -244,11 +261,13 @@ const SignUp = () => {
                     onChange={onChangeEmail}
                     type="text"
                     placeholder="이메일을 입력해주세요"
+                    onKeyUp={handleInputCorrectChech}
                   />
                   <SEmailFontAwesomeIcon
                     className={email ? "active__icon" : ""}
                     icon={faEnvelope}
                   />
+                  {email && !regexEmail.test(email) && <p>올바른 이메일을 입력해주세요.</p>}
                 </SInputContainer>
                 <SInputContainer>
                   <SPasswordInput
@@ -257,11 +276,13 @@ const SignUp = () => {
                     onChange={onChangePassword}
                     type="password"
                     placeholder="비밀번호를 입력해주세요"
+                    onKeyUp={handleInputCorrectChech}
                   />
                   <SEmailFontAwesomeIcon
                     className={password ? "active__icon" : ""}
                     icon={faLock}
                   />
+                  {password && !regExpPassword.test(password) && <p>9~16자 영문, 숫자, 특수문자를 사용하세요.</p>}
                 </SInputContainer>
                 <SInputContainer>
                   <SPasswordCheckInput
@@ -270,11 +291,13 @@ const SignUp = () => {
                     onChange={onChangePasswordCheck}
                     type="password"
                     placeholder="비밀번호를 다시 입력해주세요"
+                    onKeyUp={handleInputCorrectChech}
                   />
                   <SEmailFontAwesomeIcon
                     className={passwordCheck ? "active__icon" : ""}
                     icon={faUnlock}
                   />
+                  {passwordCheck && password !== passwordCheck && <p>비밀번호가 일치하지 않습니다.</p>}
                 </SInputContainer>
               </>
             )}

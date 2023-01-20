@@ -52,7 +52,7 @@ const Profile = (props) => {
                 }}
               />
               <div className="wrapper">
-                <div
+                {/* <div
                   style={{
                     backgroundColor: "#24E843",
                     borderTopLeftRadius: "50px",
@@ -80,7 +80,7 @@ const Profile = (props) => {
                     borderTopRightRadius: "50px",
                     borderBottomRightRadius: "50px",
                   }}
-                ></div>
+                ></div> */}
               </div>
             </div>
           </section>
