@@ -24,8 +24,6 @@ export const SCalendar = styled.div`
       /* background-color: black; */
       background-color: ${(props) => props.theme.deeperYellow};
       color: white;
-
-      padding: 2px;
       border-radius: 50%;
     }
   }
