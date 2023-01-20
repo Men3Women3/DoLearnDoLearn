@@ -1,7 +1,10 @@
 package com.example.dolearn.jwt;
 
+import com.example.dolearn.controller.UserController;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -16,6 +19,8 @@ import java.io.IOException;
 // UsernamePasswordAuthenticationFilter : login 시 username(email), password를 post 전송하면 동작
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private JwtTokenProvider jwtTokenProvider;
 
@@ -32,6 +37,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             // SecurityContext 에 Authentication 객체 저장
             // token이 인증된 상태를 유지하도록 context(맥락)을 유지
             SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            logger.info("토큰 유효성 검사 실패 : JwtAuthenticationFilter > doFilter");
         }
 
         //UsernamePasswordAuthenticationFilter로 이동

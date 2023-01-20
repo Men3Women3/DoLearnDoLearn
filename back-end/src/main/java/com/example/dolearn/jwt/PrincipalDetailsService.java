@@ -20,7 +20,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String email) {
-        User user = userRepository.findOneByEmail(email);
+        User user = userRepository.findOneByEmail(email).get();
         return new PrincipalDetails(user.toDto());
     }
 }

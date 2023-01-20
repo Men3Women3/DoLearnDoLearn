@@ -30,19 +30,20 @@ export const SUniDiv = styled.div`
   width: calc(20vw);
 `;
 
-export const SLabel = styled.label`
-  position: relative;
-
-  .search-bar {
-    border: none;
-    /* padding: 1% 10%; // 안쪽 여백 */
-    margin: 3% 15%; // 바깥쪽 여백
-    height: 40px;
-    border-color: black;
+// UniBoard에 스타일 입히기
+export const SUniBoard = styled.div`
+  font-family: ${(props) => props.theme.fontFamily};
+  border: 1px solid black;
+  padding: 5%;
+  box-shadow: 0px 0px 3px 0px black;
+  border-radius: 2%;
+  h4 {
+    font-size: ${(props) => props.theme.fontSize.p};
   }
-  .glass-button {
-    /* position: relative; */
-    top: 0;
-    right: 5px;
+  h3 {
+    font-size: ${(props) => props.theme.fontSize.p};
+  }
+  p {
+    font-size: ${(props) => props.theme.fontSize.p};
   }
 `;

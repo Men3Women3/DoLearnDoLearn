@@ -1,8 +1,9 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import BoardList from "../../components/Board/BoardList";
-import Search from "../../components/Board/Search";
-import WriteButton from "../../components/Board/WriteButton";
+import SearchBar from "../../components/SearchBar";
+import WriteButton from "../../components/WriteButton";
+import BoardList from "../../components/BoardList";
+
 // import SmallSchedule from "../../components/SmallSchedule";
 
 // import Pagination from "@mui/material/Pagination";
@@ -12,7 +13,7 @@ const Board = () => {
   return (
     <>
       <Navbar />
-      <Search />
+      <SearchBar />
       <WriteButton />
       <BoardList />
       {/* <SmallSchedule /> */}
