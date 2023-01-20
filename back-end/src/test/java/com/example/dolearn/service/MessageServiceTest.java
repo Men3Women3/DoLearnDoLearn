@@ -9,12 +9,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,7 +90,7 @@ public class MessageServiceTest {
         message1.setUser(user);
         message2.setUser(user);
 
-        when(userRepository.findUserById(anyLong())).thenReturn(Optional.of(user));
+        when(userRepository.findOneById(anyLong())).thenReturn(Optional.of(user));
 
         List<MessageDto> result = messageService.getMessageList(1L);
 
