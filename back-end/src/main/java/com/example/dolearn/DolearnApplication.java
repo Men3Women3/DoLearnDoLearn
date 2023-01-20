@@ -9,5 +9,4 @@ public class DolearnApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DolearnApplication.class, args);
 	}
-
 }
