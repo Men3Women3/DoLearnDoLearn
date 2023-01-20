@@ -42,12 +42,18 @@ public class MessageService {
     }
 
     public void updateCheck(MessageDto messageDto) {
-        //메세지 확인 시간 수정
-        Optional<Message> result = messageRepository.findById(messageDto.getId());
-        Message message = result.get();
 
-        message.update(messageDto.getIsChecked(),Timestamp.valueOf(LocalDateTime.now()));
-        messageRepository.save(message);
+        Optional<Message> result = messageRepository.findById(messageDto.getId());
+
+        if(result.isPresent()) {
+
+            Message message = result.get();
+            message.update(1,Timestamp.valueOf(LocalDateTime.now()));
+            messageRepository.save(message);
+            return;
+        }
+
+        throw new CustomException(ErrorCode.NO_MESSSAGE);
     }
 
 
@@ -93,5 +99,28 @@ public class MessageService {
         }
 
         throw new CustomException(ErrorCode.NO_MESSSAGE);
+    }
+
+    public List<MessageDto> getUnCheckMessageList(Long user_id) {
+
+        Optional<User> result = userRepository.findUserById(user_id);
+
+        if(result.isPresent()) {
+            User user = result.get();
+
+            List<Message> messageList = user.getMessageList();
+            List<MessageDto> ret = new ArrayList<>();
+
+            for(Message m : messageList) {
+                //읽지 않은 메세지만 반환
+                if(m.getIsChecked() == 0) {
+                    ret.add(m.toMessageDto());
+                }
+            }
+
+            return ret;
+        }
+        //사용자 정보 없을 때
+        throw new CustomException(ErrorCode.NO_USER);
     }
 }

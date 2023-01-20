@@ -47,8 +47,16 @@ public class MessageController {
         //확인표시로 업데이트
         log.info("update message 호출");
         log.info("rid : {}", messageDto.getRid());
-        messageService.updateCheck(messageDto);
-        return new ResponseEntity<String>(success, HttpStatus.OK);
+
+        try {
+            messageService.updateCheck(messageDto);
+            return new ResponseEntity<>(success, HttpStatus.OK);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
+                    HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/user/{user_id}")
@@ -59,6 +67,21 @@ public class MessageController {
 
         try {
             return new ResponseEntity<>(new SuccessResponse(messageService.getMessageList(user_id)), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
+                    HttpStatus.NOT_FOUND);
+        }
+    }
+    //아직 수신되지 않은 메시지 가져오기
+    @GetMapping("/uncheck/user/{user_id}")
+    public ResponseEntity<?> getUncheckMessageList(@PathVariable Long user_id) {
+
+        log.info("getUncheckMessageList 호출");
+        log.info("user id : {}",user_id);
+
+        try {
+            return new ResponseEntity<>(new SuccessResponse(messageService.getUnCheckMessageList(user_id)), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),

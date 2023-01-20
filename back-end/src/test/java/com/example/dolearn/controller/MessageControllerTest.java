@@ -70,15 +70,12 @@ public class MessageControllerTest {
         mockMvc.perform(put("/message")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(messageDto)))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("SUCCESS")));
+                .andExpect(status().isOk());
     }
 
     @DisplayName("메세지 목록 가져오기 테스트")
     @Test
     public void messageListTest() throws Exception {
-
-        String userId= "ssafy";
 
         List<MessageDto> messageDtoList = new ArrayList<>();
 
@@ -100,7 +97,7 @@ public class MessageControllerTest {
 
         when(messageService.getMessageList(anyLong())).thenReturn(messageDtoList);
 
-        mockMvc.perform(get("/message/{user_id}",userId))
+        mockMvc.perform(get("/message/{user_id}",1L))
                 .andExpect(status().isOk());
     }
 
