@@ -8,19 +8,19 @@ export const SCalendar = styled.div`
   /* 현재 날짜 셀 */
   .fc-day-today {
     background: white !important;
-    
+
     /* 후보 3 */
-    /* background: ${props => props.theme.lightYellow} !important; */
+    /* background: ${(props) => props.theme.lightYellow} !important; */
 
     border: none !important;
     .fc-daygrid-day-number {
       /* 후보 1 */
       /* border: 2px solid black; */
-      
+
       /* 후보 2 */
       /* background-color: black; */
       /* color: white; */
-      
+
       padding: 2px;
       border-radius: 50%;
     }

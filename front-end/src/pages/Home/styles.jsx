@@ -4,7 +4,7 @@ export const SContainer = styled.main`
   width: 100%;
   height: 100%;
   .main__section {
-    font-family: ${props => props.theme.fontFamily.Regular};
+    font-family: ${(props) => props.theme.fontFamily.Regular};
     position: static;
     width: 100%;
     height: 550px;
@@ -13,13 +13,13 @@ export const SContainer = styled.main`
     justify-content: center;
     align-items: center;
     h1 {
-      font-family: ${props => props.theme.fontFamily.Light};
+      font-family: ${(props) => props.theme.fontFamily.Light};
       margin: 0px;
       font-size: 3.5vw;
       margin-bottom: 40px;
     }
     h3 {
-      font-family: ${props => props.theme.fontFamily.Thin};
+      font-family: ${(props) => props.theme.fontFamily.Thin};
       font-size: 2.5vw;
       margin: 0px;
     }

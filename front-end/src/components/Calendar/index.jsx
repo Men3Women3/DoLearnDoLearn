@@ -48,8 +48,8 @@ const Calendar = () => {
           { title: "스타트업,,,,,", date: "2023-01-11" },
           { title: "스타트업,,,,,", date: "2023-01-11" },
           { title: "스타트업,,,,,", date: "2023-01-11" },
-          { title: "스타트업,,,,,", date: "2023-01-19" },
-          { title: "스타트업,,,,,", date: "2023-01-19" },
+          { title: "스타트업,,,,,", date: "2023-01-20" },
+          { title: "스타트업,,,,,", date: "2023-01-20" },
         ]}
         eventClick={handleEventClick}
         headerToolbar={{

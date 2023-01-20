@@ -1,29 +1,38 @@
-import React, { useEffect, useState } from "react"
-import Navbar from "../../components/Navbar/index"
-import SmallSchedule from "../../components/SmallSchedule/index"
-import Typing from "../../components/Typing/index"
-import { SContainer } from "./styles"
-import mainImg from "../../assets/images/main_img.svg"
-import { useNavigate } from "react-router"
-import Lottie from 'react-lottie';
-import animationData from '../../assets/images/OnlineCourse-Bake';
+import React, { useEffect, useState } from "react";
+import Navbar from "../../components/Navbar/index";
+import SmallSchedule from "../../components/SmallSchedule/index";
+import Typing from "../../components/Typing/index";
+import { SContainer } from "./styles";
+import mainImg from "../../assets/images/main_img.svg";
+import { useNavigate } from "react-router";
+import Lottie from "react-lottie";
+import animationData from "../../assets/images/OnlineCourse-Bake";
+import Grid from "@mui/material/Grid";
 
 const Home = () => {
-  const [isLogined, setIsLogined] = useState(false)
-  const navigate = useNavigate()
+  const [isLogined, setIsLogined] = useState(false);
+  const navigate = useNavigate();
 
   const defaultOptions = {
     loop: true,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   return (
     <SContainer>
-      <Navbar />
+      <Grid container>
+        {/* navbar 부분 그리드 */}
+        <Grid item xs={0} md={1.5} />
+        <Grid item xs={12} md={9}>
+          <Navbar />
+        </Grid>
+        <Grid item xs={0} md={1.5} />
+      </Grid>
+
       <section className="main__section">
         <div
           className={isLogined ? "added-margin-right" : "normal-margin-right"}
@@ -38,23 +47,22 @@ const Home = () => {
             <img className="main__small-img" src={mainImg} alt="mainImg" />
           )}
         </div>
-        <div className='lottie-container'>
-
-        {!isLogined && (
-          // <img className="main__normal-img" src={mainImg} alt="mainImg" />
-          <Lottie 
-          options={defaultOptions}
-            // height={400}
-            // width={600}
-          />
-        )}
+        <div className="lottie-container">
+          {!isLogined && (
+            // <img className="main__normal-img" src={mainImg} alt="mainImg" />
+            <Lottie
+              options={defaultOptions}
+              // height={400}
+              // width={600}
+            />
+          )}
         </div>
         {isLogined && <SmallSchedule />}
       </section>
       <Typing />
-
+      {/* <Navbar /> */}
     </SContainer>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
