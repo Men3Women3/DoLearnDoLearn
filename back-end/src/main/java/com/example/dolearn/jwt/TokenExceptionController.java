@@ -12,6 +12,6 @@ public class TokenExceptionController {
     
     @GetMapping("/exception/token")
     public ResponseEntity<?> tokenException() {
-        return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TOKEN), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TOKEN), HttpStatus.FORBIDDEN);
     }
 }
