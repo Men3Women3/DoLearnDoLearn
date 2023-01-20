@@ -13,7 +13,7 @@ const Calendar = () => {
     <SCalendar>
       <FullCalendar
         plugins={[dayGridPlugin]}
-        initialView="dayGridWeek"
+        initialView="dayGridMonth"
         events={[
           { title: "살려주세요!!!", date: "2023-01-01" },
           { title: "두런두런은 중소기ㅇ...", date: "2023-01-02" },
