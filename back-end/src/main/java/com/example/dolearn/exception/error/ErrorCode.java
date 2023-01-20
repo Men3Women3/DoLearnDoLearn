@@ -13,9 +13,7 @@ public enum ErrorCode {
     NO_USER(HttpStatus.BAD_REQUEST, "400", "없는 사용자입니다."),
     NO_LOGIN(HttpStatus.UNAUTHORIZED, "401", "로그인이 필요합니다"),
 
-    // jwt
-    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "401", "유효하지 않은 토큰입니다"),
-    ;
+    NO_MESSSAGE(HttpStatus.NOT_FOUND,"404","없는 메세지 입니다.");
 
     private HttpStatus httpStatus;
     private String code;
