@@ -46,23 +46,30 @@ public class MessageController {
     public ResponseEntity<?> updateCheck(@RequestBody MessageDto messageDto) {
         //확인표시로 업데이트
         log.info("update message 호출");
-        log.info(" rid : {}", messageDto.getRid());
+        log.info("rid : {}", messageDto.getRid());
         messageService.updateCheck(messageDto);
         return new ResponseEntity<String>(success, HttpStatus.OK);
     }
 
-//    @GetMapping("/{user_id}")
-//    public ResponseEntity<?> getMessageList(@PathVariable String user_id) {
-//
-//        List<MessageDto> messageDtoList = messageService.getMessageList(user_id);
-//
-//        return new ResponseEntity<>(messageDtoList, HttpStatus.OK);
-//    }
+    @GetMapping("/user/{user_id}")
+    public ResponseEntity<?> getMessageList(@PathVariable Long user_id) {
+
+        log.info("getMessageList 호출");
+        log.info("user id : {}",user_id);
+
+        try {
+            return new ResponseEntity<>(new SuccessResponse(messageService.getMessageList(user_id)), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
+                    HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("/{message_id}")
     public ResponseEntity<?> getMessageDetail(@PathVariable long message_id) {
         log.info("message detail 호출!");
-        log.info(" message id : {}", message_id);
+        log.info("message id : {}", message_id);
 
         try {
             return new ResponseEntity<>(new SuccessResponse(messageService.getMessage(message_id)), HttpStatus.OK);

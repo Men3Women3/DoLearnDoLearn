@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,8 +50,25 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public List<MessageDto> getMessageList(String userId) {
-        return null;
+
+    public List<MessageDto> getMessageList(Long userId) {
+
+        //특정 유저 정보 가져오기
+        Optional<User> result = userRepository.findUserById(userId);
+
+        if(result.isPresent()) {
+            User user = result.get();
+
+            List<Message> messageList = user.getMessageList();
+            List<MessageDto> ret = new ArrayList<>();
+
+            for(Message m : messageList) {
+                ret.add(m.toMessageDto());
+            }
+            return ret;
+        }
+        //사용자 정보 없을 때
+        throw new CustomException(ErrorCode.NO_USER);
     }
 
     public MessageDto getMessage(long message_id) {

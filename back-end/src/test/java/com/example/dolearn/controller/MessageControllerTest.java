@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = MessageController.class)
 @Import(SecurityConfig.class)
@@ -98,7 +98,7 @@ public class MessageControllerTest {
         messageDtoList.add(messageDto2);
         messageDtoList.add(messageDto3);
 
-        when(messageService.getMessageList(anyString())).thenReturn(messageDtoList);
+        when(messageService.getMessageList(anyLong())).thenReturn(messageDtoList);
 
         mockMvc.perform(get("/message/{user_id}",userId))
                 .andExpect(status().isOk());
@@ -118,5 +118,33 @@ public class MessageControllerTest {
 
         mockMvc.perform(get("/message/{message_id}",1))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("메세지 삭제 테스트")
+    @Test
+    public void messageDeleteTest() throws Exception {
+
+        mockMvc.perform(delete("/message/{message_id}",1))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("특정 유저의 메세지 수신 리트스 얻기 테스트")
+    @Test
+    public void getMessageListTest() throws Exception {
+
+        MessageDto messageDto1 = MessageDto.builder().id(1L).rid(1L).content("test1").build();
+        MessageDto messageDto2 = MessageDto.builder().id(2L).rid(1L).content("test2").build();
+        MessageDto messageDto3 = MessageDto.builder().id(3L).rid(1L).content("test3").build();
+
+        List<MessageDto> mList = new ArrayList<>();
+        mList.add(messageDto1);
+        mList.add(messageDto2);
+        mList.add(messageDto3);
+
+        when(messageService.getMessageList(anyLong())).thenReturn(mList);
+
+        mockMvc.perform(get("/message/user/{user_id}",1L))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.response", hasSize(mList.size())));
     }
 }

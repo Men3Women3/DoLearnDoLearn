@@ -81,4 +81,22 @@ public class MessageServiceTest {
         assertThat(messageDto).isNotNull();
         assertThat(messageDto.getIsChecked()).isEqualTo(1L);
     }
+
+    @DisplayName("특정유저가 받은 메세지 가져오기")
+    @Test
+    public void getMessageList() {
+        Message message1 = Message.builder().content("test").isChecked(0).build();
+        Message message2 = Message.builder().content("test").isChecked(0).build();
+
+        User user = User.builder().id(1L).name("test").build();
+
+        message1.setUser(user);
+        message2.setUser(user);
+
+        when(userRepository.findUserById(anyLong())).thenReturn(Optional.of(user));
+
+        List<MessageDto> result = messageService.getMessageList(1L);
+
+        assertThat(result.size()).isEqualTo(2);
+    }
 }
