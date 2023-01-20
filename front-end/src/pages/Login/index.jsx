@@ -28,6 +28,8 @@ import {
 } from "./styles";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from "../../assets/images/LOGIN";
 
 const style = {
   position: "absolute",
@@ -39,6 +41,15 @@ const style = {
   borderRadius: "8px",
   boxShadow: 24,
   outline: "none",
+};
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
 };
 
 const Login = () => {
@@ -86,7 +97,13 @@ const Login = () => {
         </div>
         <SImgSection>
           <h1>Welcome Back!</h1>
-          <img src={loginImg} alt="login_img" />
+          <div>
+            <Lottie
+              options={defaultOptions}
+              // height={400}
+              // width={600}
+            />
+          </div>
         </SImgSection>
         <SForm onSubmit={onSubmit}>
           <SContainer>

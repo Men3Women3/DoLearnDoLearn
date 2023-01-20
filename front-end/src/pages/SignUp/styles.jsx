@@ -32,10 +32,12 @@ export const SImgSection = styled.section`
     font-size: calc(1vw + 36px);
     border-bottom: 5px solid ${(props) => props.theme.deeperYellow};
     margin: 0px;
+    margin-bottom: 20px;
+    user-select: none;
   }
-  img {
+  div {
     width: calc(1vw + 450px);
-    height: calc(1vh + 360px);
+    cursor: pointer;
   }
 `;
 
@@ -68,7 +70,7 @@ export const SContainer = styled.div`
     color: ${(props) => props.theme.red};
   }
   .username__warning {
-    margin-bottom: ${props => props.username && '0px' };
+    margin-bottom: ${(props) => props.username && "0px"};
   }
 `;
 
@@ -97,7 +99,7 @@ export const SUsernameInput = styled.input`
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   padding-left: 30px;
   font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
@@ -112,7 +114,7 @@ export const SEmailInput = styled.input`
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   padding-left: 30px;
   font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
@@ -135,7 +137,7 @@ export const SPasswordInput = styled.input`
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   padding-left: 30px;
   font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
@@ -150,7 +152,7 @@ export const SPasswordCheckInput = styled.input`
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   padding-left: 30px;
   font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
