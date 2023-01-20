@@ -3,7 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/joy/Input";
 import { SLabel } from "./styles";
 
-const Search = () => {
+const SearchBar = () => {
   // 검색 input값
   const [search, setSearch] = useState("");
 
@@ -47,4 +47,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchBar;
