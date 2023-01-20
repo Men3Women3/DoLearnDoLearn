@@ -38,11 +38,11 @@ const style = {
   padding: "3vw",
 };
 
-const LectureModal = (props) => {
+// Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
+const LectureModal = ({ data }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const list = props.list; // 우선 list라는 이름으로 받아왔는데... 생각해보니 나는 list가 아니라 데이터 일부만 필요ㅠㅠ
 
   return (
     <div>
@@ -55,39 +55,46 @@ const LectureModal = (props) => {
       >
         <Box sx={style}>
           {/* 여기는 제목 */}
+          {/* 1. 제목 */}
           <Typography
             id="modal-modal-title"
             variant="h5"
             component="h2"
             sx={{ pb: 2, borderBottom: 3 }}
           >
-            git 가르쳐주실 분 구합니다.
+            {data.title}
           </Typography>
           {/* 여기는 내용 */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <div>
+              {/* 2. 작성자 */}
               <SWriter icon={faUser} />
-              <SSpan>김싸피</SSpan>
+              <SSpan>{data.id}</SSpan>
             </div>
             <div>
+              {/* 3. 강의 시간 */}
               <SClock icon={faClock}></SClock>
-              <SSpan>강의 시간 2023.01.11. 10:00 (2시간)</SSpan>
+              <SSpan>{data.title}</SSpan>
             </div>
             <div>
+              {/* 4. 모집 기간 */}
               <SCalendar icon={faCalendarDays}></SCalendar>
-              <SSpan>모집 기간 2023.01.07. ~ 2023.01.10.</SSpan>
+              <SSpan>{data.title}</SSpan>
             </div>
             <div>
+              {/* 5. 강사 신청 현황 */}
               <SLecturer icon={faPersonChalkboard}></SLecturer>
-              <SSpan>강사 신청 현황 3명</SSpan>
+              <SSpan>{data.title}</SSpan>
             </div>
             <div>
+              {/* 6. 수강생 신청 현황 */}
               <SStudent icon={faChalkboardUser}></SStudent>
-              <SSpan>수강생 신청 현황 2 / 5</SSpan>
+              <SSpan>{data.title}</SSpan>
             </div>
             <div>
+              {/* 7. 강의 디테일 */}
               <SPencil icon={faPencil}></SPencil>
-              <SDetail>어쩌구 저쩌구 강의 디테일</SDetail>
+              <SDetail>{data.title}</SDetail>
             </div>
           </Typography>
           <Typography id="modal-modal-button" sx={{ mt: 2 }}>
