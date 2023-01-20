@@ -5,9 +5,7 @@ export const SSidebarContainer = styled.section`
   height: 100vh;
   position: relative;
   padding-top: calc(0.9vw + 0.2px);
-  /* padding-top: calc(1vw + 5px); */
   border-right: calc(0.5vw + 0.2px) solid #e7e7e7;
-  /* background-color: black; */
 `;
 
 export const SButtonContainer = styled.div`
@@ -17,10 +15,7 @@ export const SButtonContainer = styled.div`
     z-index: 2;
     text-align: left;
     font-family: ${(props) => props.theme.fontFamily.Bold};
-    /* width: 160px; */
-    /* font-size: 24px; */
     font-size: ${(props) => props.theme.fontSize.h3};
-    /* margin: 40px; */
     margin: calc(1vw + 6px);
     margin-left: 20px;
     background-color: transparent;
@@ -31,7 +26,6 @@ export const SButtonContainer = styled.div`
   button:hover {
     cursor: pointer;
     transform: scale(1.15);
-    /* color: ${(props) => props.theme.deeperYellow}; */
   }
   div {
     z-index: 1;
@@ -39,21 +33,8 @@ export const SButtonContainer = styled.div`
     top: calc(1vw + 11.5px);
     left: calc(1vw + 26px);
   }
-  .profile-page {
-    min-width: 86px;
-  }
-  .schedule-page {
-    min-width: 62px;
-  }
-  .undecided-lecture-page {
-    min-width: 142px;
-  }
-  .message-page {
-    min-width: 112px;
-  }
   .page__background {
     font-size: calc(1vw + 2px);
-    /* color: ${(props) => props.theme.deeperYellow}; */
     background-color: ${(props) => props.theme.deeperYellow};
     transform: skew(-30deg);
     border-radius: 3px;
