@@ -6,6 +6,7 @@ import {
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
+import DeleteUserModal from "../../components/DeleteUserModal";
 
 const ProfileSidebar = (props) => {
   const handleClickProfileTab = () => {
@@ -47,7 +48,8 @@ const ProfileSidebar = (props) => {
       </SButtonContainer>
       <SUserDeleteButtonContainer>
         <FontAwesomeIcon className="user-delete" icon={faUserSlash} />
-        <button>회원탈퇴</button>
+        <DeleteUserModal />
+        {/* <button>회원탈퇴</button> */}
       </SUserDeleteButtonContainer>
     </SSidebarContainer>
   );
