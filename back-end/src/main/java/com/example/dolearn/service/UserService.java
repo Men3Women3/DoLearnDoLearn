@@ -1,5 +1,6 @@
 package com.example.dolearn.service;
 
+import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,31 +22,59 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserDto signup(UserDto userDto){
-        if (userRepository.findOneByEmail(userDto.getEmail()) != null) {
+    public UserDto signup(UserDto reqUserDto){
+        if (userRepository.findOneByEmail(reqUserDto.getEmail()) != null) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        reqUserDto.setPassword(passwordEncoder.encode(reqUserDto.getPassword()));
 
-        return userRepository.save(userDto.toEntity()).toDto();
+        return userRepository.save(reqUserDto.toEntity()).toDto();
     }
 
-    public UserDto login(UserDto loginUserDto) {
-        UserDto userDto = userRepository.findOneByEmail(loginUserDto.getEmail()).toDto();
+    public UserDto login(UserDto reqUserDto) {
+        UserDto userDto = userRepository.findOneByEmail(reqUserDto.getEmail()).get().toDto();
         if(userDto == null){
             throw new CustomException(ErrorCode.NO_USER);
         }
-        if (!passwordEncoder.matches(loginUserDto.getPassword(), userDto.getPassword())) {
+        if (!passwordEncoder.matches(reqUserDto.getPassword(), userDto.getPassword())) {
             throw new CustomException(ErrorCode.NO_USER);
         }
         return userDto;
     }
 
     @Transactional
-    public UserDto updateToken(UserDto userDto, String refreshToken, String accessToken) {
-        userDto.setRefreshToken(refreshToken);
-        userDto.setAccessToken(accessToken);
-        userRepository.save(userDto.toEntity());
-        return userDto;
+    public UserDto updateToken(UserDto reqUserDto, String refreshToken, String accessToken) {
+        reqUserDto.setRefreshToken(refreshToken);
+        reqUserDto.setAccessToken(accessToken);
+        userRepository.save(reqUserDto.toEntity());
+        return reqUserDto;
+    }
+
+    @Transactional
+    public UserDto logout(Long id) {
+        UserDto userDto = userRepository.findOneById(id).get().toDto();
+        if(userDto == null){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        userDto.setRefreshToken(null);
+        return userRepository.save(userDto.toEntity()).toDto();
+    }
+
+    @Transactional
+    public UserDto updateInfo(UserDto reqUserDto){
+        if(reqUserDto.getId() == null || reqUserDto.getImgSrc() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findOneById(reqUserDto.getId());
+        if(user == null){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        UserDto userDto = user.get().toDto();
+        userDto.setImgSrc(reqUserDto.getImgSrc());
+        userDto.setInfo(reqUserDto.getInfo());
+        userDto.setBlog(reqUserDto.getBlog());
+        userDto.setInstagram(reqUserDto.getInstagram());
+        userDto.setFacebook(reqUserDto.getFacebook());
+        return userRepository.save(userDto.toEntity()).toDto();
     }
 }

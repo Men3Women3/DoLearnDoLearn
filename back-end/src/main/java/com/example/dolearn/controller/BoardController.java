@@ -3,9 +3,13 @@ package com.example.dolearn.controller;
 import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.BoardApplicant;
 import com.example.dolearn.domain.UserBoard;
+<<<<<<< HEAD
 import com.example.dolearn.dto.BoardApplicantDto;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.dto.UserBoardDto;
+=======
+import com.example.dolearn.dto.BoardDto;
+>>>>>>> 3aa42c5e6155d5b3b16e7ca6776799bcbb00100f
 import com.example.dolearn.response.SuccessResponse;
 import com.example.dolearn.service.BoardService;
 import com.example.dolearn.service.UserBoardService;

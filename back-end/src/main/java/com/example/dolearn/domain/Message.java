@@ -1,5 +1,6 @@
 package com.example.dolearn.domain;
 
+import com.example.dolearn.dto.MessageDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
@@ -62,5 +63,15 @@ public class Message {
 
         this.user = user;
         user.getMessageList().add(this);
+    }
+
+    public MessageDto toMessageDto() {
+        return MessageDto.builder()
+                .id(this.id)
+                .rid(user.getId())
+                .content(this.content)
+                .isChecked(this.isChecked)
+                .createdTime(this.createdTime)
+                .checkTime(this.checkTime).build();
     }
 }
