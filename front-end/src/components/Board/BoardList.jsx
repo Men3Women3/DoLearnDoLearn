@@ -1,7 +1,7 @@
 // UniBoard들을 가져다 보여주는 component
 
-import thumbnail from "../../assets/images/thumbnail.png";
 import React, { useState } from "react";
+import thumbnail from "../../assets/images/thumbnail.png";
 import { SImg, SContainer, SUniDiv } from "./styles";
 import Paging from "../Paging";
 import LectureModal from "../LectureModal";
@@ -104,9 +104,9 @@ const BoardList = () => {
   return (
     <>
       <SContainer className="container">
-        {list.map((item) => {
+        {list.map((item, i) => {
           return (
-            <SUniDiv>
+            <SUniDiv key={i}>
               <UniBoard
                 className="uni-board"
                 thumbnail={item.thumbnail}
