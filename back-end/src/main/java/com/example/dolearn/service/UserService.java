@@ -23,7 +23,7 @@ public class UserService {
 
     @Transactional
     public UserDto signup(UserDto reqUserDto){
-        if (userRepository.findOneByEmail(reqUserDto.getEmail()) != null) {
+        if (userRepository.findOneByEmail(reqUserDto.getEmail()).isPresent()) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
         reqUserDto.setPassword(passwordEncoder.encode(reqUserDto.getPassword()));
