@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import logoImg from "../../assets/images/logo.png";
-import signupImg from "../../assets/images/sign_img.svg";
 import { NavLink } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";

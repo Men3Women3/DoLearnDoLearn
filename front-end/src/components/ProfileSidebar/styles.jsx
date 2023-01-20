@@ -62,6 +62,8 @@ export const SButtonContainer = styled.div`
 
 export const SUserDeleteButtonContainer = styled.div`
   position: absolute;
+  display: flex;
+  align-items: center;
   bottom: 10px;
   left: 10px;
   .user-delete {
