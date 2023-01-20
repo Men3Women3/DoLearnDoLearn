@@ -12,11 +12,30 @@ import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
 
 const User = () => {
+  const [isProfileTabActive, setIsProfileTabActive] = useState(true);
+  const [isScheduleTabActive, setIsScheduleTabActive] = useState(false);
+  const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(false);
+  const [isMessageTabActive, setIsMessageTabActive] = useState(false);
+
+  const tabValue = {
+    profile: { isProfileTabActive },
+    schedule: { isScheduleTabActive },
+    unSchedule: { isUnScheduleTabActive },
+    message: { isMessageTabActive },
+  };
+
+  const setTabValue = {
+    profile: { setIsProfileTabActive },
+    schedule: { setIsScheduleTabActive },
+    unSchedule: { setIsUnScheduleTabActive },
+    message: { setIsMessageTabActive },
+  };
+
   const [isProfileEditActive, setIsProfileEditActive] = useState(false);
-  useEffect(() => {
-    console.log("바뀜!");
-    console.log({ isProfileEditActive });
-  }, [isProfileEditActive]);
+  // useEffect(() => {
+  //   console.log("바뀜!");
+  //   console.log({ isProfileEditActive });
+  // }, [isProfileEditActive]);
   // const getTextValue = () => {
   //   console.log("받은 값:");
   //   console.log(textValue);
@@ -38,11 +57,16 @@ const User = () => {
         {/* content 부분 그리드 설정 */}
         <Grid item xs={0} md={1.5} />
         <Grid item xs={3} md={2}>
-          <ProfileSidebar />
+          <ProfileSidebar value={tabValue} setValue={setTabValue} />
         </Grid>
         <Grid item xs={9} md={7}>
           <CardBox>
-            <Calendar />
+            {isProfileTabActive && !isProfileEditActive && <Profile />}
+            {isProfileTabActive && isProfileEditActive && <ProfileEdit />}
+            {isScheduleTabActive && <Calendar />}
+            {/* {isUnScheduleTabActive && <  Calendar />} */}
+            {/* {isScheduleTabActive && <  Calendar />} */}
+
             {/* {isProfileEditActive ? (
               <ProfileEdit
                 value={isProfileEditActive}

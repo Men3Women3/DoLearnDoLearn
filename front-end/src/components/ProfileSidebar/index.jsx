@@ -7,15 +7,30 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
 
-const ProfileSidebar = () => {
+const ProfileSidebar = (props) => {
+  const handleClickProfileTab = () => {
+    props.setValue.profile.setIsProfileTabActive(true);
+    props.setValue.schedule.setIsScheduleTabActive(false);
+    // console.log(props.setValue.profile.setIsProfileTabActive(true));
+    // console.log(props.setValue.profile.setIsProfileTabActive(true));
+  };
+  const handleClickScheduleTab = () => {
+    props.setValue.profile.setIsProfileTabActive(false);
+    props.setValue.schedule.setIsScheduleTabActive(true);
+  };
+
   return (
     <SSidebarContainer>
       <SButtonContainer>
-        <button className="profile-page">프로필</button>
+        <button className="profile-page" onClick={handleClickProfileTab}>
+          프로필
+        </button>
         <div className="page__background">&emsp;&emsp;&nbsp;&nbsp;</div>
       </SButtonContainer>
       <SButtonContainer>
-        <button className="schedule-page">일정</button>
+        <button className="schedule-page" onClick={handleClickScheduleTab}>
+          일정
+        </button>
         <div className="page__background">&emsp;&nbsp;&nbsp;</div>
       </SButtonContainer>
       <SButtonContainer>
