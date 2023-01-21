@@ -69,6 +69,7 @@ public class UserRepositoryTest {
         @DisplayName("사용자 추가 실패 - 이메일 중복")
         public void fail() {
             email = "ssafy@naver.com";
+
             UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
 
             Exception exception = assertThrows(DataIntegrityViolationException.class, ()->{
