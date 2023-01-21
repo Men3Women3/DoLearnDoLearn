@@ -61,7 +61,7 @@ public class UserService {
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
         Optional<User> user = userRepository.findOneById(reqUserDto.getId());
-        if(user == null){
+        if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
         UserDto userDto = user.get().toDto();
