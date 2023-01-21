@@ -25,15 +25,15 @@ public class UserService {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
         reqUserDto.setPassword(passwordEncoder.encode(reqUserDto.getPassword()));
-        
         return userRepository.save(reqUserDto.toEntity()).toDto();
     }
 
     public UserDto login(UserDto reqUserDto) {
-        UserDto userDto = userRepository.findOneByEmail(reqUserDto.getEmail()).get().toDto();
-        if(userDto == null){
+        Optional<User> user = userRepository.findOneByEmail(reqUserDto.getEmail());
+        if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
+        UserDto userDto = user.get().toDto();
         if (!passwordEncoder.matches(reqUserDto.getPassword(), userDto.getPassword())) {
             throw new CustomException(ErrorCode.NO_USER);
         }
