@@ -48,10 +48,11 @@ public class UserService {
     }
 
     public UserDto logout(Long id) {
-        UserDto userDto = userRepository.findOneById(id).get().toDto();
-        if(userDto == null){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
+        UserDto userDto = user.get().toDto();
         userDto.setRefreshToken(null);
         return userRepository.save(userDto.toEntity()).toDto();
     }
