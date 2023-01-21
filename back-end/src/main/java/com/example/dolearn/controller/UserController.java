@@ -76,7 +76,7 @@ public class UserController {
             return new ResponseEntity<>(new SuccessResponse(userService.logout(id)), HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TOKEN), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
         }
     }
 
