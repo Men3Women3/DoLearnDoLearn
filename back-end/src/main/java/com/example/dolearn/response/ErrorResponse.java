@@ -16,4 +16,10 @@ public class ErrorResponse {
         this.code = code.getCode();
         this.response = code.getMessage();
     }
+
+    public ErrorResponse(HttpStatus httpStatus, String errorMessage) {
+        this.httpStatus = httpStatus;
+        this.code = String.valueOf(httpStatus.value());
+        this.response = errorMessage;
+    }
 }
