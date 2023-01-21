@@ -1,11 +1,6 @@
 import styled from "styled-components"
 
 export const SCalendar = styled.div`
-  /* 일자에 커서 올리면 포인트로 만들기 */
-  .fc-event-title {
-    cursor: pointer;
-  }
-
   /* 현재 날짜 셀 */
   .fc-day-today {
     background: white !important;
@@ -33,19 +28,18 @@ export const SCalendar = styled.div`
   }
 
   /* 일요일 날짜: 빨간색 */
-  .fc-day-sun a {
+  /* .fc-day-sun a {
     color: #f87b7b;
-  }
+  } */
   /* 토요일 날짜: 파란색 */
-  .fc-day-sat a {
+  /* .fc-day-sat a {
     color: #6767fe;
-  }
+  } */
 
   /* 달력 타이틀 */
   .fc-toolbar-title {
     font-family: ${(props) => props.theme.fontFamily.ExtraBold};
     font-size: ${(props) => props.theme.fontSize.h1} !important;
-    /* font-size: calc(2vw + 1px); */
   }
 
   /* 달력 타이틀 옆 버튼 */
@@ -96,12 +90,13 @@ export const SCalendar = styled.div`
   /* 요일 */
   .fc-col-header {
     /* background-color: #e8e8e8; */
-    font-size: ${(props) => props.theme.fontSize.p};
+    font-size: ${(props) => props.theme.fontSize.h4};
   }
 
   /* 일정 셀 */
   .fc-daygrid-day-frame {
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 50px;
 
     /* 스크롤바 */
@@ -121,18 +116,50 @@ export const SCalendar = styled.div`
     /* 이벤트 콘텐츠 */
     .fc-event-title-container {
       /* background-color: #dd9ae7; */
-      background-color: balck;
+      /* background-color: black; */
       border: none;
-      color: white;
+      /* color: white; */
       /* border-radius: 4px; */
     }
     .fc-event {
       /* background-color: #dd9ae7; */
-      background-color: black;
-      border: none;
+      /* background-color: black; */
+      /* border: none; */
       font-family: ${(props) => props.theme.fontFamily.Light};
       font-size: ${(props) => props.theme.fontSize.p};
       /* border-radius: 4px; */
+      cursor: pointer;
+    }
+    /* 이벤트 배경 설정 */
+    .fc-daygrid-event-harness {
+      background-color: #000000;
+      border-radius: 8px;
+      margin-bottom: 1px;
+      padding: 1px;
+      /* margin-left: 1px;
+      margin-right: 1px; */
+    }
+    .fc-daygrid-event-dot {
+      display: none;
+    }
+    /* 일자에 커서 올리면 포인트로 만들기 */
+    .fc-event-title {
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .fc-event-time {
+      color: green;
+      /* color: #5335ff; */
+      font-weight: bold;
+      /* white-space: normal; */
+    }
+    .fc-event-title {
+      color: black;
+      font-weight: 500;
     }
   }
+  /* timegrid -> allDay 슬롯 숨기기 안됨!! */
+  /* .fc .fc-daygrid-body {
+    display: none;
+  } */
 `
