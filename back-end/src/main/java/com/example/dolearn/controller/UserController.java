@@ -14,6 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -28,17 +32,20 @@ public class UserController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
-    public ResponseEntity<?> signup(@RequestBody UserDto userDto){
+    public ResponseEntity<?> signup(@Valid @RequestBody UserDto userDto){
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.signup(userDto)), HttpStatus.OK);
-        } catch (Exception e){
+        } catch (CustomException e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.EMAIL_DUPLICATION), HttpStatus.CONFLICT);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDto reqUserDto) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserDto reqUserDto) {
         try{
             UserDto userDto = userService.login(reqUserDto);
             String checkEmail = userDto.getEmail();
@@ -73,7 +80,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody UserDto reqUserDto) {
+    public ResponseEntity<?> update(@Valid @RequestBody UserDto reqUserDto) {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.updateInfo(reqUserDto)), HttpStatus.OK);
         } catch (CustomException e) {

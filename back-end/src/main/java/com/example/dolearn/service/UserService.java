@@ -8,7 +8,6 @@ import com.example.dolearn.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,7 +20,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Transactional
     public UserDto signup(UserDto reqUserDto){
         if (userRepository.findOneByEmail(reqUserDto.getEmail()).isPresent()) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
@@ -42,7 +40,6 @@ public class UserService {
         return userDto;
     }
 
-    @Transactional
     public UserDto updateToken(UserDto reqUserDto, String refreshToken, String accessToken) {
         reqUserDto.setRefreshToken(refreshToken);
         reqUserDto.setAccessToken(accessToken);
@@ -50,7 +47,6 @@ public class UserService {
         return reqUserDto;
     }
 
-    @Transactional
     public UserDto logout(Long id) {
         UserDto userDto = userRepository.findOneById(id).get().toDto();
         if(userDto == null){
@@ -60,7 +56,6 @@ public class UserService {
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
-    @Transactional
     public UserDto updateInfo(UserDto reqUserDto){
         if(reqUserDto.getId() == null || reqUserDto.getImgSrc() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
