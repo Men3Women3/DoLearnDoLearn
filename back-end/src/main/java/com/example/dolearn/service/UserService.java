@@ -25,7 +25,7 @@ public class UserService {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
         reqUserDto.setPassword(passwordEncoder.encode(reqUserDto.getPassword()));
-
+        
         return userRepository.save(reqUserDto.toEntity()).toDto();
     }
 
@@ -71,5 +71,11 @@ public class UserService {
         userDto.setInstagram(reqUserDto.getInstagram());
         userDto.setFacebook(reqUserDto.getFacebook());
         return userRepository.save(userDto.toEntity()).toDto();
+    }
+
+    public void checkEmail(String email){
+        if(userRepository.findOneByEmail(email).isPresent()) {
+            throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
+        }
     }
 }
