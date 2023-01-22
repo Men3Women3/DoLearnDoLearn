@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const SMain = styled.main`
   position: relative;
@@ -14,7 +14,7 @@ export const SMain = styled.main`
     rgba(255, 232, 154, 1) 25%,
     rgba(255, 153, 98, 1) 100%
   );
-`
+`;
 
 export const SMainContainer = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ export const SMainContainer = styled.div`
     height: calc(2vw + 20px);
   }
   position: relative;
-`
+`;
 
 export const SImgSection = styled.section`
   display: flex;
@@ -47,7 +47,7 @@ export const SImgSection = styled.section`
     width: calc(2vw + 400px);
     cursor: pointer;
   }
-`
+`;
 
 export const SForm = styled.form`
   display: flex;
@@ -57,9 +57,13 @@ export const SForm = styled.form`
     position: relative;
     top: 10px;
     left: 10px;
-    cursor: pointer;
+    z-index: 1;
+    cursor: default;
+    .Home-link {
+      z-index: 2;
+    }
   }
-`
+`;
 
 export const SContainer = styled.div`
   width: 100%;
@@ -92,7 +96,7 @@ export const SContainer = styled.div`
   .username__warning {
     margin-bottom: ${(props) => props.username && "0px"};
   }
-`
+`;
 
 export const SInputContainer = styled.div`
   position: relative;
@@ -111,7 +115,7 @@ export const SInputContainer = styled.div`
     color: black;
     margin-bottom: 0px;
   }
-`
+`;
 
 export const SUsernameInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -125,7 +129,7 @@ export const SUsernameInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SEmailInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -139,7 +143,7 @@ export const SEmailInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
   font-size: ${(props) => props.theme.fontSize.p};
@@ -147,7 +151,7 @@ export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
   position: absolute;
   top: 10px;
   left: 10px;
-`
+`;
 
 export const SPasswordInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -161,7 +165,7 @@ export const SPasswordInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SPasswordCheckInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -175,7 +179,7 @@ export const SPasswordCheckInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SBlogInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -189,7 +193,7 @@ export const SBlogInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SYouTubeInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -203,7 +207,7 @@ export const SYouTubeInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SInstagramInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -217,7 +221,7 @@ export const SInstagramInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SFacebookInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -231,7 +235,7 @@ export const SFacebookInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SSelfIntroduction = styled.textarea`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -248,7 +252,7 @@ export const SSelfIntroduction = styled.textarea`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SSNSContainer = styled.div`
   width: 100%;
@@ -258,7 +262,7 @@ export const SSNSContainer = styled.div`
   div {
     margin: 10px 60px;
   }
-`
+`;
 
 export const CustomButton = styled.button`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -268,7 +272,7 @@ export const CustomButton = styled.button`
   border-radius: 10px;
   border-color: transparent;
   cursor: pointer;
-`
+`;
 
 export const SNextButton = styled(CustomButton)`
   background-color: black;
@@ -279,7 +283,7 @@ export const SNextButton = styled(CustomButton)`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bold;
   }
-`
+`;
 
 export const SBackToLoginButton = styled(CustomButton)`
   background-color: white;
@@ -290,7 +294,7 @@ export const SBackToLoginButton = styled(CustomButton)`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bold;
   }
-`
+`;
 
 export const SCancelButton = styled.button`
   margin-top: 40px;
@@ -305,4 +309,4 @@ export const SCancelButton = styled.button`
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.h3};
   font-weight: bold;
-`
+`;
