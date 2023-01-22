@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export const SMain = styled.main`
   position: relative;
@@ -8,45 +8,69 @@ export const SMain = styled.main`
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: ${(props) => props.theme.deepYellow};
-`;
+
+  background: rgb(255, 232, 154);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 232, 154, 1) 25%,
+    rgba(255, 153, 98, 1) 100%
+  );
+  /* background-color: ${(props) => props.theme.deepYellow}; */
+`
 
 export const SMainContainer = styled.div`
   display: flex;
   justify-content: center;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 30px;
   img {
-    height: calc(2vw + 17px);
+    height: calc(2vw + 20px);
   }
-`;
+  position: relative;
+`
+
+export const SLeftSection = styled.section`
+  display: flex;
+  direction: column;
+  background-color: black !important;
+`
 
 export const SImgSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 95px 85px;
+  padding: calc(5vw + 20px) calc(5vw + 20px);
+  background-color: #fffbe6;
+  border-radius: 30px 0 0 30px;
+  .nav__section {
+    /* background-color: #fffbe6; */
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
   h1 {
-    font-size: calc(1vw + 36px);
-    border-bottom: 5px solid ${(props) => props.theme.deeperYellow};
-    margin-bottom: 20px;
+    font-family: "Pacifico", cursive;
+    font-size: calc(1vw + 25px);
+    /* border-bottom: 5px solid ${(props) => props.theme.deeperYellow}; */
+    margin-bottom: 10px;
     margin-top: 0px;
     user-select: none;
+    text-shadow: 4px 6px 1px ${(props) => props.theme.deeperYellow};
   }
   div {
-    width: calc(1vw + 350px);
+    width: calc(2vw + 400px);
     cursor: pointer;
   }
-`;
+`
 
 export const SForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: calc(1vw + 380px);
-  box-shadow: 10px 10px 30px 0px rgb(158 158 158);
-  margin: 120px 120px;
-`;
+  width: calc(2vw + 450px);
+  /* box-shadow: 10px 10px 30px 0px rgb(158 158 158); */
+  /* margin: 120px 120px; */
+`
 
 export const SContainer = styled.div`
   width: 100%;
@@ -57,24 +81,25 @@ export const SContainer = styled.div`
   justify-content: center;
   h1 {
     font-size: ${(props) => props.theme.fontSize.h1};
+    font-family: ${(props) => props.theme.fontFamily.ExtraBold};
     margin-top: 0px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
   }
-`;
+`
 
 export const SFindPassword = styled.div`
   width: calc(1vw + 260px);
   div {
     display: flex;
     justify-content: end;
-    margin: 10px 0px;
+    margin: 15px 0px;
     font-size: ${(props) => props.theme.fontSize.p};
     cursor: pointer;
   }
   div:hover {
     color: ${(props) => props.theme.deeperYellow};
   }
-`;
+`
 
 export const SInputContainer = styled.div`
   position: relative;
@@ -82,9 +107,9 @@ export const SInputContainer = styled.div`
     border: 3px solid ${(props) => props.theme.deepYellow};
   }
   .active__icon {
-    color: ${(props) => props.theme.deepYellow};
+    color: #590f0f;
   }
-`;
+`
 
 export const SEmailInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -93,13 +118,13 @@ export const SEmailInput = styled.input`
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   padding-left: 30px;
   font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
     color: #cdcdcd;
   }
-`;
+`
 
 export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
   font-size: ${(props) => props.theme.fontSize.p};
@@ -107,7 +132,7 @@ export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
   position: absolute;
   top: 10px;
   left: 10px;
-`;
+`
 
 export const SPasswordInput = styled.input`
   width: calc(1vw + 240px);
@@ -121,32 +146,85 @@ export const SPasswordInput = styled.input`
     font-family: ${(props) => props.theme.fontFamily.Regular};
     color: #cdcdcd;
   }
-`;
+`
 
 export const SSNSContainer = styled.div`
   width: calc(1vw + 240px);
   display: flex;
   justify-content: center;
-  margin-top: 12px;
+  margin-top: 20px;
   div {
     margin: 0px 20px;
   }
-`;
+`
 
-export const SLoginButton = styled.button`
+export const CustomButton = styled.button`
   margin: 12px;
   margin-top: 0px;
-  background-color: black;
-  color: white;
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.p};
   width: calc(1vw + 280px);
-  height: calc(1vh + 20px);
-  border-radius: 4px;
+  height: calc(1vh + 30px);
+  border-radius: 10px;
+  border-color: transparent;
   cursor: pointer;
-`;
+`
 
-export const SSignUpButton = styled.button`
+export const SLoginButton = styled(CustomButton)`
+  background-color: black;
+  color: white;
+  :hover {
+    color: ${(props) => props.theme.deeperYellow};
+    font-weight: bold;
+  }
+`
+
+export const SnaverLoginButton = styled(CustomButton)`
+  position: relative;
+  background-color: #01c300 !important;
+
+  img {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    height: 30px;
+  }
+`
+export const SkakaoLoginButton = styled(CustomButton)`
+  position: relative;
+  background-color: #f7e112 !important;
+
+  img {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    height: 20px;
+  }
+`
+export const SgoogleLoginButton = styled(CustomButton)`
+  position: relative;
+  background-color: #ececec !important;
+  color: black;
+
+  img {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    height: 25px;
+  }
+`
+
+export const SSignUpButton = styled(CustomButton)`
+  background-color: white;
+  border-color: black;
+  color: black;
+  :hover {
+    color: ${(props) => props.theme.deeperYellow};
+    font-weight: bold;
+  }
+`
+
+/* export const SSignUpButton = styled.button`
   background-color: white;
   color: black;
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -155,7 +233,7 @@ export const SSignUpButton = styled.button`
   height: calc(1vh + 20px);
   border-radius: 4px;
   cursor: pointer;
-`;
+` */
 
 export const SNaverContainer = styled.div`
   button {
@@ -169,7 +247,7 @@ export const SNaverContainer = styled.div`
     height: calc(1vh + 32px);
     border-radius: 4px;
   }
-`;
+`
 
 export const SKakaoContainer = styled.div`
   button {
@@ -183,7 +261,7 @@ export const SKakaoContainer = styled.div`
     width: calc(1vw + 28px);
     height: calc(1vh + 32px);
   }
-`;
+`
 
 export const SGoogleContainer = styled.div`
   button {
@@ -197,7 +275,7 @@ export const SGoogleContainer = styled.div`
     width: calc(1vw + 28px);
     height: calc(1vh + 32px);
   }
-`;
+`
 
 export const SCancelButton = styled.button`
   margin-top: 40px;
@@ -211,4 +289,4 @@ export const SCancelButton = styled.button`
   outline: none;
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.h3};
-`;
+`

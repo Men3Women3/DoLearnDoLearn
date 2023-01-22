@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   SProfileEditContainer,
   SSubContainerUp,
@@ -8,32 +8,32 @@ import {
   SSelfIntroduction,
   SInput,
   SBlackButton,
-} from "./styles";
+} from "./styles"
 
-import profile from "../../assets/images/thumbnail.png";
+import profile from "../../assets/images/thumbnail.png"
 
-import { Button } from "@mui/material";
+import { Button } from "@mui/material"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import { faIdCard } from "@fortawesome/free-solid-svg-icons";
-import { faStaylinked } from "@fortawesome/free-brands-svg-icons";
-import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
-import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGear } from "@fortawesome/free-solid-svg-icons"
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
+import { faIdCard } from "@fortawesome/free-solid-svg-icons"
+import { faStaylinked } from "@fortawesome/free-brands-svg-icons"
+import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons"
+import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons"
+import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons"
 
 const ProfileEdit = (props) => {
-  const [selfIntroduction, setSelfIntroduction] = useState("");
-  const fileInput = React.useRef(null);
-  const handleCompleteEditProfile = () => {
-    props.setValue(!props.value);
-  };
+  const [selfIntroduction, setSelfIntroduction] = useState("")
+  const fileInput = React.useRef(null)
+  // const handleCompleteEditProfile = () => {
+  //   props.setValue(!props.value);
+  // };
 
   // 프로필 이미지 변경
   const handleEditProfileImg = (e) => {
-    fileInput.current.click();
-  };
+    fileInput.current.click()
+  }
 
   return (
     <SProfileEditContainer>
@@ -172,13 +172,13 @@ const ProfileEdit = (props) => {
             </SOneLineContainer>
           </section>
 
-          <SBlackButton onClick={handleCompleteEditProfile}>
+          <SBlackButton onClick={props.handleProfileEditBtn}>
             수정 완료
           </SBlackButton>
         </SSubContainerDown>
       </div>
     </SProfileEditContainer>
-  );
-};
+  )
+}
 
-export default ProfileEdit;
+export default ProfileEdit

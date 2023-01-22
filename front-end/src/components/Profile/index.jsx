@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   SProfileContainer,
   SSubContainerUp,
@@ -6,24 +6,20 @@ import {
   SOneLineContainer,
   SFontAwesomeIconAtProfile,
   SBlackButton,
-} from "./styles";
+} from "./styles"
 
-import profileImg from "../../assets/images/thumbnail.png";
+import profileImg from "../../assets/images/thumbnail.png"
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import { faIdCard } from "@fortawesome/free-solid-svg-icons";
-import { faStaylinked } from "@fortawesome/free-brands-svg-icons";
-import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
-import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
+import { faIdCard } from "@fortawesome/free-solid-svg-icons"
+import { faStaylinked } from "@fortawesome/free-brands-svg-icons"
+import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons"
+import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons"
+import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons"
 
 const Profile = (props) => {
-  const handleEditProfile = () => {
-    props.setValue(!props.value);
-  };
-
   return (
     <SProfileContainer>
       <div className="profileContentContainer">
@@ -126,11 +122,13 @@ const Profile = (props) => {
             </SOneLineContainer>
           </section>
           {/* {props.textValue} */}
-          <SBlackButton onClick={handleEditProfile}>프로필 수정</SBlackButton>
+          <SBlackButton onClick={props.handleProfileEditBtn}>
+            프로필 수정
+          </SBlackButton>
         </SSubContainerDown>
       </div>
     </SProfileContainer>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

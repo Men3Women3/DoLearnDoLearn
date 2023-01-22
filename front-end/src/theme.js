@@ -1,5 +1,5 @@
 const theme = {
-  deepYellow: "#F4E3B4",
+  deepYellow: "#ffe89a",
   deeperYellow: "#F3BD2A",
   lightYellow: "#FFF9DB",
   lighterYellow: "#FFFAEC",
@@ -23,6 +23,6 @@ const theme = {
     h5: "calc(0.5vw + 0.5px)",
     p: "calc(0.8vw + 1px)",
   },
-};
+}
 
-export default theme;
+export default theme
