@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const SMain = styled.main`
   position: relative;
@@ -16,7 +16,7 @@ export const SMain = styled.main`
     rgba(255, 153, 98, 1) 100%
   );
   /* background-color: ${(props) => props.theme.deepYellow}; */
-`
+`;
 
 export const SMainContainer = styled.div`
   display: flex;
@@ -27,13 +27,13 @@ export const SMainContainer = styled.div`
     height: calc(2vw + 20px);
   }
   position: relative;
-`
+`;
 
 export const SLeftSection = styled.section`
   display: flex;
   direction: column;
   background-color: black !important;
-`
+`;
 
 export const SImgSection = styled.section`
   display: flex;
@@ -48,6 +48,10 @@ export const SImgSection = styled.section`
     position: absolute;
     top: 10px;
     left: 10px;
+    cursor: default;
+    .Home-link {
+      z-index: 1;
+    }
   }
   h1 {
     font-family: "Pacifico", cursive;
@@ -62,7 +66,7 @@ export const SImgSection = styled.section`
     width: calc(2vw + 400px);
     cursor: pointer;
   }
-`
+`;
 
 export const SForm = styled.form`
   display: flex;
@@ -70,7 +74,7 @@ export const SForm = styled.form`
   width: calc(2vw + 450px);
   /* box-shadow: 10px 10px 30px 0px rgb(158 158 158); */
   /* margin: 120px 120px; */
-`
+`;
 
 export const SContainer = styled.div`
   width: 100%;
@@ -85,7 +89,7 @@ export const SContainer = styled.div`
     margin-top: 0px;
     margin-bottom: 40px;
   }
-`
+`;
 
 export const SFindPassword = styled.div`
   width: calc(1vw + 260px);
@@ -99,7 +103,7 @@ export const SFindPassword = styled.div`
   div:hover {
     color: ${(props) => props.theme.deeperYellow};
   }
-`
+`;
 
 export const SInputContainer = styled.div`
   position: relative;
@@ -109,7 +113,7 @@ export const SInputContainer = styled.div`
   .active__icon {
     color: #590f0f;
   }
-`
+`;
 
 export const SEmailInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -124,7 +128,7 @@ export const SEmailInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
   font-size: ${(props) => props.theme.fontSize.p};
@@ -132,7 +136,7 @@ export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
   position: absolute;
   top: 10px;
   left: 10px;
-`
+`;
 
 export const SPasswordInput = styled.input`
   width: calc(1vw + 240px);
@@ -146,7 +150,7 @@ export const SPasswordInput = styled.input`
     font-family: ${(props) => props.theme.fontFamily.Regular};
     color: #cdcdcd;
   }
-`
+`;
 
 export const SSNSContainer = styled.div`
   width: calc(1vw + 240px);
@@ -156,7 +160,7 @@ export const SSNSContainer = styled.div`
   div {
     margin: 0px 20px;
   }
-`
+`;
 
 export const CustomButton = styled.button`
   margin: 12px;
@@ -168,7 +172,7 @@ export const CustomButton = styled.button`
   border-radius: 10px;
   border-color: transparent;
   cursor: pointer;
-`
+`;
 
 export const SLoginButton = styled(CustomButton)`
   background-color: black;
@@ -177,7 +181,7 @@ export const SLoginButton = styled(CustomButton)`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bold;
   }
-`
+`;
 
 export const SnaverLoginButton = styled(CustomButton)`
   position: relative;
@@ -189,7 +193,7 @@ export const SnaverLoginButton = styled(CustomButton)`
     left: 3px;
     height: 30px;
   }
-`
+`;
 export const SkakaoLoginButton = styled(CustomButton)`
   position: relative;
   background-color: #f7e112 !important;
@@ -200,7 +204,7 @@ export const SkakaoLoginButton = styled(CustomButton)`
     left: 8px;
     height: 20px;
   }
-`
+`;
 export const SgoogleLoginButton = styled(CustomButton)`
   position: relative;
   background-color: #ececec !important;
@@ -212,7 +216,7 @@ export const SgoogleLoginButton = styled(CustomButton)`
     left: 5px;
     height: 25px;
   }
-`
+`;
 
 export const SSignUpButton = styled(CustomButton)`
   background-color: white;
@@ -222,7 +226,7 @@ export const SSignUpButton = styled(CustomButton)`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bold;
   }
-`
+`;
 
 /* export const SSignUpButton = styled.button`
   background-color: white;
@@ -247,7 +251,7 @@ export const SNaverContainer = styled.div`
     height: calc(1vh + 32px);
     border-radius: 4px;
   }
-`
+`;
 
 export const SKakaoContainer = styled.div`
   button {
@@ -261,7 +265,7 @@ export const SKakaoContainer = styled.div`
     width: calc(1vw + 28px);
     height: calc(1vh + 32px);
   }
-`
+`;
 
 export const SGoogleContainer = styled.div`
   button {
@@ -275,7 +279,7 @@ export const SGoogleContainer = styled.div`
     width: calc(1vw + 28px);
     height: calc(1vh + 32px);
   }
-`
+`;
 
 export const SCancelButton = styled.button`
   margin-top: 40px;
@@ -289,4 +293,4 @@ export const SCancelButton = styled.button`
   outline: none;
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.h3};
-`
+`;
