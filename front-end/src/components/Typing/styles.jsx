@@ -23,7 +23,7 @@ export const SSection = styled.section`
     content: "|";
     display: inline-block;
     font-size: calc(1vw + 32px);
-    animation: moveCursor 500ms infinite;
+    /* animation: moveCursor 500ms infinite; */
   }
 
   @keyframes moveCursor {
