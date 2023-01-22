@@ -1,12 +1,15 @@
-import React, { useCallback, useState } from "react";
-import loginImg from "../../assets/images/login_img.svg";
-import logoImg from "../../assets/images/logo.png";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import React, { useCallback, useState } from "react"
+import loginImg from "../../assets/images/login_img.svg"
+import logoImg from "../../assets/images/logo.png"
+import Backdrop from "@mui/material/Backdrop"
+import Box from "@mui/material/Box"
+import Modal from "@mui/material/Modal"
+import Fade from "@mui/material/Fade"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import naverLogoImg from "../../assets/images/login/naver_logo.png"
+import kakaoLogoImg from "../../assets/images/login/kakao_logo.png"
+import googleLogoImg from "../../assets/images/login/google_logo.png"
 import {
   SMain,
   SForm,
@@ -18,6 +21,9 @@ import {
   SEmailInput,
   SPasswordInput,
   SLoginButton,
+  SnaverLoginButton,
+  SkakaoLoginButton,
+  SgoogleLoginButton,
   SNaverContainer,
   SKakaoContainer,
   SGoogleContainer,
@@ -25,11 +31,11 @@ import {
   SSignUpButton,
   SFindPassword,
   SCancelButton,
-} from "./styles";
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import { NavLink, useNavigate } from "react-router-dom";
-import Lottie from "react-lottie";
-import animationData from "../../assets/images/LOGIN";
+} from "./styles"
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
+import { NavLink, useNavigate } from "react-router-dom"
+import Lottie from "react-lottie"
+import animationData from "../../assets/images/LOGIN"
 
 const style = {
   position: "absolute",
@@ -41,7 +47,7 @@ const style = {
   borderRadius: "8px",
   boxShadow: 24,
   outline: "none",
-};
+}
 
 const defaultOptions = {
   loop: true,
@@ -50,52 +56,57 @@ const defaultOptions = {
   rendererSettings: {
     preserveAspectRatio: "xMidYMid slice",
   },
-};
+}
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmpty, setIsEmpty] = useState("");
-  const [isCorrect, setIsCorrect] = useState(false);
-  const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [isEmpty, setIsEmpty] = useState("")
+  const [isCorrect, setIsCorrect] = useState(false)
+  const navigate = useNavigate()
+  const [open, setOpen] = React.useState(false)
 
   const onSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!open) {
-      console.log(111);
+      console.log(111)
     }
-  };
+  }
 
   const handleMoveToSignUp = () => {
-    navigate("/signup");
-  };
+    navigate("/signup")
+  }
 
   const handleOpen = (e) => {
     if (!email || !password) {
-      setOpen(true);
+      setOpen(true)
     }
-  };
+  }
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false)
 
   const handleOnChangeEmail = useCallback((e) => {
-    setEmail(e.target.value);
-  }, []);
+    setEmail(e.target.value)
+  }, [])
 
   const handleOnPassword = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
+    setPassword(e.target.value)
+  }, [])
 
   return (
     <SMain>
       <SMainContainer>
-        <div>
+        {/* <div className="nav__section">
           <NavLink to={"/"}>
             <img src={logoImg} alt="logo_img" />
           </NavLink>
-        </div>
+        </div> */}
         <SImgSection>
+          <div className="nav__section">
+            <NavLink to={"/"}>
+              <img src={logoImg} alt="logo_img" />
+            </NavLink>
+          </div>
           <h1>Welcome Back!</h1>
           <div>
             <Lottie
@@ -140,8 +151,34 @@ const Login = () => {
             <SLoginButton type="submit" onClick={(e) => handleOpen(e)}>
               로그인
             </SLoginButton>
-            <SSignUpButton onClick={handleMoveToSignUp}>회원가입</SSignUpButton>
-            <SSNSContainer>
+            <SSignUpButton onClick={handleMoveToSignUp}>
+              새로운 계정 만들기
+            </SSignUpButton>
+            <hr
+              style={{
+                width: "62%",
+                height: "2px",
+                border: "0px",
+                backgroundColor: "#e4e4e4",
+                marginTop: "20px",
+                marginBottom: "30px",
+              }}
+            />
+            <SnaverLoginButton>
+              <img src={naverLogoImg} alt="naver_logo" />
+              네이버로 로그인
+            </SnaverLoginButton>
+
+            <SkakaoLoginButton>
+              <img src={kakaoLogoImg} alt="kakao_logo" />
+              카카오로 로그인
+            </SkakaoLoginButton>
+
+            <SgoogleLoginButton>
+              <img src={googleLogoImg} alt="google_logo" />
+              구글로 로그인
+            </SgoogleLoginButton>
+            {/* <SSNSContainer>
               <SNaverContainer>
                 <button>N</button>
               </SNaverContainer>
@@ -151,7 +188,7 @@ const Login = () => {
               <SGoogleContainer>
                 <button>G</button>
               </SGoogleContainer>
-            </SSNSContainer>
+            </SSNSContainer> */}
           </SContainer>
         </SForm>
       </SMainContainer>
@@ -193,7 +230,7 @@ const Login = () => {
         </Fade>
       </Modal>
     </SMain>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

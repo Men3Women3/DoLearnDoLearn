@@ -2,6 +2,8 @@ body {
   margin: 0;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
 @font-face {
   font-family: "Pretendard-Bold";
   src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff")
