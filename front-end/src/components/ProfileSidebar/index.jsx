@@ -1,16 +1,17 @@
-import React from "react";
+import React from "react"
 import {
   SSidebarContainer,
   SButtonContainer,
   SUserDeleteButtonContainer,
-} from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
-import DeleteUserModal from "../../components/DeleteUserModal";
+} from "./styles"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUserSlash } from "@fortawesome/free-solid-svg-icons"
+import DeleteUserModal from "../../components/DeleteUserModal"
 
 const ProfileSidebar = (props) => {
   return (
     <SSidebarContainer>
+      {/* 프로필 탭 */}
       <SButtonContainer>
         <button className="profile-page" onClick={props.handleTabValue}>
           프로필
@@ -19,6 +20,7 @@ const ProfileSidebar = (props) => {
           <div className="page__background">&emsp;&emsp;&nbsp;&nbsp;</div>
         )}
       </SButtonContainer>
+      {/* 일정 탭 */}
       <SButtonContainer>
         <button className="schedule-page" onClick={props.handleTabValue}>
           일정
@@ -27,6 +29,7 @@ const ProfileSidebar = (props) => {
           <div className="page__background">&emsp;&nbsp;&nbsp;</div>
         )}
       </SButtonContainer>
+      {/* 미확정 강의 탭 */}
       <SButtonContainer>
         <button
           className="undecided-lecture-page"
@@ -40,22 +43,22 @@ const ProfileSidebar = (props) => {
           </div>
         )}
       </SButtonContainer>
+      {/* 메시지함 탭 */}
       <SButtonContainer>
         <button className="message-page" onClick={props.handleTabValue}>
           메시지함
         </button>
         {props.isMessageTabActive && (
-          <div className="page__background">
-            &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-          </div>
+          <div className="page__background">&emsp;&emsp;&emsp;&nbsp;&nbsp;</div>
         )}
       </SButtonContainer>
+      {/* 회원탈퇴 버튼 */}
       <SUserDeleteButtonContainer>
         <FontAwesomeIcon className="user-delete" icon={faUserSlash} />
         <DeleteUserModal />
       </SUserDeleteButtonContainer>
     </SSidebarContainer>
-  );
-};
+  )
+}
 
-export default ProfileSidebar;
+export default ProfileSidebar
