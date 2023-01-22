@@ -21,5 +21,29 @@ export const SSmallScheduleMain = styled.main`
     .smallSchedule__toggle-button:hover {
       transform: scale(1.1);
     }
+
+    .mount {
+      animation: loadEffect 1s ease-in-out 0s 1 normal forwards;
+    }
+    .unmount {
+      animation: closeEffect 1.2s ease-in-out 0s 1 normal forwards;
+    }
+
+    @keyframes loadEffect {
+      from {
+        transform: translateX(200%);
+      }
+      to {
+        transform: translateX(0%);
+      }
+    }
+    @keyframes closeEffect {
+      from {
+        transform: translateX(0%);
+      }
+      to {
+        transform: translateX(120%);
+      }
+    }
   }
 `
