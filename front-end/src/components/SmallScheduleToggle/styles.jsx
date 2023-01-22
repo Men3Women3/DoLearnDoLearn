@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SSmallScheduleMain = styled.main`
   .smallSchedule-container {
@@ -15,10 +15,10 @@ export const SSmallScheduleMain = styled.main`
       transition: all 300ms linear;
       font-size: ${(props) => props.theme.fontSize.h1};
       cursor: pointer;
-      box-shadow: 0 0 30px #dedede;
+      box-shadow: 4px 4px 20px rgba(248, 166, 51, 0.766);
     }
     .smallSchedule__toggle-button:hover {
       transform: scale(1.1);
     }
   }
-`;
+`
