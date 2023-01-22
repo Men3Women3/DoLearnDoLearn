@@ -56,28 +56,29 @@ const ProfileEdit = (props) => {
           </div>
 
           <section>
-            {/* 배지 + 이름 */}
-            <SOneLineContainer>
-              {/* <img
+            {/* <img
                 src={startRankImg}
                 alt="start_rank_Img"
                 // style={{ height: "calc(1vw + 8px) !important" }}
               /> */}
+            <div>
+              {/* 이름 */}
               <span>김싸피</span>
-            </SOneLineContainer>
-            {/* 이메일 */}
-            <p>ssafyKing@naver.com</p>
+              {/* 이메일 */}
+              <p>ssafyKing@naver.com</p>
+            </div>
             {/* 마일리지 바 */}
             <div>
-              {/* <FontAwesomeIcon
+              <FontAwesomeIcon
                 icon={faLocationPin}
                 style={{
-                  color: "#24E843",
-                  height: "calc(1vw + 10px) !important",
+                  color: "black",
+                  height: "calc(1vw + 1px)",
+                  marginTop: "10px",
                 }}
-              /> */}
+              />
               <div className="wrapper">
-                <div
+                {/* <div
                   style={{
                     backgroundColor: "#24E843",
                     borderTopLeftRadius: "50px",
@@ -105,7 +106,7 @@ const ProfileEdit = (props) => {
                     borderTopRightRadius: "50px",
                     borderBottomRightRadius: "50px",
                   }}
-                ></div>
+                ></div> */}
               </div>
             </div>
           </section>
@@ -115,7 +116,7 @@ const ProfileEdit = (props) => {
         <SSubContainerDown>
           <section>
             <div style={{ display: "flex" }}>
-              <SFontAwesomeIconAtProfile icon={faIdCard} />
+              {/* <SFontAwesomeIconAtProfile icon={faIdCard} /> */}
               <SSelfIntroduction
                 maxLength={500}
                 value={selfIntroduction}
@@ -124,12 +125,7 @@ const ProfileEdit = (props) => {
                 placeholder="자기소개를 입력해주세요"
               />
             </div>
-            <p
-              className="typing-length"
-              style={{ float: "right", marginRight: "9%" }}
-            >
-              {selfIntroduction.length} / 500
-            </p>
+            <p className="typing-length">{selfIntroduction.length} / 500</p>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faStaylinked} />
               <SInput

@@ -8,7 +8,7 @@ html::-webkit-scrollbar {
   width: calc(0.5vw + 1px);
 }
 html::-webkit-scrollbar-track {
-  background: #ffffff;
+  background: transparent;
 }
 html::-webkit-scrollbar-thumb {
   background-color: #d4d4d4;

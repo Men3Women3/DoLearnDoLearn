@@ -2,20 +2,19 @@ import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export const SProfileContainer = styled.div`
+  font-family: ${(props) => props.theme.fontFamily.Medium};
   width: 100%;
   .cd1tip {
-    width: 98%;
+    width: 100%;
     display: flex;
   }
 
   .tip {
-    width: calc(100% - 4vw);
+    width: 100%;
     background-color: #fdf7d8;
     color: black;
     padding: calc(1vw + 5px);
-    margin-left: 10px;
     border-radius: 20px;
-    font-family: ${(props) => props.theme.fontFamily.Light};
     font-size: ${(props) => props.theme.fontSize.p};
   }
 `
@@ -25,8 +24,8 @@ export const SSubContainerUp = styled.div`
   align-items: center;
   /* 프로필 이미지 */
   .profile-img {
-    height: calc(3vw + 50px);
-    width: calc(3vw + 50px);
+    height: calc(3vw + 70px);
+    width: calc(3vw + 70px);
     border-radius: 50%;
     border: calc(0.1vw + 1px) solid black;
     object-fit: cover;
@@ -44,23 +43,23 @@ export const SSubContainerUp = styled.div`
     }
     /* 이름 */
     span {
-      font-size: ${(props) => props.theme.fontSize.h2};
+      font-size: ${(props) => props.theme.fontSize.h3};
       font-weight: bold;
       /* margin-left: 0 !important; */
     }
     /* 이메일 */
     p {
       color: #9a9a9a;
-      font-size: ${(props) => props.theme.fontSize.h4};
-      margin: 0 10px;
+      font-size: ${(props) => props.theme.fontSize.p};
+      margin: 5px 0;
     }
     /* 마일리지바 */
     .wrapper {
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
-      width: 60%;
-      height: calc(0.5vw + 2px);
+      /* display: flex;
+      flex-direction: row; */
+      /* align-items: stretch; */
+      width: 100%;
+      height: calc(1vw + 2px);
       /* 그라데이션 임시로 넣었음. 더 좋은 그라데이션 찾으면 바꾸기 */
       background: rgb(238, 242, 67);
       background: linear-gradient(
@@ -79,7 +78,7 @@ export const SSubContainerUp = styled.div`
 
 export const SSubContainerDown = styled.div`
   width: 100%;
-  padding: 20px 15px;
+  padding: 20px 0;
   font-size: calc(0.7vw + 2px);
   line-height: calc(1vw + 5px);
   display: flex;
@@ -102,14 +101,14 @@ export const SFontAwesomeIconAtProfile = styled(FontAwesomeIcon)`
 `
 
 export const SBlackButton = styled.button`
-  width: 20%;
+  width: calc(2vw + 80px);
   font-family: ${(props) => props.theme.fontFamily.Bold};
   font-size: ${(props) => props.theme.fontSize.p};
   background-color: black;
   padding: 8px 10px;
   border-radius: 8px;
   color: white;
-  margin: auto;
+  margin: 0 auto;
   cursor: pointer;
   :hover {
     color: ${(props) => props.theme.deeperYellow};

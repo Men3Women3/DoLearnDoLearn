@@ -35,7 +35,8 @@ const Profile = (props) => {
           {/* 프로필 이미지 */}
           <img className="profile-img" src={profileImg} alt="defaultProfile" />
           <section>
-            <div className="name-email__container">
+            {/* <div className="name-email__container"> */}
+            <div>
               {/* 이름 */}
               <span>{name}</span>
               {/* 이메일 */}
@@ -46,8 +47,9 @@ const Profile = (props) => {
               <FontAwesomeIcon
                 icon={faLocationPin}
                 style={{
-                  color: "#24E843",
-                  height: "calc(1vw + 10px) !important",
+                  color: "black",
+                  height: "calc(1vw + 1px)",
+                  marginTop: "10px",
                 }}
               />
               <div className="wrapper">
@@ -88,7 +90,7 @@ const Profile = (props) => {
         {/* 선택항목 */}
         <SSubContainerDown>
           <div className="cd1tip">
-            <SFontAwesomeIconAtProfile icon={faIdCard} />
+            {/* <SFontAwesomeIconAtProfile icon={faIdCard} /> */}
             <span className="tip">
               안녕하세요.싸피입니다...................................
               <br />- 미리대학원 중어중문학 석사
