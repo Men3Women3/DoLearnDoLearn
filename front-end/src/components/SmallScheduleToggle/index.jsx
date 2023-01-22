@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import SmallSchedule from "../SmallSchedule";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
-import { SSmallScheduleMain } from "./styles";
+import React, { useState } from "react"
+import SmallSchedule from "../SmallSchedule"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCalendarDays } from "@fortawesome/free-regular-svg-icons"
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons"
+import { SSmallScheduleMain } from "./styles"
 
 const SmallScheduleToggle = () => {
-  const [smallScheduleToggle, setSmallScheduleToggle] = useState(true);
+  const [smallScheduleToggle, setSmallScheduleToggle] = useState(true)
 
   const handleSmallScheduleToggle = () => {
-    setSmallScheduleToggle(!smallScheduleToggle);
-  };
+    setSmallScheduleToggle(!smallScheduleToggle)
+  }
 
   return (
     <SSmallScheduleMain>
@@ -19,11 +20,15 @@ const SmallScheduleToggle = () => {
           className="smallSchedule__toggle-button"
           onClick={handleSmallScheduleToggle}
         >
-          <FontAwesomeIcon icon={faCalendarDays} />
+          {smallScheduleToggle ? (
+            <FontAwesomeIcon icon={faAnglesRight} />
+          ) : (
+            <FontAwesomeIcon icon={faCalendarDays} />
+          )}
         </button>
       </div>
     </SSmallScheduleMain>
-  );
-};
+  )
+}
 
-export default SmallScheduleToggle;
+export default SmallScheduleToggle

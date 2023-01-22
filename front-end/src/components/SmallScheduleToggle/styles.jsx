@@ -16,6 +16,7 @@ export const SSmallScheduleMain = styled.main`
       font-size: ${(props) => props.theme.fontSize.h1};
       cursor: pointer;
       box-shadow: 4px 4px 20px rgba(248, 166, 51, 0.766);
+      transition: all 1s ease-in;
     }
     .smallSchedule__toggle-button:hover {
       transform: scale(1.1);
