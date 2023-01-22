@@ -33,7 +33,7 @@ public class MessageController {
 
         log.info("create confirm message 호출");
         log.info(" content : {}",messageDto.getContent());
-        log.info(" rid : {}", messageDto.getRid());
+        log.info(" lid : {}", messageDto.getLid());
         //메세지 생성하는 메소드
         try {
             return new ResponseEntity<>(new SuccessResponse(messageService.createMessage(messageDto)), HttpStatus.OK);

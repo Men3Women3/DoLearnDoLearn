@@ -1,23 +1,22 @@
 package com.example.dolearn.domain;
 
 import com.example.dolearn.dto.UserDto;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@DynamicInsert
 @Entity(name="user")
 public class User {
     @Id
@@ -36,7 +35,6 @@ public class User {
     private String password;
 
     @Column(length = 3000)
-    @ColumnDefault("")
     private String info;
 
     @Column(length = 4)
@@ -46,19 +44,15 @@ public class User {
     private Integer point;
 
     @Column(length = 50)
-    @ColumnDefault("")
     private String instagram;
 
     @Column(length = 200)
-    @ColumnDefault("")
     private String facebook;
 
     @Column(length = 200)
-    @ColumnDefault("")
     private String blog;
 
     @Column(name="img_src", length = 200)
-    @ColumnDefault("")
     private String imgSrc;
 
     @Column(name="refresh_token", length = 500)
@@ -66,7 +60,6 @@ public class User {
 
     @Column(name="join_date")
     @CreationTimestamp
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date joinDate;
 
@@ -75,10 +68,16 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Message> messageList = new ArrayList<>();
 
-    @Builder.Default
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<UserLecture> userLectureList = new ArrayList<>();
+    @PrePersist
+    public void setDefaultValue(){
+        this.info = "";
+        this.point = 0;
+        this.instagram = "";
+        this.facebook = "";
+        this.blog = "";
+        this.imgSrc = "";
+    }
+
 
     public UserDto toDto() {
         return UserDto.builder()
@@ -98,3 +97,4 @@ public class User {
                 .build();
     }
 }
+
