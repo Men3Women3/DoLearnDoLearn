@@ -8,13 +8,10 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
-
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 @Getter
 @NoArgsConstructor
@@ -77,6 +74,11 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Message> messageList = new ArrayList<>();
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<UserLecture> userLectureList = new ArrayList<>();
 
     public UserDto toDto() {
         return UserDto.builder()

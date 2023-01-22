@@ -38,10 +38,11 @@ public class SecurityConfig {
                 
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
-                .antMatchers("/exception/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()
-                .anyRequest().authenticated()
+//                .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
+//                .antMatchers("/exception/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/user").permitAll()
+                .anyRequest().permitAll()
+         //       .anyRequest().authenticated()
 
                 // login 시 Jwt 검증 필터
                 .and()

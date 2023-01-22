@@ -26,20 +26,22 @@ public class MessageController {
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
     }
-    // 차후 수정 필요
-    @PostMapping
+
+    //강의가 확정되면 수강 신청한 학생들에게 전송
+    @PostMapping("/confirm")
     public ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto) {
 
-        log.info("create message 호출");
+        log.info("create confirm message 호출");
         log.info(" content : {}",messageDto.getContent());
         log.info(" rid : {}", messageDto.getRid());
         //메세지 생성하는 메소드
-        if(messageService.createMessage(messageDto)) {
-
-            return new ResponseEntity<String>(success, HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(new SuccessResponse(messageService.createMessage(messageDto)), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
+                    HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<String>(fail, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PutMapping

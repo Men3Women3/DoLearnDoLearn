@@ -49,7 +49,7 @@ public class MessageControllerTest {
                                 .content("test")
                                 .isChecked(1).build();
 
-        when(messageService.createMessage(messageDto)).thenReturn(true);
+        //when(messageService.createConfirmMessage(messageDto)).thenReturn(true);
 
         mockMvc.perform(post("/message")
                 .contentType(MediaType.APPLICATION_JSON)

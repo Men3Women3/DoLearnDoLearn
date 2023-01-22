@@ -3,7 +3,9 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.Message;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.MessageDto;
+import com.example.dolearn.repository.LectureRepository;
 import com.example.dolearn.repository.MessageRepository;
+import com.example.dolearn.repository.UserLectureRepository;
 import com.example.dolearn.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,10 +33,16 @@ public class MessageServiceTest {
     @MockBean
     UserRepository userRepository;
 
+    @MockBean
+    UserLectureRepository userLectureRepository;
+
+    @MockBean
+    LectureRepository lectureRepository;
+
     @BeforeEach
     void setUp() {
 
-        messageService = new MessageService(messageRepository,userRepository);
+        messageService = new MessageService(messageRepository,userRepository,lectureRepository,userLectureRepository);
     }
 
     @DisplayName("메세지 확인 업데이트 테스트")
