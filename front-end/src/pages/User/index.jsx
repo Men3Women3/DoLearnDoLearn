@@ -3,6 +3,7 @@ import { useState } from "react"
 
 import Navbar from "../../components/Navbar"
 import CardBox from "../../components/CardBox"
+import ProfileCardBox from "../../components/ProfileCardBox"
 import Profile from "../../components/Profile/index"
 import ProfileSidebar from "../../components/ProfileSidebar"
 import ProfileEdit from "../../components/ProfileEdit"
@@ -83,23 +84,29 @@ const User = () => {
           />
         </Grid>
         <Grid item xs={10} md={7.5}>
-          <CardBox>
-            {isProfileTabActive && !isProfileEditActive && (
+          {isProfileTabActive && !isProfileEditActive && (
+            <ProfileCardBox>
               <Profile
                 handleProfileEditBtn={handleProfileEditBtn}
                 isProfileEditActive={isProfileEditActive}
               />
-            )}
-            {isProfileTabActive && isProfileEditActive && (
+            </ProfileCardBox>
+          )}
+          {isProfileTabActive && isProfileEditActive && (
+            <ProfileCardBox>
               <ProfileEdit
                 handleProfileEditBtn={handleProfileEditBtn}
                 isProfileEditActive={isProfileEditActive}
               />
-            )}
-            {isScheduleTabActive && <Calendar />}
-            {/* {isUnScheduleTabActive && <  Calendar />} */}
-            {/* {isScheduleTabActive && <  Calendar />} */}
-          </CardBox>
+            </ProfileCardBox>
+          )}
+          {isScheduleTabActive && (
+            <CardBox>
+              <Calendar />
+            </CardBox>
+          )}
+          {/* {isUnScheduleTabActive && <  Calendar />} */}
+          {/* {isScheduleTabActive && <  Calendar />} */}
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>

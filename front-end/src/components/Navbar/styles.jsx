@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 
 export const Box = styled.main`
   width: 100%;
@@ -11,6 +11,25 @@ export const Box = styled.main`
   img {
     height: calc(2vw + 17px);
   }
+  img:hover {
+    animation: swing 2s;
+    /* transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px; */
+  }
+
+  @keyframes swing {
+    0% {
+      transform: rotate(-7deg);
+    }
+    50% {
+      transform: rotate(7deg);
+    }
+    100% {
+      transform: rotate(-7deg);
+    }
+  }
+
   .left-item {
     display: flex;
     justify-content: center;
