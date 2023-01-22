@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react"
-import Navbar from "../../components/Navbar/index"
-import SmallSchedule from "../../components/SmallSchedule/index"
-import Typing from "../../components/Typing/index"
-import { SContainer } from "./styles"
-import mainImg from "../../assets/images/main_img.svg"
-import { useNavigate } from "react-router"
-import Lottie from "react-lottie"
-import animationData from "../../assets/images/HOME"
-import Grid from "@mui/material/Grid"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCalendarDays } from "@fortawesome/free-regular-svg-icons"
-import SmallScheduleToggle from "../../components/SmallScheduleToggle"
+import React, { useEffect, useState } from "react";
+import Navbar from "../../components/Navbar/index";
+import SmallSchedule from "../../components/SmallSchedule/index";
+import Typing from "../../components/Typing/index";
+import { SContainer } from "./styles";
+import mainImg from "../../assets/images/main_img.svg";
+import { useNavigate } from "react-router";
+import Lottie from "react-lottie";
+import animationData from "../../assets/images/HOME";
+import Grid from "@mui/material/Grid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
+import SmallScheduleToggle from "../../components/SmallScheduleToggle";
+import RankingList from "../../components/RankingList";
 
 const Home = () => {
-  const [isLogined, setIsLogined] = useState(true)
-  const navigate = useNavigate()
+  const [isLogined, setIsLogined] = useState(true);
+  const navigate = useNavigate();
 
   const defaultOptions = {
     loop: true,
@@ -23,7 +24,7 @@ const Home = () => {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
-  }
+  };
 
   return (
     <SContainer>
@@ -60,8 +61,9 @@ const Home = () => {
         <SmallScheduleToggle />
       </section>
       <Typing />
+      <RankingList />
     </SContainer>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
