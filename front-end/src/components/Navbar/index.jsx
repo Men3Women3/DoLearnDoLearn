@@ -25,7 +25,7 @@ const Navbar = () => {
       <div className="right-item">
         {
           // isLogined &&
-          <NavLink className="link username">
+          <NavLink to={"/mypage"} className="link username">
             <img src={profileImg} alt="profileImg" />
             <span style={{ margin: "auto 0 auto 5px", cursor: "pointer" }}>
               김싸피
