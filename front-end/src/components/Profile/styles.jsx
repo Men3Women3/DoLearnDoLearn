@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export const SProfileContainer = styled.div`
   width: 100%;
@@ -10,7 +10,7 @@ export const SProfileContainer = styled.div`
 
   .tip {
     width: calc(100% - 4vw);
-    background-color: #f0f0f0;
+    background-color: #fdf7d8;
     color: black;
     padding: calc(1vw + 5px);
     margin-left: 10px;
@@ -18,22 +18,13 @@ export const SProfileContainer = styled.div`
     font-family: ${(props) => props.theme.fontFamily.Light};
     font-size: ${(props) => props.theme.fontSize.p};
   }
-
-  .oneLineContainer {
-    display: flex;
-    align-items: center;
-    margin: calc(0.5vw + 1px) 0;
-    span {
-      margin-left: 10px;
-    }
-  }
-`;
+`
 
 export const SSubContainerUp = styled.div`
   display: flex;
   align-items: center;
   /* 프로필 이미지 */
-  .profileImg {
+  .profile-img {
     height: calc(3vw + 50px);
     width: calc(3vw + 50px);
     border-radius: 50%;
@@ -46,15 +37,22 @@ export const SSubContainerUp = styled.div`
     width: 100%;
     margin-left: 15px;
     display: inline;
+    .name-email__container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
     /* 이름 */
-    /* span {
-      font-size: calc(0.9vw + 2px);
-      margin-left: 0 !important;
-    } */
+    span {
+      font-size: ${(props) => props.theme.fontSize.h2};
+      font-weight: bold;
+      /* margin-left: 0 !important; */
+    }
     /* 이메일 */
     p {
-      color: #8e8e8e;
-      font-size: calc(0.7vw + 2px);
+      color: #9a9a9a;
+      font-size: ${(props) => props.theme.fontSize.h4};
+      margin: 0 10px;
     }
     /* 마일리지바 */
     .wrapper {
@@ -77,7 +75,7 @@ export const SSubContainerUp = styled.div`
       flex: 1;
     }
   }
-`;
+`
 
 export const SSubContainerDown = styled.div`
   width: 100%;
@@ -86,26 +84,22 @@ export const SSubContainerDown = styled.div`
   line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
-`;
+`
 
 export const SOneLineContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   margin: calc(1vw + 1px) 0;
-  span {
-    font-size: calc(0.9vw + 2px);
-    margin-left: 0;
-  }
-  a {
+  div {
     margin-left: 10px;
   }
-`;
+`
 
 export const SFontAwesomeIconAtProfile = styled(FontAwesomeIcon)`
   color: black;
   height: calc(1vw + 5px);
-`;
+`
 
 export const SBlackButton = styled.button`
   width: 20%;
@@ -119,5 +113,6 @@ export const SBlackButton = styled.button`
   cursor: pointer;
   :hover {
     color: ${(props) => props.theme.deeperYellow};
+    font-weight: bolder;
   }
-`;
+`

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   SProfileContainer,
   SSubContainerUp,
@@ -20,24 +20,27 @@ import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons"
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons"
 
 const Profile = (props) => {
+  const [name, setName] = useState("김싸피")
+  const [email, setEmail] = useState("ssafyKing@naver.com")
+  const [selfInfo, setSelfInfo] = useState("")
+  const [blogLink, setBlogLink] = useState("Hellossafy@tistory.com")
+  const [youtubeLink, setYoutubeLink] = useState("유튜브 채널 링크")
+  const [instaLink, setInstaLink] = useState("instaSSafy")
+  const [faceBookLink, setFaceBookLink] = useState("faceSSafy")
+
   return (
     <SProfileContainer>
       <div className="profileContentContainer">
         <SSubContainerUp>
           {/* 프로필 이미지 */}
-          <img className="profileImg" src={profileImg} alt="defaultProfile" />
+          <img className="profile-img" src={profileImg} alt="defaultProfile" />
           <section>
-            {/* 배지 + 이름 */}
-            <SOneLineContainer>
-              {/* <img
-                src={startRankImg}
-                alt="start_rank_Img"
-                style={{ height: "calc(1vw + 5px) !important" }}
-              /> */}
-              <span>김싸피</span>
-            </SOneLineContainer>
-            {/* 이메일 */}
-            <p>ssafyKing@naver.com</p>
+            <div className="name-email__container">
+              {/* 이름 */}
+              <span>{name}</span>
+              {/* 이메일 */}
+              <p>{email}</p>
+            </div>
             {/* 마일리지 바 */}
             <div>
               <FontAwesomeIcon
@@ -106,19 +109,19 @@ const Profile = (props) => {
           <section>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faStaylinked} />
-              <a href="#">Hellossafy@tistory.com</a>
+              <div>{blogLink}</div>
             </SOneLineContainer>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faSquareYoutube} />
-              <a href="#">유튜브 채널 링크</a>
+              <div>{youtubeLink}</div>
             </SOneLineContainer>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faSquareInstagram} />
-              <a href="#">instaSsafy</a>
+              <div>{instaLink}</div>
             </SOneLineContainer>
             <SOneLineContainer>
               <SFontAwesomeIconAtProfile icon={faSquareFacebook} />
-              <a href="#">faceSsafy</a>
+              <div>{faceBookLink}</div>
             </SOneLineContainer>
           </section>
           {/* {props.textValue} */}
