@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const Box = styled.main`
   width: 100%;
@@ -6,6 +6,7 @@ export const Box = styled.main`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: ${(props) => props.theme.fontFamily.Medium};
   /* box-shadow: 10px 10px 10px 10px rgb(230 226 226); */
   img {
     height: calc(2vw + 17px);
@@ -29,8 +30,8 @@ export const Box = styled.main`
     }
     .unread__notification {
       cursor: pointer;
-      margin: 0 calc(1vw + 1px);
-      font-size: calc(1vw + 4px);
+      margin: 0 ${(props) => props.theme.fontSize.h4};
+      font-size: ${(props) => props.theme.fontSize.h2};
     }
     div {
       background-color: black;
@@ -41,7 +42,7 @@ export const Box = styled.main`
     }
     .username {
       color: black;
-      font-size: calc(1vw + 1px);
+      font-size: ${(props) => props.theme.fontSize.h4};
       display: flex;
     }
     /* p {
@@ -55,11 +56,11 @@ export const Box = styled.main`
     }
     .user-state {
       color: white;
-      font-size: calc(0.6vw + 0.5px);
+      font-size: ${(props) => props.theme.fontSize.p};
     }
   }
   .link__board {
-    font-size: calc(1vw + 1px);
+    font-size: ${(props) => props.theme.fontSize.h4};
     color: #545151;
     margin-left: calc(1vw + 6px);
   }
@@ -70,5 +71,7 @@ export const Box = styled.main`
   }
   .link:hover {
     color: #f3bd2a;
+    font-weight: bold;
+    transform: scale(1.1);
   }
-`;
+`
