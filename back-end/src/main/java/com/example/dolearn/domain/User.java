@@ -44,6 +44,9 @@ public class User {
     private Integer point;
 
     @Column(length = 50)
+    private String youtube;
+
+    @Column(length = 50)
     private String instagram;
 
     @Column(length = 200)
@@ -70,14 +73,14 @@ public class User {
 
     @PrePersist
     public void setDefaultValue(){
-        this.info = "";
-        this.point = 0;
-        this.instagram = "";
-        this.facebook = "";
-        this.blog = "";
-        this.imgSrc = "";
+        this.info = (this.info == null) ? "" : this.info;
+        this.point = (this.point == null) ? 0 : this.point;
+        this.youtube = (this.youtube == null) ? "" : this.youtube;
+        this.instagram = (this.instagram == null) ? "" : this.instagram;
+        this.facebook = (this.facebook == null) ? "" : this.facebook;
+        this.blog = (this.blog == null) ? "" : this.blog;
+        this.imgSrc = (this.imgSrc == null) ? "" : this.imgSrc;
     }
-
 
     public UserDto toDto() {
         return UserDto.builder()
@@ -88,6 +91,7 @@ public class User {
                 .info(info)
                 .gender(gender)
                 .point(point)
+                .youtube(youtube)
                 .instagram(instagram)
                 .facebook(facebook)
                 .blog(blog)
