@@ -1,23 +1,30 @@
-import React from "react";
-import Navbar from "../../components/Navbar";
-import SearchBar from "../../components/SearchBar";
-import WriteButton from "../../components/WriteButton";
-import BoardList from "../../components/BoardList";
-
-// import SmallSchedule from "../../components/SmallSchedule";
-
-// import Pagination from "@mui/material/Pagination";
-// import { SContainer } from "../../components/Board/styles";
+import React from 'react';
+import Navbar from '../../components/Navbar';
+import SearchBar from '../../components/SearchBar';
+import WriteButton from '../../components/WriteButton';
+import BoardList from '../../components/BoardList';
+import { Grid } from '@mui/material';
+import SmallScheduleToggle from '../../components/SmallScheduleToggle';
 
 const Board = () => {
   return (
     <>
-      <Navbar />
-      <SearchBar />
-      <WriteButton />
-      <BoardList />
-      {/* <SmallSchedule /> */}
-      {/* <Pagination count={10} /> 요거 내가 그냥 직접 만든다..;; */}
+      <Grid container>
+        {/* navbar 부분 그리드 */}
+        <Grid item xs={0} md={1.5} />
+        <Grid item xs={12} md={9}>
+          <Navbar />
+          <SearchBar />
+          <WriteButton />
+        </Grid>
+
+        {/* content 부분 그리드 설정 */}
+        <Grid item xs={3} />
+        <Grid item xs={6}>
+          <BoardList />
+        </Grid>
+        <SmallScheduleToggle />
+      </Grid>
     </>
   );
 };
