@@ -71,7 +71,7 @@ class UserServiceTest {
             });
 
             assertTrue(exception instanceof CustomException);
-            assertEquals(exception.getMessage(), "이미 존재하는 이메일입니다.");
+            assertEquals("이미 존재하는 이메일입니다.", exception.getMessage());
         }
     }
 
@@ -109,7 +109,7 @@ class UserServiceTest {
         }
 
         @Test
-        @DisplayName("로그인 실패 - 중복된 이메일")
+        @DisplayName("로그인 실패 - 존재하지 않은 이메일")
         void failByEmail() {
             UserDto userDto = UserDto.builder().email(email).password(password).build();
 
@@ -120,7 +120,7 @@ class UserServiceTest {
             });
 
             assertTrue(exception instanceof CustomException);
-            assertEquals(exception.getMessage(), "없는 사용자입니다.");
+            assertEquals("없는 사용자입니다.", exception.getMessage());
         }
 
         @Test
@@ -136,6 +136,55 @@ class UserServiceTest {
 
             Exception exception = assertThrows(CustomException.class, ()->{
                 UserDto result = userService.login(reqUserDto);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("없는 사용자입니다.", exception.getMessage());
+        }
+    }
+
+    @Nested
+    class logout{
+
+        private Long id;
+        private String name;
+        private String email;
+        private String password;
+
+        @BeforeEach
+        void setup(){
+            // DB에 없는 데이터로 초기화
+            id = 10L;
+            name = "가입자명";
+            email = "abcd@daum.net";
+            password = "abcdpassord";
+        }
+
+        @Test
+        @DisplayName("로그아웃 성공")
+        void success() {
+            id = 1L;
+            email = "ssafy@naver.com";
+
+            UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
+
+            when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+
+            UserDto userDto = userService.logout(id);
+
+            assertNull(userDto.getRefreshToken());
+        }
+
+        @Test
+        @DisplayName("로그아웃 실패 - 존재하지 않은 사용자")
+        void failById() {
+            UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                UserDto result = userService.logout(id);
             });
 
             assertTrue(exception instanceof CustomException);
