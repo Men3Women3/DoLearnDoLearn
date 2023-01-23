@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const Box = styled.main`
   width: 100%;
@@ -74,4 +74,8 @@ export const Box = styled.main`
     font-weight: bold;
     transform: scale(1.1);
   }
-`
+  .logout {
+    margin-bottom: 0px;
+    cursor: pointer;
+  }
+`;

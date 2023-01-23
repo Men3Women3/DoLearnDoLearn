@@ -91,7 +91,7 @@ const RankingList = () => {
         <Grid item xs={12} md={9}>
           <h1>
             {/* <FontAwesomeIcon className="ranking-icon" icon={faTrophy} /> */}
-            최고의 선생님들
+            최고의 선생님들(미정)
           </h1>
           <SRankingItemContainer>
             {rankingList.map((item) => (

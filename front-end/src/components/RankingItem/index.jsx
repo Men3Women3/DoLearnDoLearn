@@ -10,7 +10,6 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const RankingItem = (props) => {
-  console.log(props);
   return (
     <SContainer>
       {/* 프로필 사진, 이름, 점수 표시 */}

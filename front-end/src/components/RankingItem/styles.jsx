@@ -56,6 +56,7 @@ export const SSNSContainer = styled.div`
 `;
 
 export const SRank = styled.div`
+  user-select: none;
   font-size: calc(1vw + 24px);
   font-family: "Pacifico";
   color: #ffffff;

@@ -36,6 +36,7 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../assets/images/LOGIN";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -58,31 +59,52 @@ const defaultOptions = {
   },
 };
 
+const axiosDefaultURL = "http://localhost:8080";
+const JWT_EXPIRY_TIME = 24 * 3600 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEmpty, setIsEmpty] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
-  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (!open) {
-      console.log(111);
+      axios
+        .post(`${axiosDefaultURL}/user/login`, {
+          email,
+          password,
+        })
+        .then((response) => {
+          // 로그인 성공하면 localStorage에 엑세스토큰 저장
+          const responseData = response.data.response;
+          localStorage.clear();
+          localStorage.setItem("accessToken", responseData.accessToken);
+          // 메인페이지로 이동
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
     }
   };
 
+  // 회원가입으로 이동시키는 함수
   const handleMoveToSignUp = () => {
     navigate("/signup");
   };
 
+  // 모달을 여는 핸들러 함수
   const handleOpen = (e) => {
     if (!email || !password) {
       setOpen(true);
     }
   };
 
+  // 모달을 닫는 핸들러 함수
   const handleClose = () => setOpen(false);
 
   const handleOnChangeEmail = useCallback((e) => {
@@ -178,17 +200,6 @@ const Login = () => {
               <img src={googleLogoImg} alt="google_logo" />
               구글로 로그인
             </SgoogleLoginButton>
-            {/* <SSNSContainer>
-              <SNaverContainer>
-                <button>N</button>
-              </SNaverContainer>
-              <SKakaoContainer>
-                <button>K</button>
-              </SKakaoContainer>
-              <SGoogleContainer>
-                <button>G</button>
-              </SGoogleContainer>
-            </SSNSContainer> */}
           </SContainer>
         </SForm>
       </SMainContainer>

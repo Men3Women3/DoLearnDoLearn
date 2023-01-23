@@ -285,6 +285,17 @@ export const SNextButton = styled(CustomButton)`
   }
 `;
 
+export const SSubmitButton = styled(CustomButton)`
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  margin-top: 25px;
+  :hover {
+    color: ${(props) => props.theme.deeperYellow};
+    font-weight: bold;
+  }
+`;
+
 export const SBackToLoginButton = styled(CustomButton)`
   background-color: white;
   border-color: black;

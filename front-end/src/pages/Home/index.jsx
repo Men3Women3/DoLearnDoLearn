@@ -17,6 +17,15 @@ const Home = () => {
   const [isLogined, setIsLogined] = useState(true);
   const navigate = useNavigate();
 
+  // localStorage에 엑세스 토큰의 존재여부를 확인하여 로그인 / 비로그인 상태를 구분
+  useEffect(() => {
+    if (localStorage.getItem("accessToken") !== null) {
+      setIsLogined(true);
+    } else {
+      setIsLogined(false);
+    }
+  }, []);
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -58,7 +67,7 @@ const Home = () => {
             // width={600}
           />
         </div>
-        <SmallScheduleToggle />
+        {isLogined && <SmallScheduleToggle />}
       </section>
       <Typing />
       <RankingList />
