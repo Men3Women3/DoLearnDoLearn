@@ -58,7 +58,7 @@ public class UserService {
     }
 
     public UserDto updateInfo(UserDto reqUserDto){
-        if(reqUserDto.getId() == null || reqUserDto.getImgSrc() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null){
+        if(reqUserDto.getId() == null || reqUserDto.getImgSrc() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null || reqUserDto.getYoutube() == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
         Optional<User> user = userRepository.findOneById(reqUserDto.getId());
@@ -71,6 +71,7 @@ public class UserService {
         userDto.setBlog(reqUserDto.getBlog());
         userDto.setInstagram(reqUserDto.getInstagram());
         userDto.setFacebook(reqUserDto.getFacebook());
+        userDto.setYoutube(reqUserDto.getYoutube());
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
