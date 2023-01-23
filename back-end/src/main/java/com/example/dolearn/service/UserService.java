@@ -75,6 +75,14 @@ public class UserService {
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
+    public UserDto getInfo(Long id){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        return user.get().toDto();
+    }
+
     public void checkEmail(String email){
         if(userRepository.findOneByEmail(email).isPresent()) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);

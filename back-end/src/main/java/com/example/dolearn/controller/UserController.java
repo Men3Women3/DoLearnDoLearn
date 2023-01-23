@@ -70,8 +70,8 @@ public class UserController {
         }
     }
 
-    @PostMapping("/logout/{user_id}")
-    public ResponseEntity<?> logout(@PathVariable("user_id") Long id) {
+    @PostMapping("/logout/{id}")
+    public ResponseEntity<?> logout(@PathVariable("id") Long id) {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.logout(id)), HttpStatus.OK);
         } catch (Exception e){
@@ -105,6 +105,16 @@ public class UserController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.EMAIL_DUPLICATION), HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(new SuccessResponse(SUCCESS), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getInfo(@PathVariable("id") Long id){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getInfo(id)), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/token-test")
