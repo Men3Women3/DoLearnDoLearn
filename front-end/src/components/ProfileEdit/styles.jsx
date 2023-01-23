@@ -5,9 +5,22 @@ export const SProfileEditContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
   width: 100%;
 
-  .cd1tip {
+  .input__container {
     width: 100%;
     display: flex;
+    position: relative;
+    margin-bottom: 15px;
+    .active__input {
+      border: 3px solid ${(props) => props.theme.deepYellow};
+    }
+    .active__icon {
+      color: #590f0f;
+    }
+  }
+
+  .tip {
+    width: 100%;
+    padding: 10px calc(1vw + 16px);
   }
 `
 
@@ -45,7 +58,7 @@ export const SSubContainerUp = styled.div`
   /* 이름 + 이메일 + 마일리지바 */
   section {
     width: 100%;
-    margin-left: 15px;
+    margin-left: calc(1vw + 15px);
     display: inline;
 
     /* 이름 */
@@ -61,9 +74,6 @@ export const SSubContainerUp = styled.div`
     }
     /* 마일리지바 */
     .wrapper {
-      /* display: flex;
-      flex-direction: row; */
-      /* align-items: stretch; */
       width: 100%;
       height: calc(1vw + 2px);
       /* 그라데이션 임시로 넣었음. 더 좋은 그라데이션 찾으면 바꾸기 */
@@ -86,38 +96,31 @@ export const SSubContainerUp = styled.div`
 export const SSubContainerDown = styled.div`
   width: 100%;
   padding: 20px 0;
-  font-size: calc(0.7vw + 2px);
-  line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
+
   .typing-length {
     float: right;
     text-align: right;
     color: #ababab;
-    margin-top: 5px;
+    margin-top: -5px;
+    font-size: ${(props) => props.theme.fontSize.p};
   }
 `
 
-export const SOneLineContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin: calc(1vw + 1px) 0;
-  span {
-    font-size: calc(0.9vw + 2px);
+export const SInput = styled.input`
+  font-family: ${(props) => props.theme.fontFamily.Bold};
+  font-size: ${(props) => props.theme.fontSize.p};
+  padding: 10px 0;
+  border: 2px solid #cdcdcd;
+  border-radius: 10px;
+  outline: none;
+  &::placeholder {
+    color: #cdcdcd;
   }
-  a {
-    margin-left: 10px;
-  }
-`
-
-export const SFontAwesomeIconAtProfile = styled(FontAwesomeIcon)`
-  color: black;
-  height: calc(1vw + 5px);
 `
 
 export const SSelfIntroduction = styled.textarea`
-  width: 100%;
   height: calc(3vw + 80px);
   font-family: ${(props) => props.theme.fontFamily.Bold};
   font-size: ${(props) => props.theme.fontSize.p};
@@ -125,8 +128,8 @@ export const SSelfIntroduction = styled.textarea`
   border: 2px solid #cdcdcd;
   border-radius: 10px;
   outline: none;
-  padding: 10px;
-  margin-left: 7px;
+  padding: 10px 0;
+  margin: 0;
   resize: none;
   overflow-y: auto;
   &::placeholder {
@@ -144,22 +147,21 @@ export const SSelfIntroduction = styled.textarea`
   }
 `
 
-export const SInput = styled.input`
-  width: 100%;
-  font-family: ${(props) => props.theme.fontFamily.Bold};
+export const SCustomFontAwesomeIcon = styled(FontAwesomeIcon)`
   font-size: ${(props) => props.theme.fontSize.p};
-  /* width: 150px; */
-  /* height: 40px; */
-  padding: 10px;
-  border: 2px solid #cdcdcd;
-  border-radius: 10px;
-  outline: none;
-  margin-left: 10px;
-  /* margin-bottom: 12px; */
-  /* font-size: 20px; */
-  &::placeholder {
-    color: #cdcdcd;
-  }
+  color: #cdcdcd;
+  position: absolute;
+`
+
+export const SInputIcon = styled(SCustomFontAwesomeIcon)`
+  top: 0;
+  bottom: 0;
+  margin: auto 10px;
+`
+
+export const STextAreaIcon = styled(SCustomFontAwesomeIcon)`
+  margin: 10px;
+  top: calc(0.2vw + 1px);
 `
 
 export const SBlackButton = styled.button`
@@ -170,7 +172,7 @@ export const SBlackButton = styled.button`
   padding: 8px 10px;
   border-radius: 8px;
   color: white;
-  margin: 10px auto 0 auto;
+  margin: 0 auto;
   cursor: pointer;
   :hover {
     color: ${(props) => props.theme.deeperYellow};
