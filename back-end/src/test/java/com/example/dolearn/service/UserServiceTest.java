@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Nested
+    @Transactional
     class signup{
 
         private String name;
@@ -78,6 +80,7 @@ class UserServiceTest {
     }
 
     @Nested
+    @Transactional
     class login{
 
         private String name;
@@ -149,6 +152,7 @@ class UserServiceTest {
     }
 
     @Nested
+    @Transactional
     class logout{
 
         private Long id;
@@ -198,6 +202,7 @@ class UserServiceTest {
     }
 
     @Nested
+    @Transactional
     class updateInfo{
 
         private Long id;
@@ -348,4 +353,44 @@ class UserServiceTest {
             assertEquals("이미 존재하는 이메일입니다.", exception.getMessage());
         }
     }
+
+    @Nested
+    @Transactional
+    class delete{
+
+        private Long id;
+        private String email;
+
+        @BeforeEach
+        void setup(){
+            // 존재하는 데이터로 초기화
+            id = 1L;
+            email = "ssafy@naver.com";
+        }
+
+        @Test
+        @DisplayName("사용자 정보 조회 성공")
+        void success() {
+            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+
+            userService.delete(id);
+        }
+
+        @Test
+        @DisplayName("사용자 정보 조회 실패 - 존재하지 않는 사용자")
+        void failById() {
+            id = 150L;
+            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                userService.delete(id);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("없는 사용자입니다.", exception.getMessage());
+        }
+    }
+
 }

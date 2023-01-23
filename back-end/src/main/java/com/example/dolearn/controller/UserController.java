@@ -117,6 +117,17 @@ public class UserController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        try{
+            userService.delete(id);
+            return new ResponseEntity<>(new SuccessResponse(SUCCESS), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/token-test")
     public String tokenTest(){
         return "응답";

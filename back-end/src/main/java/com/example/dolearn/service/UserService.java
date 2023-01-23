@@ -88,4 +88,12 @@ public class UserService {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
     }
+
+    public void delete(Long id){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        userRepository.delete(user.get());
+    }
 }
