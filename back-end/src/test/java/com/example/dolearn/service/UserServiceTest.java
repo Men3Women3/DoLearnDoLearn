@@ -393,4 +393,63 @@ class UserServiceTest {
         }
     }
 
+    @Nested
+    @Transactional
+    class updatePoint{
+
+        private Long id;
+        private Integer point;
+        private String email;
+
+        @BeforeEach
+        void setup(){
+            // 수정할 데이터로 초기화
+            id = 1L;
+            email = "ssafy@naver.com";
+            point = 100;
+        }
+
+        @Test
+        @DisplayName("포인트 수정 성공")
+        void success() {
+            UserDto reqUserDto = UserDto.builder().id(id).email(email).point(point).build();
+            UserDto resUserDto = UserDto.builder().id(id).email(email).point(point+50).build();
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+            when(userRepository.save(any(User.class))).thenReturn(resUserDto.toEntity());
+
+            UserDto userDto = userService.updatePoint(id, 50);
+
+            assertEquals(50, userDto.getPoint() - reqUserDto.getPoint());
+        }
+
+        @Test
+        @DisplayName("사용자 정보 수정 실패 - 기입되지 않은 정보")
+        void failByRequiredInput() {
+            UserDto reqUserDto = UserDto.builder().id(id).email(email).point(point).build();
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                UserDto userDto = userService.updatePoint(id, null);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("사용자 정보 수정 실패 - 존재하지 않는 사용자")
+        void failById() {
+            id = 150L;
+            UserDto reqUserDto = UserDto.builder().id(id).email(email).point(point).build();
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                UserDto userDto = userService.updatePoint(id, 50);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("없는 사용자입니다.", exception.getMessage());
+        }
+    }
 }

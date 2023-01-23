@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import java.util.Map;
 
 @Validated
 @RestController
@@ -85,6 +86,7 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.updateInfo(reqUserDto)), HttpStatus.OK);
         } catch (CustomException e) {
+            e.printStackTrace();
             if (e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED){
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
             } else {
@@ -125,6 +127,25 @@ public class UserController {
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/point")
+    public ResponseEntity<?> updatePoint(@RequestBody Map<String, Object> params){
+        try{
+            Long id = Long.parseLong(String.valueOf(params.get("id")));
+            Integer point = (Integer) params.get("point");
+            return new ResponseEntity<>(new SuccessResponse(userService.updatePoint(id, point)), HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
+            } else {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
