@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.in;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -40,15 +39,18 @@ class UserServiceTest {
 
         @BeforeEach
         void setup(){
-            // DB에 없는 데이터로 초기화
-            name = "가입자명";
-            email = "abcd@daum.net";
-            password = "abcdpassord";
+            // 존재하는 데이터로 초기화
+            name = "민싸피";
+            email = "ssafy@naver.com";
         }
 
         @Test
         @DisplayName("회원가입 성공")
         void success() {
+            name = "가입자명";
+            email = "abcd@daum.net";
+            password = "abcdpassord";
+
             UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
 
             when(userRepository.save(any(User.class))).thenReturn(userDto.toEntity());
@@ -61,7 +63,6 @@ class UserServiceTest {
         @Test
         @DisplayName("회원가입 실패 - 중복된 이메일")
         void failByEmail() {
-            email = "ssafy@naver.com";
 
             UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
 
@@ -82,27 +83,26 @@ class UserServiceTest {
         private String name;
         private String email;
         private String password;
+        private String encodedPassword;
 
         @BeforeEach
         void setup(){
-            // DB에 없는 데이터로 초기화
-            name = "가입자명";
-            email = "abcd@daum.net";
-            password = "abcdpassord";
+            // 존재하는 데이터로 초기화
+            name = "민싸피";
+            email = "ssafy@naver.com";
+            password = "abcd!1234";
+            encodedPassword = "$2a$10$Ul5NqDvSKVE/pbZhr5TlduldDXNk8ZztWAg8gWGxjB0zuK9tn9QHy";
+
         }
 
         @Test
         @DisplayName("로그인 성공")
         void success() {
-            name = "민싸피";
-            email = "ssafy@naver.com";
-            password = "$2a$10$Ul5NqDvSKVE/pbZhr5TlduldDXNk8ZztWAg8gWGxjB0zuK9tn9QHy";
-
-            UserDto reqUserDto = UserDto.builder().email(email).password("abcd!1234").build();
-            UserDto loginuUserDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto reqUserDto = UserDto.builder().email(email).password(password).build();
+            UserDto loginuUserDto = UserDto.builder().name(name).email(email).password(encodedPassword).build();
 
             when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(loginuUserDto.toEntity()));
-            when(passwordEncoder.matches("abcd!1234", password)).thenReturn(true);
+            when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
 
             UserDto userDto = userService.login(reqUserDto);
 
@@ -112,6 +112,10 @@ class UserServiceTest {
         @Test
         @DisplayName("로그인 실패 - 존재하지 않은 이메일")
         void failByEmail() {
+            name = "가입자명";
+            email = "abcd@daum.net";
+            password = "abcdpassord";
+
             UserDto userDto = UserDto.builder().email(email).password(password).build();
 
             when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(userDto.toEntity()));
@@ -127,13 +131,13 @@ class UserServiceTest {
         @Test
         @DisplayName("로그인 실패 - 잘못된 비밀번호")
         void failByPassword() {
-            password = "$2a$10$Ul5NqDvSKVE/pbZhr5TlduldDXNk8ZztWAg8gWGxjB0zuK9tn9QHy";
+            password = "이상한 비번";
 
-            UserDto reqUserDto = UserDto.builder().email(email).password("이상한 비번").build();
-            UserDto loginuUserDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto reqUserDto = UserDto.builder().email(email).password(password).build();
+            UserDto loginuUserDto = UserDto.builder().name(name).email(email).password(encodedPassword).build();
 
             when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(loginuUserDto.toEntity()));
-            when(passwordEncoder.matches("이상한 비번", password)).thenReturn(false);
+            when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
 
             Exception exception = assertThrows(CustomException.class, ()->{
                 UserDto result = userService.login(reqUserDto);
@@ -154,19 +158,14 @@ class UserServiceTest {
 
         @BeforeEach
         void setup(){
-            // DB에 없는 데이터로 초기화
-            id = 10L;
-            name = "가입자명";
-            email = "abcd@daum.net";
-            password = "abcdpassord";
+            // 존재하는 데이터로 초기화
+            id = 1L;
+            email = "ssafy@naver.com";
         }
 
         @Test
         @DisplayName("로그아웃 성공")
         void success() {
-            id = 1L;
-            email = "ssafy@naver.com";
-
             UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
 
             when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
@@ -180,6 +179,11 @@ class UserServiceTest {
         @Test
         @DisplayName("로그아웃 실패 - 존재하지 않은 사용자")
         void failById() {
+            id = 10L;
+            name = "가입자명";
+            email = "abcd@daum.net";
+            password = "abcdpassord";
+
             UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
 
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
@@ -204,7 +208,7 @@ class UserServiceTest {
         private String facebook;
         private String instagram;
         private String youtube;
-        
+
         @BeforeEach
         void setup(){
             // 수정할 데이터로 초기화
@@ -263,6 +267,85 @@ class UserServiceTest {
 
             assertTrue(exception instanceof CustomException);
             assertEquals("없는 사용자입니다.", exception.getMessage());
+        }
+    }
+
+    @Nested
+    class getInfo{
+
+        private Long id;
+        private String email;
+
+        @BeforeEach
+        void setup(){
+            // 존재하는 데이터로 초기화
+            id = 1L;
+            email = "ssafy@naver.com";
+        }
+
+        @Test
+        @DisplayName("사용자 정보 조회 성공")
+        void success() {
+            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+
+            UserDto userDto = userService.getInfo(id);
+
+            assertEquals(email, userDto.getEmail());
+        }
+
+        @Test
+        @DisplayName("사용자 정보 조회 실패 - 존재하지 않는 사용자")
+        void failById() {
+            id = 150L;
+            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                UserDto result = userService.getInfo(id);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("없는 사용자입니다.", exception.getMessage());
+        }
+    }
+
+    @Nested
+    class checkEmail{
+
+        private Long id;
+        private String email;
+
+        @BeforeEach
+        void setup(){
+            // 존재하는 데이터로 초기화
+            id = 1L;
+            email = "ssafy@naver.com";
+        }
+
+        @Test
+        @DisplayName("중복되지 않는 이메일")
+        void success() {
+            email = "abcd@daum.net";
+
+            when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(null));
+
+            userService.checkEmail(email);
+        }
+
+        @Test
+        @DisplayName("중복된 이메일")
+        void failByEmail() {
+            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+            when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                userService.checkEmail(email);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("이미 존재하는 이메일입니다.", exception.getMessage());
         }
     }
 }
