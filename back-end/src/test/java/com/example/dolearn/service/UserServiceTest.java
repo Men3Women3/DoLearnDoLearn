@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.in;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -189,6 +190,79 @@ class UserServiceTest {
 
             assertTrue(exception instanceof CustomException);
             assertEquals(exception.getMessage(), "없는 사용자입니다.");
+        }
+    }
+
+    @Nested
+    class updateInfo{
+
+        private Long id;
+        private String email;
+        private String imgSrc;
+        private String info;
+        private String blog;
+        private String facebook;
+        private String instagram;
+        private String youtube;
+        
+        @BeforeEach
+        void setup(){
+            // 수정할 데이터로 초기화
+            id = 1L;
+            email = "ssafy@naver.com";
+            imgSrc = "새로운 이미지 링크";
+            info = "안녕하세요";
+            blog = "새로운 블로그 링크";
+            facebook = "새로운 페이스북 링크";
+            instagram = "새로운 인스타 링크";
+            youtube = "새로운 유튜브 링크";
+        }
+
+        @Test
+        @DisplayName("사용자 정보 수정 성공")
+        void success() {
+            UserDto reqUserDto = UserDto.builder().id(id).email(email)
+                    .imgSrc(imgSrc).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
+                    .build();
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+            when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
+
+            UserDto userDto = userService.updateInfo(reqUserDto);
+
+            assertEquals(email, userDto.getEmail());
+        }
+
+        @Test
+        @DisplayName("사용자 정보 수정 실패 - 기입되지 않은 정보")
+        void failByRequiredInput() {
+            UserDto reqUserDto = UserDto.builder().id(id).email(email)
+                    .blog(blog).build();
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                UserDto result = userService.updateInfo(reqUserDto);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("사용자 정보 수정 실패 - 존재하지 않는 사용자")
+        void failById() {
+            id = 150L;
+            UserDto reqUserDto = UserDto.builder().id(id).email(email)
+                    .imgSrc(imgSrc).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
+                    .build();
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                UserDto result = userService.updateInfo(reqUserDto);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("없는 사용자입니다.", exception.getMessage());
         }
     }
 }
