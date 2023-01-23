@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import Paging from "../Paging";
 
 // board list 전체에 적용되는 css
 export const SContainer = styled.div`
@@ -9,19 +8,13 @@ export const SContainer = styled.div`
   display: grid;
   justify-content: space-evenly;
   grid-template-columns: repeat(3, 1fr);
-  font-size: calc(1.5vw + 1px);
-  .uni-board {
-    border: 1px solid black;
-    border-radius: 3%;
-    padding: 5%;
-    margin: 5%;
-  }
+  font-size: ${(props) => props.theme.fontSize.p};
 `;
 
 export const SUniDiv = styled.div`
-  font-family: ${(props) => props.theme.fontFamily.p};
+  font-family: ${(props) => props.theme.fontFamily.Medium};
   display: grid;
   margin: 1vh 1vw 1vh 1vw;
-  padding-top: 10%;
+  // padding-top: 10%;
   width: calc(20vw);
 `;

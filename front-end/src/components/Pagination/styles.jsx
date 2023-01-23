@@ -9,16 +9,16 @@ export const SNav = styled.nav`
 `;
 
 export const SButton = styled.button`
-  border: none;
-  border-radius: 3%;
-  padding: 8px;
-  margin: 1px;
-  background: black;
-  color: white;
+  border: 1px solid black;
+  border-radius: 10%;
+  padding: 0.7vh 0.5vw;
+  margin: 0.1rem;
+  background: white;
+  color: black;
   font-size: 1rem;
 
   &:hover {
-    background: tomato;
+    background: ${(props) => props.theme.deeperYellow};
     cursor: pointer;
     transform: translateY(-2px);
   }

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // global span 태그
 export const SSpan = styled.span`
@@ -57,15 +57,15 @@ export const SDetail = styled.span`
 export const SButton = styled.button`
   display: grid;
   margin: auto;
-  padding-top: 1vh;
   background-color: black;
   color: white;
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.fontSize.p};
-  width: 35%;
-  height: 30px;
-  border-radius: 4px;
+  font-size: calc(0.8vw + 0.5px);
+  width: 5vw;
+  height: 4vh;
+  border-radius: 5px;
   cursor: pointer;
+  place-items: center;
   :hover {
     background-color: ${(props) => props.theme.deeperYellow};
     border-color: ${(props) => props.theme.deeperYellow};

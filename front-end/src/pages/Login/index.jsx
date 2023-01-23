@@ -201,8 +201,7 @@ const Login = () => {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
-        }}
-      >
+        }}>
         <Fade in={open}>
           <Box sx={style}>
             <Typography
@@ -213,8 +212,7 @@ const Login = () => {
               }}
               id="transition-modal-title"
               variant="h6"
-              component="h2"
-            >
+              component="h2">
               {email
                 ? password
                   ? ""

@@ -7,7 +7,7 @@ const UniBoard = ({ data }) => {
     <SUniBoard>
       <SImg src={data.thumbnailUrl} />
       <h4 writer={data.writer}>{data.id}</h4>
-      <h3 titl={data.title}>{data.title}</h3>
+      <h3 title={data.title}>{data.title}</h3>
       <p summary={data.summary}>{data.title}</p>
       <p end_time={data.end_time}>{data.title}</p>
       <p deadline={data.deadline}>{data.title}</p>
