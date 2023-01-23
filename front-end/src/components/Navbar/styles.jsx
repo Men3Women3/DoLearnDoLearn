@@ -12,7 +12,7 @@ export const Box = styled.main`
     height: calc(2vw + 17px);
   }
   img:hover {
-    animation: swing 2s;
+    animation: swing 1.2s infinite;
     /* transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px; */
@@ -20,13 +20,13 @@ export const Box = styled.main`
 
   @keyframes swing {
     0% {
-      transform: rotate(-7deg);
+      transform: rotate(-5deg);
     }
     50% {
-      transform: rotate(7deg);
+      transform: rotate(5deg);
     }
     100% {
-      transform: rotate(-7deg);
+      transform: rotate(-5deg);
     }
   }
 

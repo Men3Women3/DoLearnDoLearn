@@ -8,6 +8,7 @@ import Profile from "../../components/Profile/index"
 import ProfileSidebar from "../../components/ProfileSidebar"
 import ProfileEdit from "../../components/ProfileEdit"
 import Calendar from "../../components/Calendar"
+import UnScheduleLecture from "../../components/UnScheduleLecture"
 
 import Grid from "@mui/material/Grid"
 import { useEffect } from "react"
@@ -105,7 +106,11 @@ const User = () => {
               <Calendar />
             </CardBox>
           )}
-          {/* {isUnScheduleTabActive && <  Calendar />} */}
+          {isUnScheduleTabActive && (
+            <CardBox>
+              <UnScheduleLecture />
+            </CardBox>
+          )}
           {/* {isScheduleTabActive && <  Calendar />} */}
         </Grid>
         <Grid item xs={0} md={1.5} />
