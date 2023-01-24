@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Box } from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-regular-svg-icons";
-import logoImg from "../../assets/images/logo.png";
-import profileImg from "../../assets/images/thumbnail.png";
+import React, { useState } from "react"
+import { Link, NavLink } from "react-router-dom"
+import { Box } from "./styles"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faBell } from "@fortawesome/free-regular-svg-icons"
+import logoImg from "../../assets/images/logo.png"
+import profileImg from "../../assets/images/thumbnail.png"
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 const Navbar = () => {
-  const [isLogined, setIsLogined] = useState(false);
+  const [isLogined, setIsLogined] = useState(false)
 
   return (
     <Box>
@@ -56,7 +56,7 @@ const Navbar = () => {
         </div>
       </div>
     </Box>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
