@@ -3,8 +3,9 @@ import styled from "styled-components"
 export const SMain = styled.main`
   width: 100%;
   height: 100%;
-  box-shadow: 5px 5px 5px #e9e9e9;
+  box-shadow: 5px 5px 5px #3737372d;
   border-radius: 20px;
+  cursor: pointer;
   .main__container {
     background-color: ${(props) => props.theme.lightYellow};
     display: flex;

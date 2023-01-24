@@ -5,7 +5,9 @@ import {
   SSubContainerDown,
   SBlackButton,
   SSnsContainer,
+  SCustomToolTip,
 } from "./styles"
+import { Tooltip } from "@mui/material"
 
 import profileImg from "../../assets/images/thumbnail.png"
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
@@ -44,38 +46,62 @@ const Profile = (props) => {
             </div>
             {/* SNS 아이콘 */}
             <SSnsContainer>
-              <a
-                className="tooltip"
-                href={blogLink}
-                target="_blank"
-                info={`${name}님의 블로그 바로가기`}
+              <Tooltip
+                title={`${name}님의 블로그 바로가기`}
+                placement="top"
+                arrow
               >
-                <img src={blogImg} />
-              </a>
-              <a
-                className="tooltip"
-                href={youtubeLink}
-                target="_blank"
-                info={`${name}님의 유튜브 채널 바로가기`}
+                <a
+                  // className="tooltip"
+                  href={blogLink}
+                  target="_blank"
+                  // info={`${name}님의 블로그 바로가기`}
+                >
+                  <img src={blogImg} />
+                </a>
+              </Tooltip>
+              <Tooltip
+                title={`${name}님의 유튜브 채널 바로가기`}
+                placement="top"
+                arrow
               >
-                <img src={youtubeImg} />
-              </a>
-              <a
-                className="tooltip"
-                href={`https://www.instagram.com/${instagram}/`}
-                target="_blank"
-                info={`${name}님의 인스타그램 바로가기`}
+                <a
+                  // className="tooltip"
+                  href={youtubeLink}
+                  target="_blank"
+                  // info={`${name}님의 유튜브 채널 바로가기`}
+                >
+                  <img src={youtubeImg} />
+                </a>
+              </Tooltip>
+              <Tooltip
+                title={`${name}님의 인스타그램 바로가기`}
+                placement="top"
+                arrow
               >
-                <img src={instagramImg} />
-              </a>
-              <a
-                className="tooltip"
-                href={`https://www.facebook.com/${facebook}/`}
-                target="_blank"
-                info={`${name}님의 페이스북 바로가기`}
+                <a
+                  // className="tooltip"
+                  href={`https://www.instagram.com/${instagram}/`}
+                  target="_blank"
+                  // info={`${name}님의 인스타그램 바로가기`}
+                >
+                  <img src={instagramImg} />
+                </a>
+              </Tooltip>
+              <Tooltip
+                title={`${name}님의 페이스북 바로가기`}
+                placement="top"
+                arrow
               >
-                <img src={facebookImg} />
-              </a>
+                <a
+                  // className="tooltip"
+                  href={`https://www.facebook.com/${facebook}/`}
+                  target="_blank"
+                  // info={`${name}님의 페이스북 바로가기`}
+                >
+                  <img src={facebookImg} />
+                </a>
+              </Tooltip>
             </SSnsContainer>
           </div>
           {/* 마일리지 바 */}

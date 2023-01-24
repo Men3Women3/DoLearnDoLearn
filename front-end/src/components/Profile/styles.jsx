@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Tooltip } from "@mui/material"
 
 export const SProfileContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -136,3 +137,19 @@ export const SBlackButton = styled.button`
     font-weight: bolder;
   }
 `
+
+export const SCustomToolTip = styled(Tooltip)`
+  background-color: yellow;
+`
+
+// const BootstrapTooltip = styled(
+//   ({ className, ...props }) => (
+//   <Tooltip {...props} arrow classes={{ popper: className }} />)
+// )(({ theme }) => ({
+//   [`& .${tooltipClasses.arrow}`]: {
+//     color: theme.palette.common.black,
+//   },
+//   [`& .${tooltipClasses.tooltip}`]: {
+//     backgroundColor: theme.palette.common.black,
+//   },
+// }))
