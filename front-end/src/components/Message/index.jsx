@@ -7,6 +7,10 @@ const Message = () => {
     {
       id: 1,
       is_checked: true,
+      is_confirm: true,
+      title: "WebSocket 가르쳐주세요!",
+      start_time: "2023.01.14 14:00",
+      end_time: "2023.01.14 16:00",
       created_time: "01.12 15:27",
       content: "[확정] WebSocket 가르쳐주세요!",
       sender: "관리자",
@@ -14,6 +18,11 @@ const Message = () => {
     {
       id: 2,
       is_checked: false,
+      is_confirm: false,
+      title: "WebSocket 가르쳐주세요!",
+      start_time: "2023.01.14 14:00",
+      end_time: "2023.01.14 16:00",
+
       created_time: "01.12 11:53",
       content: "[폐강] WebSocket 가르쳐주세요!가르쳐주세요!",
       sender: "관리자",
@@ -21,6 +30,11 @@ const Message = () => {
     {
       id: 3,
       is_checked: true,
+      is_confirm: true,
+      title: "WebSocket 가르쳐주세요!",
+      start_time: "2023.01.14 14:00",
+      end_time: "2023.01.14 16:00",
+
       created_time: "01.10 10:01",
       content:
         "[확정] WebSocket 가르쳐주세요!WebSocket 가르쳐주세요!WebSocket 가르쳐주세요!",
@@ -29,6 +43,11 @@ const Message = () => {
     {
       id: 4,
       is_checked: false,
+      is_confirm: false,
+      title: "WebSocket 가르쳐주세요!",
+      start_time: "2023.01.14 14:00",
+      end_time: "2023.01.14 16:00",
+
       created_time: "01.04 21:01",
       content: "[폐강] WebSocket 가르쳐주세요!",
       sender: "관리자",
@@ -36,6 +55,11 @@ const Message = () => {
     {
       id: 5,
       is_checked: true,
+      is_confirm: true,
+      title: "WebSocket 가르쳐주세요!",
+      start_time: "2023.01.14 14:00",
+      end_time: "2023.01.14 16:00",
+
       created_time: "12.27 04:33",
       content: "[확정] WebSocket 가르쳐주세요!",
       sender: "관리자",
@@ -43,6 +67,11 @@ const Message = () => {
     {
       id: 6,
       is_checked: true,
+      is_confirm: true,
+      title: "WebSocket 가르쳐주세요!",
+      start_time: "2023.01.14 14:00",
+      end_time: "2023.01.14 16:00",
+
       created_time: "12.27 04:33",
       content: "[확정] WebSocket 가르쳐주세요!",
       sender: "관리자",
@@ -50,6 +79,11 @@ const Message = () => {
     {
       id: 7,
       is_checked: false,
+      is_confirm: false,
+      title: "WebSocket 가르쳐주세요!",
+      start_time: "2023.01.14 14:00",
+      end_time: "2023.01.14 16:00",
+
       created_time: "12.27 04:33",
       content: "[폐강] WebSocket 가르쳐주세요!",
       sender: "관리자",

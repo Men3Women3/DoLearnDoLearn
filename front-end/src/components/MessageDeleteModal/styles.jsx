@@ -1,28 +1,15 @@
 import styled from "styled-components"
 
-export const SSection = styled.section`
-  font-family: ${(props) => props.theme.fontFamily.Medium};
-
-  .modal-button {
-    font-size: ${(props) => props.theme.fontSize.p};
-  }
-`
-
 export const SSpan = styled.span`
+  font-family: ${(props) => props.theme.fontFamily.Medium};
   font-size: ${(props) => props.theme.fontSize.h1};
   color: #ff7979;
   display: block;
   border-bottom: 2px solid #cbcbcb;
-  /* font-family: ${(props) => props.theme.fontFamily.Regular}; */
 `
 
-export const SUl = styled.ul`
-  padding-left: 30px;
-  /* font-family: ${(props) => props.theme.fontFamily.Regular}; */
-  font-size: calc(0.5vw + 8px);
-  .delete-warning {
-    color: #ff0000;
-  }
+export const SScontent = styled.div`
+  font-size: ${(props) => props.theme.fontSize.h4};
 `
 
 export const SButtonContainer = styled.div`

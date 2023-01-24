@@ -1,35 +1,43 @@
 import React from "react"
+import { useState } from "react"
 
-import {
-  SMessageIcon,
-  SMain,
-  S,
-  SMessageIconTrashIcon,
-  STrashIcon,
-} from "./styles"
+import MessageDeleteModal from "../MessageDeleteModal"
+import MessageDetailModal from "../MessageDetailModal"
+import { SMessageIcon, SMain, STrashIcon } from "./styles"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faEnvelope,
   faEnvelopeOpen,
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons"
-import { Grid } from "@mui/material"
 
 const MessageItem = ({ data }) => {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [detailModalOpen, setDetailModalOpen] = useState(false)
+  const handleModalOpen = (target) => {
+    if (target === "delete") {
+      setDeleteModalOpen(true)
+    } else if (target === "detail") {
+      setDetailModalOpen(true)
+    }
+  }
+  const handleDeleteModalClose = () => {
+    setDeleteModalOpen(false)
+  }
+  const handleDetailModalClose = () => {
+    setDetailModalOpen(false)
+  }
+
   return (
     <>
-      <SMain
-        onClick={(event) => {
-          alert("메시지가 눌렸습니다")
-        }}
-      >
+      <SMain>
         <div
           className={
             data.is_checked
               ? "main__container message__read"
               : "main__container message__unread"
           }
+          onClick={() => handleModalOpen("detail")}
         >
           <div className="message-icon">
             {data.is_checked ? (
@@ -57,14 +65,29 @@ const MessageItem = ({ data }) => {
             >
               <STrashIcon
                 icon={faTrashCan}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  alert("휴지통이 눌렸습니다")
+                onClick={(e) => {
+                  // 이벤트 버블링 방지
+                  e.stopPropagation()
+                  handleModalOpen("delete")
                 }}
               />
             </div>
           </div>
         </div>
+        {deleteModalOpen ? (
+          <MessageDeleteModal
+            data={data}
+            open={deleteModalOpen}
+            handleClose={handleDeleteModalClose}
+          />
+        ) : null}
+        {detailModalOpen ? (
+          <MessageDetailModal
+            data={data}
+            open={detailModalOpen}
+            handleClose={handleDetailModalClose}
+          />
+        ) : null}
       </SMain>
     </>
   )
