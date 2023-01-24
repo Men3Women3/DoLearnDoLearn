@@ -269,11 +269,7 @@ const SignUp = () => {
                     {selfIntroduction.length} / 500
                   </p>
                   <SEmailFontAwesomeIcon
-                    className={
-                      selfIntroduction
-                        ? "self-introduction__img active__icon"
-                        : "self-introduction__img"
-                    }
+                    className={selfIntroduction ? "active__icon" : ""}
                     icon={faComment}
                   />
                 </SInputContainer>

@@ -3,10 +3,12 @@ import { useState } from "react";
 
 import Navbar from "../../components/Navbar";
 import CardBox from "../../components/CardBox";
+import ProfileCardBox from "../../components/ProfileCardBox";
 import Profile from "../../components/Profile/index";
 import ProfileSidebar from "../../components/ProfileSidebar";
 import ProfileEdit from "../../components/ProfileEdit";
 import Calendar from "../../components/Calendar";
+import UnScheduleLecture from "../../components/UnScheduleLecture";
 
 import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
@@ -21,11 +23,11 @@ const User = () => {
   const navigate = useNavigate();
 
   // localStorage에 엑세스 토큰의 존재여부를 확인하여 로그인 / 비로그인 상태를 구분
-  useEffect(() => {
-    if (localStorage.getItem("accessToken") === null) {
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("accessToken") === null) {
+  //     navigate("/login");
+  //   }
+  // }, []);
 
   // ProfileSidebar에 내려줄 함수
   // ProfileSidebar에 있는 4개의 탭 중 하나를 클릭하면 그 탭의 클래스네임을 매칭해서
@@ -92,23 +94,33 @@ const User = () => {
           />
         </Grid>
         <Grid item xs={10} md={7.5}>
-          <CardBox>
-            {isProfileTabActive && !isProfileEditActive && (
+          {isProfileTabActive && !isProfileEditActive && (
+            <ProfileCardBox>
               <Profile
                 handleProfileEditBtn={handleProfileEditBtn}
                 isProfileEditActive={isProfileEditActive}
               />
-            )}
-            {isProfileTabActive && isProfileEditActive && (
+            </ProfileCardBox>
+          )}
+          {isProfileTabActive && isProfileEditActive && (
+            <ProfileCardBox>
               <ProfileEdit
                 handleProfileEditBtn={handleProfileEditBtn}
                 isProfileEditActive={isProfileEditActive}
               />
-            )}
-            {isScheduleTabActive && <Calendar />}
-            {/* {isUnScheduleTabActive && <  Calendar />} */}
-            {/* {isScheduleTabActive && <  Calendar />} */}
-          </CardBox>
+            </ProfileCardBox>
+          )}
+          {isScheduleTabActive && (
+            <CardBox>
+              <Calendar />
+            </CardBox>
+          )}
+          {isUnScheduleTabActive && (
+            <CardBox>
+              <UnScheduleLecture />
+            </CardBox>
+          )}
+          {/* {isScheduleTabActive && <  Calendar />} */}
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>

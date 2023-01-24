@@ -21,7 +21,7 @@ const theme = {
     h3: "calc(1vw + 2px)",
     h4: "calc(1vw + 1px)",
     h5: "calc(0.5vw + 0.5px)",
-    p: "calc(0.8vw + 1px)",
+    p: "calc(0.85vw + 1px)",
   },
 }
 

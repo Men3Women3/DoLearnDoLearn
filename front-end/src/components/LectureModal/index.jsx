@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import {
@@ -13,8 +12,8 @@ import {
   SStudent,
   SPencil,
   SDetail,
-  SButton,
 } from "./styles";
+// import { SLectureModalButton } from "../LectureModalButton/styles";
 import {
   faUser,
   faClock,
@@ -23,7 +22,6 @@ import {
   faChalkboardUser,
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
-// import { grid } from "@mui/system";
 
 const style = {
   position: "absolute",
@@ -39,14 +37,12 @@ const style = {
 };
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
-const LectureModal = ({ data }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+const LectureModal = ({ data, open, setOpen, handleClose }) => {
   return (
     <div>
-      <SButton onClick={handleOpen}>살펴보기</SButton>
+      {/* <SLectureModalButton onClick={data.handleOpen}>
+        살펴보기
+      </SLectureModalButton> */}
       <Modal
         open={open}
         onClose={handleClose}

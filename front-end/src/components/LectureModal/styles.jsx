@@ -52,22 +52,3 @@ export const SDetail = styled.span`
   font-family: ${(props) => props.theme.fontFamily.Light};
   font-size: ${(props) => props.theme.fontSize.p};
 `;
-
-// 살펴보기 버튼
-export const SButton = styled.button`
-  display: grid;
-  margin: auto;
-  padding-top: 1vh;
-  background-color: black;
-  color: white;
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.fontSize.p};
-  width: 35%;
-  height: 30px;
-  border-radius: 4px;
-  cursor: pointer;
-  :hover {
-    background-color: ${(props) => props.theme.deeperYellow};
-    border-color: ${(props) => props.theme.deeperYellow};
-  }
-`;

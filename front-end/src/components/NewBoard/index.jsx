@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
 import CardBox from "../CardBox";
 import {
+  // SCardBox,
   SContainer,
   STitle,
   SBoardTitle,
@@ -16,6 +18,7 @@ import {
   SLecture,
   SLectureInput,
   STimeInput,
+  SRadio,
   SSummary,
   SDetail,
   SDetailText,
@@ -23,6 +26,8 @@ import {
   SButton,
   SLimit,
   SSummaryText,
+  SModal,
+  SCancelButton,
 } from "./styles.jsx";
 import { useNavigate } from "react-router";
 
@@ -30,17 +35,59 @@ const NewBoard = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
+  const [stDay, setStDay] = useState(""); // 모집 시작 날짜
+  const [edDay, setEdDay] = useState(""); // 모집 종료 날짜
+  const [lectureDay, setLectureDay] = useState(""); // 강의 날짜
+  const [lectureTime, setLectureTime] = useState(""); // 강의 시작 시간
+  const [classTime, setClassTime] = useState(""); // 강의 시간
   const [summary, setSummary] = useState(""); // 강의 요약
   const [detail, setDetail] = useState(""); // 강의 상세
+  const [open, setOpen] = React.useState(false); // 모달 open / close 여부
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    borderRadius: "8px",
+    boxShadow: 24,
+    outline: "none",
+  };
+
+  const handleOpen = (e) => {
+    if (
+      !title ||
+      !stDay ||
+      !edDay ||
+      !lectureDay ||
+      !lectureTime ||
+      !classTime ||
+      !summary ||
+      !detail ||
+      participant === 0
+    ) {
+      setOpen(true); // 빈 내용이 있으면 경고 띄우기
+    } else {
+      handleRegister(); // 모두 잘 작성됐으면 등록
+    }
+  };
+
+  const handleClose = () => setOpen(false);
 
   const handleRegister = () => {
-    // 까꿍~ 여기서 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
+    // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
     // 저장 됐으면 강의 목록 페이지로 가줭
     console.log(title);
     console.log(participant);
+    console.log(stDay);
+    console.log(edDay);
+    console.log(lectureDay);
+    console.log(lectureTime);
+    console.log(classTime);
     console.log(summary);
     console.log(detail);
-    // 요 위에는 데이터 잘 받아지나 확인하려구 넣었어용 =================
     navigate("/board");
   };
 
@@ -77,48 +124,47 @@ const NewBoard = () => {
             max={5}
             onChange={(e) => setParticipant(e.target.value)}
           ></SParticipantInput>
-          <h5>명</h5>
         </SParticipant>
 
         {/* 5. 모집 기간(달력 넣어줭) */}
         <SRecruit>
           <h3>모집 기간</h3>
           {/* 요거는 시작날짜 */}
-          <SRecruitInput type="date"></SRecruitInput>
-          <h5>~</h5>
+          <SRecruitInput
+            type="date"
+            onChange={(e) => setStDay(e.target.value)}
+          ></SRecruitInput>
           {/* 요거는 마감날짜 */}
-          <SRecruitInput type="date"></SRecruitInput>
+          <SRecruitInput
+            type="date"
+            onChange={(e) => setEdDay(e.target.value)}
+          ></SRecruitInput>
         </SRecruit>
 
         {/* 6. 강의 일시(달력 + 시간 + 라디오 버튼) */}
         <SLecture>
           <h3>강의 일시</h3>
-          <SLectureInput type="date"></SLectureInput>
-          <h5>&nbsp;&nbsp;</h5>
-          <STimeInput type="time"></STimeInput>
+          <SLectureInput
+            type="date"
+            onChange={(e) => setLectureDay(e.target.value)}
+          ></SLectureInput>
+          <STimeInput
+            type="time"
+            onChange={(e) => setLectureTime(e.target.value)}
+          ></STimeInput>
 
           {/* 라디오 버튼 넣기 */}
-          {/* <fieldset>
+          <SRadio onChange={(e) => setClassTime(e.target.value)}>
             <label>
-              <input type="radio" name="time" value="one" checked />
+              <input type="radio" name="time" value={1} />
               <span>1시간</span>
             </label>
 
             <label>
-              <input type="radio" name="time" value="two" />
+              <input type="radio" name="time" value={2} />
               <span>2시간</span>
             </label>
-          </fieldset> */}
-          {/* <FormControl>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="one"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="one" control={<Radio />} label="1시간" />
-              <FormControlLabel value="two" control={<Radio />} label="2시간" />
-            </RadioGroup>
-          </FormControl> */}
+          </SRadio>
         </SLecture>
 
         {/* 7. 강의 summary */}
@@ -128,7 +174,7 @@ const NewBoard = () => {
           <SSummaryText
             defaultValue={summary}
             maxLength={100}
-            // minRows={2}
+            rows={3}
             placeholder="원하는 강의에 대해 요약해서 작성해주세요. 작성하신 내용은 공부방 목록에 표시됩니다"
             onChange={(e) => setSummary(e.target.value)}
           ></SSummaryText>
@@ -142,6 +188,7 @@ const NewBoard = () => {
           <SDetailText
             defaultValue={detail}
             maxLength={500}
+            rows={10}
             placeholder="강의에 대해 바라는 점을 자유롭게 작성해주세요"
             onChange={(e) => setDetail(e.target.value)}
           ></SDetailText>
@@ -149,18 +196,43 @@ const NewBoard = () => {
         </SDetail>
 
         {/* 9. 등록(작성) 버튼 */}
-        {/* <Button
-            style={{ display: "block", margin: "auto" }}
-            color="warning"
-            onClick={handleRegister}
-            variant="outlined"
-            >
-            등록
-          </Button> */}
         <SButton>
-          <SRegistButton onClick={handleRegister}>등록</SRegistButton>
+          <SRegistButton onClick={(e) => handleOpen(e)}>등록</SRegistButton>
         </SButton>
       </SContainer>
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                marginTop: "32px",
+              }}
+              id="transition-modal-title"
+              variant="h6"
+              component="h2"
+            >
+              <SModal>내용을 모두 입력해주세요</SModal>
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              <SCancelButton onClick={(e) => setOpen(false)}>
+                확인
+              </SCancelButton>
+            </Typography>
+          </Box>
+        </Fade>
+      </Modal>
     </CardBox>
   );
 };

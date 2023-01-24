@@ -3,6 +3,15 @@ import styled from "styled-components";
 export const SSection = styled.section`
   .modal-button {
     font-size: ${(props) => props.theme.fontSize.p};
+    font-family: ${(props) => props.theme.fontFamily.Regular};
+  }
+  .lecture__cancel-button {
+    background-color: ${(props) => props.theme.deeperYellow};
+    color: white;
+  }
+  .lecture__cancel-button:hover {
+    background-color: ${(props) => props.theme.deeperYellow};
+    color: white;
   }
 `;
 
@@ -15,6 +24,7 @@ export const SSpan = styled.span`
 `;
 
 export const SUl = styled.ul`
+  margin-top: ${(props) => props.lectureCancel && "0px"};
   padding-left: 30px;
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: calc(0.5vw + 8px);

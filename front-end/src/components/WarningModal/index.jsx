@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { SSection, SSpan, SUl, SButtonContainer } from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
 
 const style = {
   position: "absolute",
@@ -18,16 +20,27 @@ const style = {
   padding: "20px 30px",
 };
 
-const DeleteUserModal = () => {
+const WarningModal = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <SSection>
-      <Button className="modal-button" onClick={handleOpen}>
-        회원탈퇴
-      </Button>
+      {props.profileSidebar && (
+        <Button className="modal-button" onClick={handleOpen}>
+          <FontAwesomeIcon className="user-delete" icon={faUserSlash} />
+          회원탈퇴
+        </Button>
+      )}
+      {props.lectureCancel && (
+        <Button
+          className="modal-button lecture__cancel-button"
+          onClick={handleOpen}
+        >
+          수강취소
+        </Button>
+      )}
       <Modal
         open={open}
         onClose={handleClose}
@@ -42,14 +55,13 @@ const DeleteUserModal = () => {
             variant="h6"
             component="h2"
           >
-            <SSpan>회원 탈퇴 확인</SSpan>
+            <SSpan>{props.title}</SSpan>
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <SUl>
-              <li className="delete-warning">
-                회원 탈퇴 후에는 아이디와 데이터를 복구할 수 없습니다.
-              </li>
-              <li>탈퇴를 원하시면 확인을 눌러주세요.</li>
+            {props.children}
+            <SUl lectureCancel={props.lectureCancel}>
+              <li className="delete-warning">{props.warningContent}</li>
+              <li>{props.content}</li>
             </SUl>
           </Typography>
           <SButtonContainer>
@@ -64,4 +76,4 @@ const DeleteUserModal = () => {
   );
 };
 
-export default DeleteUserModal;
+export default WarningModal;
