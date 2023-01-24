@@ -145,7 +145,7 @@ public class MessageServiceTest {
         User user = User.builder().id(1L).name("test").build();
         Optional<Message> result = Optional.of(Message.builder().content("test").isChecked(0).build());
         result.get().setUser(user);
-        
+
         when(messageRepository.findById(anyLong())).thenReturn(result);
 
         MessageDto messageDto = messageService.getMessage(1L);
