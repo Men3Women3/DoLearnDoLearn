@@ -28,7 +28,7 @@ public class MessageController {
     }
 
     //강의가 확정되면 수강 신청한 학생들에게 전송
-    @PostMapping("/confirm")
+    @PostMapping
     public ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto) {
 
         log.info("create confirm message 호출");
@@ -112,7 +112,7 @@ public class MessageController {
 
         try {
             messageService.deleteMessage(message_id);
-            return new ResponseEntity<>(success, HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(success), HttpStatus.OK);
 
         } catch(Exception e) {
             e.printStackTrace();
