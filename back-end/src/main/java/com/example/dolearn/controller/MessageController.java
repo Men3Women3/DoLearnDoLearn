@@ -36,7 +36,7 @@ public class MessageController {
         log.info(" lid : {}", messageDto.getLid());
         //메세지 생성하는 메소드
         try {
-            return new ResponseEntity<>(new SuccessResponse(messageService.createMessage(messageDto)), HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(messageService.createMessage(messageDto)), HttpStatus.CREATED);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),

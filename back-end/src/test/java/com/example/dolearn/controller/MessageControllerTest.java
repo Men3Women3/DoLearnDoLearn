@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -22,11 +25,12 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = MessageController.class)
-@Import(SecurityConfig.class)
+@WithMockUser
 public class MessageControllerTest {
 
     @MockBean
@@ -46,16 +50,40 @@ public class MessageControllerTest {
         MessageDto messageDto = MessageDto.builder()
                                 .id(1L)
                                 .rid(1L)
-                                .content("test")
+                                .content("강의 확정 완료")
                                 .isChecked(1).build();
 
-        //when(messageService.createConfirmMessage(messageDto)).thenReturn(true);
+        MessageDto messageDto1 = MessageDto.builder()
+                .id(1L)
+                .rid(1L)
+                .content("강의 확정 완료")
+                .isChecked(1).build();
 
-        mockMvc.perform(post("/message")
+        MessageDto messageDto2 = MessageDto.builder()
+                .id(1L)
+                .rid(1L)
+                .content("강의 확정 완료")
+                .isChecked(1).build();
+
+        MessageDto messageDto3 = MessageDto.builder()
+                .id(1L)
+                .rid(1L)
+                .content("강의 확정 완료")
+                .isChecked(1).build();
+
+        List<MessageDto> result = new ArrayList<>();
+        result.add(messageDto1);
+        result.add(messageDto2);
+        result.add(messageDto3);
+
+        when(messageService.createMessage(messageDto)).thenReturn(result);
+
+        mockMvc.perform(post("/message").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(messageDto)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string(containsString("SUCCESS")));
+                .andExpect(jsonPath("$.response", hasSize(result.size())));
+
     }
 
     @DisplayName("메세지 확인상태 업데이트 테스트")
@@ -67,7 +95,7 @@ public class MessageControllerTest {
                 .content("test")
                 .isChecked(1).build();
 
-        mockMvc.perform(put("/message")
+        mockMvc.perform(put("/message").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(messageDto)))
                 .andExpect(status().isOk());
@@ -121,7 +149,7 @@ public class MessageControllerTest {
     @Test
     public void messageDeleteTest() throws Exception {
 
-        mockMvc.perform(delete("/message/{message_id}",1))
+        mockMvc.perform(delete("/message/{message_id}",1).with(csrf()))
                 .andExpect(status().isOk());
     }
 
