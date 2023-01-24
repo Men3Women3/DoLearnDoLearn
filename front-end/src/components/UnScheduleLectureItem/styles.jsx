@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   width: 100%;
@@ -12,7 +12,7 @@ export const SMain = styled.main`
     justify-content: space-between;
     padding: 15px;
     border-radius: 20px;
-
+    transition: all 300ms ease;
     .lecture-info__section {
       p {
         font-size: ${(props) => props.theme.fontSize.p};
@@ -39,7 +39,7 @@ export const SMain = styled.main`
       }
     }
     &:hover {
-      transform: scale(1.05);
+      transform: scale(1.01);
     }
   }
-`
+`;

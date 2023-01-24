@@ -12,23 +12,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import SmallScheduleToggle from "../../components/SmallScheduleToggle";
 import RankingList from "../../components/RankingList";
+import { LoginStateContext } from "../../App";
+import { useContext } from "react";
 
 const Home = () => {
-  const [isLogined, setIsLogined] = useState(false);
-
-  // localStorage에 엑세스 토큰의 존재여부를 확인하여 로그인 / 비로그인 상태를 구분
-  useEffect(() => {
-    if (localStorage.getItem("accessToken") !== null) {
-      setIsLogined(true);
-    } else {
-      setIsLogined(false);
-    }
-  }, [isLogined]);
-
-  const logout = () => {
-    localStorage.clear();
-    setIsLogined(false);
-  };
+  const isLogined = useContext(LoginStateContext);
 
   const defaultOptions = {
     loop: true,
@@ -45,7 +33,7 @@ const Home = () => {
         {/* navbar 부분 그리드 */}
         <Grid item xs={0} md={1.5} />
         <Grid item xs={12} md={9}>
-          <Navbar isLogined={isLogined} logout={logout} />
+          <Navbar />
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>

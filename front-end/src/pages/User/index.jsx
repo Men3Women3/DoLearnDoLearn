@@ -12,6 +12,7 @@ import UnScheduleLecture from "../../components/UnScheduleLecture";
 
 import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
+import Message from "../../components/Message";
 import { useNavigate } from "react-router";
 
 const User = () => {
@@ -118,7 +119,11 @@ const User = () => {
               <UnScheduleLecture />
             </CardBox>
           )}
-          {/* {isScheduleTabActive && <  Calendar />} */}
+          {isMessageTabActive && (
+            <CardBox>
+              <Message />
+            </CardBox>
+          )}
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>
@@ -127,14 +132,3 @@ const User = () => {
 };
 
 export default User;
-
-// {
-/* {aa && <Profile />}
-{bb && <Profile />}
-{cc && <Profile />}
-{aa && <Profile />}
-{aa && <Profile />} */
-// }
-// {
-/* <ProfileEdit /> */
-// }

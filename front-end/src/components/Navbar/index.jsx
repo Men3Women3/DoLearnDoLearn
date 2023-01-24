@@ -7,12 +7,21 @@ import logoImg from "../../assets/images/logo.png";
 import profileImg from "../../assets/images/thumbnail.png";
 import { useEffect } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { LoginStateContext, LoginStateHandlerContext } from "../../App";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 const defaultURL = "http://localhost:3000";
 
-const Navbar = (props) => {
+const Navbar = () => {
+  // context api를 통해 로그인 상태 받아오기
+  const isLogined = useContext(LoginStateContext);
+  // context api를 통해 로그인 상태 관리 함수들 받아오기
+  const { handleIsLogined, handleLogout } = useContext(
+    LoginStateHandlerContext
+  );
+
   return (
     <Box>
       <div className="left-item">
@@ -25,7 +34,7 @@ const Navbar = (props) => {
         <NavLink className="link link__board">이용안내</NavLink>
       </div>
       <div className="right-item">
-        {props.isLogined && (
+        {isLogined && (
           <NavLink to={"/mypage"} className="link username">
             <img src={profileImg} alt="profileImg" />
             <span style={{ margin: "auto 0 auto 5px", cursor: "pointer" }}>
@@ -33,13 +42,13 @@ const Navbar = (props) => {
             </span>
           </NavLink>
         )}
-        {props.isLogined && (
+        {isLogined && (
           <FontAwesomeIcon className="unread__notification" icon={faBell} />
         )}
         <div className="user-state">
-          {props.isLogined ? (
+          {isLogined ? (
             <>
-              <p className="link logout" onClick={props.logout}>
+              <p className="link logout" onClick={handleLogout}>
                 로그아웃
               </p>
             </>

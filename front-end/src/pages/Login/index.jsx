@@ -37,6 +37,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../assets/images/LOGIN";
 import axios from "axios";
+import { useContext } from "react";
+import { LoginStateHandlerContext } from "../../App";
 
 const style = {
   position: "absolute",
@@ -70,6 +72,9 @@ const Login = () => {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
+  // context api를 통해 handleIsLogined 함수 가져오기
+  const { handleIsLogined } = useContext(LoginStateHandlerContext);
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (!open) {
@@ -83,6 +88,8 @@ const Login = () => {
           const responseData = response.data.response;
           localStorage.clear();
           localStorage.setItem("accessToken", responseData.accessToken);
+          // 로그인 상태 변경
+          handleIsLogined();
           // 메인페이지로 이동
           navigate("/");
         })
@@ -212,7 +219,8 @@ const Login = () => {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
-        }}>
+        }}
+      >
         <Fade in={open}>
           <Box sx={style}>
             <Typography
@@ -223,7 +231,8 @@ const Login = () => {
               }}
               id="transition-modal-title"
               variant="h6"
-              component="h2">
+              component="h2"
+            >
               {email
                 ? password
                   ? ""

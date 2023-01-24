@@ -23,6 +23,11 @@ const Board = React.lazy(() => pMinDelay(import("./pages/Board"), 0)); // delay 
 const WriteBoard = React.lazy(() => pMinDelay(import("./pages/WriteBoard"), 0)); // 요 친구도 delay 0
 const Lecture = React.lazy(() => pMinDelay(import("./pages/Lecture"), 0)); // 나도 delay 0 할래
 
+// 로그인 상태가 담긴 context API
+export const LoginStateContext = React.createContext();
+// 로그인 상태를 관리하는 함수가 담긴 context API
+export const LoginStateHandlerContext = React.createContext();
+
 function App() {
   const [isLogined, setIsLogined] = useState(false);
 
@@ -32,27 +37,48 @@ function App() {
     } else {
       setIsLogined(false);
     }
-  }, []);
+  });
+
+  const handleIsLogined = () => {
+    setIsLogined(!isLogined);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setIsLogined(false);
+  };
 
   return (
     <ThemeProvider theme={theme}>
-      <Suspense fallback={<Loading />}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SingUp />} />
-            <Route path="/board" element={<Board />} />
-            <Route path="/write" element={<WriteBoard />} />
-            <Route
-              path={"/mypage"}
-              element={isLogined ? <User /> : <Login />}
-            />
-            <Route path="/lecture" element={<Lecture />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </Suspense>
+      <LoginStateContext.Provider value={isLogined}>
+        <LoginStateHandlerContext.Provider
+          value={{ handleIsLogined, handleLogout }}
+        >
+          <Suspense fallback={<Loading />}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="/login"
+                  element={isLogined ? <Home /> : <Login />}
+                />
+                <Route
+                  path="/signup"
+                  element={isLogined ? <Home /> : <SingUp />}
+                />
+                <Route path="/board" element={<Board />} />
+                <Route path="/write" element={<WriteBoard />} />
+                <Route
+                  path={"/mypage"}
+                  element={isLogined ? <User /> : <Home />}
+                />
+                <Route path="/lecture" element={<Lecture />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </Suspense>
+        </LoginStateHandlerContext.Provider>
+      </LoginStateContext.Provider>
     </ThemeProvider>
   );
 }
