@@ -15,6 +15,7 @@ public class MessageDto {
 
     private Long id;
     private Long rid;
+    private Long lid; //강의 아이디
     private String content;
     private int isChecked;
     private Date createdTime;

@@ -1,6 +1,7 @@
 package com.example.dolearn.service;
 
 import com.example.dolearn.domain.Board;
+<<<<<<< HEAD
 import com.example.dolearn.domain.BoardApplicant;
 import com.example.dolearn.domain.UserBoard;
 import com.example.dolearn.dto.BoardApplicantDto;
@@ -9,21 +10,33 @@ import com.example.dolearn.dto.UserBoardDto;
 import com.example.dolearn.repository.BoardRepository;
 import com.example.dolearn.repository.UserBoardRepository;
 import org.junit.jupiter.api.BeforeEach;
+=======
+import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.repository.BoardRepository;
+>>>>>>> 86bc0c9fd6cda070eed01d27fe73198b7567e375
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+<<<<<<< HEAD
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.text.ParseException;
+=======
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+>>>>>>> 86bc0c9fd6cda070eed01d27fe73198b7567e375
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+<<<<<<< HEAD
 import static org.assertj.core.api.Assertions.assertThat;
+=======
+>>>>>>> 86bc0c9fd6cda070eed01d27fe73198b7567e375
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +46,7 @@ public class BoardServiceTest {
     @InjectMocks
     BoardService boardService;
 
+<<<<<<< HEAD
     @InjectMocks
     UserBoardService userBoardService;
 
@@ -46,12 +60,22 @@ public class BoardServiceTest {
         .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
         .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
         .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+=======
+    @Mock
+    BoardRepository boardRepository;
+
+    private BoardDto boardDto1 = BoardDto.builder()
+            .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
+            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+>>>>>>> 86bc0c9fd6cda070eed01d27fe73198b7567e375
 
     private BoardDto boardDto2 = BoardDto.builder()
             .id(2L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
             .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
             .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
 
+<<<<<<< HEAD
     private UserBoardDto userBoardDto1 = UserBoardDto.builder()
             .id(1L).uid(1L).bid(1L).user_type("학생").build();
 
@@ -60,6 +84,8 @@ public class BoardServiceTest {
             .info("info").point(0).instagram("instagram").imgSrc("imgSrc").password("pwd").refreshToken("")
             .build();
 
+=======
+>>>>>>> 86bc0c9fd6cda070eed01d27fe73198b7567e375
     @DisplayName("글 생성 테스트")
     @Test
     public void BoardCreateTest() throws Exception {

@@ -1,13 +1,12 @@
 package com.example.dolearn.service;
 
-import com.example.dolearn.domain.Message;
-import com.example.dolearn.domain.User;
+import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.MessageDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
-import com.example.dolearn.repository.MessageRepository;
-import com.example.dolearn.repository.UserRepository;
+import com.example.dolearn.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,25 +19,43 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final LectureRepository lectureRepository;
+    private final UserLectureRepository userLectureRepository;
 
-    public boolean createMessage(MessageDto messageDto) {
+    public List<MessageDto> createMessage(MessageDto messageDto) {
 
-        Long rid = messageDto.getRid();
+        Long lectureId = messageDto.getLid();
+        Optional<Lecture> result = lectureRepository.findById(lectureId);
+        //강의 아이디가 유효하다면
+        if(result.isPresent()) {
+            log.info("존재");
+            List<MessageDto> ret = new ArrayList<>();
 
-        Optional<User> result = userRepository.findById(rid);
-
-        Message message = Message.builder()
-                        .content(messageDto.getContent())
+            //강의 아이디로 정보 가져오기
+            List<UserLecture> userLectureList = userLectureRepository.findByLectureId(lectureId);
+            log.info("개수 : {}",userLectureList.size());
+            //위에서 받아온 수신자로 메세지 받도록
+            for(UserLecture userLecture : userLectureList) {
+                Message message = Message.builder().content(messageDto
+                        .getContent())
+                        .isChecked(0)
                         .build();
 
-        message.setUser(result.get());
+                message.setUser(userLecture.getUser());
 
-        messageRepository.save(message);
-        return true;
+                messageRepository.save(message);
+                ret.add(message.toMessageDto());
+            }
+
+            return ret;
+        }
+
+        throw new CustomException(ErrorCode.NO_LECTURE);
     }
 
     public void updateCheck(MessageDto messageDto) {

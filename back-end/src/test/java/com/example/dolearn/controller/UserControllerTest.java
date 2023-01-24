@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -47,7 +46,6 @@ public class UserControllerTest {
     }
 
     @Nested
-    @WithAnonymousUser
     class signup{
 
         private String name;
@@ -62,15 +60,15 @@ public class UserControllerTest {
         }
 
         @Test
-        @DisplayName("새로운 사용자 회원가입")
+        @DisplayName("회원가입 성공")
         void success() throws Exception {
             UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
             when(userService.signup(any(UserDto.class))).thenReturn(userDto);
 
             mockMvc.perform(post("/user")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .with(csrf())
-                    .content(toJson(userDto)))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .content(toJson(userDto)))
                     .andExpect(status().isOk());
         }
     }

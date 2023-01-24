@@ -8,7 +8,6 @@ import com.example.dolearn.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,28 +20,26 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Transactional
     public UserDto signup(UserDto reqUserDto){
-        if (userRepository.findOneByEmail(reqUserDto.getEmail()) != null) {
+        if (userRepository.findOneByEmail(reqUserDto.getEmail()).isPresent()) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
         reqUserDto.setPassword(passwordEncoder.encode(reqUserDto.getPassword()));
-
         return userRepository.save(reqUserDto.toEntity()).toDto();
     }
 
     public UserDto login(UserDto reqUserDto) {
-        UserDto userDto = userRepository.findOneByEmail(reqUserDto.getEmail()).get().toDto();
-        if(userDto == null){
+        Optional<User> user = userRepository.findOneByEmail(reqUserDto.getEmail());
+        if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
+        UserDto userDto = user.get().toDto();
         if (!passwordEncoder.matches(reqUserDto.getPassword(), userDto.getPassword())) {
             throw new CustomException(ErrorCode.NO_USER);
         }
         return userDto;
     }
 
-    @Transactional
     public UserDto updateToken(UserDto reqUserDto, String refreshToken, String accessToken) {
         reqUserDto.setRefreshToken(refreshToken);
         reqUserDto.setAccessToken(accessToken);
@@ -50,23 +47,22 @@ public class UserService {
         return reqUserDto;
     }
 
-    @Transactional
     public UserDto logout(Long id) {
-        UserDto userDto = userRepository.findOneById(id).get().toDto();
-        if(userDto == null){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
+        UserDto userDto = user.get().toDto();
         userDto.setRefreshToken(null);
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
-    @Transactional
     public UserDto updateInfo(UserDto reqUserDto){
-        if(reqUserDto.getId() == null || reqUserDto.getImgSrc() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null){
+        if(reqUserDto.getId() == null || reqUserDto.getImgSrc() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null || reqUserDto.getYoutube() == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
         Optional<User> user = userRepository.findOneById(reqUserDto.getId());
-        if(user == null){
+        if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
         UserDto userDto = user.get().toDto();
@@ -75,6 +71,43 @@ public class UserService {
         userDto.setBlog(reqUserDto.getBlog());
         userDto.setInstagram(reqUserDto.getInstagram());
         userDto.setFacebook(reqUserDto.getFacebook());
+        userDto.setYoutube(reqUserDto.getYoutube());
+        return userRepository.save(userDto.toEntity()).toDto();
+    }
+
+    public UserDto getInfo(Long id){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        return user.get().toDto();
+    }
+
+    public void checkEmail(String email){
+        if(userRepository.findOneByEmail(email).isPresent()) {
+            throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
+        }
+    }
+
+    public void delete(Long id){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        userRepository.delete(user.get());
+    }
+
+    public UserDto updatePoint(Long id, Integer point){
+        System.out.println(id+" "+point);
+        if(id == null || point == null) {
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        UserDto userDto = user.get().toDto();
+        userDto.setPoint(userDto.getPoint() + point);
         return userRepository.save(userDto.toEntity()).toDto();
     }
 }
