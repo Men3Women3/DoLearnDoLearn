@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-                
+
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
@@ -74,3 +74,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+

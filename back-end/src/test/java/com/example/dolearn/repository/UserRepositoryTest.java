@@ -45,7 +45,7 @@ public class UserRepositoryTest {
     @BeforeEach
     void setup(){
         // DB에 없는 데이터로 초기화
-        id = 4L;
+        id = 400L;
         name = "가입자명";
         email = "abcd@daum.net";
         password = "abcdpassord";
@@ -82,7 +82,6 @@ public class UserRepositoryTest {
     }
 
     @Nested
-    @Transactional
     class FindOneByEmail {
         @Test
         @DisplayName("이메일로 사용자 찾기 성공")
@@ -108,7 +107,6 @@ public class UserRepositoryTest {
     }
 
     @Nested
-    @Transactional
     class FindOneById {
         @Test
         @DisplayName("ID로 사용자 찾기 성공")
@@ -123,6 +121,32 @@ public class UserRepositoryTest {
 
         @Test
         @DisplayName("이메일로 사용자 찾기 실패 - 해당 이메일 가진 사용자 없음")
+        public void fail() {
+            Exception exception = assertThrows(NoSuchElementException.class, ()->{
+                userRepository.findOneById(id).get();
+            });
+
+            assertTrue(exception instanceof NoSuchElementException);
+            assertNull(exception.getCause());
+        }
+    }
+
+    @Nested
+    @Transactional
+    class delete {
+        @Test
+        @DisplayName("사용자 삭제 성공")
+        public void success() {
+            id = 1L;
+            name = "민싸피";
+
+            UserDto userDto = UserDto.builder().id(id).name(name).build();
+
+            userRepository.delete(userDto.toEntity());
+        }
+
+        @Test
+        @DisplayName("사용자 삭제 실패 - 존재하지 않는 사용자")
         public void fail() {
             Exception exception = assertThrows(NoSuchElementException.class, ()->{
                 userRepository.findOneById(id).get();
