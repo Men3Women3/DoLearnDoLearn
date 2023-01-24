@@ -12,7 +12,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version "${springBootVer}"
 	id 'io.spring.dependency-management' version "${springDependencyMgmtVer}"
-	
+
 	//Query dsl 을 프로젝트로 설정할 때 gradle이 5.0 이상일 때 추가 작업
 	id "com.ewerk.gradle.plugins.querydsl" version "${querydslPluginVer}"
 }
@@ -36,6 +36,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

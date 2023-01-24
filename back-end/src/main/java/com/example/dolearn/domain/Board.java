@@ -2,6 +2,8 @@ package com.example.dolearn.domain;
 
 import com.example.dolearn.dto.BoardDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +13,15 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "board")
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 @DynamicUpdate //Update 시에 변경된 필드만 대응
 public class Board {
     @Id
@@ -63,7 +69,12 @@ public class Board {
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_time;
 
-    @Builder
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "board")
+    private List<UserBoard> userBoardList = new ArrayList<>();
+
+
     public Board(Long id, Long uid, Long tid, String title, int max_cnt, String content, String summary, Date start_time, Date end_time, Date deadline, int is_fixed){
         this.id= id;
         this.uid= uid;
@@ -86,7 +97,7 @@ public class Board {
         return new BoardDto(id,uid,tid,title,max_cnt,content,summary,stringConverter(start_time),stringConverter(end_time),stringConverter(deadline),is_fixed);
     }
 
-    public String stringConverter(Date input) throws ParseException {
+    public String stringConverter(Date input){
         SimpleDateFormat foramatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String date = foramatter.format(input);
