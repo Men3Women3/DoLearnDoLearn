@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import React from "react";
+import { useState } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 import {
   SSpan,
   SWriter,
@@ -13,8 +12,8 @@ import {
   SStudent,
   SPencil,
   SDetail,
-  SButton,
-} from './styles';
+} from "./styles";
+import { SLectureModalButton } from "../LectureModalButton/styles";
 import {
   faUser,
   faClock,
@@ -22,20 +21,19 @@ import {
   faPersonChalkboard,
   faChalkboardUser,
   faPencil,
-} from '@fortawesome/free-solid-svg-icons';
-// import { grid } from "@mui/system";
+} from "@fortawesome/free-solid-svg-icons";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  borderRadius: '8px',
+  bgcolor: "background.paper",
+  borderRadius: "8px",
   boxShadow: 24,
-  outline: 'none',
-  padding: '3vw',
+  outline: "none",
+  padding: "3vw",
 };
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
@@ -46,24 +44,26 @@ const LectureModal = ({ data }) => {
 
   return (
     <div>
-      <SButton onClick={handleOpen}>살펴보기</SButton>
+      <SLectureModalButton onClick={handleOpen}>살펴보기</SLectureModalButton>
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'>
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           {/* 여기는 제목 */}
           {/* 1. 제목 */}
           <Typography
-            id='modal-modal-title'
-            variant='h5'
-            component='h2'
-            sx={{ pb: 2, borderBottom: 3 }}>
+            id="modal-modal-title"
+            variant="h5"
+            component="h2"
+            sx={{ pb: 2, borderBottom: 3 }}
+          >
             {data.title}
           </Typography>
           {/* 여기는 내용 */}
-          <Typography id='modal-modal-description' sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <div>
               {/* 2. 작성자 */}
               <SWriter icon={faUser} />
@@ -95,7 +95,7 @@ const LectureModal = ({ data }) => {
               <SDetail>{data.title}</SDetail>
             </div>
           </Typography>
-          <Typography id='modal-modal-button' sx={{ mt: 2 }}>
+          <Typography id="modal-modal-button" sx={{ mt: 2 }}>
             {/* <SButton>강사 신청</SButton> */}
           </Typography>
         </Box>

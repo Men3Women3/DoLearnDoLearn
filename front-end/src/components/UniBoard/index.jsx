@@ -1,5 +1,5 @@
-import LectureModal from '../LectureModal';
-import { SImg, SUniBoard } from './styles';
+import LectureModal from "../LectureModal";
+import { SImg, SUniBoard } from "./styles";
 
 // 개별 게시물 component
 const UniBoard = ({ data }) => {
