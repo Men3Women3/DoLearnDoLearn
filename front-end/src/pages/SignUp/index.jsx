@@ -83,7 +83,7 @@ const SignUp = () => {
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const [isNext, setIsNext] = useState(false);
   // const [isEmpty, setIsEmpty] = useState("");
-  const [isDuplicatedEmail, setIsDuplicatedEmail] = useState(null);
+  const [isDuplicatedEmail, setIsDuplicatedEmail] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -121,20 +121,21 @@ const SignUp = () => {
   // 이메일이 중복되지 않으면 setIsNext(true)를 통해 추가 입력사항 폼을 보여준다.
   // 이메일이 중복되면 모달을 통해 알림을 준다.
   useEffect(() => {
-    axios
-      .post(`${axiosDefaultURL}/user/check-email/${email}`)
-      .then((response) => {
-        console.log("이메일 중복 확인 성공!");
-        setIsDuplicatedEmail(true);
-        setIsNext(true);
-      })
-      .catch((error) => {
-        if (error.response.data.response === "이미 존재하는 이메일입니다.") {
-          setIsDuplicatedEmail(null);
-          setOpen(true);
-          setIsNext(false);
-        }
-      });
+    if (isDuplicatedEmail) {
+      axios
+        .post(`${axiosDefaultURL}/user/check-email/${email}`)
+        .then((response) => {
+          console.log("이메일 중복 확인 성공!");
+          setIsNext(true);
+        })
+        .catch((error) => {
+          if (error.response.data.response === "이미 존재하는 이메일입니다.") {
+            setIsDuplicatedEmail(false);
+            setOpen(true);
+            setIsNext(false);
+          }
+        });
+    }
   }, [isDuplicatedEmail]);
 
   // 필수입력사항을 모두 입력했으면 이메일 중복 검사를 실행시키는 트리거 함수(useEffect를 실행시킴)
@@ -142,39 +143,36 @@ const SignUp = () => {
     if (!username || !email || !password || !passwordCheck) {
       setOpen(true);
     }
-    setIsDuplicatedEmail(false);
+    setIsDuplicatedEmail(true);
   };
 
   // 회원가입 api를 사용하여 회원가입을 진행하는 함수
-  const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (isNext === true) {
-        axios
-          .post(`${axiosDefaultURL}/user`, {
-            // 보내야 될 데이터
-            name: username,
-            email,
-            password,
-            info: selfIntroduction,
-            blog: blogLink,
-            youtube: youtubeLink,
-            instagram: instagramLink,
-            facebook: facebookLink,
-          })
-          .then((response) => {
-            console.log("서버에 데이터 보내기 성공!");
-            // 회원가입 성공했으면 메인 페이지로 이동
-            navigate("/");
-          })
-          .catch((error) => {
-            console.log("서버에 데이터 보내기 실패!");
-            console.log(error);
-          });
-      }
-    },
-    [username, email, password, isNext]
-  );
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (isNext === true) {
+      axios
+        .post(`${axiosDefaultURL}/user`, {
+          // 보내야 될 데이터
+          name: username,
+          email,
+          password,
+          info: selfIntroduction,
+          blog: blogLink,
+          youtube: youtubeLink,
+          instagram: instagramLink,
+          facebook: facebookLink,
+        })
+        .then((response) => {
+          console.log("서버에 데이터 보내기 성공!");
+          // 회원가입 성공했으면 메인 페이지로 이동
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log("서버에 데이터 보내기 실패!");
+          console.log(error);
+        });
+    }
+  };
 
   const handleClose = () => setOpen(false);
 

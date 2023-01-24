@@ -22,12 +22,10 @@ const User = () => {
   const [isProfileEditActive, setIsProfileEditActive] = useState(false);
   const navigate = useNavigate();
 
-  // localStorage에 엑세스 토큰의 존재여부를 확인하여 로그인 / 비로그인 상태를 구분
-  // useEffect(() => {
-  //   if (localStorage.getItem("accessToken") === null) {
-  //     navigate("/login");
-  //   }
-  // }, []);
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   // ProfileSidebar에 내려줄 함수
   // ProfileSidebar에 있는 4개의 탭 중 하나를 클릭하면 그 탭의 클래스네임을 매칭해서
@@ -77,7 +75,7 @@ const User = () => {
         {/* navbar 부분 그리드 설정 */}
         <Grid item xs={0} md={1.5} />
         <Grid item xs={12} md={9}>
-          <Navbar />
+          <Navbar isLogined logout={logout} />
         </Grid>
         <Grid item xs={0} md={1.5} />
 

@@ -1,34 +1,18 @@
 import React, { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Box } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import logoImg from "../../assets/images/logo.png";
 import profileImg from "../../assets/images/thumbnail.png";
 import { useEffect } from "react";
+import axios from "axios";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 const defaultURL = "http://localhost:3000";
 
-const Navbar = () => {
-  const [isLogined, setIsLogined] = useState(true);
-  const navigate = useNavigate();
-
-  // localStorage에 엑세스 토큰의 존재여부를 확인하여 로그인 / 비로그인 상태를 구분
-  useEffect(() => {
-    if (localStorage.getItem("accessToken") !== null) {
-      setIsLogined(true);
-    } else {
-      setIsLogined(false);
-    }
-  }, []);
-
-  const logout = () => {
-    localStorage.clear();
-    window.location.replace(defaultURL);
-  };
-
+const Navbar = (props) => {
   return (
     <Box>
       <div className="left-item">
@@ -41,7 +25,7 @@ const Navbar = () => {
         <NavLink className="link link__board">이용안내</NavLink>
       </div>
       <div className="right-item">
-        {isLogined && (
+        {props.isLogined && (
           <NavLink to={"/mypage"} className="link username">
             <img src={profileImg} alt="profileImg" />
             <span style={{ margin: "auto 0 auto 5px", cursor: "pointer" }}>
@@ -49,13 +33,13 @@ const Navbar = () => {
             </span>
           </NavLink>
         )}
-        {isLogined && (
+        {props.isLogined && (
           <FontAwesomeIcon className="unread__notification" icon={faBell} />
         )}
         <div className="user-state">
-          {isLogined ? (
+          {props.isLogined ? (
             <>
-              <p className="link logout" onClick={logout}>
+              <p className="link logout" onClick={props.logout}>
                 로그아웃
               </p>
             </>

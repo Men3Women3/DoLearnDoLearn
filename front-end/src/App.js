@@ -6,6 +6,8 @@ import { Suspense } from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "./theme";
 import Loading from "./pages/Loading";
+import { useState } from "react";
+import { useEffect } from "react";
 
 // 코드 스플리팅 (Code Splitting)
 const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
@@ -22,6 +24,16 @@ const WriteBoard = React.lazy(() => pMinDelay(import("./pages/WriteBoard"), 0));
 const Lecture = React.lazy(() => pMinDelay(import("./pages/Lecture"), 0)); // 나도 delay 0 할래
 
 function App() {
+  const [isLogined, setIsLogined] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("accessToken") !== null) {
+      setIsLogined(true);
+    } else {
+      setIsLogined(false);
+    }
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Suspense fallback={<Loading />}>
@@ -32,7 +44,10 @@ function App() {
             <Route path="/signup" element={<SingUp />} />
             <Route path="/board" element={<Board />} />
             <Route path="/write" element={<WriteBoard />} />
-            <Route path="/mypage" element={<User />} />
+            <Route
+              path={"/mypage"}
+              element={isLogined ? <User /> : <Login />}
+            />
             <Route path="/lecture" element={<Lecture />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
