@@ -12,6 +12,7 @@ import UnScheduleLecture from "../../components/UnScheduleLecture"
 
 import Grid from "@mui/material/Grid"
 import { useEffect } from "react"
+import Message from "../../components/Message"
 
 const User = () => {
   const [isProfileTabActive, setIsProfileTabActive] = useState(true)
@@ -111,7 +112,11 @@ const User = () => {
               <UnScheduleLecture />
             </CardBox>
           )}
-          {/* {isScheduleTabActive && <  Calendar />} */}
+          {isMessageTabActive && (
+            <CardBox>
+              <Message />
+            </CardBox>
+          )}
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>

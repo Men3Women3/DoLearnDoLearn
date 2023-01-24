@@ -104,7 +104,7 @@ const UnScheduleLecture = () => {
   }, [filterValue])
 
   return (
-    <div>
+    <>
       <div
         style={{
           display: "flex",
@@ -135,7 +135,7 @@ const UnScheduleLecture = () => {
           })
         )}
       </div>
-    </div>
+    </>
   )
 }
 

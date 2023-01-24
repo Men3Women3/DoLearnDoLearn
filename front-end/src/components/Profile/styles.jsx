@@ -13,7 +13,7 @@ export const SProfileContainer = styled.div`
   .tip {
     width: 100%;
     /* background-color: #fdf7d8; */
-    border: 3px dashed #dddddd;
+    border: 3px dashed ${(props) => props.theme.lightGray};
     color: black;
     padding: calc(1vw + 5px);
     border-radius: 10px;
