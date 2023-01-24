@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 // import Paging from "../Paging";
 
 export const SImg = styled.img`

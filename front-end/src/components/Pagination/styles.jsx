@@ -29,8 +29,9 @@ export const SButton = styled.button`
     transform: revert;
   }
 
-  &[aria-current] {
-    background: deeppink;
+  &:focus {
+    // 선택된 버튼 표시
+    background: ${(props) => props.theme.deeperYellow};
     font-weight: bold;
     cursor: revert;
     transform: revert;

@@ -6,13 +6,13 @@ const Pagination = ({ total, limit, page, setPage }) => {
 
   const currentSet = Math.ceil(page / limit); // 현재의 페이징 세트
   const lastSet = Math.ceil(numPages / limit); // 마지막 페이징 세트
-  const stPage = limit * (currentSet - 1) + 1;
+  const stPage = limit * (currentSet - 1) + 1; // 각 페이징 세트의 시작 페이지 번호
   const numOfPagesPerSet = currentSet === lastSet ? numPages % limit : limit; // 한 페이지에 보일 페이지 세트 수
 
   return (
     <>
       <SNav>
-        <SButton onClick={() => setPage(1)} disabled={page < 7}>
+        <SButton onClick={() => setPage(1)} disabled={page === 1}>
           &lt;&lt;
         </SButton>
         <SButton onClick={() => setPage(page - 1)} disabled={page === 1}>
@@ -28,10 +28,7 @@ const Pagination = ({ total, limit, page, setPage }) => {
         <SButton onClick={() => setPage(page + 1)} disabled={page === numPages}>
           &gt;
         </SButton>
-        <SButton
-          onClick={() => setPage(numPages)}
-          disabled={page > numPages - 7}
-        >
+        <SButton onClick={() => setPage(numPages)} disabled={page === numPages}>
           &gt;&gt;
         </SButton>
       </SNav>
