@@ -1,5 +1,5 @@
-import React from 'react';
-import { SNav, SButton } from './styles';
+import React from "react";
+import { SNav, SButton } from "./styles";
 
 const Pagination = ({ total, limit, page, setPage }) => {
   const numPages = Math.ceil(total / limit); // 필요한 페이지 개수
@@ -12,7 +12,7 @@ const Pagination = ({ total, limit, page, setPage }) => {
   return (
     <>
       <SNav>
-        <SButton onClick={() => setPage(1)} disabled={page < 6}>
+        <SButton onClick={() => setPage(1)} disabled={page < 7}>
           &lt;&lt;
         </SButton>
         <SButton onClick={() => setPage(page - 1)} disabled={page === 1}>
@@ -21,7 +21,7 @@ const Pagination = ({ total, limit, page, setPage }) => {
         {Array(numOfPagesPerSet)
           .fill(stPage)
           .map((_, i) => (
-            <SButton key={i + 1} onClick={() => setPage(stPage + 1)}>
+            <SButton key={stPage + i} onClick={() => setPage(stPage + i)}>
               {stPage + i}
             </SButton>
           ))}
@@ -30,7 +30,8 @@ const Pagination = ({ total, limit, page, setPage }) => {
         </SButton>
         <SButton
           onClick={() => setPage(numPages)}
-          disabled={page > numPages - 6}>
+          disabled={page > numPages - 7}
+        >
           &gt;&gt;
         </SButton>
       </SNav>

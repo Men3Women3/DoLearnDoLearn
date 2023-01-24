@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
-import CardBox from '../CardBox';
+import React, { useState } from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import CardBox from "../CardBox";
 import {
   // SCardBox,
   SContainer,
@@ -28,32 +28,32 @@ import {
   SSummaryText,
   SModal,
   SCancelButton,
-} from './styles.jsx';
-import { useNavigate } from 'react-router';
+} from "./styles.jsx";
+import { useNavigate } from "react-router";
 
 const NewBoard = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState(''); // 강의의 제목
+  const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
-  const [stDay, setStDay] = useState(''); // 모집 시작 날짜
-  const [edDay, setEdDay] = useState(''); // 모집 종료 날짜
-  const [lectureDay, setLectureDay] = useState(''); // 강의 날짜
-  const [lectureTime, setLectureTime] = useState(''); // 강의 시작 시간
-  const [classTime, setClassTime] = useState(''); // 강의 시간
-  const [summary, setSummary] = useState(''); // 강의 요약
-  const [detail, setDetail] = useState(''); // 강의 상세
+  const [stDay, setStDay] = useState(""); // 모집 시작 날짜
+  const [edDay, setEdDay] = useState(""); // 모집 종료 날짜
+  const [lectureDay, setLectureDay] = useState(""); // 강의 날짜
+  const [lectureTime, setLectureTime] = useState(""); // 강의 시작 시간
+  const [classTime, setClassTime] = useState(""); // 강의 시간
+  const [summary, setSummary] = useState(""); // 강의 요약
+  const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: 'background.paper',
-    borderRadius: '8px',
+    bgcolor: "background.paper",
+    borderRadius: "8px",
     boxShadow: 24,
-    outline: 'none',
+    outline: "none",
   };
 
   const handleOpen = (e) => {
@@ -68,7 +68,7 @@ const NewBoard = () => {
       !detail ||
       participant === 0
     ) {
-      setOpen(true); // 빈 내용이 있으면 모달
+      setOpen(true); // 빈 내용이 있으면 경고 띄우기
     } else {
       handleRegister(); // 모두 잘 작성됐으면 등록
     }
@@ -88,7 +88,7 @@ const NewBoard = () => {
     console.log(classTime);
     console.log(summary);
     console.log(detail);
-    navigate('/board');
+    navigate("/board");
   };
 
   return (
@@ -107,8 +107,9 @@ const NewBoard = () => {
           <h3>강의 제목</h3>
           <STitleInput
             value={title}
-            placeholder='제목을 입력하세요'
-            onChange={(e) => setTitle(e.target.value)}></STitleInput>
+            placeholder="제목을 입력하세요"
+            onChange={(e) => setTitle(e.target.value)}
+          ></STitleInput>
         </SBoardTitle>
 
         {/* 4. 참여 인원 */}
@@ -116,14 +117,13 @@ const NewBoard = () => {
           <h3>참여 인원</h3>
           {/* 문제: 키보드로 입력시 5가 넘어감 */}
           <SParticipantInput
-            type='number'
+            type="number"
             defaultValue={participant}
-            pattern={'0-9'}
+            pattern={"0-9"}
             min={1}
             max={5}
-            onChange={(e) =>
-              setParticipant(e.target.value)
-            }></SParticipantInput>
+            onChange={(e) => setParticipant(e.target.value)}
+          ></SParticipantInput>
         </SParticipant>
 
         {/* 5. 모집 기간(달력 넣어줭) */}
@@ -131,33 +131,37 @@ const NewBoard = () => {
           <h3>모집 기간</h3>
           {/* 요거는 시작날짜 */}
           <SRecruitInput
-            type='date'
-            onChange={(e) => setStDay(e.target.value)}></SRecruitInput>
+            type="date"
+            onChange={(e) => setStDay(e.target.value)}
+          ></SRecruitInput>
           {/* 요거는 마감날짜 */}
           <SRecruitInput
-            type='date'
-            onChange={(e) => setEdDay(e.target.value)}></SRecruitInput>
+            type="date"
+            onChange={(e) => setEdDay(e.target.value)}
+          ></SRecruitInput>
         </SRecruit>
 
         {/* 6. 강의 일시(달력 + 시간 + 라디오 버튼) */}
         <SLecture>
           <h3>강의 일시</h3>
           <SLectureInput
-            type='date'
-            onChange={(e) => setLectureDay(e.target.value)}></SLectureInput>
+            type="date"
+            onChange={(e) => setLectureDay(e.target.value)}
+          ></SLectureInput>
           <STimeInput
-            type='time'
-            onChange={(e) => setLectureTime(e.target.value)}></STimeInput>
+            type="time"
+            onChange={(e) => setLectureTime(e.target.value)}
+          ></STimeInput>
 
           {/* 라디오 버튼 넣기 */}
           <SRadio onChange={(e) => setClassTime(e.target.value)}>
             <label>
-              <input type='radio' name='time' value={1} />
+              <input type="radio" name="time" value={1} />
               <span>1시간</span>
             </label>
 
             <label>
-              <input type='radio' name='time' value={2} />
+              <input type="radio" name="time" value={2} />
               <span>2시간</span>
             </label>
           </SRadio>
@@ -171,8 +175,9 @@ const NewBoard = () => {
             defaultValue={summary}
             maxLength={100}
             rows={3}
-            placeholder='원하는 강의에 대해 요약해서 작성해주세요. 작성하신 내용은 공부방 목록에 표시됩니다'
-            onChange={(e) => setSummary(e.target.value)}></SSummaryText>
+            placeholder="원하는 강의에 대해 요약해서 작성해주세요. 작성하신 내용은 공부방 목록에 표시됩니다"
+            onChange={(e) => setSummary(e.target.value)}
+          ></SSummaryText>
         </SSummary>
         <SLimit>{summary.length}/100</SLimit>
 
@@ -184,8 +189,9 @@ const NewBoard = () => {
             defaultValue={detail}
             maxLength={500}
             rows={10}
-            placeholder='강의에 대해 바라는 점을 자유롭게 작성해주세요'
-            onChange={(e) => setDetail(e.target.value)}></SDetailText>
+            placeholder="강의에 대해 바라는 점을 자유롭게 작성해주세요"
+            onChange={(e) => setDetail(e.target.value)}
+          ></SDetailText>
           <SLimit>{detail.length}/500</SLimit>
         </SDetail>
 
@@ -196,28 +202,30 @@ const NewBoard = () => {
       </SContainer>
 
       <Modal
-        aria-labelledby='transition-modal-title'
-        aria-describedby='transition-modal-description'
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
         open={open}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
-        }}>
+        }}
+      >
         <Fade in={open}>
           <Box sx={style}>
             <Typography
               sx={{
-                textAlign: 'center',
-                marginTop: '32px',
+                textAlign: "center",
+                marginTop: "32px",
               }}
-              id='transition-modal-title'
-              variant='h6'
-              component='h2'>
+              id="transition-modal-title"
+              variant="h6"
+              component="h2"
+            >
               <SModal>내용을 모두 입력해주세요</SModal>
             </Typography>
-            <Typography id='transition-modal-description' sx={{ mt: 2 }}>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               <SCancelButton onClick={(e) => setOpen(false)}>
                 확인
               </SCancelButton>
