@@ -12,11 +12,12 @@ public interface UserBoardRepository extends JpaRepository <UserBoard, Long> {
 //    @Query(value = "select * from applicant where bid=:bid and user_type='강사'", nativeQuery = true)
 //    public List<BoardApplicant> findInst(@Param("bid") Long bid);
 
-    public List<UserBoard> findByBid(Long bid);
+    @Query(value = "select * from user_board where bid=:bid and user_type='강사'", nativeQuery = true)
+    public List<UserBoard> findByBid(@Param("bid") Long bid);
 
     public UserBoard save(UserBoard userBoard);
 
     @Modifying
     @Query(value = "delete from user_board where uid=:uid and bid=:bid")
-    public UserBoard delete(@Param("uid") Long uid, @Param("bid") Long bid);
+    public int delete(@Param("uid") Long uid, @Param("bid") Long bid);
 }

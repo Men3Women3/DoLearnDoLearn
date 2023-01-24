@@ -183,10 +183,10 @@ public class BoardServiceTest {
         UserBoardDto userBoardDto = UserBoardDto.builder()
                 .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
 
-        when(userBoardRepository.delete(any(),any())).thenReturn(userBoardDto.toEntity());
+        when(userBoardRepository.delete(any(),any())).thenReturn(1);
 
-        UserBoard result = userBoardService.ubRepo.delete(userDto.getId(),boardDto1.getId());
+        int result = userBoardService.ubRepo.delete(userDto.getId(),boardDto1.getId());
 
-        assertEquals(userBoardDto.getUser_type(),result.getUser_type());
+        assertEquals(1,result);
     }
 }

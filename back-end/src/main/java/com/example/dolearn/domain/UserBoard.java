@@ -18,12 +18,18 @@ public class UserBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "uid")
+    @Column(name = "uid")
+    private Long uid;
+
+    @Column(name = "bid")
+    private Long bid;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "uid", insertable = false, updatable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "bid")
+    @ManyToOne(targetEntity = Board.class)
+    @JoinColumn(name = "bid", insertable = false, updatable = false)
     private Board board;
 
     @Column(name = "user_type")

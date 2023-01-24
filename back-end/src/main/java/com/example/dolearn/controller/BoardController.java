@@ -1,12 +1,13 @@
 package com.example.dolearn.controller;
 
 import com.example.dolearn.domain.Board;
-import com.example.dolearn.domain.BoardApplicant;
+import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserBoard;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.response.SuccessResponse;
 import com.example.dolearn.service.BoardService;
 import com.example.dolearn.service.UserBoardService;
+import com.example.dolearn.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class BoardController {
 
     @Autowired
     private UserBoardService ubService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody BoardDto boardDto){
@@ -89,8 +93,8 @@ public class BoardController {
     public ResponseEntity<?> getInstructors(@PathVariable Long bid){
         try{
             log.info("강사 목록 가져오기 요청: {}",bid);
-            List<BoardApplicant> applicants= ubService.getInstructors(bid);
-            log.info("목록: {}",applicants.get(0));
+            List<UserBoard> applicants= ubService.getInstructors(bid);
+            log.info("목록: {}",applicants);
 
             if(applicants.isEmpty()) return new ResponseEntity<SuccessResponse>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.ACCEPTED);
             return new ResponseEntity<SuccessResponse>(new SuccessResponse(applicants),HttpStatus.OK);
@@ -126,7 +130,14 @@ public class BoardController {
     @PostMapping("/student")
     public ResponseEntity<?> applyClass(@RequestBody Map <String, Long> userApplyInfo){
         try{
-            UserBoard userBoard = new UserBoard(userApplyInfo.get("uid"),userApplyInfo.get("bid"),"학생");
+            Long uid = userApplyInfo.get("uid");
+            Long bid = userApplyInfo.get("bid");
+
+            log.info("수강신청: {}, {}",uid,bid);
+            User user = userService.getInfo(uid).toEntity();
+            Board board = bService.selectDetail(bid).get();
+
+            UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).user(user).board(board).user_type("학생").build();
             ubService.applyClass(userBoard);
 
             return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.ACCEPTED);
@@ -139,7 +150,14 @@ public class BoardController {
     @PostMapping("/instructor")
     public ResponseEntity<?> applyInstructor(@RequestBody Map<String, Long> userApplyInfo){
         try{
-            UserBoard userBoard = new UserBoard(userApplyInfo.get("uid"),userApplyInfo.get("bid"),"강사");
+            Long uid = userApplyInfo.get("uid");
+            Long bid = userApplyInfo.get("bid");
+
+            log.info("강의신청: {}, {}",uid,bid);
+            User user = userService.getInfo(uid).toEntity();
+            Board board = bService.selectDetail(bid).get();
+
+            UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).user(user).board(board).user_type("강사").build();
             ubService.applyClass(userBoard);
 
             return new ResponseEntity<SuccessResponse>(new SuccessResponse("강사 신청이 완료되었습니다!!"),HttpStatus.ACCEPTED);
@@ -153,7 +171,7 @@ public class BoardController {
     public ResponseEntity<?> cancelApply(@PathVariable Long uid, @PathVariable Long bid){
         try{
             log.info("삭제요청: {}, {}",uid,bid);
-            ubService.cancelApply(uid,bid);
+            int result = ubService.cancelApply(uid,bid);
 
             return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청 취소가 완료되었습니다!!"),HttpStatus.ACCEPTED);
         }catch (Exception e){

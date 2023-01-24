@@ -71,6 +71,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Message> messageList = new ArrayList<>();
 
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<UserBoard> userBoardList = new ArrayList<>();
+
     @PrePersist
     public void setDefaultValue(){
         this.info = (this.info == null) ? "" : this.info;
