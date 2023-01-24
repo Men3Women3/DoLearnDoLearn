@@ -31,6 +31,8 @@ public class UserDto {
 
     private Integer point;
 
+    private String youtube;
+
     private String instagram;
 
     private String facebook;
@@ -54,6 +56,7 @@ public class UserDto {
                 .info(info)
                 .gender(gender)
                 .point(point)
+                .youtube(youtube)
                 .instagram(instagram)
                 .facebook(facebook)
                 .blog(blog)
