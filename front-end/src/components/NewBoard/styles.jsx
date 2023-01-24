@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 // import SCard from '../CardBox';
 
 // export const SCardBox = styled(SCard)`
@@ -44,7 +44,7 @@ export const STitleInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.p};
   transform: translate(0, 15%);
   width: calc(40vw + 10px);
-  height: calc(3vh + 20px);
+  height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 50px;
@@ -66,11 +66,14 @@ export const SParticipantInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.p};
   transform: translate(0, 15%);
   width: 5vw;
-  height: calc(3vh + 15px);
+  height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 3vw;
-  font-size: 20px;
+  ::placeholder {
+    font-family: ${(props) => props.theme.fontFamily.Regular};
+    font-size: ${(props) => props.theme.fontSize.p};
+  }
 `;
 
 // 5. 모집 기간 - recruit-period
@@ -86,7 +89,7 @@ export const SRecruitInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.p};
   transform: translate(0, 15%);
   width: 15%;
-  height: calc(3vh + 18px);
+  height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 10px;
@@ -107,7 +110,7 @@ export const SLectureInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.p};
   transform: translate(0, 15%);
   width: 15%;
-  height: calc(3vh + 18px);
+  height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 10px;
@@ -120,7 +123,7 @@ export const STimeInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.p};
   transform: translate(0, 15%);
   width: 15%;
-  height: calc(3vh + 18px);
+  height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 10px;
@@ -128,7 +131,7 @@ export const STimeInput = styled.input`
 `;
 
 export const SRadio = styled.fieldset`
-  transform: translate(0, 5%);
+  transform: translate(0, 15%);
   border: none;
   label {
     font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -137,7 +140,7 @@ export const SRadio = styled.fieldset`
     padding: 0.2em 0.4em;
   }
   span {
-    verticle-align: middle;
+    /* verticle-align: middle; */
   }
 `;
 
@@ -167,7 +170,7 @@ export const SSummaryText = styled.textarea`
   padding-bottom: 10px;
   resize: none;
   &::placeholder {
-    font-size: 15px;
+    font-size: calc(1vw + 1px);
     color: #cdcdcd;
   }
 `;
@@ -193,7 +196,7 @@ export const SDetailText = styled.textarea`
   padding-bottom: 10px;
   resize: none;
   &::placeholder {
-    font-size: 15px;
+    font-size: calc(1vw + 1px);
     color: #cdcdcd;
   }
 `;
