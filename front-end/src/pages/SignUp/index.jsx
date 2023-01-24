@@ -363,13 +363,8 @@ const SignUp = () => {
         </SForm>
         <SImgSection>
           <h1>Welcome to our WebSite!</h1>
-          {/* <img src={signupImg} alt="signup_img" /> */}
           <div>
-            <Lottie
-              options={defaultOptions}
-              // height={400}
-              // width={600}
-            />
+            <Lottie options={defaultOptions} />
           </div>
         </SImgSection>
       </SMainContainer>
