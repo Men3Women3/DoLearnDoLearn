@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // global span 태그
 export const SSpan = styled.span`
@@ -51,23 +51,4 @@ export const SDetail = styled.span`
   border-radius: 20px;
   font-family: ${(props) => props.theme.fontFamily.Light};
   font-size: ${(props) => props.theme.fontSize.p};
-`;
-
-// 살펴보기 버튼
-export const SButton = styled.button`
-  display: grid;
-  margin: auto;
-  background-color: black;
-  color: white;
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: calc(0.8vw + 0.5px);
-  width: 5vw;
-  height: 4vh;
-  border-radius: 5px;
-  cursor: pointer;
-  place-items: center;
-  :hover {
-    background-color: ${(props) => props.theme.deeperYellow};
-    border-color: ${(props) => props.theme.deeperYellow};
-  }
 `;

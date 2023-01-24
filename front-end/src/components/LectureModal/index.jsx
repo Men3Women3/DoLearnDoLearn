@@ -13,7 +13,7 @@ import {
   SPencil,
   SDetail,
 } from "./styles";
-import { SLectureModalButton } from "../LectureModalButton/styles";
+// import { SLectureModalButton } from "../LectureModalButton/styles";
 import {
   faUser,
   faClock,
@@ -37,14 +37,12 @@ const style = {
 };
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
-const LectureModal = ({ data }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+const LectureModal = ({ data, open, setOpen, handleClose }) => {
   return (
     <div>
-      <SLectureModalButton onClick={handleOpen}>살펴보기</SLectureModalButton>
+      {/* <SLectureModalButton onClick={data.handleOpen}>
+        살펴보기
+      </SLectureModalButton> */}
       <Modal
         open={open}
         onClose={handleClose}
