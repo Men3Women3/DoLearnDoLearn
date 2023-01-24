@@ -3,6 +3,8 @@ const theme = {
   deeperYellow: "#F3BD2A",
   lightYellow: "#FFF9DB",
   lighterYellow: "#FFFAEC",
+  lightGray: "#dddddd",
+  lighterGray: "#eeeeee",
   red: "#FF7979",
   fontFamily: {
     Thin: "Pretendard-Thin",

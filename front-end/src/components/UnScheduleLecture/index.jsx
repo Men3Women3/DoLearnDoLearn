@@ -26,7 +26,7 @@ const UnScheduleLecture = () => {
     {
       id: 2,
       time: "2023. 01. 16. 16:00 ~ 18:00",
-      title: "WebSocket 가르쳐주세요!",
+      title: "git 가르쳐주세요!",
       profileImg: { profileImg },
       host: "이싸피",
       teacher: "김싸피",
@@ -34,7 +34,7 @@ const UnScheduleLecture = () => {
     {
       id: 3,
       time: "2023. 01. 16. 18:00 ~ 20:00",
-      title: "WebSocket 가르쳐주세요!",
+      title: "덧셈 가르쳐주세요!",
       profileImg: { profileImg },
       host: "박싸피",
       teacher: "김싸피",
@@ -42,7 +42,7 @@ const UnScheduleLecture = () => {
     {
       id: 4,
       time: "2023. 01. 16. 20:00 ~ 22:00",
-      title: "WebSocket 가르쳐주세요!",
+      title: "요리 가르쳐주세요!",
       profileImg: { profileImg },
       host: "정싸피",
       teacher: "정싸피",
@@ -104,7 +104,7 @@ const UnScheduleLecture = () => {
   }, [filterValue])
 
   return (
-    <div>
+    <>
       <div
         style={{
           display: "flex",
@@ -135,7 +135,7 @@ const UnScheduleLecture = () => {
           })
         )}
       </div>
-    </div>
+    </>
   )
 }
 
