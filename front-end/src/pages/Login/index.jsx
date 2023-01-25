@@ -89,7 +89,7 @@ const Login = () => {
           localStorage.clear();
           // 로그인 성공하면 localStorage에 토큰 저장
           localStorage.setItem("accessToken", responseData.accessToken);
-          localStorage.setItem("refreshToken", responseData.accessToken);
+          localStorage.setItem("refreshToken", responseData.refreshToken);
           // context API의 유저 정보 상태 변경
           handleUserInfo(responseData);
           // 로그인 상태 변경
