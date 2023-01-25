@@ -48,12 +48,19 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserDto reqUserDto) {
-        try{
+        try {
             UserDto userDto = userService.login(reqUserDto);
             String checkEmail = userDto.getEmail();
             String refreshToken = jwtTokenProvider.createRefreshToken(checkEmail);
             String accessToken = jwtTokenProvider.createAccessToken(refreshToken);
             return new ResponseEntity<>(new SuccessResponse(userService.updateToken(userDto, refreshToken, accessToken)), HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            if (e.getErrorCode() == ErrorCode.INVALID_PASSWORD){
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_PASSWORD), HttpStatus.BAD_REQUEST);
+            } else {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.NOT_FOUND);

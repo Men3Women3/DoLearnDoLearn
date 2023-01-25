@@ -35,7 +35,7 @@ public class UserService {
         }
         UserDto userDto = user.get().toDto();
         if (!passwordEncoder.matches(reqUserDto.getPassword(), userDto.getPassword())) {
-            throw new CustomException(ErrorCode.NO_USER);
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
         return userDto;
     }
