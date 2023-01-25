@@ -1,7 +1,6 @@
 package com.example.dolearn.controller;
 
 import com.example.dolearn.domain.Board;
-import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserBoard;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.response.SuccessResponse;
@@ -36,7 +35,7 @@ public class BoardController {
             Board board = bService.insert(boardDto);
             log.info("글 등록: {}",boardDto);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse(board), HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse(board), HttpStatus.CREATED);
         } catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("글 등록 과정에서 오류가 발생했습니다!!");
@@ -82,7 +81,7 @@ public class BoardController {
 
             log.info("삭제할 id: {}",id);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("삭제가 완료되었습니다!!"),HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("삭제가 완료되었습니다!!"),HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("삭제하는 과정에서 오류가 발생했습니다");
@@ -96,7 +95,7 @@ public class BoardController {
             List<UserBoard> applicants= ubService.getInstructors(bid);
             log.info("목록: {}",applicants);
 
-            if(applicants.isEmpty()) return new ResponseEntity<SuccessResponse>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.ACCEPTED);
+            if(applicants.isEmpty()) return new ResponseEntity<SuccessResponse>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.OK);
             return new ResponseEntity<SuccessResponse>(new SuccessResponse(applicants),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -134,13 +133,11 @@ public class BoardController {
             Long bid = userApplyInfo.get("bid");
 
             log.info("수강신청: {}, {}",uid,bid);
-            User user = userService.getInfo(uid).toEntity();
-            Board board = bService.selectDetail(bid).get();
 
-            UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).user(user).board(board).user_type("학생").build();
+            UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).user_type("학생").build();
             ubService.applyClass(userBoard);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강의 신청 과정에서 오류가 발생했습니다!!");
@@ -154,13 +151,11 @@ public class BoardController {
             Long bid = userApplyInfo.get("bid");
 
             log.info("강의신청: {}, {}",uid,bid);
-            User user = userService.getInfo(uid).toEntity();
-            Board board = bService.selectDetail(bid).get();
 
-            UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).user(user).board(board).user_type("강사").build();
+            UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).user_type("강사").build();
             ubService.applyClass(userBoard);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강사 신청이 완료되었습니다!!"),HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강사 신청이 완료되었습니다!!"),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강사 신청 과정에서 오류가 발생했습니다!!");
@@ -173,7 +168,7 @@ public class BoardController {
             log.info("삭제요청: {}, {}",uid,bid);
             int result = ubService.cancelApply(uid,bid);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청 취소가 완료되었습니다!!"),HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청 취소가 완료되었습니다!!"),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강의 신청 취소 과정에서 오류가 발생했습니다!!");
@@ -185,7 +180,7 @@ public class BoardController {
         try{
             Board updateBoard = bService.update(id);
             log.info("강의 업데이트 완료: {}",updateBoard);
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강의 확정을 하는 과정에서 오류가 발생했습니다!!");
