@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import {
   SProfileEditContainer,
   SSubContainerUp,
@@ -8,39 +8,43 @@ import {
   SBlackButton,
   STextAreaIcon,
   SInputIcon,
-} from "./styles"
+} from "./styles";
 
-import profile from "../../assets/images/thumbnail.png"
+import profile from "../../assets/images/thumbnail.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faComment, faGear, faLink } from "@fortawesome/free-solid-svg-icons"
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
-import { faIdCard } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment, faGear, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebook,
   faInstagram,
   faStaylinked,
   faYoutube,
-} from "@fortawesome/free-brands-svg-icons"
-import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons"
-import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons"
-import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons"
+} from "@fortawesome/free-brands-svg-icons";
+import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 
 const ProfileEdit = (props) => {
-  const [blogLink, setBlogLink] = useState("")
-  const [youtubeLink, setYoutubeLink] = useState("")
-  const [instagram, setInstagram] = useState("")
-  const [facebook, setFacebook] = useState("")
-  const [selfIntroduction, setSelfIntroduction] = useState("")
-  const fileInput = React.useRef(null)
+  const [blogLink, setBlogLink] = useState("");
+  const [youtubeLink, setYoutubeLink] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [selfIntroduction, setSelfIntroduction] = useState("");
+  const fileInput = React.useRef(null);
   // const handleCompleteEditProfile = () => {
   //   props.setValue(!props.value);
   // };
 
   // 프로필 이미지 변경
   const handleEditProfileImg = (e) => {
-    fileInput.current.click()
-  }
+    fileInput.current.click();
+  };
+  const handleFileChange = (e) => {
+    // console.log(e.target.value);
+    console.log(e.target.files[0]);
+  };
 
   return (
     <SProfileEditContainer>
@@ -59,7 +63,12 @@ const ProfileEdit = (props) => {
               icon={faGear}
               onClick={handleEditProfileImg}
             />
-            <input type="file" ref={fileInput} />
+            <input
+              type="file"
+              ref={fileInput}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
           </div>
 
           <section>
@@ -202,7 +211,7 @@ const ProfileEdit = (props) => {
         </SSubContainerDown>
       </div>
     </SProfileEditContainer>
-  )
-}
+  );
+};
 
-export default ProfileEdit
+export default ProfileEdit;
