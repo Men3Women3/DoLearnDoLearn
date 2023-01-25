@@ -12,8 +12,12 @@ export const SProfileContainer = styled.div`
 
   .tip {
     width: 100%;
-    overflow: hidden;
-    white-space: normal;
+    max-height: 200px;
+    /* overflow: auto; */
+    word-wrap: break-word;
+    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
+    overflow: auto;
     /* background-color: #fdf7d8; */
     border: 3px dashed ${(props) => props.theme.lightGray};
     color: black;
