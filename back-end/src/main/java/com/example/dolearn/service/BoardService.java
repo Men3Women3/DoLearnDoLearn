@@ -33,8 +33,8 @@ public class BoardService {
     }
 
     @Transactional
-    public void deleteBoard(Long id){
-        bRepo.deleteById(id);
+    public int deleteBoard(Long id){
+        return bRepo.deleteBoard(id);
     }
 
     @Transactional
