@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SNav = styled.nav`
   display: flex;
@@ -6,11 +6,15 @@ export const SNav = styled.nav`
   align-items: center;
   gap: 4px;
   margin: 16px;
+  // 요 아래는 PN 고정을 위해..
+  position: fixed;
+  top: 92%;
+  left: 30%;
 `;
 
 export const SButton = styled.button`
   border: none;
-  border-radius: 10%;
+  border-radius: 5px;
   padding: 0.7vh 0.5vw;
   margin: 0.1rem;
   background: black;

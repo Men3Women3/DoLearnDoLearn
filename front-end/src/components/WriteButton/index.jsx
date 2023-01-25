@@ -16,7 +16,7 @@ const WriteButton = () => {
   return (
     <SWriteButton onClick={handleWriteBoard}>
       <FontAwesomeIcon icon={faPencil} />
-      글쓰기
+      &nbsp;&nbsp;글쓰기
     </SWriteButton>
   );
 };
