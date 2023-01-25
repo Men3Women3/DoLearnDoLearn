@@ -4,7 +4,7 @@ export const SContainer = styled.div`
   /* transition: all 300ms linear; */
   /* position: absolute; */
   /* right: 20px; */
-  min-width: 400px;
+  min-width: 290px;
   background-color: white;
   padding: 12px 18px;
   border-radius: 20px;

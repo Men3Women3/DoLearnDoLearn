@@ -12,6 +12,8 @@ export const SProfileContainer = styled.div`
 
   .tip {
     width: 100%;
+    overflow: hidden;
+    white-space: normal;
     /* background-color: #fdf7d8; */
     border: 3px dashed ${(props) => props.theme.lightGray};
     color: black;

@@ -57,15 +57,15 @@ export const Box = styled.main`
     }
     .unread__notification {
       cursor: pointer;
-      margin: 0 ${(props) => props.theme.fontSize.h4};
       font-size: ${(props) => props.theme.fontSize.h2};
     }
-    div {
+    .user-state {
       background-color: black;
       padding: 8px 12px;
       /* margin-left: calc(1vw + 6px); */
       border-radius: 8px;
       color: white;
+      margin-left: calc(1vw + 1px);
     }
     .username {
       color: black;
@@ -104,5 +104,19 @@ export const Box = styled.main`
   .logout {
     margin-bottom: 0px;
     cursor: pointer;
+  }
+  .unread-container {
+    position: relative;
+  }
+  .unread-message {
+    position: absolute;
+    width: calc(0.3vw + 1px);
+    height: calc(0.3vw + 1px);
+    background-color: red;
+    border-radius: 50%;
+    top: 0px;
+  }
+  .user-state-nuLogined {
+    color: white;
   }
 `;
