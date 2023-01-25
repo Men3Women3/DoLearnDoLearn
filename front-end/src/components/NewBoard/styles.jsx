@@ -47,7 +47,7 @@ export const STitleInput = styled.input`
   height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
-  padding-left: 50px;
+  padding-left: 1vw;
 `;
 
 // 4. 참여 인원 - people-number
@@ -69,7 +69,7 @@ export const SParticipantInput = styled.input`
   height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
-  padding-left: 3vw;
+  padding-left: 1vw;
   ::placeholder {
     font-family: ${(props) => props.theme.fontFamily.Regular};
     font-size: ${(props) => props.theme.fontSize.p};
@@ -92,7 +92,7 @@ export const SRecruitInput = styled.input`
   height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
-  padding-left: 10px;
+  padding-left: 1vw;
   padding-right: 30px;
   margin-right: 1vw;
 `;
@@ -113,7 +113,7 @@ export const SLectureInput = styled.input`
   height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
-  padding-left: 10px;
+  padding-left: 1vw;
   padding-right: 30px;
   margin-right: 1vw;
 `;
@@ -126,7 +126,7 @@ export const STimeInput = styled.input`
   height: calc(3.5vh + 15px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
-  padding-left: 10px;
+  padding-left: 1vw;
   padding-right: 30px;
 `;
 
@@ -160,12 +160,12 @@ export const SSummary = styled.div`
 export const SSummaryText = styled.textarea`
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: calc(1vw + 1px);
-  width: 95%;
+  width: 98%;
   height: 15%;
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 50px;
+  padding-left: 1vw;
   padding-top: 10px;
   padding-bottom: 10px;
   resize: none;
@@ -186,12 +186,12 @@ export const SDetail = styled.div`
 export const SDetailText = styled.textarea`
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: calc(1vw + 1px);
-  width: 95%;
+  width: 98%;
   height: 15%;
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 50px;
+  padding-left: 1vw;
   padding-top: 10px;
   padding-bottom: 10px;
   resize: none;

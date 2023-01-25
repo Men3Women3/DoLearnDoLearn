@@ -1,5 +1,5 @@
-import React from 'react';
-import { SNav, SButton } from './styles';
+import React from "react";
+import { SNav, SButton } from "./styles";
 
 const Pagination = ({ total, limit, page, setPage }) => {
   const numPages = Math.ceil(total / limit) + 1; // 필요한 페이지 개수
@@ -7,7 +7,8 @@ const Pagination = ({ total, limit, page, setPage }) => {
   const currentSet = Math.ceil(page / limit); // 현재의 페이징 세트
   const lastSet = Math.ceil(numPages / limit); // 마지막 페이징 세트
   const stPage = limit * (currentSet - 1) + 1; // 각 페이징 세트의 시작 페이지 번호
-  const numOfPagesPerSet = currentSet === lastSet ? numPages % limit : limit; // 한 페이지에 보일 페이지 세트 수
+  const numOfPagesPerSet =
+    currentSet === lastSet ? (numPages % limit) - 1 : limit; // 한 페이지에 보일 페이지 세트 수
 
   return (
     <>
@@ -24,7 +25,8 @@ const Pagination = ({ total, limit, page, setPage }) => {
             <SButton
               key={stPage + i}
               onClick={() => setPage(stPage + i)}
-              aria-current={page === stPage + i ? 'page' : null}>
+              aria-current={page === stPage + i ? "page" : null}
+            >
               {stPage + i}
             </SButton>
           ))}
