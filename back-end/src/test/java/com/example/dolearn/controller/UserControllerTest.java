@@ -95,11 +95,81 @@ public class UserControllerTest {
             when(userService.signup(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION));
 
             mockMvc.perform(post("/user")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(toJson(userDto)))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .content(toJson(userDto)))
                     .andExpect(status().isConflict());
+        }
+    }
+
+    @Nested
+    class login{
+
+        private String name;
+        private String email;
+        private String password;
+
+        @BeforeEach
+        void setup(){
+            name = "민싸피";
+            email = "ssafy@naver.com";
+            password = "abcd!1234";
+        }
+
+        @Test
+        @DisplayName("로그인 성공")
+        void success() throws Exception {
+            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+
+            when(userService.login(any(UserDto.class))).thenReturn(userDto);
+            when(jwtTokenProvider.createRefreshToken(any(String.class))).thenReturn("refresh-token");
+            when(jwtTokenProvider.createAccessToken(any(String.class))).thenReturn("access-token");
+            when(userService.updateToken(any(UserDto.class), any(String.class), any(String.class))).thenReturn(userDto);
+
+            mockMvc.perform(post("/user/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .content(toJson(userDto)))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("로그인 실패 - 존재하지 않는 이메일")
+        void failByEmail() throws Exception {
+            name = "가입자명";
+            email = "abcd@daum.net";
+            password = "abcdpassord";
+
+            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+
+            when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+            mockMvc.perform(post("/user/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .content(toJson(userDto)))
+                    .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        @DisplayName("로그인 실패 - 비밀번호 오류")
+        void failByPassword() throws Exception {
+            name = "가입자명";
+            email = "ssafy@naver.com";
+            password = "abcdpassord";
+
+            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+
+            when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_PASSWORD));
+
+            mockMvc.perform(post("/user/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .content(toJson(userDto)))
+                    .andExpect(status().isBadRequest());
         }
     }
 
