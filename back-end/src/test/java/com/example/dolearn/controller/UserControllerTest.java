@@ -58,25 +58,10 @@ public class UserControllerTest {
     @Nested
     class signup{
 
-        private String name;
-        private String email;
-        private String password;
-
-        @BeforeEach
-        void setup(){
-            name = "민싸피";
-            email = "ssafy@naver.com";
-            password = "abcd!1234";
-        }
-
         @Test
         @DisplayName("회원가입 성공")
         void success() throws Exception {
-            name = "가입자명";
-            email = "abcd@daum.net";
-            password = "abcdpassord";
-
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto userDto = UserDto.builder().build();
 
             when(userService.signup(any(UserDto.class))).thenReturn(userDto);
 
@@ -90,7 +75,7 @@ public class UserControllerTest {
         @Test
         @DisplayName("회원가입 실패 - 이메일 중복")
         void failByEmail() throws Exception {
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto userDto = UserDto.builder().build();
 
             when(userService.signup(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION));
 
@@ -106,21 +91,10 @@ public class UserControllerTest {
     @Nested
     class login{
 
-        private String name;
-        private String email;
-        private String password;
-
-        @BeforeEach
-        void setup(){
-            name = "민싸피";
-            email = "ssafy@naver.com";
-            password = "abcd!1234";
-        }
-
         @Test
         @DisplayName("로그인 성공")
         void success() throws Exception {
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto userDto = UserDto.builder().build();
 
             when(userService.login(any(UserDto.class))).thenReturn(userDto);
             when(jwtTokenProvider.createRefreshToken(any(String.class))).thenReturn("refresh-token");
@@ -137,11 +111,7 @@ public class UserControllerTest {
         @Test
         @DisplayName("로그인 실패 - 존재하지 않는 이메일")
         void failByEmail() throws Exception {
-            name = "가입자명";
-            email = "abcd@daum.net";
-            password = "abcdpassord";
-
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto userDto = UserDto.builder().build();
 
             when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
 
@@ -156,11 +126,7 @@ public class UserControllerTest {
         @Test
         @DisplayName("로그인 실패 - 비밀번호 오류")
         void failByPassword() throws Exception {
-            name = "가입자명";
-            email = "ssafy@naver.com";
-            password = "abcdpassord";
-
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto userDto = UserDto.builder().build();
 
             when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_PASSWORD));
 
