@@ -8,6 +8,7 @@ import theme from "./theme";
 import Loading from "./pages/Loading";
 import { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
 
 // 코드 스플리팅 (Code Splitting)
 const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
@@ -28,8 +29,12 @@ export const LoginStateContext = React.createContext();
 // 로그인 상태를 관리하는 함수가 담긴 context API
 export const LoginStateHandlerContext = React.createContext();
 
+// 기본 도메인 주소
+const axiosDefaultURL = "http://localhost:8080";
+
 function App() {
   const [isLogined, setIsLogined] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") !== null) {
@@ -39,20 +44,39 @@ function App() {
     }
   });
 
+  // 로그인 상태 관리 함수
   const handleIsLogined = () => {
     setIsLogined(!isLogined);
   };
 
+  // 로그아웃 상태 관리 함수
   const handleLogout = () => {
     localStorage.clear();
     setIsLogined(false);
+    // axios
+    //   .post(`${axiosDefaultURL}/user/logout/${userInfo.id}`, {
+    //     headers: {
+    //       Authentication: `${userInfo.accessToken}`,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response);
+    //   });
+  };
+
+  // 유저의 정보를 저장하는 함수
+  const handleUserInfo = (info) => {
+    setUserInfo(info);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <LoginStateContext.Provider value={isLogined}>
+      <LoginStateContext.Provider value={{ isLogined, userInfo }}>
         <LoginStateHandlerContext.Provider
-          value={{ handleIsLogined, handleLogout }}
+          value={{ handleIsLogined, handleLogout, handleUserInfo }}
         >
           <Suspense fallback={<Loading />}>
             <BrowserRouter>

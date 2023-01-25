@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react";
 import {
   SProfileContainer,
   SSubContainerUp,
@@ -6,30 +6,24 @@ import {
   SBlackButton,
   SSnsContainer,
   SCustomToolTip,
-} from "./styles"
-import { Tooltip } from "@mui/material"
+} from "./styles";
+import { Tooltip } from "@mui/material";
 
-import profileImg from "../../assets/images/thumbnail.png"
+import profileImg from "../../assets/images/thumbnail.png";
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
-import blogImg from "../../assets/images/sns/blog.png"
-import youtubeImg from "../../assets/images/sns/youtube.png"
-import instagramImg from "../../assets/images/sns/instagram.png"
-import facebookImg from "../../assets/images/sns/facebook.png"
+import blogImg from "../../assets/images/sns/blog.png";
+import youtubeImg from "../../assets/images/sns/youtube.png";
+import instagramImg from "../../assets/images/sns/instagram.png";
+import facebookImg from "../../assets/images/sns/facebook.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { LoginStateContext } from "../../App";
 
 const Profile = (props) => {
-  const [name, setName] = useState("김싸피")
-  const [email, setEmail] = useState("ssafyKing@naver.com")
-  const [selfInfo, setSelfInfo] = useState("")
-  const [blogLink, setBlogLink] = useState("https://www.tistory.com/")
-  const [youtubeLink, setYoutubeLink] = useState(
-    "https://www.youtube.com/@hellossafy"
-  )
-  const [instagram, setInstagram] = useState("hellossafy")
-  const [facebook, setFacebook] = useState("hellossafy")
+  // context API에서 유저 정보 가져오기
+  const getUserInfo = useContext(LoginStateContext);
 
   return (
     <SProfileContainer>
@@ -40,20 +34,20 @@ const Profile = (props) => {
           <div className="info__container">
             <div>
               {/* 이름 */}
-              <span>{name}</span>
+              <span>{getUserInfo.userInfo.name}</span>
               {/* 이메일 */}
-              <p>{email}</p>
+              <p>{getUserInfo.userInfo.email}</p>
             </div>
             {/* SNS 아이콘 */}
             <SSnsContainer>
               <Tooltip
-                title={`${name}님의 블로그 바로가기`}
+                title={`${getUserInfo.userInfo.name}님의 블로그 바로가기`}
                 placement="top"
                 arrow
               >
                 <a
                   // className="tooltip"
-                  href={blogLink}
+                  href={`https://${getUserInfo.userInfo.blog}`}
                   target="_blank"
                   // info={`${name}님의 블로그 바로가기`}
                 >
@@ -61,13 +55,13 @@ const Profile = (props) => {
                 </a>
               </Tooltip>
               <Tooltip
-                title={`${name}님의 유튜브 채널 바로가기`}
+                title={`${getUserInfo.userInfo.name}님의 유튜브 채널 바로가기`}
                 placement="top"
                 arrow
               >
                 <a
                   // className="tooltip"
-                  href={youtubeLink}
+                  href={`https://${getUserInfo.userInfo.youtube}`}
                   target="_blank"
                   // info={`${name}님의 유튜브 채널 바로가기`}
                 >
@@ -75,13 +69,13 @@ const Profile = (props) => {
                 </a>
               </Tooltip>
               <Tooltip
-                title={`${name}님의 인스타그램 바로가기`}
+                title={`${getUserInfo.userInfo.name}님의 인스타그램 바로가기`}
                 placement="top"
                 arrow
               >
                 <a
                   // className="tooltip"
-                  href={`https://www.instagram.com/${instagram}/`}
+                  href={`https://${getUserInfo.userInfo.instagram}`}
                   target="_blank"
                   // info={`${name}님의 인스타그램 바로가기`}
                 >
@@ -89,13 +83,13 @@ const Profile = (props) => {
                 </a>
               </Tooltip>
               <Tooltip
-                title={`${name}님의 페이스북 바로가기`}
+                title={`${getUserInfo.userInfo.name}님의 페이스북 바로가기`}
                 placement="top"
                 arrow
               >
                 <a
                   // className="tooltip"
-                  href={`https://www.facebook.com/${facebook}/`}
+                  href={`https://${getUserInfo.userInfo.facebook}`}
                   target="_blank"
                   // info={`${name}님의 페이스북 바로가기`}
                 >
@@ -152,34 +146,14 @@ const Profile = (props) => {
       <SSubContainerDown>
         <div className="cd1tip">
           {/* <SFontAwesomeIconAtProfile icon={faIdCard} /> */}
-          <span className="tip">
-            안녕하세요.싸피입니다...................................
-            <br />- 미리대학원 중어중문학 석사
-            <br />
-            - 미리대학원 중어중문학 박사
-            <br />- 미리에듀 중국어 재수강 강의 1위
-            <br />
-            안녕하세요.싸피입니다.....................................
-            <br />- 미리대학원 중어중문학 석사
-            <br />
-            - 미리대학원 중어중문학 박사
-            <br />- 미리에듀 중국어 재수강 강의 1위
-            <br />
-            안녕하세요.싸피입니다........................................
-            <br />- 미리대학원 중어중문학 석사
-            <br />
-            - 미리대학원 중어중문학 박사
-            <br />- 미리에듀 중국어 재수강 강의 1위
-            <br />
-            안녕하세요.싸피입니다........................................
-          </span>
+          <span className="tip">{getUserInfo.userInfo.info}</span>
         </div>
         <SBlackButton onClick={props.handleProfileEditBtn}>
           프로필 수정
         </SBlackButton>
       </SSubContainerDown>
     </SProfileContainer>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
