@@ -16,7 +16,7 @@ import { LoginStateContext } from "../../App";
 import { useContext } from "react";
 
 const Home = () => {
-  const isLogined = useContext(LoginStateContext);
+  const { isLogined, userInfo } = useContext(LoginStateContext);
 
   const defaultOptions = {
     loop: true,

@@ -38,7 +38,7 @@ import Lottie from "react-lottie";
 import animationData from "../../assets/images/LOGIN";
 import axios from "axios";
 import { useContext } from "react";
-import { LoginStateHandlerContext } from "../../App";
+import { LoginStateContext, LoginStateHandlerContext } from "../../App";
 
 const style = {
   position: "absolute",
@@ -62,7 +62,6 @@ const defaultOptions = {
 };
 
 const axiosDefaultURL = "http://localhost:8080";
-const JWT_EXPIRY_TIME = 24 * 3600 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -73,7 +72,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   // context api를 통해 handleIsLogined 함수 가져오기
-  const { handleIsLogined } = useContext(LoginStateHandlerContext);
+  const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
+    LoginStateHandlerContext
+  );
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -84,10 +85,13 @@ const Login = () => {
           password,
         })
         .then((response) => {
-          // 로그인 성공하면 localStorage에 엑세스토큰 저장
           const responseData = response.data.response;
           localStorage.clear();
+          // 로그인 성공하면 localStorage에 토큰 저장
           localStorage.setItem("accessToken", responseData.accessToken);
+          localStorage.setItem("refreshToken", responseData.accessToken);
+          // context API의 유저 정보 상태 변경
+          handleUserInfo(responseData);
           // 로그인 상태 변경
           handleIsLogined();
           // 메인페이지로 이동

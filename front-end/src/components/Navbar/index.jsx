@@ -16,7 +16,7 @@ const defaultURL = "http://localhost:3000";
 
 const Navbar = () => {
   // context api를 통해 로그인 상태 받아오기
-  const isLogined = useContext(LoginStateContext);
+  const { isLogined, userInfo } = useContext(LoginStateContext);
   // context api를 통해 로그인 상태 관리 함수들 받아오기
   const { handleIsLogined, handleLogout } = useContext(
     LoginStateHandlerContext
@@ -37,14 +37,23 @@ const Navbar = () => {
         {isLogined && (
           <NavLink to={"/mypage"} className="link username">
             <img src={profileImg} alt="profileImg" />
-            <span style={{ margin: "auto 0 auto 5px", cursor: "pointer" }}>
-              김싸피
+            <span
+              style={{
+                margin: "auto calc(1vw + 1px) auto 5px",
+                cursor: "pointer",
+              }}
+            >
+              {userInfo.name}
             </span>
           </NavLink>
         )}
         {isLogined && (
-          <FontAwesomeIcon className="unread__notification" icon={faBell} />
+          <div className="unread-container">
+            <FontAwesomeIcon className="unread__notification" icon={faBell} />
+            <div className="unread-message"></div>
+          </div>
         )}
+
         <div className="user-state">
           {isLogined ? (
             <>
@@ -54,11 +63,11 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link to={"/login"} className="link user-state">
+              <Link to={"/login"} className="link user-state-nuLogined">
                 로그인
               </Link>
               <span>|</span>
-              <Link to={"/signup"} className="link user-state">
+              <Link to={"/signup"} className="link user-state-nuLogined">
                 회원가입
               </Link>
             </>
