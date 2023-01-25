@@ -9,22 +9,16 @@ import com.example.dolearn.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.http.HttpServletRequest;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -32,8 +26,8 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -217,6 +211,32 @@ public class UserControllerTest {
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8))
                     .andExpect(status().isConflict());
+        }
+    }
+
+    @Nested
+    class delete{
+
+        @Test
+        @DisplayName("사용작 삭제 성공")
+        void success() throws Exception {
+            mockMvc.perform(delete("/user/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("사용자 삭제 실패 - 존재하지 않는 사용자")
+        void failByNoUser() throws Exception {
+            doThrow(new CustomException(ErrorCode.NO_USER)).when(userService).delete(any(Long.class));
+
+            mockMvc.perform(delete("/user/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(status().isBadRequest());
         }
     }
 
