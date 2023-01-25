@@ -1,12 +1,14 @@
 package com.example.dolearn.service;
 
 import com.example.dolearn.domain.Board;
+import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserBoard;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.dto.UserBoardDto;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.repository.BoardRepository;
 import com.example.dolearn.repository.UserBoardRepository;
+import com.example.dolearn.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +39,9 @@ public class BoardServiceTest {
 
     @Mock
     UserBoardRepository userBoardRepository;
+
+    @Mock
+    UserRepository userRepository;
 
     private final BoardDto boardDto1 = BoardDto.builder()
             .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
@@ -92,9 +97,11 @@ public class BoardServiceTest {
     @DisplayName("글 삭제")
     @Test
     public void deleteBoardTest(){
-        boardService.deleteBoard(boardDto1.getId());
+        when(boardRepository.deleteBoard(any())).thenReturn(1);
 
-        verify(boardRepository).deleteById(boardDto1.getId());
+        int result = boardService.deleteBoard(boardDto1.getId());
+
+        assertEquals(1,result);
     }
 
     @DisplayName("제목으로 검색")
@@ -163,11 +170,13 @@ public class BoardServiceTest {
     @DisplayName("수강 신청")
     @Test
     public void applyClassTest() throws Exception{
-        UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
+        UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
+        Optional<User> user = Optional.of(userDto.toEntity());
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
 
+        when(userRepository.findOneById(any())).thenReturn(user);
         when(userBoardRepository.save(any())).thenReturn(userBoardDto.toEntity());
 
         UserBoard result = userBoardService.applyClass(userBoardDto.toEntity());
