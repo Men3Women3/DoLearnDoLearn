@@ -82,7 +82,8 @@ export const SSubContainerUp = styled.div`
 export const SSnsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  .tooltip {
+  align-items: center;
+  /* .tooltip {
     display: inline;
     position: relative;
   }
@@ -110,7 +111,7 @@ export const SSnsContainer = styled.div`
     text-align: center;
     line-height: calc(1.5vw + 0.1px);
     z-index: 98;
-  }
+  } */
   img {
     height: calc(1.5vw + 0.1px);
     margin-left: 8px;
