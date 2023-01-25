@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SOutterBox = styled.div`
+  font-family: ${(props) => props.theme.fontFamily.Medium};
   display: flex;
 `;
 
