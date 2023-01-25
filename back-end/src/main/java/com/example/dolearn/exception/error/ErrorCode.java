@@ -14,6 +14,7 @@ public enum ErrorCode {
     // user
     EMAIL_DUPLICATION(HttpStatus.CONFLICT, "409", "이미 존재하는 이메일입니다."),
     NO_USER(HttpStatus.BAD_REQUEST, "400", "없는 사용자입니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "400", "비밀번호가 옳지 않습니다."),
     NO_LOGIN(HttpStatus.UNAUTHORIZED, "401", "로그인이 필요합니다"),
 
     // jwt
