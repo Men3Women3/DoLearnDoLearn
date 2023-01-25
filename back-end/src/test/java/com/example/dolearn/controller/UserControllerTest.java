@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -190,6 +191,32 @@ public class UserControllerTest {
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .content(toJson(userDto)))
                     .andExpect(status().isBadRequest());
+        }
+    }
+
+    @Nested
+    class checkEmail{
+
+        @Test
+        @DisplayName("중복되지 않은 이메일")
+        void success() throws Exception {
+            mockMvc.perform(post("/user/check-email/ssafy@naver.com")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("중복된 이메일")
+        void failByEmail() throws Exception {
+            doThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION)).when(userService).checkEmail(any(String.class));
+
+            mockMvc.perform(post("/user/check-email/ssafy@naver.com")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(status().isConflict());
         }
     }
 
