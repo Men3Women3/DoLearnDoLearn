@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 // board list 전체에 적용되는 css
 export const SContainer = styled.div`

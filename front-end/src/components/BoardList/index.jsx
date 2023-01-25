@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { SContainer, SUniDiv } from './styles';
-import Pagination from '../Pagination';
-import axios from 'axios';
-import UniBoard from '../UniBoard';
+import React, { useEffect, useState } from "react";
+import { SContainer, SUniDiv } from "./styles";
+import Pagination from "../Pagination";
+import axios from "axios";
+import UniBoard from "../UniBoard";
 
 const BoardList = () => {
-  const SERVER_URL = 'https://jsonplaceholder.typicode.com/photos';
+  const SERVER_URL = "https://jsonplaceholder.typicode.com/photos";
 
   // 이 구간은 Pagination을 위해 필요한 부분 ==============
   const limit = 6; // 페이지 당 게시물 수
@@ -26,12 +26,12 @@ const BoardList = () => {
 
   return (
     <>
-      <SContainer className='container'>
+      <SContainer className="container">
         {/* // offset으로 slicing해서 limit 만큼만 한 화면에 표시 */}
         {list.slice(offset, offset + limit).map((board) => {
           return (
             <SUniDiv key={board.id}>
-              <UniBoard className='uni-board' data={board} />
+              <UniBoard className="uni-board" data={board} />
             </SUniDiv>
           );
         })}
