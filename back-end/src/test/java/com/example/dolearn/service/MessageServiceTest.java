@@ -1,14 +1,8 @@
 package com.example.dolearn.service;
 
-import com.example.dolearn.domain.Lecture;
-import com.example.dolearn.domain.Message;
-import com.example.dolearn.domain.User;
-import com.example.dolearn.domain.UserLecture;
+import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.MessageDto;
-import com.example.dolearn.repository.LectureRepository;
-import com.example.dolearn.repository.MessageRepository;
-import com.example.dolearn.repository.UserLectureRepository;
-import com.example.dolearn.repository.UserRepository;
+import com.example.dolearn.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,11 +36,14 @@ public class MessageServiceTest {
     @MockBean
     LectureRepository lectureRepository;
 
+    @MockBean
+    BoardRepository boardRepository;
+
     @BeforeEach
     void setUp() {
 
         messageService = new MessageService(messageRepository,userRepository,
-                                            lectureRepository,userLectureRepository);
+                                            lectureRepository,userLectureRepository,boardRepository);
     }
 
     @DisplayName("메세지 생성 테스트")
@@ -55,7 +52,8 @@ public class MessageServiceTest {
 
         //given
         Optional<Lecture> lecture = Optional.of(Lecture.builder().id(1L).build());
-        MessageDto messageDto = MessageDto.builder().lid(1L).content("강의확정").build();
+        MessageDto messageDto = MessageDto.builder().bid(1L).content("강의확정").build();
+        Board board = Board.builder().id(1L).title("좋은 강의입니다.").build();
 
         User user1 = User.builder().id(1L).name("test1").build();
         User user2 = User.builder().id(2L).name("test2").build();
@@ -69,6 +67,7 @@ public class MessageServiceTest {
         result.add(userLecture2);
 
         //when
+        when(boardRepository.findById(anyLong())).thenReturn(Optional.of(board));
         when(lectureRepository.findById(anyLong())).thenReturn(lecture);
         when(userLectureRepository.findByLectureId(anyLong())).thenReturn(result);
 
@@ -105,10 +104,13 @@ public class MessageServiceTest {
     @DisplayName("메세지 가져오기 서비스")
     @Test
     public void getDetailMessageTest() {
+
         Message message = Message.builder().content("test").isChecked(1).build();
+        Board board = Board.builder().id(1L).title("좋은 강의입니다.").build();
         User user = User.builder().name("test").build();
 
         message.setUser(user);
+        message.setBoard(board);
 
         Optional<Message> result = Optional.of(message);
 
@@ -126,10 +128,14 @@ public class MessageServiceTest {
         Message message1 = Message.builder().content("test").isChecked(0).build();
         Message message2 = Message.builder().content("test").isChecked(0).build();
 
+        Board board = Board.builder().id(1L).title("좋은 강의입니다.").build();
+
         User user = User.builder().id(1L).name("test").build();
 
         message1.setUser(user);
+        message1.setBoard(board);
         message2.setUser(user);
+        message2.setBoard(board);
 
         when(userRepository.findOneById(anyLong())).thenReturn(Optional.of(user));
 
@@ -143,8 +149,12 @@ public class MessageServiceTest {
     public void getMessageDetail() {
 
         User user = User.builder().id(1L).name("test").build();
+        Board board = Board.builder().id(1L).title("좋은 강의입니다.").build();
+
         Optional<Message> result = Optional.of(Message.builder().content("test").isChecked(0).build());
+
         result.get().setUser(user);
+        result.get().setBoard(board);
 
         when(messageRepository.findById(anyLong())).thenReturn(result);
 

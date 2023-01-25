@@ -87,6 +87,21 @@ public class User {
         this.imgSrc = (this.imgSrc == null) ? "" : this.imgSrc;
     }
 
+    public User update(String name,String email) {
+        this.name = name;
+        this.email = email;
+        return this;
+    }
+    //소셜로그인시만 사용
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    //소셜로그인 성공후 리프레쉬토큰 저장
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     public UserDto toDto() {
         return UserDto.builder()
                 .id(id)
