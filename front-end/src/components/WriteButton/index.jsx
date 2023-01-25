@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
-import CreateIcon from "@mui/icons-material/Create";
+import { SWriteButton } from "./styles";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const WriteButton = () => {
   const navigate = useNavigate();
@@ -13,22 +14,10 @@ const WriteButton = () => {
   }
 
   return (
-    <button>글쓰기</button>
-    // <Button
-    //   className="button-style"
-    //   style={{
-    //     float: "right",
-    //     color: "black",
-    //     borderColor: "black",
-    //     marginRight: 10,
-    //     boxShadow: "0px 0px 1px 0px #000000",
-    //   }}
-    //   onClick={handleWriteBoard}
-    //   variant="outlined"
-    //   startIcon={<CreateIcon />}
-    // >
-    //   글쓰기
-    // </Button>
+    <SWriteButton onClick={handleWriteBoard}>
+      <FontAwesomeIcon icon={faPencil} />
+      글쓰기
+    </SWriteButton>
   );
 };
 
