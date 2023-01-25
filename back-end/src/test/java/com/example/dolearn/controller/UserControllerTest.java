@@ -16,9 +16,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,6 +30,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -131,6 +136,55 @@ public class UserControllerTest {
             when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_PASSWORD));
 
             mockMvc.perform(post("/user/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .content(toJson(userDto)))
+                    .andExpect(status().isBadRequest());
+        }
+    }
+
+    @Nested
+    class update{
+
+        @Test
+        @DisplayName("사용자 정보 수정 성공")
+        void success() throws Exception {
+            UserDto userDto = UserDto.builder().build();
+
+            when(userService.updateInfo(any(UserDto.class))).thenReturn(userDto);
+
+            mockMvc.perform(put("/user")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .content(toJson(userDto)))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("사용자 정부 수정 실패 - 기입하지 않은 정보")
+        void failByInput() throws Exception {
+            UserDto userDto = UserDto.builder().build();
+
+            when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+            mockMvc.perform(put("/user")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .content(toJson(userDto)))
+                    .andExpect(status().isMethodNotAllowed());
+        }
+
+        @Test
+        @DisplayName("사용자 정부 수정 실패 - 존재하지 않는 사용자")
+        void failByNoUser() throws Exception {
+            UserDto userDto = UserDto.builder().build();
+
+            when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+            mockMvc.perform(put("/user")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
