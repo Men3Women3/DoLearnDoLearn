@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SSidebarContainer = styled.section`
   width: 100%;
@@ -15,7 +15,7 @@ export const SSidebarContainer = styled.section`
     #ffe89e,
     #ffc507
   ); ;
-`
+`;
 
 export const SButtonContainer = styled.div`
   position: relative;
@@ -52,7 +52,7 @@ export const SButtonContainer = styled.div`
     /* transform: skew(-30deg); */
     border-radius: 3px;
   }
-`
+`;
 
 export const SUserDeleteButtonContainer = styled.div`
   position: absolute;
@@ -70,4 +70,4 @@ export const SUserDeleteButtonContainer = styled.div`
     outline: none;
     cursor: pointer;
   }
-`
+`;

@@ -1,6 +1,6 @@
-import styled from "styled-components"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Tooltip } from "@mui/material"
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tooltip } from "@mui/material";
 
 export const SProfileContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -19,7 +19,7 @@ export const SProfileContainer = styled.div`
     border-radius: 10px;
     font-size: ${(props) => props.theme.fontSize.p};
   }
-`
+`;
 
 export const SSubContainerUp = styled.div`
   display: flex;
@@ -71,7 +71,7 @@ export const SSubContainerUp = styled.div`
       flex: 1;
     }
   }
-`
+`;
 
 export const SSnsContainer = styled.div`
   display: flex;
@@ -110,7 +110,7 @@ export const SSnsContainer = styled.div`
     margin-left: 8px;
     cursor: pointer;
   }
-`
+`;
 
 export const SSubContainerDown = styled.div`
   width: 100%;
@@ -119,7 +119,7 @@ export const SSubContainerDown = styled.div`
   line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const SBlackButton = styled.button`
   width: calc(2vw + 80px);
@@ -136,11 +136,11 @@ export const SBlackButton = styled.button`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bolder;
   }
-`
+`;
 
 export const SCustomToolTip = styled(Tooltip)`
   background-color: yellow;
-`
+`;
 
 // const BootstrapTooltip = styled(
 //   ({ className, ...props }) => (

@@ -1,11 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 
 export const SMain = styled.main`
   width: 100%;
   height: 100%;
   box-shadow: 5px 5px 5px #3737372d;
   border-radius: 20px;
+  transition: all 300ms ease;
   cursor: pointer;
   p {
     font-size: ${(props) => props.theme.fontSize.p};
@@ -57,11 +58,11 @@ export const SMain = styled.main`
   :hover {
     transform: scale(1.01);
   }
-`
+`;
 
 export const SMessageIcon = styled(FontAwesomeIcon)`
   height: ${(props) => props.theme.fontSize.h1};
-`
+`;
 
 export const STrashIcon = styled(FontAwesomeIcon)`
   height: ${(props) => props.theme.fontSize.h2};
@@ -70,5 +71,6 @@ export const STrashIcon = styled(FontAwesomeIcon)`
     -moz-animation: fa-shake 2s infinite linear;
     -o-animation: fa-shake 2s infinite linear;
     animation: fa-shake 2s infinite linear;
+    color: #ff7979;
   }
-`
+`;

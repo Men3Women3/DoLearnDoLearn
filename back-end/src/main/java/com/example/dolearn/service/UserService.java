@@ -75,9 +75,39 @@ public class UserService {
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
+    public UserDto getInfo(Long id){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        return user.get().toDto();
+    }
+
     public void checkEmail(String email){
         if(userRepository.findOneByEmail(email).isPresent()) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
+    }
+
+    public void delete(Long id){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        userRepository.delete(user.get());
+    }
+
+    public UserDto updatePoint(Long id, Integer point){
+        System.out.println(id+" "+point);
+        if(id == null || point == null) {
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        UserDto userDto = user.get().toDto();
+        userDto.setPoint(userDto.getPoint() + point);
+        return userRepository.save(userDto.toEntity()).toDto();
     }
 }

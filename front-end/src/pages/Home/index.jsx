@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar/index';
-import SmallSchedule from '../../components/SmallSchedule/index';
-import Typing from '../../components/Typing/index';
-import { SContainer } from './styles';
-import mainImg from '../../assets/images/main_img.svg';
-import { useNavigate } from 'react-router';
-import Lottie from 'react-lottie';
-import animationData from '../../assets/images/HOME';
-import Grid from '@mui/material/Grid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDays } from '@fortawesome/free-regular-svg-icons';
-import SmallScheduleToggle from '../../components/SmallScheduleToggle';
+import React, { useEffect, useState } from "react";
+import Navbar from "../../components/Navbar/index";
+import SmallSchedule from "../../components/SmallSchedule/index";
+import Typing from "../../components/Typing/index";
+import { SContainer } from "./styles";
+import mainImg from "../../assets/images/main_img.svg";
+import { useNavigate } from "react-router";
+import Lottie from "react-lottie";
+import animationData from "../../assets/images/HOME";
+import Grid from "@mui/material/Grid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
+import SmallScheduleToggle from "../../components/SmallScheduleToggle";
+import RankingList from "../../components/RankingList";
+import { LoginStateContext } from "../../App";
+import { useContext } from "react";
 
 const Home = () => {
-  const [isLogined, setIsLogined] = useState(true);
-  const navigate = useNavigate();
+  const isLogined = useContext(LoginStateContext);
 
   const defaultOptions = {
     loop: true,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: "xMidYMid slice",
     },
   };
 
@@ -36,9 +38,9 @@ const Home = () => {
         <Grid item xs={0} md={1.5} />
       </Grid>
 
-      <section className='main__section'>
+      <section className="main__section">
         <div>
-          <div className='main__content'>
+          <div className="main__content">
             {/* <h1>Do Learn, Do Run </h1> */}
             {/* <h3>우리가 만들고, 우리가 배우고</h3> */}
             <h3>원하는 강의</h3>
@@ -50,16 +52,17 @@ const Home = () => {
             <h4>#나만의 수업 &nbsp;#마일리지 획득</h4>
           </div>
         </div>
-        <div className='lottie-container'>
+        <div className="lottie-container">
           <Lottie
             options={defaultOptions}
             // height={400}
             // width={600}
           />
         </div>
-        <SmallScheduleToggle />
+        {isLogined && <SmallScheduleToggle />}
       </section>
       <Typing />
+      <RankingList />
     </SContainer>
   );
 };
