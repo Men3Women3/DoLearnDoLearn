@@ -140,9 +140,7 @@ public class UserController {
     @PutMapping("/point")
     public ResponseEntity<?> updatePoint(@RequestBody Map<String, Object> params){
         try{
-            Long id = Long.parseLong(String.valueOf(params.get("id")));
-            Integer point = (Integer) params.get("point");
-            return new ResponseEntity<>(new SuccessResponse(userService.updatePoint(id, point)), HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(userService.updatePoint(params)), HttpStatus.OK);
         } catch (CustomException e){
             e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {

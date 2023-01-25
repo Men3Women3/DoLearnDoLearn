@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -240,9 +243,43 @@ public class UserControllerTest {
         }
     }
 
-    private static String toJson(UserDto userDto) {
+    @Nested
+    class updatePoint{
+
+        @Test
+        @DisplayName("사용자 포인트 수정 성공")
+        void success() throws Exception {
+            Map<String, Object> params = new HashMap<>();
+
+            when(userService.updatePoint(params)).thenReturn(any(UserDto.class));
+
+            mockMvc.perform(put("/user/point")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .content(toJson(params)))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("사용자 포인트 수정 실패 - 기입하지 않은 정보")
+        void failByInput() throws Exception {
+            Map<String, Object> params = new HashMap<>();
+
+            when(userService.updatePoint(params)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+            mockMvc.perform(put("/user/point")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .content(toJson(params)))
+                    .andExpect(status().isMethodNotAllowed());
+        }
+    }
+
+    private static String toJson(Object object) {
         try {
-            return new ObjectMapper().writeValueAsString(userDto);
+            return new ObjectMapper().writeValueAsString(object);
         } catch(Exception e) {
             throw new RuntimeException(e);
         }
