@@ -12,12 +12,16 @@ const UniBoard = ({ data }) => {
   return (
     <SUniBoard>
       <SImg src={data.thumbnailUrl} />
-      <h4 writer={data.writer}>{data.id}</h4>
+      {/* <h4 writer={data.writer}>{data.id}</h4> */}
       <h3 title={data.title}>{data.title}</h3>
-      <p summary={data.summary}>{data.title}</p>
+      <p summary={data.summary}>{data.summary}</p>
+      <p summary={data.summary}>{data.summary}</p>
+      <p summary={data.summary}>{data.summary}</p>
+      <p summary={data.summary}>{data.summary}</p>
+      {/* <p start_time={data.start_time}>{data.title}</p>
       <p end_time={data.end_time}>{data.title}</p>
-      <p deadline={data.deadline}>{data.title}</p>
-      <SLectureModalButton onClick={handleOpen}>살펴보기</SLectureModalButton>
+      <p deadline={data.deadline}>{data.title}</p> */}
+      {/* <SLectureModalButton onClick={handleOpen}>살펴보기</SLectureModalButton> */}
       <LectureModal
         data={data}
         open={open}
