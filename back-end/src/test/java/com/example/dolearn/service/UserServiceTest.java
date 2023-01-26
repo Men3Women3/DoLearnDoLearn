@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -35,25 +37,13 @@ class UserServiceTest {
     @Transactional
     class signup{
 
-        private String name;
         private String email;
         private String password;
-
-        @BeforeEach
-        void setup(){
-            // 존재하는 데이터로 초기화
-            name = "민싸피";
-            email = "ssafy@naver.com";
-        }
 
         @Test
         @DisplayName("회원가입 성공")
         void success() {
-            name = "가입자명";
-            email = "abcd@daum.net";
-            password = "abcdpassord";
-
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto userDto = UserDto.builder().email(email).password(password).build();
 
             when(userRepository.save(any(User.class))).thenReturn(userDto.toEntity());
 
@@ -65,8 +55,7 @@ class UserServiceTest {
         @Test
         @DisplayName("회원가입 실패 - 중복된 이메일")
         void failByEmail() {
-
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto userDto = UserDto.builder().email(email).password(password).build();
 
             when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(userDto.toEntity()));
 
@@ -90,7 +79,6 @@ class UserServiceTest {
 
         @BeforeEach
         void setup(){
-            // 존재하는 데이터로 초기화
             name = "민싸피";
             email = "ssafy@naver.com";
             password = "abcd!1234";
@@ -115,13 +103,7 @@ class UserServiceTest {
         @Test
         @DisplayName("로그인 실패 - 존재하지 않은 이메일")
         void failByEmail() {
-            name = "가입자명";
-            email = "abcd@daum.net";
-            password = "abcdpassord";
-
-            UserDto userDto = UserDto.builder().email(email).password(password).build();
-
-            when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(userDto.toEntity()));
+            UserDto userDto = UserDto.builder().build();
 
             Exception exception = assertThrows(CustomException.class, ()->{
                 UserDto result = userService.login(userDto);
@@ -147,7 +129,7 @@ class UserServiceTest {
             });
 
             assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
+            assertEquals("비밀번호가 옳지 않습니다.", exception.getMessage());
         }
     }
 
@@ -162,7 +144,6 @@ class UserServiceTest {
 
         @BeforeEach
         void setup(){
-            // 존재하는 데이터로 초기화
             id = 1L;
             email = "ssafy@naver.com";
         }
@@ -173,7 +154,7 @@ class UserServiceTest {
             UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
 
             when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+            when(userRepository.findOneById(any(Long.class))).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
 
             UserDto userDto = userService.logout(id);
 
@@ -183,13 +164,6 @@ class UserServiceTest {
         @Test
         @DisplayName("로그아웃 실패 - 존재하지 않은 사용자")
         void failById() {
-            id = 10L;
-            name = "가입자명";
-            email = "abcd@daum.net";
-            password = "abcdpassord";
-
-            UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
-
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
 
             Exception exception = assertThrows(CustomException.class, ()->{
@@ -216,7 +190,6 @@ class UserServiceTest {
 
         @BeforeEach
         void setup(){
-            // 수정할 데이터로 초기화
             id = 1L;
             email = "ssafy@naver.com";
             imgSrc = "새로운 이미지 링크";
@@ -259,7 +232,6 @@ class UserServiceTest {
         @Test
         @DisplayName("사용자 정보 수정 실패 - 존재하지 않는 사용자")
         void failById() {
-            id = 150L;
             UserDto reqUserDto = UserDto.builder().id(id).email(email)
                     .imgSrc(imgSrc).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
                     .build();
@@ -283,7 +255,6 @@ class UserServiceTest {
 
         @BeforeEach
         void setup(){
-            // 존재하는 데이터로 초기화
             id = 1L;
             email = "ssafy@naver.com";
         }
@@ -304,7 +275,6 @@ class UserServiceTest {
         @DisplayName("사용자 정보 조회 실패 - 존재하지 않는 사용자")
         void failById() {
             id = 150L;
-            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
 
             Exception exception = assertThrows(CustomException.class, ()->{
                 UserDto result = userService.getInfo(id);
@@ -323,7 +293,6 @@ class UserServiceTest {
 
         @BeforeEach
         void setup(){
-            // 존재하는 데이터로 초기화
             id = 1L;
             email = "ssafy@naver.com";
         }
@@ -331,8 +300,6 @@ class UserServiceTest {
         @Test
         @DisplayName("중복되지 않는 이메일")
         void success() {
-            email = "abcd@daum.net";
-
             when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(null));
 
             userService.checkEmail(email);
@@ -359,19 +326,16 @@ class UserServiceTest {
     class delete{
 
         private Long id;
-        private String email;
 
         @BeforeEach
         void setup(){
-            // 존재하는 데이터로 초기화
             id = 1L;
-            email = "ssafy@naver.com";
         }
 
         @Test
         @DisplayName("사용자 정보 조회 성공")
         void success() {
-            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+            UserDto reqUserDto = UserDto.builder().id(id).build();
 
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
 
@@ -381,9 +345,6 @@ class UserServiceTest {
         @Test
         @DisplayName("사용자 정보 조회 실패 - 존재하지 않는 사용자")
         void failById() {
-            id = 150L;
-            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
-
             Exception exception = assertThrows(CustomException.class, ()->{
                 userService.delete(id);
             });
@@ -403,7 +364,6 @@ class UserServiceTest {
 
         @BeforeEach
         void setup(){
-            // 수정할 데이터로 초기화
             id = 1L;
             email = "ssafy@naver.com";
             point = 100;
@@ -418,7 +378,10 @@ class UserServiceTest {
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
             when(userRepository.save(any(User.class))).thenReturn(resUserDto.toEntity());
 
-            UserDto userDto = userService.updatePoint(id, 50);
+            Map<String, Object> params = new HashMap<>();
+            params.put("id", id);
+            params.put("point", point);
+            UserDto userDto = userService.updatePoint(params);
 
             assertEquals(50, userDto.getPoint() - reqUserDto.getPoint());
         }
@@ -426,10 +389,11 @@ class UserServiceTest {
         @Test
         @DisplayName("사용자 정보 수정 실패 - 기입되지 않은 정보")
         void failByRequiredInput() {
-            UserDto reqUserDto = UserDto.builder().id(id).email(email).point(point).build();
+            Map<String, Object> params = new HashMap<>();
+            params.put("id", id);
 
             Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto userDto = userService.updatePoint(id, null);
+                UserDto userDto = userService.updatePoint(params);
             });
 
             assertTrue(exception instanceof CustomException);
@@ -439,13 +403,12 @@ class UserServiceTest {
         @Test
         @DisplayName("사용자 정보 수정 실패 - 존재하지 않는 사용자")
         void failById() {
-            id = 150L;
-            UserDto reqUserDto = UserDto.builder().id(id).email(email).point(point).build();
-
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
+            Map<String, Object> params = new HashMap<>();
+            params.put("id", 100L);
+            params.put("point", point);
 
             Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto userDto = userService.updatePoint(id, 50);
+                UserDto userDto = userService.updatePoint(params);
             });
 
             assertTrue(exception instanceof CustomException);

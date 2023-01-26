@@ -32,8 +32,9 @@ public class MessageController {
     public ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto) {
 
         log.info("create confirm message 호출");
-        log.info(" content : {}",messageDto.getContent());
-        log.info(" lid : {}", messageDto.getLid());
+        log.info("content : {}",messageDto.getContent());
+        log.info("bid : {}", messageDto.getBid());
+
         //메세지 생성하는 메소드
         try {
             return new ResponseEntity<>(new SuccessResponse(messageService.createMessage(messageDto)), HttpStatus.CREATED);

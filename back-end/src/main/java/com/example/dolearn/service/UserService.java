@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -35,7 +36,7 @@ public class UserService {
         }
         UserDto userDto = user.get().toDto();
         if (!passwordEncoder.matches(reqUserDto.getPassword(), userDto.getPassword())) {
-            throw new CustomException(ErrorCode.NO_USER);
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
         return userDto;
     }
@@ -97,11 +98,12 @@ public class UserService {
         userRepository.delete(user.get());
     }
 
-    public UserDto updatePoint(Long id, Integer point){
-        System.out.println(id+" "+point);
-        if(id == null || point == null) {
+    public UserDto updatePoint(Map<String, Object> params){
+        if(params.get("id") == null || params.get("point") == null) {
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
+        Long id = Long.parseLong(String.valueOf(params.get("id")));
+        Integer point = (Integer) params.get("point");
         Optional<User> user = userRepository.findOneById(id);
         if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
