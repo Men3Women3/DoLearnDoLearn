@@ -1,6 +1,7 @@
-import React from "react"
-import { useState } from "react"
-import MessageItem from "../MessageItem"
+import React from "react";
+import { useState } from "react";
+import MessageItem from "../MessageItem";
+import Pagination from "../Pagination";
 
 const Message = () => {
   const [messageData, setMessageData] = useState([
@@ -88,7 +89,11 @@ const Message = () => {
       content: "[폐강] WebSocket 가르쳐주세요!",
       sender: "관리자",
     },
-  ])
+  ]);
+  const limit = 6;
+  const [page, setPage] = useState(1); // 현재 페이지 번호
+  const offset = (page - 1) * limit; // 첫 게시물의 위치
+
   return (
     <>
       {messageData.length === 0 ? (
@@ -96,17 +101,23 @@ const Message = () => {
       ) : (
         <div>
           <p>아직 읽지 않은 메시지가 {messageData.length}통 있습니다</p>
-          {messageData.map((item) => {
+          {messageData.slice(offset, offset + limit).map((item) => {
             return (
               <div key={item.id} style={{ margin: "15px 0" }}>
                 <MessageItem data={item} />
               </div>
-            )
+            );
           })}
         </div>
       )}
+      <Pagination
+        total={messageData.length}
+        limit={limit}
+        page={page}
+        setPage={setPage}
+      />
     </>
-  )
-}
+  );
+};
 
-export default Message
+export default Message;
