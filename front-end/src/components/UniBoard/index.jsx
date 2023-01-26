@@ -27,6 +27,14 @@ const UniBoard = ({ data }) => {
             <FontAwesomeIcon icon={faCalendarDays} />
             &nbsp;강의시간 | {data.classTime}
           </p>
+          <p summary={data.summary}>
+            <FontAwesomeIcon icon={faCalendarDays} />
+            &nbsp;강사 모집현황 | 2명
+          </p>
+          <p summary={data.summary}>
+            <FontAwesomeIcon icon={faCalendarDays} />
+            &nbsp;수강생 모집현황 | 3 / 5명
+          </p>
         </div>
         {/* <p start_time={data.start_time}>{data.title}</p>
       <p end_time={data.end_time}>{data.title}</p>
