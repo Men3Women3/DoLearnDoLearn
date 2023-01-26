@@ -78,7 +78,7 @@ public class BoardServiceTest {
 
         when(boardRepository.findAll()).thenReturn(boardList);
 
-        List<Board> result = boardService.selectAll();
+        List<BoardDto> result = boardService.selectAll();
 
         assertEquals(boardList.size(),result.size());
     }
@@ -154,16 +154,35 @@ public class BoardServiceTest {
     public void getInstructorsTest() throws Exception {
         List<UserBoard> userBoardList = new ArrayList<>();
 
-        UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
+        UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
 
         userBoardList.add(userBoardDto.toEntity());
 
-        when(userBoardRepository.findByBid(any())).thenReturn(userBoardList);
+        when(userBoardRepository.findInstructors(any())).thenReturn(userBoardList);
 
         List<UserBoard> result = userBoardService.getInstructors(boardDto1.getId());
+
+        assertEquals(userBoardList.size(),result.size());
+    }
+
+    @DisplayName("학생 목록 조회")
+    @Test
+    public void getStudentsTest() throws Exception {
+        List<UserBoard> userBoardList = new ArrayList<>();
+
+        UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
+
+        UserBoardDto userBoardDto = UserBoardDto.builder()
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+
+        userBoardList.add(userBoardDto.toEntity());
+
+        when(userBoardRepository.findStudents(any())).thenReturn(userBoardList);
+
+        List<UserBoard> result = userBoardService.getStudents(boardDto1.getId());
 
         assertEquals(userBoardList.size(),result.size());
     }
