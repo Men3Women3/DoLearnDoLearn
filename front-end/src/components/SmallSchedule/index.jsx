@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { Scrollbars } from "react-custom-scrollbars";
-import { useLocation } from "react-router";
 
 const SmallSchedule = () => {
   const [todaySchedule, setTodayScedule] = useState([
@@ -76,8 +75,6 @@ const SmallSchedule = () => {
       title: "WebSocket 가르쳐주세요!",
     },
   ]);
-
-  const location = useLocation();
 
   return (
     <SContainer>
