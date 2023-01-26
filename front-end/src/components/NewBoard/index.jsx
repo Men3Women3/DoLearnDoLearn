@@ -43,7 +43,9 @@ const NewBoard = () => {
   const [summary, setSummary] = useState(""); // 강의 요약
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
+  const today = new Date();
 
+  // 모달 스타일
   const style = {
     position: "absolute",
     top: "50%",
@@ -124,6 +126,7 @@ const NewBoard = () => {
             max={5}
             onChange={(e) => setParticipant(e.target.value)}
           ></SParticipantInput>
+          <h3>&nbsp;명</h3>
         </SParticipant>
 
         {/* 5. 모집 기간(달력 넣어줭) */}
@@ -134,6 +137,7 @@ const NewBoard = () => {
             type="date"
             onChange={(e) => setStDay(e.target.value)}
           ></SRecruitInput>
+          <h3>~</h3>
           {/* 요거는 마감날짜 */}
           <SRecruitInput
             type="date"
@@ -148,6 +152,7 @@ const NewBoard = () => {
             type="date"
             onChange={(e) => setLectureDay(e.target.value)}
           ></SLectureInput>
+          <h3>-</h3>
           <STimeInput
             type="time"
             onChange={(e) => setLectureTime(e.target.value)}

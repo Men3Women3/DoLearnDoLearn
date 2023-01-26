@@ -10,6 +10,5 @@ export const SInnerBox = styled.div`
   flex-direction: column;
   width: 55vw;
   text-align: center;
-  /* margin: auto; */
   margin: 2vh 1vw;
 `;
