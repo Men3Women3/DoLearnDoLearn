@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,14 +24,23 @@ public class BoardService {
     }
 
     @Transactional
-    public List<Board> selectAll(){
+    public List<BoardDto> selectAll() throws Exception{
+        List<Board> boardList = bRepo.findAll();
+        List<BoardDto> boardDtoList = new ArrayList<>();
 
-        return bRepo.findAll();
+        for(Board board: boardList){
+            BoardDto boardDto = board.toDto();
+            boardDtoList.add(boardDto);
+        }
+
+        return boardDtoList;
     }
 
     @Transactional
     public Optional<BoardDto> selectDetail(Long id) throws Exception{
         Optional<BoardDto> result = Optional.ofNullable(bRepo.findById(id).get().toDto());
+
+        if(result.isEmpty()) throw new NullPointerException();
 
         return result;
     }
@@ -54,6 +64,7 @@ public class BoardService {
     public BoardDto update(Long id) throws Exception{
         Optional<BoardDto> result = Optional.ofNullable(bRepo.findById(id).get().toDto());
 
+        if(result.isEmpty()) throw new NullPointerException();
 
         BoardDto board = result.get();
         board.setFixed(1);
