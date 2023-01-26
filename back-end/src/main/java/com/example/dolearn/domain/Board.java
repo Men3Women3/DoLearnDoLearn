@@ -74,27 +74,14 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<UserBoard> userBoardList = new ArrayList<>();
 
-
-    public Board(Long id, Long uid, Long tid, String title, int max_cnt, String content, String summary, Date start_time, Date end_time, Date deadline, int is_fixed){
-        this.id= id;
-        this.uid= uid;
-        this.tid= tid;
-        this.title = title;
-        this.max_cnt= max_cnt;
-        this.content= content;
-        this.summary= summary;
-        this.start_time= start_time;
-        this.end_time= end_time;
-        this.deadline= deadline;
-        this.is_fixed= is_fixed;
-    }
-
     public void setFixed(int is_fixed){
         this.is_fixed= is_fixed;
     }
 
     public BoardDto toDto() throws ParseException {
-        return new BoardDto(id,uid,tid,title,max_cnt,content,summary,stringConverter(start_time),stringConverter(end_time),stringConverter(deadline),is_fixed);
+        return BoardDto.builder()
+                .id(id).uid(uid).tid(tid).title(title).max_cnt(max_cnt).content(content).summary(summary).start_time(stringConverter(start_time))
+                .end_time(stringConverter(end_time)).deadline(stringConverter(deadline)).is_fixed(is_fixed).created_time(created_time).build();
     }
 
     public String stringConverter(Date input){

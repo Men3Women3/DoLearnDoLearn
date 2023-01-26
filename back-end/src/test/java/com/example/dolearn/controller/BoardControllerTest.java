@@ -23,13 +23,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.web.servlet.function.RequestPredicates.contentType;
 
 @WebMvcTest(controllers = BoardController.class)
 @WithMockUser
@@ -69,7 +67,7 @@ public class BoardControllerTest {
                 .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
                 .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
 
-        when(bService.insert(any())).thenReturn(boardDto.toEntity());
+        when(bService.insert(any())).thenReturn(boardDto);
 
         mockMvc.perform(post("/board").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -98,7 +96,7 @@ public class BoardControllerTest {
     @Test
     public void boadDetilTest() throws Exception{
 
-        when(bService.selectDetail(any())).thenReturn(Optional.ofNullable(boardDto1.toEntity()));
+        when(bService.selectDetail(any())).thenReturn(Optional.ofNullable(boardDto1));
 
         mockMvc.perform(get("/board/{board_id}",1))
                 .andExpect(status().isOk())
@@ -161,9 +159,9 @@ public class BoardControllerTest {
                 .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
 
         when(userService.signup(any())).thenReturn(userDto);
-        when(bService.insert(any())).thenReturn(boardDto1.toEntity());
+        when(bService.insert(any())).thenReturn(boardDto1);
 
-        when(ubService.applyClass(any())).thenReturn(userBoardDto.toEntity());
+        when(ubService.applyClass(any())).thenReturn(userBoardDto);
 
         data.put("uid",1L);
         data.put("bid",1L);
@@ -186,9 +184,9 @@ public class BoardControllerTest {
                 .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
 
         when(userService.signup(any())).thenReturn(userDto);
-        when(bService.insert(any())).thenReturn(boardDto1.toEntity());
+        when(bService.insert(any())).thenReturn(boardDto1);
 
-        when(ubService.applyClass(any())).thenReturn(userBoardDto.toEntity());
+        when(ubService.applyClass(any())).thenReturn(userBoardDto);
 
         data.put("uid",1L);
         data.put("bid",1L);
@@ -218,7 +216,7 @@ public class BoardControllerTest {
     @Test
     public void updateFixedTest() throws Exception{
 
-        when(bService.update(any())).thenReturn(boardDto1.toEntity());
+        when(bService.update(any())).thenReturn(boardDto1);
 
         mockMvc.perform(put("/board/{board_id}",1).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)

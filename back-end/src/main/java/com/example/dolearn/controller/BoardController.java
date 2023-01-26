@@ -32,7 +32,7 @@ public class BoardController {
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody BoardDto boardDto){
         try {
-            Board board = bService.insert(boardDto);
+            Board board = bService.insert(boardDto).toEntity();
             log.info("글 등록: {}",boardDto);
 
             return new ResponseEntity<SuccessResponse>(new SuccessResponse(board), HttpStatus.CREATED);
@@ -62,8 +62,8 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getDetails(@PathVariable Long id){
         try{
-            Optional<Board> board = bService.selectDetail(id);
-            BoardDto boardDto= board.get().toDto();
+            Optional<BoardDto> board = bService.selectDetail(id);
+            BoardDto boardDto= board.get();
 
             log.info("글 상세정보 조회: {}",boardDto);
 
@@ -178,7 +178,7 @@ public class BoardController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateFixed(@PathVariable Long id){
         try{
-            Board updateBoard = bService.update(id);
+            BoardDto updateBoard = bService.update(id);
             log.info("강의 업데이트 완료: {}",updateBoard);
             return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.OK);
         }catch (Exception e){

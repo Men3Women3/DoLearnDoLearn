@@ -64,7 +64,7 @@ public class BoardServiceTest {
 
         when(boardRepository.save(any(Board.class))).thenReturn(boardDto.toEntity());
 
-        Board result = boardService.insert(boardDto);
+        Board result = boardService.insert(boardDto).toEntity();
 
         assertEquals(boardDto.getContent(),result.getContent());
     }
@@ -89,7 +89,7 @@ public class BoardServiceTest {
     public void detailBoardTest() throws Exception {
         when(boardRepository.findById(any())).thenReturn(Optional.ofNullable(boardDto1.toEntity()));
 
-        Optional<Board> result = boardService.selectDetail(any());
+        Optional<BoardDto> result = boardService.selectDetail(any());
 
         assertEquals(boardDto1.getId(),result.get().getId());
     }
@@ -138,14 +138,16 @@ public class BoardServiceTest {
     @Test
     public void updateTest() throws Exception{
         Optional<Board> result = Optional.ofNullable(boardDto1.toEntity());
+        BoardDto boardDto = result.get().toDto();
+        boardDto.setFixed(1);
 
         when(boardRepository.findById(any())).thenReturn(result);
 
-        when(boardRepository.save(any())).thenReturn(boardDto1.toEntity());
+        when(boardRepository.save(any())).thenReturn(boardDto.toEntity());
 
-        boardService.update(boardDto1.getId());
+        boardService.update(boardDto.getId());
 
-        assertEquals(result.get().getIs_fixed(),1);
+        assertEquals(boardDto.getIs_fixed(),1);
     }
 
     @DisplayName("강사 목록 조회")
@@ -172,16 +174,19 @@ public class BoardServiceTest {
     public void applyClassTest() throws Exception{
         UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
         Optional<User> user = Optional.of(userDto.toEntity());
+        Optional<Board> board = Optional.of(boardDto1.toEntity());
 
-        UserBoardDto userBoardDto = UserBoardDto.builder()
+        UserBoard userBoard= UserBoard.builder()
                 .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
 
         when(userRepository.findOneById(any())).thenReturn(user);
-        when(userBoardRepository.save(any())).thenReturn(userBoardDto.toEntity());
+        when(boardRepository.findById(any())).thenReturn(board);
+        when(userBoardRepository.save(any())).thenReturn(userBoard);
 
-        UserBoard result = userBoardService.applyClass(userBoardDto.toEntity());
+        UserBoardDto result = userBoardService.applyClass(userBoard);
 
-        assertEquals(userBoardDto.getUser_type(),result.getUser_type());
+        assertEquals(userBoard.getUser_type(),result.getUser_type());
+
     }
 
     @DisplayName("수강 취소")
