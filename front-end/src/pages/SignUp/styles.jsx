@@ -5,21 +5,26 @@ export const SMain = styled.main`
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 100%;
   width: 100%;
-  background-color: ${(props) => props.theme.deepYellow};
+  background: rgb(255, 232, 154);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 232, 154, 1) 25%,
+    rgba(255, 153, 98, 1) 100%
+  );
 `;
 
 export const SMainContainer = styled.div`
-  /* width: 100%; */
   display: flex;
   justify-content: center;
   background-color: white;
-  margin: 40px;
-  border-radius: 8px;
+  border-radius: 30px;
   img {
-    height: calc(2vw + 25px);
+    height: calc(2vw + 20px);
   }
+  position: relative;
 `;
 
 export const SImgSection = styled.section`
@@ -27,27 +32,37 @@ export const SImgSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: translateX(-100px);
-  padding: 80px 60px;
+  background-color: #ffd6c3;
+  padding: calc(5vw + 20px) calc(5vw + 20px);
+  border-radius: 0 30px 30px 0;
   h1 {
-    font-size: 40px;
-    border-bottom: 5px solid ${(props) => props.theme.deeperYellow};
+    font-family: "Pacifico", cursive;
+    font-size: calc(1vw + 25px);
+    margin-top: 0px;
+    margin-bottom: 10px;
+    user-select: none;
+    text-shadow: 4px 6px 1px #f7986b;
   }
-  img {
-    width: 450px;
-    height: 366px;
+  div {
+    width: calc(2vw + 400px);
+    cursor: pointer;
   }
 `;
 
 export const SForm = styled.form`
-  height: ${(props) => (props.isNext ? "580px" : "450px")};
-  transform: translateX(-95px);
-  transition: all 1000ms linear;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  box-shadow: 10px 10px 30px 0px rgb(158 158 158);
-  margin: 60px 120px;
+  width: calc(2vw + 450px);
+  .nav__section {
+    position: relative;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    cursor: default;
+    .Home-link {
+      z-index: 2;
+    }
+  }
 `;
 
 export const SContainer = styled.div`
@@ -57,41 +72,43 @@ export const SContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  margin-top: ${(props) => (props.isNext ? "calc(1vw + -30px)" : "-50px")};
   h1 {
-    font-size: 36px;
+    font-size: ${(props) => props.theme.fontSize.h1};
+    font-family: ${(props) => props.theme.fontFamily.ExtraBold};
     margin-top: 0px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+  }
+  .info-text {
+    white-space: normal;
+    padding: 0;
+    margin-bottom: 8px;
+    color: #595858;
   }
   p {
-    font-size: 12px;
-    margin-top: 0px;
+    font-size: ${(props) => props.theme.fontSize.h5};
+    font-weight: bold;
     color: ${(props) => props.theme.red};
+    margin: 0;
+    padding-left: 10px;
   }
-`;
-
-export const SFindPassword = styled.div`
-  width: 100%;
-  /* text-align: right; */
-  display: flex;
-  justify-content: end;
-  transform: translateX(-42px);
-  span {
-    margin: 20px 0px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  span:hover {
-    color: ${(props) => props.theme.deeperYellow};
+  .username__warning {
+    margin-bottom: ${(props) => props.username && "0px"};
   }
 `;
 
 export const SInputContainer = styled.div`
   position: relative;
+  margin-bottom: 15px;
+  .self-introduction__img {
+    top: 14px;
+  }
   .active__input {
     border: 3px solid ${(props) => props.theme.deepYellow};
   }
   .active__icon {
-    color: ${(props) => props.theme.deepYellow};
+    color: #590f0f;
   }
   .typing-length {
     text-align: right;
@@ -101,37 +118,35 @@ export const SInputContainer = styled.div`
 `;
 
 export const SUsernameInput = styled.input`
-  font-family: ${(props) => props.theme.fontFamily};
-  width: 360px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 12px;
-  padding-left: 50px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
     color: #cdcdcd;
   }
 `;
 
 export const SEmailInput = styled.input`
-  font-family: ${(props) => props.theme.fontFamily};
-  width: 360px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 12px;
-  padding-left: 50px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
     color: #cdcdcd;
   }
 `;
 
 export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
-  font-size: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   color: #cdcdcd;
   position: absolute;
   top: 10px;
@@ -139,113 +154,100 @@ export const SEmailFontAwesomeIcon = styled(FontAwesomeIcon)`
 `;
 
 export const SPasswordInput = styled.input`
-  width: 360px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 50px;
-  margin-bottom: 12px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
-    font-family: ${(props) => props.theme.fontFamily};
     color: #cdcdcd;
   }
 `;
 
 export const SPasswordCheckInput = styled.input`
-  width: 360px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 50px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
-    font-family: ${(props) => props.theme.fontFamily};
     color: #cdcdcd;
   }
 `;
 
 export const SBlogInput = styled.input`
-  font-family: ${(props) => props.theme.fontFamily};
-  width: 360px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 50px;
-  margin-bottom: 12px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
     color: #cdcdcd;
   }
 `;
 
 export const SYouTubeInput = styled.input`
-  font-family: ${(props) => props.theme.fontFamily};
-  width: 360px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 50px;
-  margin-bottom: 12px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
     color: #cdcdcd;
   }
 `;
 
 export const SInstagramInput = styled.input`
-  font-family: ${(props) => props.theme.fontFamily};
-  width: 150px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 45px;
-  margin-bottom: 12px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
     color: #cdcdcd;
-    font-size: 10px;
   }
 `;
 
 export const SFacebookInput = styled.input`
-  font-family: ${(props) => props.theme.fontFamily};
-  width: 150px;
-  height: 40px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: calc(1vh + 20px);
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 45px;
-  margin-bottom: 12px;
-  font-size: 20px;
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
     color: #cdcdcd;
-    font-size: 10px;
   }
 `;
 
-export const SSNSInputContainer = styled.div`
-  width: 90%;
-  display: flex;
-  justify-content: space-evenly;
-`;
-
 export const SSelfIntroduction = styled.textarea`
-  font-family: ${(props) => props.theme.fontFamily};
-  width: 360px;
-  height: 167px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  width: calc(1vw + 240px);
+  height: 100px;
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  padding-left: 50px;
+  padding-left: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
-  font-size: 20px;
+  font-size: ${(props) => props.theme.fontSize.p};
   resize: none;
   &::placeholder {
     color: #cdcdcd;
@@ -262,70 +264,46 @@ export const SSNSContainer = styled.div`
   }
 `;
 
-export const SLoginButton = styled.button`
-  margin: 12px;
-  margin-top: 0px;
-  background-color: black;
-  color: white;
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: 16px;
-  width: 418px;
-  height: 36px;
-  border-radius: 4px;
+export const CustomButton = styled.button`
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  font-size: ${(props) => props.theme.fontSize.p};
+  width: calc(1vw + 280px);
+  height: calc(1vh + 30px);
+  border-radius: 10px;
+  border-color: transparent;
   cursor: pointer;
 `;
 
-export const SNextButton = styled.button`
+export const SNextButton = styled(CustomButton)`
   background-color: black;
   color: white;
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: 16px;
-  width: 418px;
-  height: 36px;
-  border-radius: 4px;
   cursor: pointer;
-  margin-top: 24px;
-`;
-
-export const SNaverContainer = styled.div`
-  button {
-    background-color: #23c03c;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 24px;
-    font-family: ${(props) => props.theme.fontFamily};
-    width: 42px;
-    height: 42px;
+  margin-top: 25px;
+  :hover {
+    color: ${(props) => props.theme.deeperYellow};
+    font-weight: bold;
   }
 `;
 
-export const SKakaoContainer = styled.div`
-  button {
-    background-color: #f5d60b;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 24px;
-    font-family: ${(props) => props.theme.fontFamily};
-    width: 42px;
-    height: 42px;
+export const SSubmitButton = styled(CustomButton)`
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  margin-top: 25px;
+  :hover {
+    color: ${(props) => props.theme.deeperYellow};
+    font-weight: bold;
   }
 `;
 
-export const SGoogleContainer = styled.div`
-  button {
-    background-color: #d9d9d9;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 24px;
-    font-family: ${(props) => props.theme.fontFamily};
-    width: 42px;
-    height: 42px;
+export const SBackToLoginButton = styled(CustomButton)`
+  background-color: white;
+  border-color: black;
+  color: black;
+  margin-top: 12px;
+  :hover {
+    color: ${(props) => props.theme.deeperYellow};
+    font-weight: bold;
   }
 `;
 
@@ -339,6 +317,7 @@ export const SCancelButton = styled.button`
   background-color: white;
   border: none;
   outline: none;
-  font-size: 20px;
+  font-family: ${(props) => props.theme.fontFamily.Regular};
+  font-size: ${(props) => props.theme.fontSize.h3};
   font-weight: bold;
 `;

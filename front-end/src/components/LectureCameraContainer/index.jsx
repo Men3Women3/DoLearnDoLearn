@@ -38,22 +38,22 @@ const LectureCameraContainer = () => {
         </button>
         <button>
           <FontAwesomeIcon className="icon camera-icon" icon={faVideoSlash} />
-          <select>
+          {/* <select>
             <option value="1" selected></option>
             <option value="1">카메라1</option>
             <option value="2">카메라2</option>
-          </select>
+          </select> */}
         </button>
         <button>
           <FontAwesomeIcon
             className="icon mike-icon"
             icon={faMicrophoneSlash}
           />
-          <select>
+          {/* <select>
             <option value="1" selected></option>
             <option value="1">마이크1</option>
             <option value="2">마이크2</option>
-          </select>
+          </select> */}
         </button>
         <button>
           <CastIcon className="icon big-icon" />

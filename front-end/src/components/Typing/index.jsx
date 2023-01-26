@@ -1,12 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Section } from "./styles";
+import { SSection } from "./styles";
 
 const Typing = () => {
   const [typingInnerContent, setTypingInnerContent] = useState("");
   const [count, setCount] = useState(0);
   const [typingChangeFlag, setTypingChangeFlag] = useState(false);
-  const typingContent = "배우고, 나누고, 성장하세요";
+  const typingContent = "배우고, 나누고, 성장해요";
 
   useEffect(() => {
     let typingInterval;
@@ -30,9 +30,9 @@ const Typing = () => {
         new Promise((resolve) => setTimeout(resolve, delay));
 
       async function test() {
-        if (count === 15) {
+        if (count === 14) {
           await sleep(5000);
-          setCount(13);
+          setCount(12);
         }
         typingInterval = setInterval(() => {
           setTypingInnerContent(() => {
@@ -59,12 +59,12 @@ const Typing = () => {
   });
 
   return (
-    <Section className="typing__action">
+    <SSection>
       <div>
-        <span>{typingInnerContent}</span>
+        <span className="content">{typingInnerContent}</span>
       </div>
-    </Section>
+    </SSection>
   );
 };
 
-export default Typing;
+export default React.memo(Typing);

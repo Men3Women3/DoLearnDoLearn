@@ -3,7 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/joy/Input";
 import { SLabel } from "./styles";
 
-const Search = () => {
+const SearchBar = () => {
   // 검색 input값
   const [search, setSearch] = useState("");
 
@@ -28,23 +28,22 @@ const Search = () => {
 
   return (
     <>
-      <SLabel>
-        <form className="search-bar" onSubmit={(e) => onEnter(e)}>
-          <Input
-            className="input-box"
-            ref={inputRef}
-            onChange={onChange}
-            // onKeyUp={(e) => onEnter(e)}
-            value={search}
-            placeholder="원하는 강의를 검색하세요"
-            aria-label="Search"
-            size="lg"
-            endDecorator={<SearchIcon />}
-          />
-        </form>
-      </SLabel>
+      <form className="search-bar" onSubmit={(e) => onEnter(e)}>
+        {/* <input type="text" placeholder="안녕하세요" /> */}
+        <Input
+          className="input-box"
+          ref={inputRef}
+          onChange={onChange}
+          // onKeyUp={(e) => onEnter(e)}
+          value={search}
+          placeholder="원하는 강의를 검색하세요"
+          aria-label="Search"
+          size="lg"
+          endDecorator={<SearchIcon />}
+        />
+      </form>
     </>
   );
 };
 
-export default Search;
+export default SearchBar;
