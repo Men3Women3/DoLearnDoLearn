@@ -1,9 +1,24 @@
 import styled from "styled-components";
 
-// export const SWriteButton = styled.button`
-//     float: right;
-//     color: black,
-//     /* border-color: black, */
-//     margin-right: 10,
-//     boxShadow: '0px 0px 1px 0px #000000',
-// `;
+export const SWriteButton = styled.button`
+  border: none;
+  margin: 1vh 0;
+  margin-left: auto;
+  background-color: black;
+  color: white;
+  font-family: ${(props) => props.theme.fontFamily.Medium};
+  font-size: calc(0.8vw + 0.5px);
+  width: 6vw;
+  height: 4vh;
+  border-radius: 5px;
+  cursor: pointer;
+  place-items: center;
+  text-align: center;
+
+  :hover {
+    font-family: ${(props) => props.theme.fontFamily.Bold};
+    transform: translateY(-1px);
+    color: ${(props) => props.theme.deeperYellow};
+    cursor: pointer;
+  }
+`;

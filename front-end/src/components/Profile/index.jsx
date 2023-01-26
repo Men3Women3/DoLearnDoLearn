@@ -24,6 +24,7 @@ import { LoginStateContext } from "../../App";
 const Profile = (props) => {
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext);
+  console.log(getUserInfo);
 
   return (
     <SProfileContainer>
@@ -146,7 +147,7 @@ const Profile = (props) => {
       <SSubContainerDown>
         <div className="cd1tip">
           {/* <SFontAwesomeIconAtProfile icon={faIdCard} /> */}
-          <span className="tip">{getUserInfo.userInfo.info}</span>
+          <div className="tip">{getUserInfo.userInfo.info}</div>
         </div>
         <SBlackButton onClick={props.handleProfileEditBtn}>
           프로필 수정
