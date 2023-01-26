@@ -36,7 +36,7 @@ public class BoardDto {
 
     private int is_fixed;
 
-//    private Timestamp created_time;
+    private Date created_time;
 
     public Board toEntity() throws ParseException {
         return Board.builder()
@@ -50,7 +50,12 @@ public class BoardDto {
                 .start_time(dateConverter(start_time))
                 .end_time(dateConverter(end_time))
                 .deadline(dateConverter(deadline))
-                .is_fixed(is_fixed).build();
+                .is_fixed(is_fixed)
+                .created_time(created_time).build();
+    }
+
+    public void setFixed(int is_fixed){
+        this.is_fixed= is_fixed;
     }
 
     public Date dateConverter(String input) throws ParseException {

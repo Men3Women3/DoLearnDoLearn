@@ -55,12 +55,57 @@ function App() {
           },
         })
         .then((response) => {
+          // 유저 정보 갱신
           const userData = response.data.response;
           setUserInfo(userData);
         })
-        .catch((error) => console.log(error.response));
+        .catch((error) => {
+          // 실패하면
+          const errorCode = error.response.data.code;
+          if (errorCode === "403") {
+            // 로컬스토리지에 있는 리프레시 토큰으로 엑세스 토큰 재발급 api 요청
+            const refreshToken = localStorage.getItem("refreshToken");
+            axios
+              .post(
+                `${axiosDefaultURL}/user/access`,
+                {},
+                {
+                  headers: {
+                    Authentication: refreshToken,
+                  },
+                }
+              )
+              .then((response) => {
+                // 요청 성공하면 응답받은 엑세스 토큰을 로컬 스토리지에 저장
+                const responseData = response.data.response;
+                localStorage.setItem("accessToken", responseData);
+              })
+              .then((response) => {
+                const id = localStorage.getItem("id");
+                const accessToken = localStorage.getItem("accessToken");
+                // api를 통해 유저 정보를 받아와서 저장
+                axios
+                  .get(`${axiosDefaultURL}/user/${id}`, {
+                    headers: {
+                      Authentication: accessToken,
+                    },
+                  })
+                  .then((response) => {
+                    // 유저 정보 갱신
+                    const userData = response.data.response;
+                    setUserInfo(userData);
+                  })
+                  .catch((error) => {
+                    console.log(error.response);
+                  });
+              })
+              .catch((error) => {
+                console.log(error.response);
+              });
+          }
+        });
     }
-  });
+  }, []);
 
   // 로그인 상태 관리 함수
   const handleIsLogined = () => {
@@ -76,13 +121,14 @@ function App() {
   //                                                           -> (2) 실패하면 ??? (실패할 가능성 낮아 보임)
   const handleLogout = () => {
     const accessToken = localStorage.getItem("accessToken");
+    const id = localStorage.getItem("id");
     // 엑세스 토큰이 있으면
     if (accessToken !== null) {
       // logout api 연결
       axios
         .post(
           // id 수정해야 됨
-          `${axiosDefaultURL}/user/logout/1`,
+          `${axiosDefaultURL}/user/logout/${id}`,
           {},
           {
             headers: {

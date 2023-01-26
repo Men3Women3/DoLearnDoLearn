@@ -1,12 +1,12 @@
 package com.example.dolearn.controller;
 
 import com.example.dolearn.domain.Board;
-import com.example.dolearn.domain.BoardApplicant;
 import com.example.dolearn.domain.UserBoard;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.response.SuccessResponse;
 import com.example.dolearn.service.BoardService;
 import com.example.dolearn.service.UserBoardService;
+import com.example.dolearn.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,13 +26,16 @@ public class BoardController {
     @Autowired
     private UserBoardService ubService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody BoardDto boardDto){
         try {
-            Board board = bService.insert(boardDto);
+            Board board = bService.insert(boardDto).toEntity();
             log.info("글 등록: {}",boardDto);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse(board), HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse(board), HttpStatus.CREATED);
         } catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("글 등록 과정에서 오류가 발생했습니다!!");
@@ -59,8 +62,8 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getDetails(@PathVariable Long id){
         try{
-            Optional<Board> board = bService.selectDetail(id);
-            BoardDto boardDto= board.get().toDto();
+            Optional<BoardDto> board = bService.selectDetail(id);
+            BoardDto boardDto= board.get();
 
             log.info("글 상세정보 조회: {}",boardDto);
 
@@ -78,7 +81,7 @@ public class BoardController {
 
             log.info("삭제할 id: {}",id);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("삭제가 완료되었습니다!!"),HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("삭제가 완료되었습니다!!"),HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("삭제하는 과정에서 오류가 발생했습니다");
@@ -89,10 +92,10 @@ public class BoardController {
     public ResponseEntity<?> getInstructors(@PathVariable Long bid){
         try{
             log.info("강사 목록 가져오기 요청: {}",bid);
-            List<BoardApplicant> applicants= ubService.getInstructors(bid);
-            log.info("목록: {}",applicants.get(0));
+            List<UserBoard> applicants= ubService.getInstructors(bid);
+            log.info("목록: {}",applicants);
 
-            if(applicants.isEmpty()) return new ResponseEntity<SuccessResponse>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.ACCEPTED);
+            if(applicants.isEmpty()) return new ResponseEntity<SuccessResponse>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.OK);
             return new ResponseEntity<SuccessResponse>(new SuccessResponse(applicants),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -126,10 +129,15 @@ public class BoardController {
     @PostMapping("/student")
     public ResponseEntity<?> applyClass(@RequestBody Map <String, Long> userApplyInfo){
         try{
-            UserBoard userBoard = new UserBoard(userApplyInfo.get("uid"),userApplyInfo.get("bid"),"학생");
+            Long uid = userApplyInfo.get("uid");
+            Long bid = userApplyInfo.get("bid");
+
+            log.info("수강신청: {}, {}",uid,bid);
+
+            UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).user_type("학생").build();
             ubService.applyClass(userBoard);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강의 신청 과정에서 오류가 발생했습니다!!");
@@ -139,10 +147,15 @@ public class BoardController {
     @PostMapping("/instructor")
     public ResponseEntity<?> applyInstructor(@RequestBody Map<String, Long> userApplyInfo){
         try{
-            UserBoard userBoard = new UserBoard(userApplyInfo.get("uid"),userApplyInfo.get("bid"),"강사");
+            Long uid = userApplyInfo.get("uid");
+            Long bid = userApplyInfo.get("bid");
+
+            log.info("강의신청: {}, {}",uid,bid);
+
+            UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).user_type("강사").build();
             ubService.applyClass(userBoard);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강사 신청이 완료되었습니다!!"),HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강사 신청이 완료되었습니다!!"),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강사 신청 과정에서 오류가 발생했습니다!!");
@@ -153,9 +166,9 @@ public class BoardController {
     public ResponseEntity<?> cancelApply(@PathVariable Long uid, @PathVariable Long bid){
         try{
             log.info("삭제요청: {}, {}",uid,bid);
-            ubService.cancelApply(uid,bid);
+            int result = ubService.cancelApply(uid,bid);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청 취소가 완료되었습니다!!"),HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청 취소가 완료되었습니다!!"),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강의 신청 취소 과정에서 오류가 발생했습니다!!");
@@ -165,9 +178,9 @@ public class BoardController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateFixed(@PathVariable Long id){
         try{
-            Board updateBoard = bService.update(id);
+            BoardDto updateBoard = bService.update(id);
             log.info("강의 업데이트 완료: {}",updateBoard);
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.ACCEPTED);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강의 확정을 하는 과정에서 오류가 발생했습니다!!");

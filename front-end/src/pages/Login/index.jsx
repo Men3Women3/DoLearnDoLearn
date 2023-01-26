@@ -95,6 +95,9 @@ const Login = () => {
           handleUserInfo(responseData);
           // 로그인 상태 변경
           handleIsLogined();
+
+          // setTimeout() 로직 작성해야 됨. 리프레시 토큰 끝나기 5분 전에 로그아웃 시키기
+
           // 메인페이지로 이동
           navigate("/");
         })
