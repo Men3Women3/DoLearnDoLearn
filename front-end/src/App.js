@@ -127,7 +127,6 @@ function App() {
       // logout api 연결
       axios
         .post(
-          // id 수정해야 됨
           `${axiosDefaultURL}/user/logout/${id}`,
           {},
           {
