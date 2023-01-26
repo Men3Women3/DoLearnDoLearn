@@ -2,6 +2,7 @@ package com.example.dolearn.domain;
 
 import com.example.dolearn.dto.MessageDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,8 @@ import java.util.Date;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity(name="message")
 public class Message {
 
@@ -32,6 +35,13 @@ public class Message {
     @Column(name="is_checked", columnDefinition = "TINYINT", length=1)
     private int isChecked;
 
+    @Column(length=20,name="type")
+    private String type;
+
+    @ManyToOne
+    @JoinColumn(name="bid")
+    private Board board;
+
     @Column(name="created_time")
     @CreationTimestamp
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -43,16 +53,15 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     private Date checkTime; //메세지 확인 시간
 
-    @Builder
-    public Message(String content,Date checkTime,int isChecked) {
-        this.content = content;;
-        this.isChecked = isChecked;
-        this.checkTime = checkTime;
-    }
     //check상태 업데이트
     public void update(int check,Date checkTime) {
         this.isChecked = check;
         this.checkTime = checkTime;
+    }
+
+    //board 수정 메세지
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     //user 연관관계 편의 메소드
@@ -69,6 +78,9 @@ public class Message {
         return MessageDto.builder()
                 .id(this.id)
                 .rid(user.getId())
+                .start_time(board.getStart_time())
+                .end_time(board.getEnd_time())
+                .title(board.getTitle())
                 .content(this.content)
                 .isChecked(this.isChecked)
                 .createdTime(this.createdTime)
