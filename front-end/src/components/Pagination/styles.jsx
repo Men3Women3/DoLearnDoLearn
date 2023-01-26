@@ -6,10 +6,6 @@ export const SNav = styled.nav`
   align-items: center;
   gap: 4px;
   margin: 16px;
-  // 요 아래는 PN 고정을 위해..
-  position: fixed;
-  top: 92%;
-  left: 30%;
 `;
 
 export const SButton = styled.button`
