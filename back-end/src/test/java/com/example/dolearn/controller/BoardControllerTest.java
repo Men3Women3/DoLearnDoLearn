@@ -51,21 +51,21 @@ public class BoardControllerTest {
 
     BoardDto boardDto1 = BoardDto.builder()
             .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+            .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+            .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     BoardDto boardDto2 = BoardDto.builder()
             .id(2L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+            .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+            .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     @DisplayName("글 생성 테스트")
     @Test
     public void insertBoardTest() throws Exception{
         BoardDto boardDto = BoardDto.builder()
                 .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-                .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-                .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
         when(bService.insert(any())).thenReturn(boardDto);
 

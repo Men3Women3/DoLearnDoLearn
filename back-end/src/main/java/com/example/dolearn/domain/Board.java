@@ -38,7 +38,7 @@ public class Board {
     private String title;
 
     @Column(name = "max_cnt")
-    private int max_cnt;
+    private int maxCnt;
 
     @Column(name = "content")
     private String content;
@@ -49,12 +49,12 @@ public class Board {
     @Column(name = "start_time")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date start_time;
+    private Date startTime;
 
     @Column(name = "end_time")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date end_time;
+    private Date endTime;
 
     @Column(name = "deadline")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -62,26 +62,26 @@ public class Board {
     private Date deadline;
 
     @Column(name = "is_fixed")
-    private int is_fixed;
+    private int isFixed;
     @Column(name = "created_time")
     @CreationTimestamp
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date created_time;
+    private Date createdTime;
 
     @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "board")
     private List<UserBoard> userBoardList = new ArrayList<>();
 
-    public void setFixed(int is_fixed){
-        this.is_fixed= is_fixed;
+    public void setFixed(int isFixed){
+        this.isFixed = isFixed;
     }
 
     public BoardDto toDto() throws ParseException {
         return BoardDto.builder()
-                .id(id).uid(uid).tid(tid).title(title).max_cnt(max_cnt).content(content).summary(summary).start_time(stringConverter(start_time))
-                .end_time(stringConverter(end_time)).deadline(stringConverter(deadline)).is_fixed(is_fixed).created_time(created_time).build();
+                .id(id).uid(uid).tid(tid).title(title).maxCnt(maxCnt).content(content).summary(summary).startTime(stringConverter(startTime))
+                .endTime(stringConverter(endTime)).deadline(stringConverter(deadline)).isFixed(isFixed).createdTime(createdTime).build();
     }
 
     public String stringConverter(Date input){

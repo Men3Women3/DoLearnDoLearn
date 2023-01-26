@@ -22,7 +22,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -45,13 +44,13 @@ public class BoardServiceTest {
 
     private final BoardDto boardDto1 = BoardDto.builder()
             .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+            .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+            .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     private final BoardDto boardDto2 = BoardDto.builder()
             .id(2L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+            .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+            .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     @DisplayName("글 생성 테스트")
     @Test
@@ -59,8 +58,8 @@ public class BoardServiceTest {
 
         BoardDto boardDto = BoardDto.builder()
                 .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-                .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-                .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
         when(boardRepository.save(any(Board.class))).thenReturn(boardDto.toEntity());
 
@@ -147,7 +146,7 @@ public class BoardServiceTest {
 
         boardService.update(boardDto.getId());
 
-        assertEquals(boardDto.getIs_fixed(),1);
+        assertEquals(boardDto.getIsFixed(),1);
     }
 
     @DisplayName("강사 목록 조회")
