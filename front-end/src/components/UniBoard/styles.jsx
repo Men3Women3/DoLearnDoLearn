@@ -11,8 +11,6 @@ export const SImg = styled.img`
 
 // UniBoard에 스타일 입히기
 export const SUniBoard = styled.div`
-  /* display: block;
-  width: 185px; */
   cursor: pointer;
   font-family: ${(props) => props.theme.fontFamily.Medium};
   font-size: 0.8rem;
@@ -27,6 +25,8 @@ export const SUniBoard = styled.div`
   :hover {
     transform: scale(1.01);
   }
+  /* display: block;
+  width: 185px; */
   /* margin-top: 7vh; */
   /*
   width: 13vw;
