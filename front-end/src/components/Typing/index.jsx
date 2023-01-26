@@ -67,4 +67,4 @@ const Typing = () => {
   );
 };
 
-export default Typing;
+export default React.memo(Typing);
