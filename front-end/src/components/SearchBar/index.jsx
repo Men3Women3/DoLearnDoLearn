@@ -38,7 +38,7 @@ const SearchBar = () => {
           value={search}
           placeholder="원하는 강의를 검색하세요"
           aria-label="Search"
-          size="lg"
+          size="sm"
           endDecorator={<SearchIcon />}
         />
       </form>
