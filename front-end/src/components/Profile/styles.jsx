@@ -93,6 +93,7 @@ export const SSubContainerUp = styled.div`
 
 export const SSnsContainer = styled.div`
   display: flex;
+  column-gap: 8px;
   justify-content: space-between;
   align-items: center;
   /* .tooltip {
@@ -126,7 +127,7 @@ export const SSnsContainer = styled.div`
   } */
   img {
     height: calc(1.5vw + 0.1px);
-    margin-left: 8px;
+    /* margin-left: 8px; */
     cursor: pointer;
   }
 `;
