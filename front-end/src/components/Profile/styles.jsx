@@ -17,13 +17,25 @@ export const SProfileContainer = styled.div`
     word-wrap: break-word;
     white-space: -moz-pre-wrap;
     white-space: pre-wrap;
-    overflow: auto;
     /* background-color: #fdf7d8; */
     border: 3px dashed ${(props) => props.theme.lightGray};
     color: black;
     padding: calc(1vw + 5px);
     border-radius: 10px;
     font-size: ${(props) => props.theme.fontSize.p};
+
+    /* 스클롤러 변경 */
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: calc(0.5vw + 1px);
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #d4d4d4;
+      border-radius: 10px;
+    }
   }
 `;
 
@@ -81,8 +93,10 @@ export const SSubContainerUp = styled.div`
 
 export const SSnsContainer = styled.div`
   display: flex;
+  column-gap: 8px;
   justify-content: space-between;
-  .tooltip {
+  align-items: center;
+  /* .tooltip {
     display: inline;
     position: relative;
   }
@@ -110,10 +124,10 @@ export const SSnsContainer = styled.div`
     text-align: center;
     line-height: calc(1.5vw + 0.1px);
     z-index: 98;
-  }
+  } */
   img {
     height: calc(1.5vw + 0.1px);
-    margin-left: 8px;
+    /* margin-left: 8px; */
     cursor: pointer;
   }
 `;

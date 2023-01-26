@@ -2,6 +2,12 @@ html {
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
+  /* background: rgb(255, 255, 255);
+  background: linear-gradient(
+    189deg,
+    rgba(255, 255, 255, 1) 42%,
+    rgba(253, 187, 45, 0.6446953781512605) 100%
+  ); */
 }
 /* 스크롤바 */
 /* Chrome, Edge, and Safari */
