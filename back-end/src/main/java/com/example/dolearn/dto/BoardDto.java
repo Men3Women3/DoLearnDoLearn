@@ -22,21 +22,21 @@ public class BoardDto {
 
     private String title;
 
-    private int max_cnt;
+    private int maxCnt;
 
     private String content;
 
     private String summary;
 
-    private String start_time;
+    private String startTime;
 
-    private String end_time;
+    private String endTime;
 
     private String deadline;
 
-    private int is_fixed;
+    private int isFixed;
 
-    private Date created_time;
+    private Date createdTime;
 
     public Board toEntity() throws ParseException {
         return Board.builder()
@@ -44,18 +44,18 @@ public class BoardDto {
                 .uid(uid)
                 .tid(tid)
                 .title(title)
-                .max_cnt(max_cnt)
+                .maxCnt(maxCnt)
                 .content(content)
                 .summary(summary)
-                .start_time(dateConverter(start_time))
-                .end_time(dateConverter(end_time))
+                .startTime(dateConverter(startTime))
+                .endTime(dateConverter(endTime))
                 .deadline(dateConverter(deadline))
-                .is_fixed(is_fixed)
-                .created_time(created_time).build();
+                .isFixed(isFixed)
+                .createdTime(createdTime).build();
     }
 
-    public void setFixed(int is_fixed){
-        this.is_fixed= is_fixed;
+    public void setFixed(int isFixed){
+        this.isFixed = isFixed;
     }
 
     public Date dateConverter(String input) throws ParseException {
