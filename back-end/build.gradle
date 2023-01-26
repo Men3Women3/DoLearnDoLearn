@@ -12,7 +12,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version "${springBootVer}"
 	id 'io.spring.dependency-management' version "${springDependencyMgmtVer}"
-	
+
 	//Query dsl 을 프로젝트로 설정할 때 gradle이 5.0 이상일 때 추가 작업
 	id "com.ewerk.gradle.plugins.querydsl" version "${querydslPluginVer}"
 }
@@ -42,6 +42,8 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: '2.7.5'
 
 	// spring security
 	implementation 'org.springframework.boot:spring-boot-starter-security'

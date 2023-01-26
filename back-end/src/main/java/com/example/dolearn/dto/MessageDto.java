@@ -15,9 +15,13 @@ public class MessageDto {
 
     private Long id;
     private Long rid;
-    private Long lid; //강의 아이디
+    private Long bid;
+    private String title; //강의 제목
     private String content;
+    private String type;
     private int isChecked;
+    private Date start_time; //강의 시작시간
+    private Date end_time;
     private Date createdTime;
     private Date checkTime; //메세지 확인 시간
 

@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import {
   SSpan,
-  SWriter,
+  // SWriter,
   SClock,
   SCalendar,
   SLecturer,
@@ -15,7 +15,7 @@ import {
 } from "./styles";
 // import { SLectureModalButton } from "../LectureModalButton/styles";
 import {
-  faUser,
+  // faUser,
   faClock,
   faCalendarDays,
   faPersonChalkboard,
@@ -37,7 +37,7 @@ const style = {
 };
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
-const LectureModal = ({ data, open, setOpen, handleClose }) => {
+const LectureModal = ({ data, open, handleClose }) => {
   return (
     <div>
       {/* <SLectureModalButton onClick={data.handleOpen}>
@@ -62,35 +62,35 @@ const LectureModal = ({ data, open, setOpen, handleClose }) => {
           </Typography>
           {/* 여기는 내용 */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <div>
-              {/* 2. 작성자 */}
+            {/* 2. 작성자 */}
+            {/* <div>
               <SWriter icon={faUser} />
               <SSpan>{data.id}</SSpan>
-            </div>
+            </div> */}
             <div>
               {/* 3. 강의 시간 */}
               <SClock icon={faClock}></SClock>
-              <SSpan>{data.title}</SSpan>
+              <SSpan>{data.summary}</SSpan>
             </div>
             <div>
               {/* 4. 모집 기간 */}
               <SCalendar icon={faCalendarDays}></SCalendar>
-              <SSpan>{data.title}</SSpan>
+              <SSpan>{data.summary}</SSpan>
             </div>
             <div>
               {/* 5. 강사 신청 현황 */}
               <SLecturer icon={faPersonChalkboard}></SLecturer>
-              <SSpan>{data.title}</SSpan>
+              <SSpan>{data.summary}</SSpan>
             </div>
             <div>
               {/* 6. 수강생 신청 현황 */}
               <SStudent icon={faChalkboardUser}></SStudent>
-              <SSpan>{data.title}</SSpan>
+              <SSpan>{data.summary}</SSpan>
             </div>
             <div>
               {/* 7. 강의 디테일 */}
               <SPencil icon={faPencil}></SPencil>
-              <SDetail>{data.title}</SDetail>
+              <SDetail>{data.summary}</SDetail>
             </div>
           </Typography>
           <Typography id="modal-modal-button" sx={{ mt: 2 }}>

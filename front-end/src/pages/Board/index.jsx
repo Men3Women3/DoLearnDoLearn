@@ -21,11 +21,13 @@ const Board = () => {
         <Grid item xs={0} md={1.5} />
         <Grid item xs={12} md={9}>
           <SOutterBox>
-            <SInnerBox>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <SearchBar />
-              <WriteButton />
-              <BoardList />
-            </SInnerBox>
+              <SInnerBox>
+                <WriteButton />
+                <BoardList />
+              </SInnerBox>
+            </div>
             <SmallSchedule />
           </SOutterBox>
         </Grid>

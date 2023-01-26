@@ -1,32 +1,32 @@
-import React from "react"
-import { useState } from "react"
+import React from "react";
+import { useState } from "react";
 
-import MessageDeleteModal from "../MessageDeleteModal"
-import MessageDetailModal from "../MessageDetailModal"
-import { SMessageIcon, SMain, STrashIcon } from "./styles"
+import MessageDeleteModal from "../MessageDeleteModal";
+import MessageDetailModal from "../MessageDetailModal";
+import { SMessageIcon, SMain, STrashIcon } from "./styles";
 
 import {
   faEnvelope,
   faEnvelopeOpen,
   faTrashCan,
-} from "@fortawesome/free-regular-svg-icons"
+} from "@fortawesome/free-regular-svg-icons";
 
 const MessageItem = ({ data }) => {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  const [detailModalOpen, setDetailModalOpen] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
   const handleModalOpen = (target) => {
     if (target === "delete") {
-      setDeleteModalOpen(true)
+      setDeleteModalOpen(true);
     } else if (target === "detail") {
-      setDetailModalOpen(true)
+      setDetailModalOpen(true);
     }
-  }
+  };
   const handleDeleteModalClose = () => {
-    setDeleteModalOpen(false)
-  }
+    setDeleteModalOpen(false);
+  };
   const handleDetailModalClose = () => {
-    setDetailModalOpen(false)
-  }
+    setDetailModalOpen(false);
+  };
 
   return (
     <>
@@ -67,8 +67,8 @@ const MessageItem = ({ data }) => {
                 icon={faTrashCan}
                 onClick={(e) => {
                   // 이벤트 버블링 방지
-                  e.stopPropagation()
-                  handleModalOpen("delete")
+                  e.stopPropagation();
+                  handleModalOpen("delete");
                 }}
               />
             </div>
@@ -90,7 +90,7 @@ const MessageItem = ({ data }) => {
         ) : null}
       </SMain>
     </>
-  )
-}
+  );
+};
 
-export default MessageItem
+export default MessageItem;

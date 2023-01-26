@@ -81,42 +81,6 @@ const RankingList = () => {
       instaURL: "example",
       facebookURL: "example",
     },
-    {
-      id: 9,
-      name: "김싸피",
-      point: 4100,
-      profileImg: "url",
-      youtubeURL: "example",
-      instaURL: "example",
-      facebookURL: "example",
-    },
-    {
-      id: 10,
-      name: "박싸피",
-      point: 4000,
-      profileImg: "url",
-      youtubeURL: "example",
-      instaURL: "example",
-      facebookURL: "example",
-    },
-    {
-      id: 11,
-      name: "최싸피",
-      point: 3900,
-      profileImg: "url",
-      youtubeURL: "example",
-      instaURL: "example",
-      facebookURL: "example",
-    },
-    {
-      id: 12,
-      name: "홍싸피",
-      point: 3800,
-      profileImg: "url",
-      youtubeURL: "example",
-      instaURL: "example",
-      facebookURL: "example",
-    },
   ]);
   // 데이터 불러오기
 

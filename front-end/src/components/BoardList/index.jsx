@@ -15,57 +15,75 @@ const BoardList = () => {
     {
       id: 1,
       thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
+      title: "WebRTC 도움 부탁드립니다~",
+      summary: "React로 WebRTC 구현하는 법 알려주세요!",
+      deadline: "01.14 - 01.21",
+      classTime: "01.22 14:00 - 16:00",
     },
     {
       id: 2,
       thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
+      title: "WebRTC 도움 부탁드립니다~",
+      summary: "React로 WebRTC 구현하는 법 알려주세요!",
+      deadline: "01.14 - 01.21",
+      classTime: "01.22 14:00 - 16:00",
     },
     {
       id: 3,
       thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
+      title: "WebRTC 도움 부탁드립니다~",
+      summary: "React로 WebRTC 구현하는 법 알려주세요!",
+      deadline: "01.14 - 01.21",
+      classTime: "01.22 14:00 - 16:00",
     },
     {
       id: 4,
       thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
+      title: "WebRTC 도움 부탁드립니다~",
+      summary: "React로 WebRTC 구현하는 법 알려주세요!",
+      deadline: "01.14 - 01.21",
+      classTime: "01.22 14:00 - 16:00",
     },
     {
       id: 5,
       thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
+      title: "WebRTC 도움 부탁드립니다~",
+      summary: "React로 WebRTC 구현하는 법 알려주세요!",
+      deadline: "01.14 - 01.21",
+      classTime: "01.22 14:00 - 16:00",
     },
     {
       id: 6,
       thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
+      title: "WebRTC 도움 부탁드립니다~",
+      summary: "React로 WebRTC 구현하는 법 알려주세요!",
+      deadline: "01.14 - 01.21",
+      classTime: "01.22 14:00 - 16:00",
     },
     {
       id: 7,
       thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
+      title: "WebRTC 도움 부탁드립니다~",
+      summary: "React로 WebRTC 구현하는 법 알려주세요!",
+      deadline: "01.14 - 01.21",
+      classTime: "01.22 14:00 - 16:00",
     },
-    {
-      id: 8,
-      thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
-    },
-    {
-      id: 9,
-      thumbnailUrl: thumbnail,
-      title: "어쩌구 저쩌구",
-      summary: "요약이 어쩌구 저쩌구 으아아아 요약이 어쩌구 저쩌구 으아아아",
-    },
+    // {
+    //   id: 8,
+    //   thumbnailUrl: thumbnail,
+    //   title: "WebRTC 도움 부탁드립니다~",
+    //   summary: "React로 WebRTC 구현하는 법 알려주세요!",
+    //   deadline: "01.14 - 01.21",
+    //   classTime: "01.22 14:00 - 16:00",
+    // },
+    // {
+    //   id: 9,
+    //   thumbnailUrl: thumbnail,
+    //   title: "WebRTC 도움 부탁드립니다~",
+    //   summary: "React로 WebRTC 구현하는 법 알려주세요!",
+    //   deadline: "01.14 - 01.21",
+    //   classTime: "01.22 14:00 - 16:00",
+    // },
   ]); // 강의 정보 List
   const [page, setPage] = useState(1); // 현재 페이지 번호
   const offset = (page - 1) * limit; // 첫 게시물의 위치
@@ -96,12 +114,14 @@ const BoardList = () => {
           );
         })}
       </SContainer>
-      <Pagination
-        total={list.length}
-        limit={limit}
-        page={page}
-        setPage={setPage}
-      />
+      {list.length < 7 ? null : (
+        <Pagination
+          total={list.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
+      )}
     </>
   );
 };

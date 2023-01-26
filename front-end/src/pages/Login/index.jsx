@@ -71,6 +71,14 @@ const Login = () => {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
+  // 자동로그아웃을 위한 핸들러 변수
+  let timeoutHandler = null;
+  // 리프레시 토큰 유효시간 : 1일
+  // 자동로그아웃 -> 23시간 후 실행
+  const logoutTimeInterval = 1000 * 60 * 60 * 23;
+  // 테스트용 5초 후 자동로그아웃
+  // const logoutTimeInterval = 1000 * 5;
+
   // context api를 통해 handleIsLogined 함수 가져오기
   const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
     LoginStateHandlerContext
@@ -87,13 +95,48 @@ const Login = () => {
         .then((response) => {
           const responseData = response.data.response;
           localStorage.clear();
-          // 로그인 성공하면 localStorage에 토큰 저장
+          // 로그인 성공하면 localStorage에 토큰과 유저 id 저장
           localStorage.setItem("accessToken", responseData.accessToken);
           localStorage.setItem("refreshToken", responseData.refreshToken);
-          // context API의 유저 정보 상태 변경
+          localStorage.setItem("id", responseData.id);
+          // 유저 정보 상태 변경
           handleUserInfo(responseData);
           // 로그인 상태 변경
           handleIsLogined();
+
+          // setTimeout() 함수를 통해 리프레시 토큰 끝나기 1시간 전에 자동로그아웃 시키기
+          // 유저가 리프레시 토큰 유효기간 만료 전 로그인과 로그아웃을 연속으로 실행할 경우를 방지하기 위해
+          // setTimeout()을 먼저 clear 시키고 setTimeout() 함수 로직 작성
+          clearTimeout(timeoutHandler);
+          timeoutHandler = setTimeout(() => {
+            const accessToken = localStorage.getItem("accessToken");
+            const id = localStorage.getItem("id");
+            if (accessToken !== null) {
+              // logout api 연결
+              axios
+                .post(
+                  `${axiosDefaultURL}/user/logout/${id}`,
+                  {},
+                  {
+                    headers: {
+                      Authentication: accessToken,
+                    },
+                  }
+                )
+                .then((response) => {
+                  // 요청 성공하면
+                  // 로그아웃 처리
+                  // localStorage 비우기
+                  localStorage.clear();
+                  // 적용을 위해 페이지 새로고침
+                  window.location.reload();
+                })
+                .catch((error) => {
+                  console.log(error.response);
+                });
+            }
+          }, logoutTimeInterval);
+
           // 메인페이지로 이동
           navigate("/");
         })

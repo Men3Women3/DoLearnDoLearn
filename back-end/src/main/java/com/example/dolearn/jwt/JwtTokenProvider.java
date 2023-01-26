@@ -21,7 +21,7 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final long REFRESH_TOKEN_VALID_MILISECOND = 1000L * 60 * 60 * 24;   // 1일
-    private final long ACCESS_TOKEN_VALID_MILISECOND = 1000L * 20 * 1;     // 20초
+    private final long ACCESS_TOKEN_VALID_MILISECOND = 1000L * 60 * 60;     // 1시간
 
     @Value("${jwt.token.key}")
     private String secretKey;

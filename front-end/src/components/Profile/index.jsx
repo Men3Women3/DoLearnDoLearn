@@ -43,8 +43,8 @@ const Profile = (props) => {
             <SSnsContainer>
               <Tooltip
                 title={`${getUserInfo.userInfo.name}님의 블로그 바로가기`}
-                placement="top"
-                arrow
+                // placement="top"
+                followCursor
               >
                 <a
                   // className="tooltip"
@@ -57,8 +57,9 @@ const Profile = (props) => {
               </Tooltip>
               <Tooltip
                 title={`${getUserInfo.userInfo.name}님의 유튜브 채널 바로가기`}
-                placement="top"
-                arrow
+                // placement="top"
+                // arrow
+                followCursor
               >
                 <a
                   // className="tooltip"
@@ -71,8 +72,9 @@ const Profile = (props) => {
               </Tooltip>
               <Tooltip
                 title={`${getUserInfo.userInfo.name}님의 인스타그램 바로가기`}
-                placement="top"
-                arrow
+                // placement="top"
+                // arrow
+                followCursor
               >
                 <a
                   // className="tooltip"
@@ -85,8 +87,9 @@ const Profile = (props) => {
               </Tooltip>
               <Tooltip
                 title={`${getUserInfo.userInfo.name}님의 페이스북 바로가기`}
-                placement="top"
-                arrow
+                // placement="top"
+                // arrow
+                followCursor
               >
                 <a
                   // className="tooltip"

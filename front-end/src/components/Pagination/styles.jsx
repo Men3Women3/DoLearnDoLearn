@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SNav = styled.nav`
   display: flex;
@@ -10,7 +10,7 @@ export const SNav = styled.nav`
 
 export const SButton = styled.button`
   border: none;
-  border-radius: 10%;
+  border-radius: 5px;
   padding: 0.7vh 0.5vw;
   margin: 0.1rem;
   background: black;

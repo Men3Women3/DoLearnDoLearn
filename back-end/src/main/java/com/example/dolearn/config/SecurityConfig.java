@@ -1,8 +1,11 @@
 package com.example.dolearn.config;
 
+import com.example.dolearn.handler.Oauth2SuccessHandler;
 import com.example.dolearn.jwt.CustomAuthenticationEntryPoint;
 import com.example.dolearn.jwt.JwtAuthenticationFilter;
 import com.example.dolearn.jwt.JwtTokenProvider;
+import com.example.dolearn.repository.UserRepository;
+import com.example.dolearn.service.CustomOauth2UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,8 +27,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    @Autowired
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final CustomOauth2UserService customOauth2UserService;
+
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,13 +43,13 @@ public class SecurityConfig {
                 .httpBasic().disable()
 
                 .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
-                .antMatchers("/user/check-email/**").permitAll()
-                .antMatchers("/exception/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()
-                .anyRequest().authenticated()
-
+//                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//                .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
+//                .antMatchers("/user/check-email/**").permitAll()
+//                .antMatchers("/exception/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/user").permitAll()
+//                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 // login 시 Jwt 검증 필터
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
@@ -53,7 +59,15 @@ public class SecurityConfig {
 
                 // cors 설정 적용
                 .and()
-                .cors().configurationSource(corsConfigurationSource());
+                .cors().configurationSource(corsConfigurationSource())
+
+                //oauth2 관련
+                .and()
+                .oauth2Login()
+                .successHandler(new Oauth2SuccessHandler(jwtTokenProvider,userRepository))
+                .userInfoEndpoint()
+                .userService(customOauth2UserService);
+
         return http.build();
     }
 

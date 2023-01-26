@@ -18,23 +18,26 @@ public class BoardService {
     private BoardRepository bRepo;
 
     @Transactional
-    public Board insert(BoardDto boardDto) throws ParseException {
-        return bRepo.save(boardDto.toEntity());
+    public BoardDto insert(BoardDto boardDto) throws ParseException {
+        return bRepo.save(boardDto.toEntity()).toDto();
     }
 
     @Transactional
     public List<Board> selectAll(){
+
         return bRepo.findAll();
     }
 
     @Transactional
-    public Optional<Board> selectDetail(Long id){
-        return bRepo.findById(id);
+    public Optional<BoardDto> selectDetail(Long id) throws Exception{
+        Optional<BoardDto> result = Optional.ofNullable(bRepo.findById(id).get().toDto());
+
+        return result;
     }
 
     @Transactional
-    public void deleteBoard(Long id){
-        bRepo.deleteById(id);
+    public int deleteBoard(Long id){
+        return bRepo.deleteBoard(id);
     }
 
     @Transactional
@@ -48,11 +51,13 @@ public class BoardService {
     }
 
     @Transactional
-    public Board update(Long id){
-        Optional<Board> result = bRepo.findById(id);
-        Board b = result.get();
-        b.setFixed(1);
+    public BoardDto update(Long id) throws Exception{
+        Optional<BoardDto> result = Optional.ofNullable(bRepo.findById(id).get().toDto());
 
-        return bRepo.save(b);
+
+        BoardDto board = result.get();
+        board.setFixed(1);
+
+        return bRepo.save(board.toEntity()).toDto();
     }
 }

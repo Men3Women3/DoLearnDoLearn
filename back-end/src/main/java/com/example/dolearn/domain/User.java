@@ -71,6 +71,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Message> messageList = new ArrayList<>();
 
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<UserBoard> userBoardList = new ArrayList<>();
+
     @PrePersist
     public void setDefaultValue(){
         this.info = (this.info == null) ? "" : this.info;
@@ -80,6 +85,21 @@ public class User {
         this.facebook = (this.facebook == null) ? "" : this.facebook;
         this.blog = (this.blog == null) ? "" : this.blog;
         this.imgSrc = (this.imgSrc == null) ? "" : this.imgSrc;
+    }
+
+    public User update(String name,String email) {
+        this.name = name;
+        this.email = email;
+        return this;
+    }
+    //소셜로그인시만 사용
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    //소셜로그인 성공후 리프레쉬토큰 저장
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public UserDto toDto() {

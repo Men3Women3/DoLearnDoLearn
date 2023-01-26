@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SSmallScheduleMain = styled.main`
   .smallSchedule-container {
@@ -7,8 +7,8 @@ export const SSmallScheduleMain = styled.main`
     top: 20px;
     display: flex;
     .smallSchedule__toggle-button {
-      width: 64px;
-      height: 64px;
+      width: calc(1vw + 50px);
+      height: calc(1vw + 50px);
       border-radius: 50%;
       border: none;
       background-color: white;
@@ -46,4 +46,4 @@ export const SSmallScheduleMain = styled.main`
       }
     }
   }
-`
+`;
