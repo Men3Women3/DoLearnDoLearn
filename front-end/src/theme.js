@@ -1,8 +1,10 @@
 const theme = {
-  deepYellow: "#F4E3B4",
+  deepYellow: "#ffe89a",
   deeperYellow: "#F3BD2A",
   lightYellow: "#FFF9DB",
   lighterYellow: "#FFFAEC",
+  lightGray: "#dddddd",
+  lighterGray: "#eeeeee",
   red: "#FF7979",
   fontFamily: {
     Thin: "Pretendard-Thin",
@@ -21,8 +23,8 @@ const theme = {
     h3: "calc(1vw + 2px)",
     h4: "calc(1vw + 1px)",
     h5: "calc(0.5vw + 0.5px)",
-    p: "calc(0.8vw + 1px)",
+    p: "calc(0.85vw + 1px)",
   },
-};
+}
 
-export default theme;
+export default theme

@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import logoImg from "../../assets/images/logo.png";
-import signupImg from "../../assets/images/sign_img.svg";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -36,15 +35,18 @@ import {
   SInstagramInput,
   SFacebookInput,
   SSelfIntroduction,
-  SSNSInputContainer,
   // SLoginButton,
   SMainContainer,
   SNextButton,
-  // SFindPassword,
   SCancelButton,
+  SBackToLoginButton,
+  SSubmitButton,
 } from "./styles";
 import useInput from "../../hoocks/useInput"; // 커스텀 훅
 import axios from "axios";
+import Lottie from "react-lottie";
+import animationData from "../../assets/images/SIGNUP";
+import { useEffect } from "react";
 
 const style = {
   position: "absolute",
@@ -58,66 +60,119 @@ const style = {
   outline: "none",
 };
 
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
+
+const axiosDefaultURL = "http://localhost:8080";
+
 const SignUp = () => {
   const [username, onChangeUsername] = useInput("");
   const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
   const [passwordCheck, onChangePasswordCheck] = useInput("");
-  const [blogLing, setBlogLink] = useState("");
+  const [blogLink, setBlogLink] = useState("");
   const [youtubeLink, setYoutubeLink] = useState("");
   const [instagramLink, setInstagramLink] = useState("");
   const [facebookLink, setFacebookLink] = useState("");
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const [isNext, setIsNext] = useState(false);
   // const [isEmpty, setIsEmpty] = useState("");
-  // const [isCorrect, setIsCorrect] = useState(false);
+  const [isDuplicatedEmail, setIsDuplicatedEmail] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
   const [open, setOpen] = useState(false);
-  const [signUpError, setSignUpError] = useState("");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  // 이메일 유효성 검사를 위한 정규표현식
+  const regexEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+
+  // 비밀번호 유효성 검사를 위한 정규표현식
+  const regExpPassword =
+    /^.*(?=^.{9,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+
+  // 이름, 이메일, 비밀번호, 비밀번호 확인을 규칙에 맞게 작성했는지 확인하는 함수
+  // 규칙에 맞게 작성하지 않았으면 isCorrect를 false로 만들고, 규칙에 맞게 작성했으면 isCorrect를 true로 만든다.
+  const handleInputCorrectCheck = useCallback(() => {
+    if (
+      username.length > 30 ||
+      !regexEmail.test(email) ||
+      !regExpPassword.test(password) ||
+      password !== passwordCheck
+    ) {
+      setIsCorrect(false);
+    }
+    if (
+      username.length <= 30 &&
+      regexEmail.test(email) &&
+      regExpPassword.test(password) &&
+      password === passwordCheck
+    ) {
+      setIsCorrect(true);
+    }
+  }, [username, email, password, passwordCheck, isCorrect]);
+
+  // handleNextForm()를 통해 isDuplicatedEmail이 바뀌면 이메일 중복을 검사하는 axios 요청 실행
+  // 이메일이 중복되지 않으면 setIsNext(true)를 통해 추가 입력사항 폼을 보여준다.
+  // 이메일이 중복되면 모달을 통해 알림을 준다.
+  useEffect(() => {
+    if (isDuplicatedEmail) {
+      axios
+        .post(`${axiosDefaultURL}/user/check-email/${email}`)
+        .then((response) => {
+          console.log("이메일 중복 확인 성공!");
+          setIsNext(true);
+        })
+        .catch((error) => {
+          if (error.response.data.response === "이미 존재하는 이메일입니다.") {
+            setIsDuplicatedEmail(false);
+            setOpen(true);
+            setIsNext(false);
+          }
+        });
+    }
+  }, [isDuplicatedEmail]);
+
+  // 필수입력사항을 모두 입력했으면 이메일 중복 검사를 실행시키는 트리거 함수(useEffect를 실행시킴)
+  const handleNextForm = () => {
+    if (!username || !email || !password || !passwordCheck) {
+      setOpen(true);
+    }
+    setIsDuplicatedEmail(true);
+  };
 
   // 회원가입 api를 사용하여 회원가입을 진행하는 함수
-  const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (isNext === true) {
-        // 서버로 회원가입하기
-        // 비동기 로직 실행 전에 초기화해주면 좋다.
-        // 요청을 연달아서 연속으로 보내면 이전 요청에 남아있던 결과가 다음 요청에 남아있을 수 있다.
-        setSignUpError("");
-        axios
-          .post("http://localhost:3090/api/users", {
-            // 보내야 될 데이터
-            username,
-            email,
-            password,
-          })
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-            setSignUpError(error.response.data);
-          })
-          .finally(() => {});
-      }
-    },
-    [username, email, password, isNext]
-  );
-
-  // 필수입력사항을 모두 입력했으면 추가입력사항을 보여주기 위한 핸들러 함수
-  const handleNextForm = useCallback(
-    (e) => {
-      if (!username || !email || !password || !passwordCheck) {
-        setOpen(true);
-      } else if (passwordCheck && password !== passwordCheck) {
-        setOpen(true);
-      } else if (!isNext) {
-        setIsNext(!isNext);
-      }
-    },
-    [username, email, password, passwordCheck, isNext]
-  );
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (isNext === true) {
+      axios
+        .post(`${axiosDefaultURL}/user`, {
+          // 보내야 될 데이터
+          name: username,
+          email,
+          password,
+          info: selfIntroduction,
+          blog: blogLink,
+          youtube: youtubeLink,
+          instagram: instagramLink,
+          facebook: facebookLink,
+        })
+        .then((response) => {
+          console.log("서버에 데이터 보내기 성공!");
+          // 회원가입 성공했으면 메인 페이지로 이동
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log("서버에 데이터 보내기 실패!");
+          console.log(error);
+        });
+    }
+  };
 
   const handleClose = () => setOpen(false);
 
@@ -127,36 +182,36 @@ const SignUp = () => {
     if (!email) return "이메일을 입력해주세요.";
     if (!password) return "비밀번호를 입력해주세요.";
     if (!passwordCheck) return "비밀번호를 다시 입력해주세요.";
-    if (password !== passwordCheck) return "비밀번호가 일치하지 않습니다.";
+    if (!isDuplicatedEmail) return "이미 존재하는 이메일입니다.";
   };
 
   return (
     <SMain>
       <SMainContainer>
-        <div>
-          <NavLink to={"/"}>
-            <img src={logoImg} alt="logo_img" />
-          </NavLink>
-        </div>
-        <SForm isNext onSubmit={onSubmit}>
-          <SContainer>
-            <h1>회원가입</h1>
+        <SForm isNext={isNext} onSubmit={onSubmit}>
+          <div className="nav__section">
+            <NavLink className="Home-link" to={"/"}>
+              <img src={logoImg} alt="logo_img" />
+            </NavLink>
+          </div>
+          <SContainer isNext={isNext}>
+            {isNext ? null : <h1>회원가입</h1>}
+
             {isNext ? (
-              <>
-                <p>
-                  * 추가 입력사항입니다. 입력 시 다른 사용자들에게 보여지는
-                  정보입니다.
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <p className="info-text">
+                  * 선택 입력 사항으로, 다른 사용자들에게 공유되는 정보입니다.
                 </p>
                 <SInputContainer>
                   <SBlogInput
-                    className={blogLing ? "active__input" : ""}
-                    value={blogLing}
+                    className={blogLink ? "active__input" : ""}
+                    value={blogLink}
                     onChange={(e) => setBlogLink(e.target.value)}
                     type="text"
                     placeholder="블로그 링크를 입력해주세요"
                   />
                   <SEmailFontAwesomeIcon
-                    className={blogLing ? "active__icon" : ""}
+                    className={blogLink ? "active__icon" : ""}
                     icon={faLink}
                   />
                 </SInputContainer>
@@ -173,34 +228,32 @@ const SignUp = () => {
                     icon={faYoutube}
                   />
                 </SInputContainer>
-                <SSNSInputContainer>
-                  <SInputContainer>
-                    <SInstagramInput
-                      className={instagramLink ? "active__input" : ""}
-                      value={instagramLink}
-                      onChange={(e) => setInstagramLink(e.target.value)}
-                      type="text"
-                      placeholder="인스타 계정을 입력해주세요"
-                    />
-                    <SEmailFontAwesomeIcon
-                      className={instagramLink ? "active__icon" : ""}
-                      icon={faInstagram}
-                    />
-                  </SInputContainer>
-                  <SInputContainer>
-                    <SFacebookInput
-                      className={facebookLink ? "active__input" : ""}
-                      value={facebookLink}
-                      onChange={(e) => setFacebookLink(e.target.value)}
-                      type="text"
-                      placeholder="페이스북 계정을 입력해주세요"
-                    />
-                    <SEmailFontAwesomeIcon
-                      className={facebookLink ? "active__icon" : ""}
-                      icon={faFacebook}
-                    />
-                  </SInputContainer>
-                </SSNSInputContainer>
+                <SInputContainer>
+                  <SInstagramInput
+                    className={instagramLink ? "active__input" : ""}
+                    value={instagramLink}
+                    onChange={(e) => setInstagramLink(e.target.value)}
+                    type="text"
+                    placeholder="인스타 계정을 입력해주세요"
+                  />
+                  <SEmailFontAwesomeIcon
+                    className={instagramLink ? "active__icon" : ""}
+                    icon={faInstagram}
+                  />
+                </SInputContainer>
+                <SInputContainer>
+                  <SFacebookInput
+                    className={facebookLink ? "active__input" : ""}
+                    value={facebookLink}
+                    onChange={(e) => setFacebookLink(e.target.value)}
+                    type="text"
+                    placeholder="페이스북 계정을 입력해주세요"
+                  />
+                  <SEmailFontAwesomeIcon
+                    className={facebookLink ? "active__icon" : ""}
+                    icon={faFacebook}
+                  />
+                </SInputContainer>
                 <SInputContainer>
                   <SSelfIntroduction
                     maxLength={500}
@@ -218,7 +271,7 @@ const SignUp = () => {
                     icon={faComment}
                   />
                 </SInputContainer>
-              </>
+              </div>
             ) : (
               <>
                 <SInputContainer>
@@ -228,11 +281,16 @@ const SignUp = () => {
                     onChange={onChangeUsername}
                     type="text"
                     placeholder="이름(실명)을 입력해주세요"
+                    maxLength={30}
+                    onKeyUp={handleInputCorrectCheck}
                   />
                   <SEmailFontAwesomeIcon
                     className={username ? "active__icon" : ""}
                     icon={faUser}
                   />
+                  <p>
+                    {username.length >= 30 && "최대 30자까지 입력 가능합니다."}
+                  </p>
                 </SInputContainer>
                 <SInputContainer>
                   <SEmailInput
@@ -241,11 +299,17 @@ const SignUp = () => {
                     onChange={onChangeEmail}
                     type="text"
                     placeholder="이메일을 입력해주세요"
+                    onKeyUp={handleInputCorrectCheck}
                   />
                   <SEmailFontAwesomeIcon
                     className={email ? "active__icon" : ""}
                     icon={faEnvelope}
                   />
+                  <p>
+                    {email &&
+                      !regexEmail.test(email) &&
+                      "올바른 이메일 형식으로 입력해주세요."}
+                  </p>
                 </SInputContainer>
                 <SInputContainer>
                   <SPasswordInput
@@ -254,11 +318,17 @@ const SignUp = () => {
                     onChange={onChangePassword}
                     type="password"
                     placeholder="비밀번호를 입력해주세요"
+                    onKeyUp={handleInputCorrectCheck}
                   />
                   <SEmailFontAwesomeIcon
                     className={password ? "active__icon" : ""}
                     icon={faLock}
                   />
+                  <p>
+                    {password &&
+                      !regExpPassword.test(password) &&
+                      "9~16자 영문, 숫자, 특수문자를 사용하세요."}
+                  </p>
                 </SInputContainer>
                 <SInputContainer>
                   <SPasswordCheckInput
@@ -267,23 +337,35 @@ const SignUp = () => {
                     onChange={onChangePasswordCheck}
                     type="password"
                     placeholder="비밀번호를 다시 입력해주세요"
+                    onKeyUp={handleInputCorrectCheck}
                   />
                   <SEmailFontAwesomeIcon
                     className={passwordCheck ? "active__icon" : ""}
                     icon={faUnlock}
                   />
+                  {passwordCheck && password !== passwordCheck && (
+                    <p>비밀번호가 일치하지 않습니다.</p>
+                  )}
                 </SInputContainer>
               </>
             )}
-            {/* <SLoginButton type="submit">회원가입</SLoginButton> */}
-            <SNextButton type="submit" onClick={(e) => handleNextForm(e)}>
-              {isNext ? "회원가입" : "다음"}
-            </SNextButton>
+            {isNext ? (
+              <SSubmitButton type="submit">회원가입 완료</SSubmitButton>
+            ) : (
+              <SNextButton onClick={handleNextForm}>다음</SNextButton>
+            )}
+            {isNext ? null : (
+              <Link to={"/login"}>
+                <SBackToLoginButton>로그인으로 돌아가기</SBackToLoginButton>
+              </Link>
+            )}
           </SContainer>
         </SForm>
         <SImgSection>
-          <h1>Welcome!</h1>
-          <img src={signupImg} alt="signup_img" />
+          <h1>Welcome to our WebSite!</h1>
+          <div>
+            <Lottie options={defaultOptions} />
+          </div>
         </SImgSection>
       </SMainContainer>
       <Modal

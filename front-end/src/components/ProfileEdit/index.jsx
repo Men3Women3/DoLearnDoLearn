@@ -3,36 +3,47 @@ import {
   SProfileEditContainer,
   SSubContainerUp,
   SSubContainerDown,
-  SOneLineContainer,
-  SFontAwesomeIconAtProfile,
   SSelfIntroduction,
   SInput,
   SBlackButton,
+  STextAreaIcon,
+  SInputIcon,
 } from "./styles";
 
 import profile from "../../assets/images/thumbnail.png";
 
-import { Button } from "@mui/material";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faGear, faLink } from "@fortawesome/free-solid-svg-icons";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import { faIdCard } from "@fortawesome/free-solid-svg-icons";
-import { faStaylinked } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebook,
+  faInstagram,
+  faStaylinked,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
 import { faSquareYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 
 const ProfileEdit = (props) => {
+  const [blogLink, setBlogLink] = useState("");
+  const [youtubeLink, setYoutubeLink] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [facebook, setFacebook] = useState("");
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const fileInput = React.useRef(null);
-  const handleCompleteEditProfile = () => {
-    props.setValue(!props.value);
-  };
+  // const handleCompleteEditProfile = () => {
+  //   props.setValue(!props.value);
+  // };
 
   // 프로필 이미지 변경
   const handleEditProfileImg = (e) => {
     fileInput.current.click();
+  };
+  const handleFileChange = (e) => {
+    // console.log(e.target.value);
+    console.log(e.target.files[0]);
   };
 
   return (
@@ -52,32 +63,38 @@ const ProfileEdit = (props) => {
               icon={faGear}
               onClick={handleEditProfileImg}
             />
-            <input type="file" ref={fileInput} />
+            <input
+              type="file"
+              ref={fileInput}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
           </div>
 
           <section>
-            {/* 배지 + 이름 */}
-            <SOneLineContainer>
-              {/* <img
+            {/* <img
                 src={startRankImg}
                 alt="start_rank_Img"
                 // style={{ height: "calc(1vw + 8px) !important" }}
               /> */}
+            <div>
+              {/* 이름 */}
               <span>김싸피</span>
-            </SOneLineContainer>
-            {/* 이메일 */}
-            <p>ssafyKing@naver.com</p>
+              {/* 이메일 */}
+              <p>ssafyKing@naver.com</p>
+            </div>
             {/* 마일리지 바 */}
             <div>
-              {/* <FontAwesomeIcon
+              <FontAwesomeIcon
                 icon={faLocationPin}
                 style={{
-                  color: "#24E843",
-                  height: "calc(1vw + 10px) !important",
+                  color: "black",
+                  height: "calc(1vw + 1px)",
+                  marginTop: "10px",
                 }}
-              /> */}
+              />
               <div className="wrapper">
-                <div
+                {/* <div
                   style={{
                     backgroundColor: "#24E843",
                     borderTopLeftRadius: "50px",
@@ -105,7 +122,7 @@ const ProfileEdit = (props) => {
                     borderTopRightRadius: "50px",
                     borderBottomRightRadius: "50px",
                   }}
-                ></div>
+                ></div> */}
               </div>
             </div>
           </section>
@@ -113,66 +130,82 @@ const ProfileEdit = (props) => {
 
         {/* 선택항목 */}
         <SSubContainerDown>
-          <section>
-            <div style={{ display: "flex" }}>
-              <SFontAwesomeIconAtProfile icon={faIdCard} />
-              <SSelfIntroduction
-                maxLength={500}
-                value={selfIntroduction}
-                onChange={(e) => setSelfIntroduction(e.target.value)}
-                type="text"
-                placeholder="자기소개를 입력해주세요"
-              />
-            </div>
-            <p
-              className="typing-length"
-              style={{ float: "right", marginRight: "9%" }}
-            >
-              {selfIntroduction.length} / 500
-            </p>
-            <SOneLineContainer>
-              <SFontAwesomeIconAtProfile icon={faStaylinked} />
-              <SInput
-                //   className={facebookLink ? "active__input" : ""}
-                //   value={facebookLink}
-                //   onChange={(e) => setFacebookLink(e.target.value)}
-                type="text"
-                placeholder="페이스북 계정을 입력해주세요"
-              />
-            </SOneLineContainer>
-            <SOneLineContainer>
-              <SFontAwesomeIconAtProfile icon={faSquareYoutube} />
-              <SInput
-                //   className={facebookLink ? "active__input" : ""}
-                //   value={facebookLink}
-                //   onChange={(e) => setFacebookLink(e.target.value)}
-                type="text"
-                placeholder="페이스북 계정을 입력해주세요"
-              />
-            </SOneLineContainer>
-            <SOneLineContainer>
-              <SFontAwesomeIconAtProfile icon={faSquareInstagram} />
-              <SInput
-                //   className={facebookLink ? "active__input" : ""}
-                //   value={facebookLink}
-                //   onChange={(e) => setFacebookLink(e.target.value)}
-                type="text"
-                placeholder="페이스북 계정을 입력해주세요"
-              />
-            </SOneLineContainer>
-            <SOneLineContainer>
-              <SFontAwesomeIconAtProfile icon={faSquareFacebook} />
-              <SInput
-                //   className={facebookLink ? "active__input" : ""}
-                //   value={facebookLink}
-                //   onChange={(e) => setFacebookLink(e.target.value)}
-                type="text"
-                placeholder="페이스북 계정을 입력해주세요"
-              />
-            </SOneLineContainer>
-          </section>
-
-          <SBlackButton onClick={handleCompleteEditProfile}>
+          <div className="input__container">
+            <SInput
+              className={blogLink ? "tip active__input" : "tip"}
+              value={blogLink}
+              onChange={(e) => setBlogLink(e.target.value)}
+              type="text"
+              placeholder="블로그 링크를 입력해 주세요"
+            />
+            <SInputIcon
+              className={blogLink ? "active__icon" : ""}
+              icon={faLink}
+            />
+          </div>
+          <div className="input__container">
+            <SInput
+              className={youtubeLink ? "tip active__input" : "tip "}
+              value={youtubeLink}
+              onChange={(e) => setYoutubeLink(e.target.value)}
+              type="text"
+              placeholder="유튜브 링크를 입력해 주세요"
+            />
+            <SInputIcon
+              className={youtubeLink ? "active__icon" : " "}
+              icon={faYoutube}
+            />
+          </div>
+          <div className="input__container">
+            <SInput
+              className={instagram ? "tip active__input" : "tip"}
+              value={instagram}
+              onChange={(e) => setInstagram(e.target.value)}
+              type="text"
+              placeholder="인스타그램 계정을 입력해 주세요"
+            />
+            <SInputIcon
+              className={instagram ? "active__icon" : ""}
+              icon={faInstagram}
+            />
+          </div>
+          <div className="input__container">
+            <SInput
+              className={facebook ? "tip active__input" : "tip"}
+              value={facebook}
+              onChange={(e) => setFacebook(e.target.value)}
+              type="text"
+              placeholder="페이스북 계정을 입력해주세요"
+            />
+            <SInputIcon
+              className={facebook ? "active__icon" : " "}
+              icon={faFacebook}
+            />
+          </div>
+          <div className="input__container">
+            <SSelfIntroduction
+              maxLength={500}
+              className={selfIntroduction ? "tip active__input" : "tip"}
+              value={selfIntroduction}
+              onChange={(e) => setSelfIntroduction(e.target.value)}
+              type="text"
+              placeholder="자기소개를 입력해주세요"
+            />
+            <STextAreaIcon
+              className={
+                selfIntroduction
+                  ? "self-introduction__img active__icon"
+                  : "self-introduction__img"
+              }
+              icon={faComment}
+              flip="horizontal"
+            />
+          </div>
+          <p className="typing-length">{selfIntroduction.length} / 500</p>
+          <SBlackButton
+            className="black-button"
+            onClick={props.handleProfileEditBtn}
+          >
             수정 완료
           </SBlackButton>
         </SSubContainerDown>

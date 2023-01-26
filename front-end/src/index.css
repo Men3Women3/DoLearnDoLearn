@@ -1,5 +1,58 @@
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  /* background: rgb(255, 255, 255);
+  background: linear-gradient(
+    189deg,
+    rgba(255, 255, 255, 1) 42%,
+    rgba(253, 187, 45, 0.6446953781512605) 100%
+  ); */
+}
+/* 스크롤바 */
+/* Chrome, Edge, and Safari */
+html::-webkit-scrollbar {
+  width: calc(0.5vw + 1px);
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+  background-color: #d4d4d4;
+  border-radius: 10px;
+  /* border: 3px solid #ffffff; */
+}
+
 body {
   margin: 0;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700");
+
+@font-face {
+  font-family: "GmarketSansLight";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GmarketSansBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {

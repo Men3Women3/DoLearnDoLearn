@@ -1,30 +1,40 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tooltip } from "@mui/material";
 
 export const SProfileContainer = styled.div`
+  font-family: ${(props) => props.theme.fontFamily.Medium};
   width: 100%;
   .cd1tip {
-    width: 98%;
+    width: 100%;
     display: flex;
   }
 
   .tip {
-    width: calc(100% - 4vw);
-    background-color: #f0f0f0;
+    width: 100%;
+    max-height: 200px;
+    /* overflow: auto; */
+    word-wrap: break-word;
+    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
+    /* background-color: #fdf7d8; */
+    border: 3px dashed ${(props) => props.theme.lightGray};
     color: black;
     padding: calc(1vw + 5px);
-    margin-left: 10px;
-    border-radius: 20px;
-    font-family: ${(props) => props.theme.fontFamily.Light};
+    border-radius: 10px;
     font-size: ${(props) => props.theme.fontSize.p};
-  }
 
-  .oneLineContainer {
-    display: flex;
-    align-items: center;
-    margin: calc(0.5vw + 1px) 0;
-    span {
-      margin-left: 10px;
+    /* 스클롤러 변경 */
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: calc(0.5vw + 1px);
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #d4d4d4;
+      border-radius: 10px;
     }
   }
 `;
@@ -33,11 +43,11 @@ export const SSubContainerUp = styled.div`
   display: flex;
   align-items: center;
   /* 프로필 이미지 */
-  .profileImg {
-    height: calc(3vw + 50px);
-    width: calc(3vw + 50px);
+  .profile-img {
+    height: calc(3vw + 70px);
+    width: calc(3vw + 70px);
     border-radius: 50%;
-    border: calc(0.1vw + 1px) solid black;
+    /* border: calc(0.1vw + 1px) solid black; */
     object-fit: cover;
     text-align: center;
   }
@@ -46,23 +56,34 @@ export const SSubContainerUp = styled.div`
     width: 100%;
     margin-left: 15px;
     display: inline;
+    .info__container {
+      display: flex;
+      justify-content: space-between;
+    }
     /* 이름 */
-    /* span {
-      font-size: calc(0.9vw + 2px);
-      margin-left: 0 !important;
-    } */
+    span {
+      font-size: ${(props) => props.theme.fontSize.h3};
+      font-weight: bold;
+    }
     /* 이메일 */
     p {
-      color: #8e8e8e;
-      font-size: calc(0.7vw + 2px);
+      color: #9a9a9a;
+      font-size: ${(props) => props.theme.fontSize.p};
+      margin: 5px 0;
     }
     /* 마일리지바 */
     .wrapper {
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
-      width: 60%;
-      height: calc(0.5vw + 2px);
+      width: 100%;
+      height: calc(1vw + 2px);
+      /* 그라데이션 임시로 넣었음. 더 좋은 그라데이션 찾으면 바꾸기 */
+      background: rgb(238, 242, 67);
+      background: linear-gradient(
+        90deg,
+        rgba(238, 242, 67, 1) 0%,
+        rgba(198, 255, 117, 1) 50%,
+        rgba(36, 232, 67, 1) 100%
+      );
+      border-radius: 4px;
     }
     .wrapper > div {
       flex: 1;
@@ -70,45 +91,85 @@ export const SSubContainerUp = styled.div`
   }
 `;
 
+export const SSnsContainer = styled.div`
+  display: flex;
+  column-gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  /* .tooltip {
+    display: inline;
+    position: relative;
+  }
+  .tooltip:hover:before {
+    position: absolute;
+    content: "";
+    border: solid;
+    border-color: black transparent;
+    border-width: 6px 6px 0 6px;
+    top: calc(-0.3 * (1.2vw + 0.1px));
+    left: 50%;
+    z-index: 99;
+  }
+  .tooltip:hover:after {
+    position: absolute;
+    content: attr(info);
+    font-size: ${(props) => props.theme.fontSize.h5};
+    height: calc(1.5vw + 0.1px);
+    background: black;
+    border-radius: 5px;
+    top: calc(-1.2 * (1.5vw + 0.1px));
+    color: #ffbf00;
+    left: 20%;
+    width: calc(1.5vw + 170px);
+    text-align: center;
+    line-height: calc(1.5vw + 0.1px);
+    z-index: 98;
+  } */
+  img {
+    height: calc(1.5vw + 0.1px);
+    /* margin-left: 8px; */
+    cursor: pointer;
+  }
+`;
+
 export const SSubContainerDown = styled.div`
   width: 100%;
-  padding: 20px 15px;
+  padding: 20px 0;
   font-size: calc(0.7vw + 2px);
   line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
 `;
 
-export const SOneLineContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin: calc(1vw + 1px) 0;
-  span {
-    font-size: calc(0.9vw + 2px);
-    margin-left: 0;
-  }
-  a {
-    margin-left: 10px;
-  }
-`;
-
-export const SFontAwesomeIconAtProfile = styled(FontAwesomeIcon)`
-  color: black;
-  height: calc(1vw + 5px);
-`;
-
 export const SBlackButton = styled.button`
-  width: 20%;
+  width: calc(2vw + 80px);
   font-family: ${(props) => props.theme.fontFamily.Bold};
   font-size: ${(props) => props.theme.fontSize.p};
   background-color: black;
   padding: 8px 10px;
   border-radius: 8px;
   color: white;
-  margin: auto;
+  margin: 0 auto;
+  margin-top: 40px;
   cursor: pointer;
   :hover {
     color: ${(props) => props.theme.deeperYellow};
+    font-weight: bolder;
   }
 `;
+
+export const SCustomToolTip = styled(Tooltip)`
+  background-color: yellow;
+`;
+
+// const BootstrapTooltip = styled(
+//   ({ className, ...props }) => (
+//   <Tooltip {...props} arrow classes={{ popper: className }} />)
+// )(({ theme }) => ({
+//   [`& .${tooltipClasses.arrow}`]: {
+//     color: theme.palette.common.black,
+//   },
+//   [`& .${tooltipClasses.tooltip}`]: {
+//     backgroundColor: theme.palette.common.black,
+//   },
+// }))
