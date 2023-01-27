@@ -6,7 +6,7 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import CardBox from "../CardBox";
 import {
-  // SCardBox,
+  SSection,
   SContainer,
   STitle,
   SBoardTitle,
@@ -28,6 +28,7 @@ import {
   SSummaryText,
   SModal,
   SCancelButton,
+  SCardBox,
 } from "./styles.jsx";
 import { useNavigate } from "react-router";
 
@@ -94,7 +95,7 @@ const NewBoard = () => {
   };
 
   return (
-    <CardBox>
+    <SCardBox>
       <SContainer>
         {/* 1. 제목 */}
         <STitle>
@@ -160,15 +161,15 @@ const NewBoard = () => {
 
           {/* 라디오 버튼 넣기 */}
           <SRadio onChange={(e) => setClassTime(e.target.value)}>
-            <label>
+            <div className="radio-container">
               <input type="radio" name="time" value={1} />
               <span>1시간</span>
-            </label>
+            </div>
 
-            <label>
+            <div className="radio-container">
               <input type="radio" name="time" value={2} />
               <span>2시간</span>
-            </label>
+            </div>
           </SRadio>
         </SLecture>
 
@@ -238,7 +239,7 @@ const NewBoard = () => {
           </Box>
         </Fade>
       </Modal>
-    </CardBox>
+    </SCardBox>
   );
 };
 

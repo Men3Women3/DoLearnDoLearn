@@ -1,11 +1,15 @@
 import styled from "styled-components";
-// import SCard from '../CardBox';
+// import SCard from "../CardBox";
 
-// export const SCardBox = styled(SCard)`
-//   margin-top: 100px;
-//   width: 50px;
-//   height: 80vh;
-// `;
+export const SCardBox = styled.div`
+  border-radius: 10px;
+  box-shadow: 5px 5px 30px #c4c4c454;
+  padding: calc(1vw + 30px);
+  padding: calc(3vw + 10px);
+  margin: calc(1vw + 0.5px) calc(1vw + 20px);
+
+  background-color: transparent;
+`;
 
 // 모든 내용물을 담은 div!
 export const SContainer = styled.div`
@@ -131,14 +135,25 @@ export const STimeInput = styled.input`
 
 export const SRadio = styled.fieldset`
   border: none;
-  label {
+  display: flex;
+  align-items: center;
+  margin: auto 0;
+  .radio-container {
+    display: flex;
+    margin: 0;
+  }
+  input {
+    margin: 0;
+    margin-left: 5px;
+    margin-right: 8px;
+  }
+  div {
     font-family: ${(props) => props.theme.fontFamily.Regular};
     font-size: ${(props) => props.theme.fontSize.p};
-    line-height: 2rem;
-    padding: 0.2em 0.4em;
   }
   span {
-    /* vertical-align: center; */
+    margin: 0;
+    margin-right: 5px;
   }
 `;
 
