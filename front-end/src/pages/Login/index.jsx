@@ -67,7 +67,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEmpty, setIsEmpty] = useState("");
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [isCorrectPassword, setIsCorrectPassword] = useState("");
+  const [isCorrectEmail, setIsCorrectEmail] = useState("");
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
@@ -142,6 +143,26 @@ const Login = () => {
         })
         .catch((error) => {
           console.log(error.response);
+          if (error.response.data.response === "이메일 형식에 맞지 않습니다.") {
+            setIsCorrectEmail("이메일 형식에 맞지 않습니다.");
+            setIsCorrectPassword("");
+          } else if (error.response.data.response === "없는 사용자입니다.") {
+            setIsCorrectEmail("이메일을 확인해주세요.");
+            setIsCorrectPassword("");
+          } else if (
+            error.response.data.response ===
+            "비밀번호는 9~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."
+          ) {
+            setIsCorrectPassword(
+              "비밀번호는 9~16자 영문 대 소문자, 숫자, 특수문자를 사용합니다."
+            );
+            setIsCorrectEmail("");
+          } else if (
+            error.response.data.response === "비밀번호가 옳지 않습니다."
+          ) {
+            setIsCorrectPassword("비밀번호가 옳지 않습니다.");
+            setIsCorrectEmail("");
+          }
         });
     }
   };
@@ -207,6 +228,7 @@ const Login = () => {
                 className={email ? "active__icon" : ""}
                 icon={faEnvelope}
               />
+              {<p className="warning-message">{isCorrectEmail}</p>}
             </SInputContainer>
             <SInputContainer>
               <SPasswordInput
@@ -220,6 +242,11 @@ const Login = () => {
                 className={password ? "active__icon" : ""}
                 icon={faLock}
               />
+              {isCorrectPassword && (
+                <p className="warning-message password__warning">
+                  {isCorrectPassword}
+                </p>
+              )}
             </SInputContainer>
             <SFindPassword>
               <div>비밀번호 찾기</div>

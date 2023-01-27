@@ -22,7 +22,9 @@ public enum ErrorCode {
 
     NO_MESSSAGE(HttpStatus.NOT_FOUND,"404","없는 메세지 입니다."),
 
-    NO_LECTURE(HttpStatus.NOT_FOUND,"404","유효하지 않은 강의입니다");
+    NO_LECTURE(HttpStatus.NOT_FOUND,"404","유효하지 않은 강의입니다"),
+
+    EXEED_STUDENTS(HttpStatus.BAD_REQUEST, "400","신청 학생 수를 초과하였습니다");
 
     private HttpStatus httpStatus;
     private String code;

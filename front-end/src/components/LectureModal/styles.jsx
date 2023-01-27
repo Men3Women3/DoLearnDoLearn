@@ -9,37 +9,37 @@ export const SSpan = styled.span`
 
 // 작성자 아이콘
 export const SWriter = styled(FontAwesomeIcon)`
-  height: calc(1vh + 5px);
+  width: calc(1vw + 5px);
   margin-right: 1vw;
 `;
 
 // 시계 아이콘
 export const SClock = styled(FontAwesomeIcon)`
-  height: calc(1vh + 5px);
+  width: calc(1vw + 5px);
   margin-right: 1vw;
 `;
 
 // 달력 아이콘
 export const SCalendar = styled(FontAwesomeIcon)`
-  height: calc(1vh + 5px);
+  width: calc(1vw + 5px);
   margin-right: 1vw;
 `;
 
 // 강사 아이콘
 export const SLecturer = styled(FontAwesomeIcon)`
-  height: calc(1vh + 5px);
+  width: calc(1vw + 5px);
   margin-right: 1vw;
 `;
 
 // 수강생 아이콘
 export const SStudent = styled(FontAwesomeIcon)`
-  height: calc(1vh + 5px);
+  width: calc(1vw + 5px);
   margin-right: 1vw;
 `;
 
 // 연필 아이콘
 export const SPencil = styled(FontAwesomeIcon)`
-  height: calc(1vh + 5px);
+  width: calc(1vw + 5px);
   margin-right: 1vw;
 `;
 
@@ -51,4 +51,10 @@ export const SDetail = styled.span`
   border-radius: 20px;
   font-family: ${(props) => props.theme.fontFamily.Light};
   font-size: ${(props) => props.theme.fontSize.p};
+`;
+
+// 각 아이템을 담은 div
+export const SInfoItem = styled.div`
+  display: flex;
+  margin-bottom: calc(0.8vw + 1px);
 `;

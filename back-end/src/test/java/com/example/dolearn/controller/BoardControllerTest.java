@@ -51,21 +51,21 @@ public class BoardControllerTest {
 
     BoardDto boardDto1 = BoardDto.builder()
             .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+            .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+            .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     BoardDto boardDto2 = BoardDto.builder()
             .id(2L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+            .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+            .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     @DisplayName("글 생성 테스트")
     @Test
     public void insertBoardTest() throws Exception{
         BoardDto boardDto = BoardDto.builder()
                 .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-                .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-                .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
         when(bService.insert(any())).thenReturn(boardDto);
 
@@ -80,10 +80,10 @@ public class BoardControllerTest {
     @DisplayName("강의 요청 게시물 불러오기 테스트")
     @Test
     public void  boardListTest() throws Exception{
-        List<Board> boardList = new ArrayList<>();
+        List<BoardDto> boardList = new ArrayList<>();
 
-        boardList.add(boardDto1.toEntity());
-        boardList.add(boardDto2.toEntity());
+        boardList.add(boardDto1);
+        boardList.add(boardDto2);
 
         when(bService.selectAll()).thenReturn(boardList);
 
@@ -128,6 +128,25 @@ public class BoardControllerTest {
         when(ubService.getInstructors(any())).thenReturn(result);
 
         mockMvc.perform(get("/board/instructor-list/{board_id}",1))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("학생 목록")
+    @Test
+    public void getStudentsTest() throws Exception{
+        List<UserBoard> result = new ArrayList<>();
+
+        UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
+
+        UserBoardDto userBoardDto = UserBoardDto.builder()
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+
+        result.add(userBoardDto.toEntity());
+
+        when(ubService.getStudents(any())).thenReturn(result);
+
+        mockMvc.perform(get("/board/student-list/{board_id}",1))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

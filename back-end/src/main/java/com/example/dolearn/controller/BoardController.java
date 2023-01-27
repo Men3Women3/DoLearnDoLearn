@@ -3,6 +3,9 @@ package com.example.dolearn.controller;
 import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.UserBoard;
 import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.exception.CustomException;
+import com.example.dolearn.exception.error.ErrorCode;
+import com.example.dolearn.response.ErrorResponse;
 import com.example.dolearn.response.SuccessResponse;
 import com.example.dolearn.service.BoardService;
 import com.example.dolearn.service.UserBoardService;
@@ -45,12 +48,7 @@ public class BoardController {
     @GetMapping("/list")
     public ResponseEntity<?> selectAll(){
         try {
-            List<Board> bList= bService.selectAll();
-            List<BoardDto> boardDtoList = new ArrayList<>();
-
-            for(int i=0;i<bList.size();i++){
-                boardDtoList.add(bList.get(i).toDto());
-            }
+            List<BoardDto> boardDtoList = bService.selectAll();
 
             return new ResponseEntity<SuccessResponse>(new SuccessResponse(boardDtoList),HttpStatus.OK);
         } catch (Exception e){
@@ -103,6 +101,20 @@ public class BoardController {
         }
     }
 
+    @GetMapping("/student-list/{bid}")
+    public ResponseEntity<?> getStudents(@PathVariable Long bid){
+        try{
+            log.info("학생 목록 가져오기 요청: {}",bid);
+            List<UserBoard> applicants = ubService.getStudents(bid);
+
+            if(applicants.isEmpty()) return new ResponseEntity<SuccessResponse>(new SuccessResponse("신청한 학생이 없습니다."),HttpStatus.OK);
+            return new ResponseEntity<SuccessResponse>(new SuccessResponse(applicants),HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ExceptionHandling("학생 목록을 가져오는 과정에서 오류가 발생했습니다!!");
+        }
+    }
+
     @GetMapping("/search/{keyword}")
     public ResponseEntity<?> search(@PathVariable String keyword){
         try{
@@ -138,6 +150,9 @@ public class BoardController {
             ubService.applyClass(userBoard);
 
             return new ResponseEntity<SuccessResponse>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.EXEED_STUDENTS), HttpStatus.CONFLICT);
         }catch (Exception e){
             e.printStackTrace();
             return ExceptionHandling("강의 신청 과정에서 오류가 발생했습니다!!");
