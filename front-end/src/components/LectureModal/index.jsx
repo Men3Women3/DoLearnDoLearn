@@ -37,7 +37,7 @@ const style = {
 };
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
-const LectureModal = ({ data, open, handleClose }) => {
+const LectureModal = ({ data, open, handleClose, lecCnt }) => {
   return (
     <div>
       {/* <SLectureModalButton onClick={data.handleOpen}>
@@ -80,7 +80,7 @@ const LectureModal = ({ data, open, handleClose }) => {
             <div>
               {/* 5. 강사 신청 현황 */}
               <SLecturer icon={faPersonChalkboard}></SLecturer>
-              <SSpan>{data.summary}</SSpan>
+              <SSpan>{lecCnt}</SSpan>
             </div>
             <div>
               {/* 6. 수강생 신청 현황 */}
