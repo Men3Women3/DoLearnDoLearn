@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -57,7 +57,7 @@ const LectureModal = ({ data, open, handleClose, lecCnt }) => {
           </Typography>
           {/* 여기는 내용 */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <div>
+            <SInfoItem>
               {/* 3. 강의 시간 */}
               <SClock icon={faClock}></SClock>
               <SSpan>{data.summary}</SSpan>
@@ -71,8 +71,8 @@ const LectureModal = ({ data, open, handleClose, lecCnt }) => {
               {/* 5. 강사 신청 현황 */}
               <SLecturer icon={faPersonChalkboard}></SLecturer>
               <SSpan>{lecCnt}</SSpan>
-            </div>
-            <div>
+            </SInfoItem>
+            <SInfoItem>
               {/* 6. 수강생 신청 현황 */}
               <SStudent icon={faChalkboardUser}></SStudent>
               <SSpan>{data.summary}</SSpan>

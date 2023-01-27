@@ -90,7 +90,7 @@ const NewBoard = () => {
   const [summary, setSummary] = useState(""); // 강의 요약
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
-  const today = new Date();
+  const today = toStringByFormatting(new Date());
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -101,15 +101,31 @@ const NewBoard = () => {
     studyImg,
     teamworkImg,
   ];
+
+  const leftPad = (value) => {
+    if (value >= 10) {
+      return value;
+    }
+    return `0${value}`;
+  };
+
+  const toStringByFormatting = (source, delimiter = "-") => {
+    const year = source.getFullYear();
+    const month = source.leftPad(source.getMonth() + 1);
+    const day = source.leftPad(source.getDate());
+
+    return [year, month, day].join(delimiter);
+  };
+
   let [imgSelect, setImgSelect] = useState("0");
   const toggleSelect = (e) => {
     console.log(e.target);
     setImgSelect(e.target.value);
   };
 
-  useEffect(() => {
-    console.log("바뀐값", imgSelect);
-  }, [imgSelect]);
+  // useEffect(() => {
+  //   console.log("바뀐값", imgSelect);
+  // }, [imgSelect]);
 
   // 모달 스타일
   const style = {
@@ -158,6 +174,8 @@ const NewBoard = () => {
     console.log(detail);
     navigate("/board");
   };
+
+  console.log(today);
 
   const settings = {
     // 슬라이드 옵션들
@@ -256,6 +274,7 @@ const NewBoard = () => {
           {/* 요거는 시작날짜 */}
           <SRecruitInput
             type="date"
+            min="2023-01-20"
             onChange={(e) => setStDay(e.target.value)}
           ></SRecruitInput>
           <h3>~</h3>
@@ -271,6 +290,7 @@ const NewBoard = () => {
           <h3>강의 일시</h3>
           <SLectureInput
             type="date"
+            min=""
             onChange={(e) => setLectureDay(e.target.value)}
           ></SLectureInput>
           <h3>-</h3>
@@ -294,31 +314,29 @@ const NewBoard = () => {
         </SLecture>
 
         {/* 7. 강의 summary */}
-        {/* 1) 글자수 제한 100 거는 방법 찾아내고 */}
         <SSummary>
           <h3>내용 요약</h3>
           <SSummaryText
             defaultValue={summary}
-            maxLength={100}
+            maxLength={20}
             rows={3}
             placeholder="원하는 강의에 대해 요약해서 작성해주세요. 작성하신 내용은 공부방 목록에 표시됩니다"
             onChange={(e) => setSummary(e.target.value)}
           ></SSummaryText>
         </SSummary>
-        <SLimit>{summary.length}/100</SLimit>
+        <SLimit>{summary.length}/20</SLimit>
 
         {/* 8. 강의 요청 상세 */}
-        {/* 1) 글자수 제한 500 거는 방법 찾아내고 */}
         <SDetail>
           <h3>내용 상세</h3>
           <SDetailText
             defaultValue={detail}
-            maxLength={500}
+            maxLength={300}
             rows={10}
             placeholder="강의에 대해 바라는 점을 자유롭게 작성해주세요"
             onChange={(e) => setDetail(e.target.value)}
           ></SDetailText>
-          <SLimit>{detail.length}/500</SLimit>
+          <SLimit>{detail.length}/300</SLimit>
         </SDetail>
 
         {/* 9. 등록(작성) 버튼 */}
