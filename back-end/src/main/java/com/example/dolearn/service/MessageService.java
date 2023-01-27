@@ -37,8 +37,12 @@ public class MessageService {
             log.info("존재");
             List<MessageDto> ret = new ArrayList<>();
 
+            //board id로 lecture가져오기
+            Lecture lecture = lectureRepository.findByBoardId(boardId);
+            Long lectureId = 2L;
+
             //강의 아이디로 정보 가져오기
-            List<UserLecture> userLectureList = userLectureRepository.findByLectureId(boardId);
+            List<UserLecture> userLectureList = userLectureRepository.findByLectureId(lectureId);
 
             log.info("개수 : {}",userLectureList.size());
             //위에서 받아온 수신자로 메세지 받도록
@@ -55,6 +59,8 @@ public class MessageService {
                 messageRepository.save(message);
                 ret.add(message.toMessageDto());
             }
+
+
 
             return ret;
         }
