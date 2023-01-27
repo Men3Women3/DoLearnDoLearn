@@ -9,6 +9,7 @@ import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.BoardRepository;
 import com.example.dolearn.repository.UserBoardRepository;
 import com.example.dolearn.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserBoardService {
 
     @Autowired
@@ -29,11 +31,19 @@ public class UserBoardService {
     UserRepository userRepository;
 
     public List<UserBoard> getInstructors(Long bid){
-        return ubRepo.findInstructors(bid);
+        List<UserBoard> instructorList = ubRepo.findInstructors(bid);
+
+        if(instructorList.isEmpty()) throw new CustomException(ErrorCode.NO_INSTRUCTORS);
+
+        return instructorList;
     }
 
     public List<UserBoard> getStudents(Long bid){
-        return ubRepo.findStudents(bid);
+        List<UserBoard> studentList = ubRepo.findStudents(bid);
+
+        if(studentList.isEmpty()) throw new CustomException(ErrorCode.NO_STUDENTS);
+
+        return studentList;
     }
 
 
@@ -42,7 +52,9 @@ public class UserBoardService {
         Optional<User> user = userRepository.findOneById(userBoard.getUid());
         Optional<Board> board = boardRepository.findById(userBoard.getBid());
 
-        if(user.isEmpty()||board.isEmpty()) throw new NullPointerException();
+        if(board.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
+
+        else if(user.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
         UserBoard result= UserBoard.builder()
                 .id(userBoard.getId()).uid(userBoard.getUid()).bid(userBoard.getBid()).board(board.get())
@@ -63,6 +75,14 @@ public class UserBoardService {
 
     @Transactional
     public int cancelApply(Long uid, Long bid){
+        log.info("삭제 응답: {}, {}",uid,bid);
+
+        if(ubRepo.checkApply(uid, bid).isEmpty()) throw new CustomException(ErrorCode.NO_APPLICANT);
+
+        if(boardRepository.findById(bid).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
+
+        if(userRepository.findOneById(uid).isEmpty()) throw new CustomException(ErrorCode.NO_USER);
+
         return ubRepo.delete(uid, bid);
     }
 }
