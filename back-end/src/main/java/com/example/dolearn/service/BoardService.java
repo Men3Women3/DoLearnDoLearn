@@ -39,10 +39,10 @@ public class BoardService {
     }
 
     @Transactional
-    public Optional<BoardDto> selectDetail(Long id) throws Exception{
+    public BoardDto selectDetail(Long id) throws Exception{
         if(bRepo.findById(id).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
 
-        Optional<BoardDto> result = Optional.ofNullable(bRepo.findById(id).get().toDto());
+        BoardDto result = bRepo.findById(id).get().toDto();
 
         return result;
     }

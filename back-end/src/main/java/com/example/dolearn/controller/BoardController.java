@@ -50,7 +50,7 @@ public class BoardController {
         try {
             List<BoardDto> boardDtoList = bService.selectAll();
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse(boardDtoList),HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(boardDtoList),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
         } catch (Exception e){
@@ -62,12 +62,11 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getDetails(@PathVariable Long id){
         try{
-            Optional<BoardDto> board = bService.selectDetail(id);
-            BoardDto boardDto= board.get();
+            BoardDto boardDto = bService.selectDetail(id);
 
             log.info("글 상세정보 조회: {}",boardDto);
 
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse(boardDto),HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(boardDto),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
         } catch (Exception e){
@@ -99,8 +98,8 @@ public class BoardController {
             List<UserBoard> applicants= ubService.getInstructors(bid);
             log.info("목록: {}",applicants);
 
-            if(applicants.isEmpty()) return new ResponseEntity<SuccessResponse>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.OK);
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse(applicants),HttpStatus.OK);
+            if(applicants.isEmpty()) return new ResponseEntity<>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(applicants),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_INSTRUCTORS), HttpStatus.NOT_FOUND);
         }catch (Exception e){
@@ -115,8 +114,8 @@ public class BoardController {
             log.info("학생 목록 가져오기 요청: {}",bid);
             List<UserBoard> applicants = ubService.getStudents(bid);
 
-            if(applicants.isEmpty()) return new ResponseEntity<SuccessResponse>(new SuccessResponse("신청한 학생이 없습니다."),HttpStatus.OK);
-            return new ResponseEntity<SuccessResponse>(new SuccessResponse(applicants),HttpStatus.OK);
+            if(applicants.isEmpty()) return new ResponseEntity<>(new SuccessResponse("신청한 학생이 없습니다."),HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(applicants),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_STUDENTS), HttpStatus.NOT_FOUND);
         }catch (Exception e){
