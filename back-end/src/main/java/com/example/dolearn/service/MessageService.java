@@ -30,16 +30,19 @@ public class MessageService {
 
     public List<MessageDto> createMessage(MessageDto messageDto) {
 
-        Long lectureId = messageDto.getBid();
-        Optional<Lecture> result = lectureRepository.findById(lectureId);
+        Long boardId = messageDto.getBid();
+        Optional<Board> result = boardRepository.findById(boardId);
         //강의 아이디가 유효하다면
         if(result.isPresent()) {
             log.info("존재");
             List<MessageDto> ret = new ArrayList<>();
 
+            //board id로 lecture가져오기
+            Lecture lecture = lectureRepository.findByBoardId(boardId);
+            Long lectureId = lecture.getId();
+
             //강의 아이디로 정보 가져오기
             List<UserLecture> userLectureList = userLectureRepository.findByLectureId(lectureId);
-            Optional<Board> board = boardRepository.findById(messageDto.getBid());
 
             log.info("개수 : {}",userLectureList.size());
             //위에서 받아온 수신자로 메세지 받도록
@@ -50,12 +53,14 @@ public class MessageService {
                         .isChecked(0)
                         .build();
 
-                message.setBoard(board.get());
+                message.setBoard(result.get());
                 message.setUser(userLecture.getUser());
 
                 messageRepository.save(message);
                 ret.add(message.toMessageDto());
             }
+
+
 
             return ret;
         }

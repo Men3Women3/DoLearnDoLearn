@@ -27,6 +27,9 @@ public class UserBoardDto {
 
     public UserBoard toEntity(){
         return UserBoard.builder()
+                .id(id)
+                .bid(bid)
+                .uid(uid)
                 .user(user)
                 .board(board)
                 .user_type(user_type)

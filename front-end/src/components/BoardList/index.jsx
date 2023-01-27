@@ -99,16 +99,14 @@ const BoardList = () => {
     boardData();
   }, []);
 
-  console.log("여기", list);
-
   return (
     <>
       <SContainer className="container">
         {/* // offset으로 slicing해서 limit 만큼만 한 화면에 표시 */}
-        {list.slice(offset, offset + limit).map((board) => {
+        {list.slice(offset, offset + limit).map((data) => {
           return (
-            <SUniDiv key={board.id}>
-              <UniBoard className="uni-board" data={board} />
+            <SUniDiv key={data.id}>
+              <UniBoard className="uni-board" data={data} />
             </SUniDiv>
           );
         })}
