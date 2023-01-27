@@ -3,6 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/joy/Input";
 import { SLabel } from "./styles";
 import { SSearchContainer } from "./styles";
+import axios from "axios";
 
 const SearchBar = () => {
   // 검색 input값
@@ -21,7 +22,6 @@ const SearchBar = () => {
   };
 
   // Enter 키를 눌렀을 때의 작업 처리
-  // 자꾸 렌더링 되는거 막는 법 찾기 ***
   const onEnter = (e) => {
     e.preventDefault();
     setSearch("");
