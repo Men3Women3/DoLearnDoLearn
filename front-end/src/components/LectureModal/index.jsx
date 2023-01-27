@@ -11,6 +11,7 @@ import {
   SStudent,
   SPencil,
   SDetail,
+  SInfoItem,
 } from "./styles";
 import {
   faClock,
@@ -60,13 +61,13 @@ const LectureModal = ({ data, open, handleClose, lecCnt }) => {
               {/* 3. 강의 시간 */}
               <SClock icon={faClock}></SClock>
               <SSpan>{data.summary}</SSpan>
-            </div>
-            <div>
+            </SInfoItem>
+            <SInfoItem>
               {/* 4. 모집 기간 */}
               <SCalendar icon={faCalendarDays}></SCalendar>
               <SSpan>{data.summary}</SSpan>
-            </div>
-            <div>
+            </SInfoItem>
+            <SInfoItem>
               {/* 5. 강사 신청 현황 */}
               <SLecturer icon={faPersonChalkboard}></SLecturer>
               <SSpan>{lecCnt}</SSpan>
@@ -75,12 +76,12 @@ const LectureModal = ({ data, open, handleClose, lecCnt }) => {
               {/* 6. 수강생 신청 현황 */}
               <SStudent icon={faChalkboardUser}></SStudent>
               <SSpan>{data.summary}</SSpan>
-            </div>
-            <div>
+            </SInfoItem>
+            <SInfoItem>
               {/* 7. 강의 디테일 */}
               <SPencil icon={faPencil}></SPencil>
               <SDetail>{data.summary}</SDetail>
-            </div>
+            </SInfoItem>
           </Typography>
           <Typography id="modal-modal-button" sx={{ mt: 2 }}>
             {/* <SButton>강사 신청</SButton> */}

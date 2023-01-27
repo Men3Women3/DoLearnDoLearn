@@ -44,6 +44,8 @@ public class BoardService {
 
         BoardDto result = bRepo.findById(id).get().toDto();
 
+        if(result.isEmpty()) throw new NullPointerException();
+
         return result;
     }
 

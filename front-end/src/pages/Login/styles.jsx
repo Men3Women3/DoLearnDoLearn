@@ -74,6 +74,17 @@ export const SForm = styled.form`
   width: calc(2vw + 450px);
   /* box-shadow: 10px 10px 30px 0px rgb(158 158 158); */
   /* margin: 120px 120px; */
+  .warning-message {
+    font-size: ${(props) => props.theme.fontSize.h5};
+    font-weight: bold;
+    color: ${(props) => props.theme.red};
+    margin: 0;
+    padding-left: 10px;
+    margin-bottom: 20px;
+  }
+  .password__warning {
+    margin-bottom: 0px;
+  }
 `;
 
 export const SContainer = styled.div`
@@ -122,7 +133,7 @@ export const SEmailInput = styled.input`
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   padding-left: 30px;
   font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
