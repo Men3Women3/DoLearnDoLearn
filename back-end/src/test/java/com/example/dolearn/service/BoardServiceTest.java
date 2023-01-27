@@ -95,7 +95,7 @@ public class BoardServiceTest {
 
     @DisplayName("글 삭제")
     @Test
-    public void deleteBoardTest(){
+    public void deleteBoardTest() throws Exception{
         when(boardRepository.deleteBoard(any())).thenReturn(1);
 
         int result = boardService.deleteBoard(boardDto1.getId());
