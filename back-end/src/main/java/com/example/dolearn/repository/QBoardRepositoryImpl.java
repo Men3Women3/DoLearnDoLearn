@@ -26,4 +26,13 @@ public class QBoardRepositoryImpl extends QuerydslRepositorySupport implements Q
                 .where(board.isFixed.eq(0), (board.uid.eq(uid).or(userBoard.uid.eq(uid))))
                 .fetch();
     }
+
+    @Override
+    public List<Board> findFixedLectureByUid(Long uid) {
+        return jpaQueryFactory
+                .selectFrom(board)
+                .leftJoin(board.userBoardList, userBoard)
+                .where(board.isFixed.eq(1), (board.uid.eq(uid).or(userBoard.uid.eq(uid))))
+                .fetch();
+    }
 }
