@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 // board list 전체에 적용되는 css
 export const SContainer = styled.div`
+  font-size: ${(props) => props.theme.fontSize.p};
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   /* width: 60%; */
   /* align-items: flex-start; */
   /* margin: auto; */
