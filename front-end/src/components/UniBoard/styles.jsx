@@ -11,11 +11,13 @@ export const SImg = styled.img`
 
 // UniBoard에 스타일 입히기
 export const SUniBoard = styled.div`
-  /* width: 150px; */
+  transition: all 300ms ease;
+  /* width: calc(1vw + 140px); */
+  width: calc(1vw + 180px);
   cursor: pointer;
   font-family: ${(props) => props.theme.fontFamily.Medium};
   font-size: ${(props) => props.theme.fontSize.p};
-  margin: 0.5vw;
+  margin: 1vw;
   padding: 10px;
   border: 0.1px solid #f4e3b4;
   box-shadow: 5px 5px 5px #3737372d;
@@ -24,7 +26,7 @@ export const SUniBoard = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   :hover {
-    transform: scale(1.01);
+    transform: scale(1.05);
   }
   /* display: block;
   width: 185px; */
