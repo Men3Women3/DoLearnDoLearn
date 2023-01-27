@@ -39,7 +39,7 @@ public class MessageService {
 
             //board id로 lecture가져오기
             Lecture lecture = lectureRepository.findByBoardId(boardId);
-            Long lectureId = 2L;
+            Long lectureId = lecture.getId();
 
             //강의 아이디로 정보 가져오기
             List<UserLecture> userLectureList = userLectureRepository.findByLectureId(lectureId);
