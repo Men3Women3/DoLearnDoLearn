@@ -22,7 +22,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -45,13 +44,13 @@ public class BoardServiceTest {
 
     private final BoardDto boardDto1 = BoardDto.builder()
             .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+            .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+            .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     private final BoardDto boardDto2 = BoardDto.builder()
             .id(2L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-            .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-            .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+            .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+            .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     @DisplayName("글 생성 테스트")
     @Test
@@ -59,8 +58,8 @@ public class BoardServiceTest {
 
         BoardDto boardDto = BoardDto.builder()
                 .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-                .start_time("2023-01-18 14:31:59").end_time("2023-01-18 14:31:59")
-                .is_fixed(0).max_cnt(5).summary("summary").title("title").build();
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
         when(boardRepository.save(any(Board.class))).thenReturn(boardDto.toEntity());
 
@@ -79,7 +78,7 @@ public class BoardServiceTest {
 
         when(boardRepository.findAll()).thenReturn(boardList);
 
-        List<Board> result = boardService.selectAll();
+        List<BoardDto> result = boardService.selectAll();
 
         assertEquals(boardList.size(),result.size());
     }
@@ -147,7 +146,7 @@ public class BoardServiceTest {
 
         boardService.update(boardDto.getId());
 
-        assertEquals(boardDto.getIs_fixed(),1);
+        assertEquals(boardDto.getIsFixed(),1);
     }
 
     @DisplayName("강사 목록 조회")
@@ -155,16 +154,35 @@ public class BoardServiceTest {
     public void getInstructorsTest() throws Exception {
         List<UserBoard> userBoardList = new ArrayList<>();
 
-        UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
+        UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
 
         userBoardList.add(userBoardDto.toEntity());
 
-        when(userBoardRepository.findByBid(any())).thenReturn(userBoardList);
+        when(userBoardRepository.findInstructors(any())).thenReturn(userBoardList);
 
         List<UserBoard> result = userBoardService.getInstructors(boardDto1.getId());
+
+        assertEquals(userBoardList.size(),result.size());
+    }
+
+    @DisplayName("학생 목록 조회")
+    @Test
+    public void getStudentsTest() throws Exception {
+        List<UserBoard> userBoardList = new ArrayList<>();
+
+        UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
+
+        UserBoardDto userBoardDto = UserBoardDto.builder()
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+
+        userBoardList.add(userBoardDto.toEntity());
+
+        when(userBoardRepository.findStudents(any())).thenReturn(userBoardList);
+
+        List<UserBoard> result = userBoardService.getStudents(boardDto1.getId());
 
         assertEquals(userBoardList.size(),result.size());
     }

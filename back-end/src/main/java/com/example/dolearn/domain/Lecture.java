@@ -1,5 +1,6 @@
 package com.example.dolearn.domain;
 
+import com.example.dolearn.dto.LectureDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -47,4 +48,8 @@ public class Lecture {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endRealTime;
+
+    public LectureDto toMessageDto() {
+        return null;
+    }
 }

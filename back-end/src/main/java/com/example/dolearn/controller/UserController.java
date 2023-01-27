@@ -48,12 +48,19 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserDto reqUserDto) {
-        try{
+        try {
             UserDto userDto = userService.login(reqUserDto);
             String checkEmail = userDto.getEmail();
             String refreshToken = jwtTokenProvider.createRefreshToken(checkEmail);
             String accessToken = jwtTokenProvider.createAccessToken(refreshToken);
             return new ResponseEntity<>(new SuccessResponse(userService.updateToken(userDto, refreshToken, accessToken)), HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            if (e.getErrorCode() == ErrorCode.INVALID_PASSWORD){
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_PASSWORD), HttpStatus.BAD_REQUEST);
+            } else {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -134,6 +141,23 @@ public class UserController {
     public ResponseEntity<?> updatePoint(@RequestBody Map<String, Object> params){
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.updatePoint(params)), HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
+            } else {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/request-lecture/{id}")
+    public ResponseEntity<?> getRequestLecture(@PathVariable("id") Long id){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getRequestLecture(id)), HttpStatus.OK);
         } catch (CustomException e){
             e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
