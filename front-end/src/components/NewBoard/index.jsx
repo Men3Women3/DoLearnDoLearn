@@ -5,6 +5,18 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import CardBox from "../CardBox";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import cookingImg from "../../assets/images/thumbnail/cooking.svg";
+import drawingImg from "../../assets/images/thumbnail/drawing.svg";
+import meetingImg from "../../assets/images/thumbnail/meeting.svg";
+import conferenceImg from "../../assets/images/thumbnail/conference.svg";
+import exerciseImg from "../../assets/images/thumbnail/exercise.svg";
+import scrumImg from "../../assets/images/thumbnail/scrum.svg";
+import studyImg from "../../assets/images/thumbnail/study.svg";
+import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
+
 import {
   SSection,
   SContainer,
@@ -31,6 +43,40 @@ import {
   SCardBox,
 } from "./styles.jsx";
 import { useNavigate } from "react-router";
+import { useCallback } from "react";
+import { useEffect } from "react";
+
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        // display: "block",
+        background: "black",
+        borderRadius: "50%",
+      }}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        // display: "block",
+        background: "black",
+        borderRadius: "50%",
+      }}
+      onClick={onClick}
+    />
+  );
+}
 
 const NewBoard = () => {
   const navigate = useNavigate();
@@ -45,6 +91,25 @@ const NewBoard = () => {
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
   const today = new Date();
+  const thumbnails = [
+    scrumImg,
+    cookingImg,
+    exerciseImg,
+    drawingImg,
+    meetingImg,
+    conferenceImg,
+    studyImg,
+    teamworkImg,
+  ];
+  let [imgSelect, setImgSelect] = useState("0");
+  const toggleSelect = (e) => {
+    console.log(e.target);
+    setImgSelect(e.target.value);
+  };
+
+  useEffect(() => {
+    console.log("바뀐값", imgSelect);
+  }, [imgSelect]);
 
   // 모달 스타일
   const style = {
@@ -94,6 +159,21 @@ const NewBoard = () => {
     navigate("/board");
   };
 
+  const settings = {
+    // 슬라이드 옵션들
+    arrows: true, // 화살표 표시
+    dots: false, // 밑에 현재 페이지와 나머지 페이지 점으로 표시
+    infinite: true, // 무한 반복
+    speed: 500, // 넘기는 속도
+    slidesToShow: 3, // 슬라이드에 보여지는 아이템 개수
+    slidesToScroll: 1, // 슬라이드 넘기는 아이템 개수
+    autoplay: false, // 자동 재생
+    // draggable: false,
+    // autoplaySpeed: 3000,  // 자동 재생 속도
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+
   return (
     <SCardBox>
       <SContainer>
@@ -114,6 +194,46 @@ const NewBoard = () => {
             onChange={(e) => setTitle(e.target.value)}
           ></STitleInput>
         </SBoardTitle>
+
+        <h3>썸네일 선택</h3>
+        <Slider {...settings}>
+          {thumbnails.map((item, idx) => (
+            <div key={item.key}>
+              <img
+                src={item}
+                alt="item"
+                value={idx}
+                className={idx === imgSelect ? "select" : " "}
+                onClick={toggleSelect}
+              />
+            </div>
+          ))}
+
+          {/* <div>
+            <img src={scrumImg} alt="" />
+          </div>
+          <div>
+            <img src={meetingImg} alt="" />
+          </div>
+          <div>
+            <img src={drawingImg} alt="" />
+          </div>
+          <div>
+            <img src={conferenceImg} alt="" />
+          </div>
+          <div>
+            <img src={cookingImg} alt="" />
+          </div>
+          <div>
+            <img src={exerciseImg} alt="" />
+          </div>
+          <div>
+            <img src={studyImg} alt="" />
+          </div>
+          <div>
+            <img src={teamworkImg} alt="" />
+          </div> */}
+        </Slider>
 
         {/* 4. 참여 인원 */}
         <SParticipant>
