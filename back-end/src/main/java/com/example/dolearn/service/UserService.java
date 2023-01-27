@@ -137,4 +137,20 @@ public class UserService {
         }
         return reqBoardDto;
     }
+
+    public List<BoardDto> getFixedLecture(Long id) throws ParseException {
+        if(id == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        List<Board> reqBoardEntity = boardRepository.findFixedLectureByUid(id);
+        List<BoardDto> reqBoardDto = new ArrayList<>();
+        for(Board bEntity: reqBoardEntity){
+            reqBoardDto.add(bEntity.toDto());
+        }
+        return reqBoardDto;
+    }
 }
