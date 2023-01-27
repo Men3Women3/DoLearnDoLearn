@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/joy/Input";
 import { SLabel } from "./styles";
+import { SSearchContainer } from "./styles";
 
 const SearchBar = () => {
   // 검색 input값
@@ -27,7 +28,7 @@ const SearchBar = () => {
   };
 
   return (
-    <>
+    <SSearchContainer>
       <form className="search-bar" onSubmit={(e) => onEnter(e)}>
         {/* <input type="text" placeholder="안녕하세요" /> */}
         <Input
@@ -38,11 +39,11 @@ const SearchBar = () => {
           value={search}
           placeholder="원하는 강의를 검색하세요"
           aria-label="Search"
-          size="lg"
+          size="sm"
           endDecorator={<SearchIcon />}
         />
       </form>
-    </>
+    </SSearchContainer>
   );
 };
 

@@ -76,6 +76,8 @@ const Login = () => {
   // 리프레시 토큰 유효시간 : 1일
   // 자동로그아웃 -> 23시간 후 실행
   const logoutTimeInterval = 1000 * 60 * 60 * 23;
+  // 테스트용 5초 후 자동로그아웃
+  // const logoutTimeInterval = 1000 * 5;
 
   // context api를 통해 handleIsLogined 함수 가져오기
   const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
