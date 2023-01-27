@@ -1,15 +1,11 @@
 import styled from "styled-components";
-import Slider from "react-slick";
-
-// import SCard from "../CardBox";
+// import Slider from "react-slick";
 
 export const SCardBox = styled.div`
   border-radius: 10px;
   box-shadow: 5px 5px 30px #c4c4c454;
-  padding: calc(1vw + 30px);
-  padding: calc(3vw + 10px);
-  margin: calc(1vw + 0.5px) calc(1vw + 20px);
-
+  padding: 2vw;
+  margin: calc(1vw + 0.5px) calc(1vw + 10px);
   background-color: transparent;
 `;
 
@@ -18,7 +14,6 @@ export const SContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-family: ${(props) => props.theme.fontFamily};
-  /* font-size: calc(1.5vw + 1px); */
   margin: 10%;
   h1 {
     font-size: ${(props) => props.theme.fontSize.h1};
@@ -46,15 +41,12 @@ export const SContainer = styled.div`
       height: 100%;
     }
     img {
-      /* width: 100%;
-      height: 100%;  */
-      height: calc(8vw);
-      width: calc(12vw);
+      height: 8vw;
+      width: 12vw;
       border: solid calc(0.15vw + 1px) #e2e2e2;
       border-radius: 10px;
       padding: 15px;
       cursor: pointer;
-      /* background-color: yellow; */
       .select {
         background-color: red !important;
       }
@@ -78,7 +70,6 @@ export const SBoardTitle = styled.div`
 
 export const STitleInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  /* transform: translate(0, 15%); */
   width: calc(40vw + 10px);
   height: calc(3.5vh + 15px);
   border: 2px solid #cdcdcd;
@@ -89,6 +80,7 @@ export const STitleInput = styled.input`
 // 4. 참여 인원 - people-number
 export const SParticipant = styled.div`
   display: flex;
+  margin-top: 2vh;
   h3 {
     margin-right: 1vw;
   }
@@ -97,17 +89,14 @@ export const SParticipant = styled.div`
   }
 `;
 
-export const SParticipantInput = styled.input`
+export const SPartCnt = styled.select`
   font-family: ${(props) => props.theme.fontFamily.Regular};
+  font-size: ${(props) => props.theme.fontSize.p};
   width: 5vw;
-  height: calc(3.5vh + 15px);
+  height: calc(3.5vh + 9px);
   border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
-  ::placeholder {
-    font-family: ${(props) => props.theme.fontFamily.Regular};
-    font-size: ${(props) => props.theme.fontSize.p};
-  }
 `;
 
 // 5. 모집 기간 - recruit-period
@@ -185,6 +174,7 @@ export const SRadio = styled.fieldset`
 // 글자수 제한 p태그
 export const SLimit = styled.p`
   text-align: right;
+  margin: 0;
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.p};
 `;

@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
-import CardBox from "../CardBox";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -18,13 +17,12 @@ import studyImg from "../../assets/images/thumbnail/study.svg";
 import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
 
 import {
-  SSection,
   SContainer,
   STitle,
   SBoardTitle,
   STitleInput,
   SParticipant,
-  SParticipantInput,
+  SPartCnt,
   SRecruit,
   SRecruitInput,
   SLecture,
@@ -43,8 +41,6 @@ import {
   SCardBox,
 } from "./styles.jsx";
 import { useNavigate } from "react-router";
-import { useCallback } from "react";
-import { useEffect } from "react";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -90,7 +86,7 @@ const NewBoard = () => {
   const [summary, setSummary] = useState(""); // 강의 요약
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
-  const today = toStringByFormatting(new Date());
+  const today = new Date().toISOString().substring(0, 10);
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -102,22 +98,9 @@ const NewBoard = () => {
     teamworkImg,
   ];
 
-  const leftPad = (value) => {
-    if (value >= 10) {
-      return value;
-    }
-    return `0${value}`;
-  };
+  console.log(today);
 
-  const toStringByFormatting = (source, delimiter = "-") => {
-    const year = source.getFullYear();
-    const month = source.leftPad(source.getMonth() + 1);
-    const day = source.leftPad(source.getDate());
-
-    return [year, month, day].join(delimiter);
-  };
-
-  let [imgSelect, setImgSelect] = useState("0");
+  let [imgSelect, setImgSelect] = useState(0);
   const toggleSelect = (e) => {
     console.log(e.target);
     setImgSelect(e.target.value);
@@ -142,6 +125,7 @@ const NewBoard = () => {
 
   const handleOpen = (e) => {
     if (
+      // !imgSelect ||
       !title ||
       !stDay ||
       !edDay ||
@@ -150,7 +134,7 @@ const NewBoard = () => {
       !classTime ||
       !summary ||
       !detail ||
-      participant === 0
+      participant === ""
     ) {
       setOpen(true); // 빈 내용이 있으면 경고 띄우기
     } else {
@@ -164,6 +148,7 @@ const NewBoard = () => {
     // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
     // 저장 됐으면 강의 목록 페이지로 가줭
     console.log(title);
+    console.log(imgSelect);
     console.log(participant);
     console.log(stDay);
     console.log(edDay);
@@ -257,14 +242,14 @@ const NewBoard = () => {
         <SParticipant>
           <h3>참여 인원</h3>
           {/* 문제: 키보드로 입력시 5가 넘어감 */}
-          <SParticipantInput
-            type="number"
-            defaultValue={participant}
-            pattern={"0-9"}
-            min={1}
-            max={5}
-            onChange={(e) => setParticipant(e.target.value)}
-          ></SParticipantInput>
+          <SPartCnt onChange={(e) => setParticipant(e.target.value)}>
+            <option value="">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </SPartCnt>
           <h3>&nbsp;명</h3>
         </SParticipant>
 
@@ -274,13 +259,14 @@ const NewBoard = () => {
           {/* 요거는 시작날짜 */}
           <SRecruitInput
             type="date"
-            min="2023-01-20"
+            min={today}
             onChange={(e) => setStDay(e.target.value)}
           ></SRecruitInput>
           <h3>~</h3>
           {/* 요거는 마감날짜 */}
           <SRecruitInput
             type="date"
+            min={today}
             onChange={(e) => setEdDay(e.target.value)}
           ></SRecruitInput>
         </SRecruit>
@@ -290,7 +276,7 @@ const NewBoard = () => {
           <h3>강의 일시</h3>
           <SLectureInput
             type="date"
-            min=""
+            min={today}
             onChange={(e) => setLectureDay(e.target.value)}
           ></SLectureInput>
           <h3>-</h3>
@@ -323,8 +309,8 @@ const NewBoard = () => {
             placeholder="원하는 강의에 대해 요약해서 작성해주세요. 작성하신 내용은 공부방 목록에 표시됩니다"
             onChange={(e) => setSummary(e.target.value)}
           ></SSummaryText>
+          <SLimit>{summary.length}/20</SLimit>
         </SSummary>
-        <SLimit>{summary.length}/20</SLimit>
 
         {/* 8. 강의 요청 상세 */}
         <SDetail>
