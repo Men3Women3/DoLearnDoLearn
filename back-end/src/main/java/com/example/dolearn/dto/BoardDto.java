@@ -38,6 +38,15 @@ public class BoardDto {
 
     private Date createdTime;
 
+    private int instructors;
+
+    private int students;
+
+    public void setCounts(int instructors, int students){
+        this.instructors= instructors;
+        this.students= students;
+    }
+
     public Board toEntity() throws ParseException {
         return Board.builder()
                 .id(id)

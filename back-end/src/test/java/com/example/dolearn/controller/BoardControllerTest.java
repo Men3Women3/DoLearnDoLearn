@@ -96,7 +96,7 @@ public class BoardControllerTest {
     @Test
     public void boadDetilTest() throws Exception{
 
-        when(bService.selectDetail(any())).thenReturn(Optional.ofNullable(boardDto1));
+        when(bService.selectDetail(any())).thenReturn(boardDto1);
 
         mockMvc.perform(get("/board/{board_id}",1))
                 .andExpect(status().isOk())
