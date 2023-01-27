@@ -6,6 +6,8 @@ import { SSearchContainer } from "./styles";
 import axios from "axios";
 
 const SearchBar = () => {
+  const SERVER_URL = "";
+
   // 검색 input값
   const [search, setSearch] = useState("");
 
