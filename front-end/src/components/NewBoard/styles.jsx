@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import Slider from "react-slick";
+
 // import SCard from "../CardBox";
 
 export const SCardBox = styled.div`
@@ -34,6 +36,29 @@ export const SContainer = styled.div`
   div {
     margin-bottom: 1vh;
     align-items: center;
+  }
+  .slick-slider {
+    margin-bottom: 0;
+    div {
+      margin: 0;
+    }
+    .slick-slide {
+      height: 100%;
+    }
+    img {
+      /* width: 100%;
+      height: 100%;  */
+      height: calc(8vw);
+      width: calc(12vw);
+      border: solid calc(0.15vw + 1px) #e2e2e2;
+      border-radius: 10px;
+      padding: 15px;
+      cursor: pointer;
+      /* background-color: yellow; */
+      .select {
+        background-color: red !important;
+      }
+    }
   }
 `;
 

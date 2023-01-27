@@ -33,6 +33,10 @@ public class Lecture {
     @Column(name="is_deleted", columnDefinition = "TINYINT", length=1)
     private int isDeleted;
 
+    @OneToOne
+    @JoinColumn(name="bid")
+    private Board board;
+
     @Column(name="created_time")
     @CreationTimestamp
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -48,6 +52,10 @@ public class Lecture {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endRealTime;
+
+    @JoinColumn(name="bid")
+    @OneToOne
+    private Board board;
 
     public LectureDto toMessageDto() {
         return null;

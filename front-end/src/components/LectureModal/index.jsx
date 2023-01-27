@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import {
   SSpan,
-  // SWriter,
   SClock,
   SCalendar,
   SLecturer,
@@ -14,9 +13,7 @@ import {
   SDetail,
   SInfoItem,
 } from "./styles";
-// import { SLectureModalButton } from "../LectureModalButton/styles";
 import {
-  // faUser,
   faClock,
   faCalendarDays,
   faPersonChalkboard,
@@ -38,12 +35,9 @@ const style = {
 };
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
-const LectureModal = ({ data, open, handleClose }) => {
+const LectureModal = ({ data, open, handleClose, lecCnt }) => {
   return (
     <div>
-      {/* <SLectureModalButton onClick={data.handleOpen}>
-        살펴보기
-      </SLectureModalButton> */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -63,12 +57,7 @@ const LectureModal = ({ data, open, handleClose }) => {
           </Typography>
           {/* 여기는 내용 */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {/* 2. 작성자 */}
-            {/* <div>
-              <SWriter icon={faUser} />
-              <SSpan>{data.id}</SSpan>
-            </div> */}
-            <SInfoItem>
+            <div>
               {/* 3. 강의 시간 */}
               <SClock icon={faClock}></SClock>
               <SSpan>{data.summary}</SSpan>
@@ -81,9 +70,9 @@ const LectureModal = ({ data, open, handleClose }) => {
             <SInfoItem>
               {/* 5. 강사 신청 현황 */}
               <SLecturer icon={faPersonChalkboard}></SLecturer>
-              <SSpan>{data.summary}</SSpan>
-            </SInfoItem>
-            <SInfoItem>
+              <SSpan>{lecCnt}</SSpan>
+            </div>
+            <div>
               {/* 6. 수강생 신청 현황 */}
               <SStudent icon={faChalkboardUser}></SStudent>
               <SSpan>{data.summary}</SSpan>
