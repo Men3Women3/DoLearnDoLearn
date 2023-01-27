@@ -53,6 +53,10 @@ public class Lecture {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endRealTime;
 
+    @JoinColumn(name="bid")
+    @OneToOne
+    private Board board;
+
     public LectureDto toMessageDto() {
         return null;
     }

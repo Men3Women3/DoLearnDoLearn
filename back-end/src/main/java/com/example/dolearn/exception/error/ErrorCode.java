@@ -22,7 +22,19 @@ public enum ErrorCode {
 
     NO_MESSSAGE(HttpStatus.NOT_FOUND,"404","없는 메세지 입니다."),
 
-    NO_LECTURE(HttpStatus.NOT_FOUND,"404","유효하지 않은 강의입니다");
+    NO_BOARD(HttpStatus.NOT_FOUND,"404","게시물이 없습니다."),
+
+    NO_LECTURE(HttpStatus.NOT_FOUND,"404","유효하지 않은 강의입니다"),
+
+    NO_STUDENTS(HttpStatus.NOT_FOUND,"404","신청한 학생이 없습니다."),
+
+    NO_INSTRUCTORS(HttpStatus.NOT_FOUND,"404","신청한 강사가 없습니다."),
+
+    NO_APPLICANT(HttpStatus.NOT_FOUND,"404","신청 내역이 없습니다."),
+
+    FIXED_LECTURE(HttpStatus.CONFLICT,"409","이미 확정된 강의입니다."),
+
+    EXEED_STUDENTS(HttpStatus.BAD_REQUEST, "400","신청 학생 수를 초과하였습니다");
 
     private HttpStatus httpStatus;
     private String code;
