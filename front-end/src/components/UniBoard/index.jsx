@@ -16,17 +16,15 @@ const UniBoard = ({ data }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // const stDay = data.start_time.toLocaleDateString();
-
   // 신청 강사 Cnt
   const [lecCnt, setLecCnt] = useState(0);
   const lecCount = async () => {
     try {
       const res = await axios.get(`${SERVER_URL}/board/instructor-list/3`);
-      // console.log(res);
-      setLecCnt(res);
+      console.log(res);
+      // setLecCnt(res);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 
@@ -35,10 +33,10 @@ const UniBoard = ({ data }) => {
   const stuCount = async () => {
     try {
       const res = await axios.get(`${SERVER_URL}/board/student-list/3`);
-      console.log(res);
+      // console.log(res);
       // setLecCnt(res);
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
     }
   };
 
@@ -69,7 +67,7 @@ const UniBoard = ({ data }) => {
           </p>
           <p summary={data.summary}>
             <FontAwesomeIcon icon={faCalendarDays} />
-            &nbsp;수강생 모집현황 | 3 / 5명
+            &nbsp;수강생 모집현황 | {stuCnt} / 5명
           </p>
         </div>
       </div>

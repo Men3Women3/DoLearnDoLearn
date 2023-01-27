@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import {
   SSpan,
-  // SWriter,
   SClock,
   SCalendar,
   SLecturer,
@@ -13,9 +12,7 @@ import {
   SPencil,
   SDetail,
 } from "./styles";
-// import { SLectureModalButton } from "../LectureModalButton/styles";
 import {
-  // faUser,
   faClock,
   faCalendarDays,
   faPersonChalkboard,
@@ -40,9 +37,6 @@ const style = {
 const LectureModal = ({ data, open, handleClose, lecCnt }) => {
   return (
     <div>
-      {/* <SLectureModalButton onClick={data.handleOpen}>
-        살펴보기
-      </SLectureModalButton> */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -62,11 +56,6 @@ const LectureModal = ({ data, open, handleClose, lecCnt }) => {
           </Typography>
           {/* 여기는 내용 */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {/* 2. 작성자 */}
-            {/* <div>
-              <SWriter icon={faUser} />
-              <SSpan>{data.id}</SSpan>
-            </div> */}
             <div>
               {/* 3. 강의 시간 */}
               <SClock icon={faClock}></SClock>

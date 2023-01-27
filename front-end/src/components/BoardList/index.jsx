@@ -99,8 +99,6 @@ const BoardList = () => {
     boardData();
   }, []);
 
-  console.log("여기", list);
-
   return (
     <>
       <SContainer className="container">
