@@ -1,22 +1,22 @@
-import React, { useState } from "react"
-import Backdrop from "@mui/material/Backdrop"
-import Box from "@mui/material/Box"
-import Modal from "@mui/material/Modal"
-import Fade from "@mui/material/Fade"
-import Typography from "@mui/material/Typography"
-import CardBox from "../CardBox"
-import Slider from "react-slick"
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
-import { MenuItem, Select } from "@mui/material"
-import cookingImg from "../../assets/images/thumbnail/cooking.svg"
-import drawingImg from "../../assets/images/thumbnail/drawing.svg"
-import meetingImg from "../../assets/images/thumbnail/meeting.svg"
-import conferenceImg from "../../assets/images/thumbnail/conference.svg"
-import exerciseImg from "../../assets/images/thumbnail/exercise.svg"
-import scrumImg from "../../assets/images/thumbnail/scrum.svg"
-import studyImg from "../../assets/images/thumbnail/study.svg"
-import teamworkImg from "../../assets/images/thumbnail/teamwork.svg"
+import React, { useState } from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import CardBox from "../CardBox";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { MenuItem, Select } from "@mui/material";
+import cookingImg from "../../assets/images/thumbnail/cooking.svg";
+import drawingImg from "../../assets/images/thumbnail/drawing.svg";
+import meetingImg from "../../assets/images/thumbnail/meeting.svg";
+import conferenceImg from "../../assets/images/thumbnail/conference.svg";
+import exerciseImg from "../../assets/images/thumbnail/exercise.svg";
+import scrumImg from "../../assets/images/thumbnail/scrum.svg";
+import studyImg from "../../assets/images/thumbnail/study.svg";
+import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
 
 import {
   SSection,
@@ -42,13 +42,13 @@ import {
   SModal,
   SCancelButton,
   SCardBox,
-} from "./styles.jsx"
-import { useNavigate } from "react-router"
-import { useCallback } from "react"
-import { useEffect } from "react"
+} from "./styles.jsx";
+import { useNavigate } from "react-router";
+import { useCallback } from "react";
+import { useEffect } from "react";
 
 function SampleNextArrow(props) {
-  const { className, style, onClick } = props
+  const { className, style, onClick } = props;
   return (
     <div
       className={className}
@@ -60,11 +60,11 @@ function SampleNextArrow(props) {
       }}
       onClick={onClick}
     />
-  )
+  );
 }
 
 function SamplePrevArrow(props) {
-  const { className, style, onClick } = props
+  const { className, style, onClick } = props;
   return (
     <div
       className={className}
@@ -76,22 +76,22 @@ function SamplePrevArrow(props) {
       }}
       onClick={onClick}
     />
-  )
+  );
 }
 
 const NewBoard = () => {
-  const navigate = useNavigate()
-  const [title, setTitle] = useState("") // 강의의 제목
-  const [participant, setParticipant] = useState(0) // 참가인원(5명까지만!)
-  const [stDay, setStDay] = useState("") // 모집 시작 날짜
-  const [edDay, setEdDay] = useState("") // 모집 종료 날짜
-  const [lectureDay, setLectureDay] = useState("") // 강의 날짜
-  const [lectureTime, setLectureTime] = useState("") // 강의 시작 시간
-  const [classTime, setClassTime] = useState("") // 강의 시간
-  const [summary, setSummary] = useState("") // 강의 요약
-  const [detail, setDetail] = useState("") // 강의 상세
-  const [open, setOpen] = React.useState(false) // 모달 open / close 여부
-  const today = new Date()
+  const navigate = useNavigate();
+  const [title, setTitle] = useState(""); // 강의의 제목
+  const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
+  const [stDay, setStDay] = useState(""); // 모집 시작 날짜
+  const [edDay, setEdDay] = useState(""); // 모집 종료 날짜
+  const [lectureDay, setLectureDay] = useState(""); // 강의 날짜
+  const [lectureTime, setLectureTime] = useState(""); // 강의 시작 시간
+  const [classTime, setClassTime] = useState(""); // 강의 시간
+  const [summary, setSummary] = useState(""); // 강의 요약
+  const [detail, setDetail] = useState(""); // 강의 상세
+  const [open, setOpen] = React.useState(false); // 모달 open / close 여부
+  const today = new Date();
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -101,13 +101,13 @@ const NewBoard = () => {
     conferenceImg,
     studyImg,
     teamworkImg,
-  ]
+  ];
   // 현재 썸네일로 어떤 이미지가 선택됐는지(지금은 인덱스 번호로 들어가있음)
-  let [imgSelect, setImgSelect] = useState("0")
+  let [imgSelect, setImgSelect] = useState("0");
   // 이미지 클릭했을 때 해당 인덱스 번호로 imgSelect 갱신
   const toggleSelect = (e) => {
-    setImgSelect(e.target.alt)
-  }
+    setImgSelect(e.target.className);
+  };
 
   // 모달 스타일
   const style = {
@@ -120,7 +120,7 @@ const NewBoard = () => {
     borderRadius: "8px",
     boxShadow: 24,
     outline: "none",
-  }
+  };
 
   const handleOpen = (e) => {
     if (
@@ -134,28 +134,28 @@ const NewBoard = () => {
       !detail ||
       participant === 0
     ) {
-      setOpen(true) // 빈 내용이 있으면 경고 띄우기
+      setOpen(true); // 빈 내용이 있으면 경고 띄우기
     } else {
-      handleRegister() // 모두 잘 작성됐으면 등록
+      handleRegister(); // 모두 잘 작성됐으면 등록
     }
-  }
+  };
 
-  const handleClose = () => setOpen(false)
+  const handleClose = () => setOpen(false);
 
   const handleRegister = () => {
     // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
     // 저장 됐으면 강의 목록 페이지로 가줭
-    console.log(title)
-    console.log(participant)
-    console.log(stDay)
-    console.log(edDay)
-    console.log(lectureDay)
-    console.log(lectureTime)
-    console.log(classTime)
-    console.log(summary)
-    console.log(detail)
-    navigate("/board")
-  }
+    console.log(title);
+    console.log(participant);
+    console.log(stDay);
+    console.log(edDay);
+    console.log(lectureDay);
+    console.log(lectureTime);
+    console.log(classTime);
+    console.log(summary);
+    console.log(detail);
+    navigate("/board");
+  };
 
   // 이미지 캐러쉘 세팅 옵션
   const settings = {
@@ -171,7 +171,7 @@ const NewBoard = () => {
     // autoplaySpeed: 3000,  // 자동 재생 속도
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-  }
+  };
 
   return (
     <SCardBox>
@@ -198,12 +198,14 @@ const NewBoard = () => {
         <h3>썸네일 선택</h3>
         <Slider {...settings}>
           {thumbnails.map((item, idx) => (
-            <div key={item.key}>
+            <div key={idx}>
               <img
                 src={item}
-                alt={idx}
-                // 현재 인덱스와 선택된 이미지 인덱스가 같으면 active 클래스 부여 / 아니면 공백 클래스 부여
-                className={idx == imgSelect ? " active" : ""}
+                alt={"thumbnail-img"}
+                // 현재 인덱스와 선택된 이미지 인덱스가 같으면 active 클래스 부여
+                className={
+                  String(idx) === imgSelect ? `${idx} active` : `${idx}`
+                }
                 onClick={toggleSelect}
               />
             </div>
@@ -351,7 +353,7 @@ const NewBoard = () => {
         </Fade>
       </Modal>
     </SCardBox>
-  )
-}
+  );
+};
 
-export default NewBoard
+export default NewBoard;
