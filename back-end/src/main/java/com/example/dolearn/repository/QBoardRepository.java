@@ -7,4 +7,7 @@ import java.util.List;
 public interface QBoardRepository {
 
     List<Board> findRequestLectureByUid(Long uid);
+
+    List<Board> findFixedLectureByUid(Long uid);
+
 }
