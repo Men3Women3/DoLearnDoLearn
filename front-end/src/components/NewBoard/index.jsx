@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { MenuItem, Select } from "@mui/material";
 import cookingImg from "../../assets/images/thumbnail/cooking.svg";
 import drawingImg from "../../assets/images/thumbnail/drawing.svg";
 import meetingImg from "../../assets/images/thumbnail/meeting.svg";
@@ -50,7 +51,7 @@ function SampleNextArrow(props) {
       style={{
         ...style,
         // display: "block",
-        background: "black",
+        background: "white",
         borderRadius: "50%",
       }}
       onClick={onClick}
@@ -66,7 +67,7 @@ function SamplePrevArrow(props) {
       style={{
         ...style,
         // display: "block",
-        background: "black",
+        background: "white",
         borderRadius: "50%",
       }}
       onClick={onClick}
@@ -97,18 +98,12 @@ const NewBoard = () => {
     studyImg,
     teamworkImg,
   ];
-
-  console.log(today);
-
-  let [imgSelect, setImgSelect] = useState(0);
+  // 현재 썸네일로 어떤 이미지가 선택됐는지(지금은 인덱스 번호로 들어가있음)
+  let [imgSelect, setImgSelect] = useState("0");
+  // 이미지 클릭했을 때 해당 인덱스 번호로 imgSelect 갱신
   const toggleSelect = (e) => {
-    console.log(e.target);
-    setImgSelect(e.target.value);
+    setImgSelect(e.target.className);
   };
-
-  // useEffect(() => {
-  //   console.log("바뀐값", imgSelect);
-  // }, [imgSelect]);
 
   // 모달 스타일
   const style = {
@@ -160,8 +155,7 @@ const NewBoard = () => {
     navigate("/board");
   };
 
-  console.log(today);
-
+  // 이미지 캐러쉘 세팅 옵션
   const settings = {
     // 슬라이드 옵션들
     arrows: true, // 화살표 표시
@@ -171,7 +165,7 @@ const NewBoard = () => {
     slidesToShow: 3, // 슬라이드에 보여지는 아이템 개수
     slidesToScroll: 1, // 슬라이드 넘기는 아이템 개수
     autoplay: false, // 자동 재생
-    // draggable: false,
+    draggable: false,
     // autoplaySpeed: 3000,  // 자동 재생 속도
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -198,50 +192,28 @@ const NewBoard = () => {
           ></STitleInput>
         </SBoardTitle>
 
+        {/* 썸네일 부분 */}
         <h3>썸네일 선택</h3>
         <Slider {...settings}>
           {thumbnails.map((item, idx) => (
-            <div key={item.key}>
+            <div key={idx}>
               <img
                 src={item}
-                alt="item"
-                value={idx}
-                className={idx === imgSelect ? "select" : " "}
+                alt={"thumbnail-img"}
+                // 현재 인덱스와 선택된 이미지 인덱스가 같으면 active 클래스 부여
+                className={
+                  String(idx) === imgSelect ? `${idx} active` : `${idx}`
+                }
                 onClick={toggleSelect}
               />
             </div>
           ))}
-
-          {/* <div>
-            <img src={scrumImg} alt="" />
-          </div>
-          <div>
-            <img src={meetingImg} alt="" />
-          </div>
-          <div>
-            <img src={drawingImg} alt="" />
-          </div>
-          <div>
-            <img src={conferenceImg} alt="" />
-          </div>
-          <div>
-            <img src={cookingImg} alt="" />
-          </div>
-          <div>
-            <img src={exerciseImg} alt="" />
-          </div>
-          <div>
-            <img src={studyImg} alt="" />
-          </div>
-          <div>
-            <img src={teamworkImg} alt="" />
-          </div> */}
         </Slider>
 
         {/* 4. 참여 인원 */}
         <SParticipant>
-          <h3>참여 인원</h3>
-          {/* 문제: 키보드로 입력시 5가 넘어감 */}
+          {/* 모집인원으로 수정함!!! */}
+          <h3>모집 인원</h3>
           <SPartCnt onChange={(e) => setParticipant(e.target.value)}>
             <option value="">0</option>
             <option value="1">1</option>
@@ -285,7 +257,6 @@ const NewBoard = () => {
             onChange={(e) => setLectureTime(e.target.value)}
           ></STimeInput>
 
-          {/* 라디오 버튼 넣기 */}
           <SRadio onChange={(e) => setClassTime(e.target.value)}>
             <div className="radio-container">
               <input type="radio" name="time" value={1} />

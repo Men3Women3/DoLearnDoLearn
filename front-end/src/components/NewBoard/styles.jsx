@@ -1,5 +1,7 @@
 import styled from "styled-components";
-// import Slider from "react-slick";
+import Slider from "react-slick";
+
+// import SCard from "../CardBox";
 
 export const SCardBox = styled.div`
   border-radius: 10px;
@@ -37,8 +39,11 @@ export const SContainer = styled.div`
     div {
       margin: 0;
     }
-    .slick-slide {
-      height: 100%;
+    .slick-prev:before {
+      color: black;
+    }
+    .slick-next:before {
+      color: black;
     }
     img {
       height: 8vw;
@@ -47,8 +52,9 @@ export const SContainer = styled.div`
       border-radius: 10px;
       padding: 15px;
       cursor: pointer;
-      .select {
-        background-color: red !important;
+      /* background-color: yellow; */
+      &.active {
+        border: solid calc(0.15vw + 2px) ${(props) => props.theme.deeperYellow};
       }
     }
   }
@@ -86,6 +92,15 @@ export const SParticipant = styled.div`
   }
   h5 {
     margin-left: 10px;
+  }
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+    width: 7vw;
+    height: 2.5vw;
+    margin: auto 0;
+    font-family: ${(props) => props.theme.fontFamily.Regular};
+    font-size: ${(props) => props.theme.fontFamily.Regular};
+    /* border: 2px solid #cdcdcd;
+    border-radius: 8px; */
   }
 `;
 
