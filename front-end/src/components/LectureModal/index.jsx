@@ -70,7 +70,7 @@ const LectureModal = ({ data, open, handleClose, lecCnt }) => {
             <SInfoItem>
               {/* 5. 강사 신청 현황 */}
               <SLecturer icon={faPersonChalkboard}></SLecturer>
-              <SSpan>{lecCnt}</SSpan>
+              <SSpan>{data.summary}</SSpan>
             </SInfoItem>
             <SInfoItem>
               {/* 6. 수강생 신청 현황 */}
