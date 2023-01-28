@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.util.*;
 
 @Service
@@ -19,7 +18,9 @@ public class BoardService {
     private BoardRepository bRepo;
 
     @Transactional
-    public BoardDto insert(BoardDto boardDto) throws ParseException {
+    public BoardDto insert(BoardDto boardDto) throws Exception {
+        boardDto.setTimes();
+
         return bRepo.save(boardDto.toEntity()).toDto();
     }
 

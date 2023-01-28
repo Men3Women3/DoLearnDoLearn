@@ -57,13 +57,20 @@ public class BoardServiceTest {
     public void BoardCreateTest() throws Exception {
 
         BoardDto boardDto = BoardDto.builder()
-                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18")
+                .startTime("2023-01-18 4").endTime("2")
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        BoardDto bDto = BoardDto.builder()
+                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18")
+                .startTime("2023-01-18 4").endTime("2")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        boardDto.setTimes();
 
         when(boardRepository.save(any(Board.class))).thenReturn(boardDto.toEntity());
 
-        Board result = boardService.insert(boardDto).toEntity();
+        Board result = boardService.insert(bDto).toEntity();
 
         assertEquals(boardDto.getContent(),result.getContent());
     }
@@ -88,9 +95,9 @@ public class BoardServiceTest {
     public void detailBoardTest() throws Exception {
         when(boardRepository.findById(any())).thenReturn(Optional.ofNullable(boardDto1.toEntity()));
 
-        Optional<BoardDto> result = boardService.selectDetail(any());
+        BoardDto result = boardService.selectDetail(any());
 
-        assertEquals(boardDto1.getId(),result.get().getId());
+        assertEquals(boardDto1.getId(),result.getId());
     }
 
     @DisplayName("글 삭제")
