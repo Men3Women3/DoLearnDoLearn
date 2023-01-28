@@ -99,8 +99,6 @@ export const SParticipant = styled.div`
     margin: auto 0;
     font-family: ${(props) => props.theme.fontFamily.Regular};
     font-size: ${(props) => props.theme.fontFamily.Regular};
-    /* border: 2px solid #cdcdcd;
-    border-radius: 8px; */
   }
 `;
 
@@ -154,12 +152,11 @@ export const SLectureInput = styled.input`
 
 export const STimeInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  width: 15%;
+  width: 3vw;
   height: calc(3.5vh + 15px);
   border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
-  padding-right: 30px;
 `;
 
 export const SRadio = styled.fieldset`

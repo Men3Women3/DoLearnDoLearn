@@ -2,8 +2,12 @@ import LectureModal from "../LectureModal";
 import { SImg, SUniBoard } from "./styles";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faCalendarDays,
+  faPersonChalkboard,
+  faChalkboardUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 // 개별 게시물 component
 const UniBoard = ({ data }) => {
@@ -13,28 +17,33 @@ const UniBoard = ({ data }) => {
   const handleClose = () => setOpen(false);
   // ===================================
 
+  const today = new Date().toISOString().substring(5, 10);
+  const startTime = data.startTime.substring(5, 10);
+  const endTime = data.endTime.substring(5, 10);
+  const deadline = data.deadline.substring(5, 10);
+
   return (
     <SUniBoard>
       <div onClick={handleOpen}>
         <SImg src={data.thumbnailUrl} />
-        <h3 title={data.title}>{data.title}</h3>
-        <p summary={data.summary}>{data.summary}</p>
+        <h3>{data.title}</h3>
+        <p>{data.summary}</p>
         <div style={{ textAlign: "left" }}>
-          <p summary={data.summary}>
+          <p>
             <FontAwesomeIcon icon={faClock} />
-            &nbsp;모집기간 | {data.startTime} - {data.endTime}
+            &nbsp;모집기간 | {today} - {deadline}
           </p>
-          <p summary={data.deadline}>
+          <p>
             <FontAwesomeIcon icon={faCalendarDays} />
-            &nbsp;강의시간 | {data.deadline}
+            &nbsp;강의시간 | {startTime}
           </p>
-          <p lecCnt={data.instructors}>
-            <FontAwesomeIcon icon={faCalendarDays} />
+          <p>
+            <FontAwesomeIcon icon={faPersonChalkboard} />
             &nbsp;강사 모집현황 | {data.instructors}명
           </p>
-          <p summary={data.students}>
-            <FontAwesomeIcon icon={faCalendarDays} />
-            &nbsp;수강생 모집현황 | {data.students} / 5명
+          <p>
+            <FontAwesomeIcon icon={faChalkboardUser} />
+            &nbsp;수강생 모집현황 | {data.students} / {data.maxCnt}명
           </p>
         </div>
       </div>

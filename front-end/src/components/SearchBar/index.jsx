@@ -1,12 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/joy/Input";
-import { SLabel } from "./styles";
 import { SSearchContainer } from "./styles";
 import axios from "axios";
 
 const SearchBar = () => {
-  const SERVER_URL = "";
+  const SEARCH_URL = "http://localhost:8080/board/search/";
+
+  const doSearch = async (keyword) => {
+    const res = await axios.get(`${SEARCH_URL}/${keyword}`);
+    // setList(res.data.response);
+  };
 
   // 검색 input값
   const [search, setSearch] = useState("");
@@ -26,6 +30,7 @@ const SearchBar = () => {
   // Enter 키를 눌렀을 때의 작업 처리
   const onEnter = (e) => {
     e.preventDefault();
+    doSearch();
     setSearch("");
   };
 

@@ -1,25 +1,8 @@
 import React from "react";
-// import { useState } from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import {
-  SSpan,
-  SClock,
-  SCalendar,
-  SLecturer,
-  SStudent,
-  SPencil,
-  SDetail,
-  SInfoItem,
-} from "./styles";
-import {
-  faClock,
-  faCalendarDays,
-  faPersonChalkboard,
-  faChalkboardUser,
-  faPencil,
-} from "@fortawesome/free-solid-svg-icons";
+import * as S from "./styles";
+import * as f from "@fortawesome/free-solid-svg-icons";
 
 const style = {
   position: "absolute",
@@ -47,47 +30,37 @@ const LectureModal = ({ data, open, handleClose }) => {
         <Box sx={style}>
           {/* 여기는 제목 */}
           {/* 1. 제목 */}
-          <Typography
-            id="modal-modal-title"
-            variant="h5"
-            component="h2"
-            sx={{ pb: 2, borderBottom: 3 }}
-          >
-            {data.title}
-          </Typography>
+          <S.STitle>{data.title}</S.STitle>
           {/* 여기는 내용 */}
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <SInfoItem>
+          <div id="modal-modal-description" sx={{ mt: 2 }}>
+            <S.SInfoItem>
               {/* 3. 강의 시간 */}
-              <SClock icon={faClock}></SClock>
-              <SSpan>강의 시간 | {data.deadline}</SSpan>
-            </SInfoItem>
-            <SInfoItem>
+              <S.SClock icon={f.faClock}></S.SClock>
+              <S.SSpan>강의 시간 | {data.deadline}</S.SSpan>
+            </S.SInfoItem>
+            <S.SInfoItem>
               {/* 4. 모집 기간 */}
-              <SCalendar icon={faCalendarDays}></SCalendar>
-              <SSpan>
+              <S.SCalendar icon={f.faCalendarDays}></S.SCalendar>
+              <S.SSpan>
                 모집 기간 | {data.startTime} - {data.endTime}
-              </SSpan>
-            </SInfoItem>
-            <SInfoItem>
+              </S.SSpan>
+            </S.SInfoItem>
+            <S.SInfoItem>
               {/* 5. 강사 신청 현황 */}
-              <SLecturer icon={faPersonChalkboard}></SLecturer>
-              <SSpan>강사 신청 현황 | {data.instructors}명</SSpan>
-            </SInfoItem>
-            <SInfoItem>
+              <S.SLecturer icon={f.faPersonChalkboard}></S.SLecturer>
+              <S.SSpan>강사 신청 현황 | {data.instructors}명</S.SSpan>
+            </S.SInfoItem>
+            <S.SInfoItem>
               {/* 6. 수강생 신청 현황 */}
-              <SStudent icon={faChalkboardUser}></SStudent>
-              <SSpan>수강생 신청 현황 | {data.students} / 5명</SSpan>
-            </SInfoItem>
-            <SInfoItem>
+              <S.SStudent icon={f.faChalkboardUser}></S.SStudent>
+              <S.SSpan>수강생 신청 현황 | {data.students} / 5명</S.SSpan>
+            </S.SInfoItem>
+            <S.SInfoItem>
               {/* 7. 강의 디테일 */}
-              <SPencil icon={faPencil}></SPencil>
-              <SDetail>{data.detail}</SDetail>
-            </SInfoItem>
-          </Typography>
-          <Typography id="modal-modal-button" sx={{ mt: 2 }}>
-            {/* <SButton>강사 신청</SButton> */}
-          </Typography>
+              <S.SPencil icon={f.faPencil}></S.SPencil>
+              <S.SDetail>{data.content}</S.SDetail>
+            </S.SInfoItem>
+          </div>
         </Box>
       </Modal>
     </div>

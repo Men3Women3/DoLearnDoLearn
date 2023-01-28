@@ -1,6 +1,14 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+export const STitle = styled.div`
+  font-family: ${(props) => props.theme.fontFamily.Bold};
+  font-size: ${(props) => props.theme.fontSize.h2};
+  padding-bottom: 1vh;
+  margin-bottom: 2vh;
+  border-bottom: 2px solid black;
+`;
+
 // global span 태그
 export const SSpan = styled.span`
   font-family: ${(props) => props.theme.fontFamily.Light};
