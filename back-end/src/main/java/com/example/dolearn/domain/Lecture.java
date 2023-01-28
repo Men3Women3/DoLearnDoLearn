@@ -24,7 +24,7 @@ public class Lecture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="user_cnt", nullable = false)
+    @Column(name="member_cnt", nullable = false)
     private int userCnt;
 
     @Column(length = 100, nullable = true)
