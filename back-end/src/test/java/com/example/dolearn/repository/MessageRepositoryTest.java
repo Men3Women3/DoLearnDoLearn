@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -23,7 +25,7 @@ public class MessageRepositoryTest {
     @Autowired
     private MessageRepository messageRepository;
 
-    @DisplayName("레포지토리 저장 테스트")
+    @DisplayName("message repository 저장 테스트")
     @Test
     public void messageRepositorySaveTest() {
 
@@ -38,6 +40,24 @@ public class MessageRepositoryTest {
 
         assertThat(result.getContent()).isEqualTo(message.getContent());
         assertThat(result.getId()).isEqualTo(result.getId());
+        assertThat(result.getIsChecked()).isEqualTo(result.getIsChecked());
+    }
+
+    @DisplayName("messageRepository findById 테스트")
+    @Test
+    public void MessageRepositoryFindByIdTest() {
+        Message message = Message
+                .builder()
+                .id(1L)
+                .content("test")
+                .isChecked(0)
+                .build();
+
+        messageRepository.save(message);
+
+        Message result = messageRepository.findById(1L).get();
+
+        assertThat(result.getContent()).isEqualTo(message.getContent());
         assertThat(result.getIsChecked()).isEqualTo(result.getIsChecked());
     }
 }
