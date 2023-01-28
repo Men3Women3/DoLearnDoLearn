@@ -133,4 +133,8 @@ export const Box = styled.main`
   .user-state-nuLogined {
     color: white;
   }
+  #division {
+    margin: 0px 12px;
+    cursor: default;
+  }
 `

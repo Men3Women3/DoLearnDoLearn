@@ -75,7 +75,7 @@ const Navbar = () => {
               <Link to={"/login"} className="link user-state-nuLogined">
                 로그인
               </Link>
-              <span>|</span>
+              <span id="division">|</span>
               <Link to={"/signup"} className="link user-state-nuLogined">
                 회원가입
               </Link>

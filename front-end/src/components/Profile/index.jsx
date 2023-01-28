@@ -9,7 +9,7 @@ import {
 } from "./styles"
 import { Tooltip } from "@mui/material"
 
-import profileImg from "../../assets/images/thumbnail.png"
+import defaultProfile from "../../assets/images/defaultProfile.png"
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 import blogImg from "../../assets/images/sns/blog.png"
@@ -30,7 +30,7 @@ const checkIsBlank = (target) => {
 const Profile = (props) => {
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext)
-  console.log(getUserInfo)
+  console.log("유저정보", getUserInfo.userInfo)
   // SMS 링크 존재하는지 확인
   const checkBlog = checkIsBlank(getUserInfo.userInfo.blog)
   const checkYoutube = checkIsBlank(getUserInfo.userInfo.youtube)
@@ -43,7 +43,11 @@ const Profile = (props) => {
         {/* 프로필 이미지 */}
         <img
           className="profile-img"
-          src={getUserInfo.userInfo.imgSrc}
+          src={
+            getUserInfo.userInfo.imgSrc
+              ? getUserInfo.userInfo.imgSrc
+              : defaultProfile
+          }
           alt="defaultProfile"
         />
         <section>
