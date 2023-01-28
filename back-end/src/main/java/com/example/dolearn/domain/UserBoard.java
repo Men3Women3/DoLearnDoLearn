@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Getter
+@Table(name = "member_board")
 public class UserBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +33,7 @@ public class UserBoard {
     @JoinColumn(name = "bid", insertable = false, updatable = false)
     private Board board;
 
-    @Column(name = "user_type")
+    @Column(name = "member_type")
     private String user_type;
 
     public UserBoardDto toDto(){

@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface UserLectureRepository extends JpaRepository<UserLecture,Long> {
 
-    @Query(value = "select * from user_lecture where lid=:lid and user_type='학생'", nativeQuery = true)
+    @Query(value = "select * from member_lecture where lid=:lid and member_type='학생'", nativeQuery = true)
     List<UserLecture> findByLectureId(@Param("lid") Long lid);
 }

@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Builder
 @DynamicInsert
 @Entity(name="user_lecture")
+@Table(name="member_lecture")
 public class UserLecture {
     @Id
     @Column(name="ID")
@@ -28,7 +29,7 @@ public class UserLecture {
     @JoinColumn(name="lid", nullable = false)
     private Lecture lecture;
 
-    @Column(length = 10, nullable = false)
-    private String userType;
+    @Column(name="member_type", length = 10, nullable = false)
+    private String memberType;
 
 }
