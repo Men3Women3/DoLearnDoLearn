@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -35,7 +35,7 @@ const style = {
 };
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
-const LectureModal = ({ data, open, handleClose, lecCnt }) => {
+const LectureModal = ({ data, open, handleClose }) => {
   return (
     <div>
       <Modal
@@ -60,27 +60,29 @@ const LectureModal = ({ data, open, handleClose, lecCnt }) => {
             <SInfoItem>
               {/* 3. 강의 시간 */}
               <SClock icon={faClock}></SClock>
-              <SSpan>{data.summary}</SSpan>
+              <SSpan>강의 시간 | {data.deadline}</SSpan>
             </SInfoItem>
             <SInfoItem>
               {/* 4. 모집 기간 */}
               <SCalendar icon={faCalendarDays}></SCalendar>
-              <SSpan>{data.summary}</SSpan>
+              <SSpan>
+                모집 기간 | {data.startTime} - {data.endTime}
+              </SSpan>
             </SInfoItem>
             <SInfoItem>
               {/* 5. 강사 신청 현황 */}
               <SLecturer icon={faPersonChalkboard}></SLecturer>
-              <SSpan>{data.summary}</SSpan>
+              <SSpan>강사 신청 현황 | {data.instructors}명</SSpan>
             </SInfoItem>
             <SInfoItem>
               {/* 6. 수강생 신청 현황 */}
               <SStudent icon={faChalkboardUser}></SStudent>
-              <SSpan>{data.summary}</SSpan>
+              <SSpan>수강생 신청 현황 | {data.students} / 5명</SSpan>
             </SInfoItem>
             <SInfoItem>
               {/* 7. 강의 디테일 */}
               <SPencil icon={faPencil}></SPencil>
-              <SDetail>{data.summary}</SDetail>
+              <SDetail>{data.detail}</SDetail>
             </SInfoItem>
           </Typography>
           <Typography id="modal-modal-button" sx={{ mt: 2 }}>

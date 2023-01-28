@@ -1,7 +1,7 @@
-import React from 'react';
-import Navbar from '../../components/Navbar';
-import NewBoard from '../../components/NewBoard';
-import { Grid } from '@mui/material';
+import React from "react";
+import Navbar from "../../components/Navbar";
+import NewBoard from "../../components/NewBoard";
+import { Grid } from "@mui/material";
 
 const WriteBoard = () => {
   return (
