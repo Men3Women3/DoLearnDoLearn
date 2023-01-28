@@ -95,7 +95,7 @@ const ProfileEdit = (props) => {
       facebook: facebook,
       youtube: youtubeLink,
     }
-    console.log("여기 봐봐", data)
+    console.log("put할 때 들어가는 데이터", data)
     try {
       const res = await axios.put(`${SERVER_URL}/user`, data, {
         headers: {
@@ -118,7 +118,7 @@ const ProfileEdit = (props) => {
   // 입력받은 데이터를 db에서 수정하도록 PUT 요청
   // 다시 프로필 화면으로 이동
   const handleCompleteEdit = () => {
-    console.log("들어와야 하는값", profileImg)
+    console.log("프로필 이미지에 들어있는 값", profileImg)
     axios_put()
     props.handleProfileEditBtn()
   }
@@ -159,9 +159,9 @@ const ProfileEdit = (props) => {
               /> */}
             <div>
               {/* 이름 */}
-              <span>김싸피</span>
+              <span>{getUserInfo.userInfo.name}</span>
               {/* 이메일 */}
-              <p>ssafyKing@naver.com</p>
+              <p>{getUserInfo.userInfo.email}</p>
             </div>
             {/* 마일리지 바 */}
             <div>
