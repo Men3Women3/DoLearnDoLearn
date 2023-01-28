@@ -30,18 +30,22 @@ const checkIsBlank = (target) => {
 const Profile = (props) => {
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext)
+  console.log(getUserInfo)
+  // SMS 링크 존재하는지 확인
   const checkBlog = checkIsBlank(getUserInfo.userInfo.blog)
   const checkYoutube = checkIsBlank(getUserInfo.userInfo.youtube)
   const checkInsta = checkIsBlank(getUserInfo.userInfo.instagram)
   const checkFacebook = checkIsBlank(getUserInfo.userInfo.facebook)
-  console.log(getUserInfo)
-  console.log("블로그", checkBlog)
 
   return (
     <SProfileContainer>
       <SSubContainerUp>
         {/* 프로필 이미지 */}
-        <img className="profile-img" src={profileImg} alt="defaultProfile" />
+        <img
+          className="profile-img"
+          src={getUserInfo.userInfo.imgSrc}
+          alt="defaultProfile"
+        />
         <section>
           <div className="info__container">
             <div>
@@ -58,10 +62,7 @@ const Profile = (props) => {
                   // placement="top"
                   followCursor
                 >
-                  <a
-                    href={`https://${getUserInfo.userInfo.blog}`}
-                    target="_blank"
-                  >
+                  <a href={`${getUserInfo.userInfo.blog}`} target="_blank">
                     <img src={blogImg} />
                   </a>
                 </Tooltip>
@@ -75,7 +76,7 @@ const Profile = (props) => {
                 >
                   <a
                     // className="tooltip"
-                    href={`https://${getUserInfo.userInfo.youtube}`}
+                    href={`${getUserInfo.userInfo.youtube}`}
                     target="_blank"
                   >
                     <img src={youtubeImg} />
@@ -91,7 +92,7 @@ const Profile = (props) => {
                 >
                   <a
                     // className="tooltip"
-                    href={`https://${getUserInfo.userInfo.instagram}`}
+                    href={`https://www.instagram.com/${getUserInfo.userInfo.instagram}/`}
                     target="_blank"
                   >
                     <img src={instagramImg} />
@@ -107,7 +108,7 @@ const Profile = (props) => {
                 >
                   <a
                     // className="tooltip"
-                    href={`https://${getUserInfo.userInfo.facebook}`}
+                    href={`https://facebook.com/${getUserInfo.userInfo.facebook}/`}
                     target="_blank"
                   >
                     <img src={facebookImg} />
