@@ -4,12 +4,16 @@ import Input from "@mui/joy/Input";
 import { SSearchContainer } from "./styles";
 import axios from "axios";
 
-const SearchBar = () => {
-  const SEARCH_URL = "http://localhost:8080/board/search/";
+const SearchBar = ({ setList }) => {
+  const SERVER_URL = "http://localhost:8080";
 
   const doSearch = async (keyword) => {
-    const res = await axios.get(`${SEARCH_URL}/${keyword}`);
-    // setList(res.data.response);
+    try {
+      const res = await axios.get(`${SERVER_URL}/board/search/${keyword}`);
+      setList(res.data.response);
+    } catch (err) {
+      console.log(err, "검색 실패");
+    }
   };
 
   // 검색 input값

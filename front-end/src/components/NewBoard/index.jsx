@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -18,8 +18,9 @@ import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
 import * as S from "./styles.jsx";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { LoginStateContext } from "../../App";
 
-function SampleNextArrow(props) {
+const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
@@ -32,9 +33,9 @@ function SampleNextArrow(props) {
       onClick={onClick}
     />
   );
-}
+};
 
-function SamplePrevArrow(props) {
+const SamplePrevArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
@@ -47,12 +48,16 @@ function SamplePrevArrow(props) {
       onClick={onClick}
     />
   );
-}
+};
 
 const NewBoard = () => {
   const SERVER_URL = "http://localhost:3000";
+
+  const userInfo = useContext(LoginStateContext);
+
   const today = new Date().toISOString().substring(0, 10);
   const navigate = useNavigate();
+
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
   const [stDay, setStDay] = useState(today); // 모집 시작 날짜
@@ -95,49 +100,53 @@ const NewBoard = () => {
 
   const handleOpen = (e) => {
     handleRegister();
-    // if (
-    //   // !imgSelect ||
-    //   !title ||
-    //   !stDay ||
-    //   !edDay ||
-    //   !lectureDay ||
-    //   !lectureTime ||
-    //   !classTime ||
-    //   !summary ||
-    //   !detail ||
-    //   participant === ""
-    // ) {
-    //   setOpen(); // 빈 내용이 있으면 경고 띄우기
-    // } else {
-    //   handleRegister(); // 모두 잘 작성됐으면 등록
-    // }
+    if (
+      !imgSelect ||
+      !title ||
+      !stDay ||
+      !edDay ||
+      !lectureDay ||
+      !lectureTime ||
+      !classTime ||
+      !summary ||
+      !detail ||
+      !participant
+    ) {
+      setOpen(true); // 빈 내용이 있으면 경고 띄우기
+    } else {
+      handleRegister(); // 모두 잘 작성됐으면 등록
+    }
   };
 
   const handleClose = () => setOpen(false);
 
   const handleRegister = async () => {
     // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
-    // 저장 됐으면 강의 목록 페이지로 가줭
-    // await axios.post(`${SERVER_URL}/board`, {
-    //   tid: imgSelect,
-    //   title,
-    //   maxCnt: participant,
-    //   content: detail,
-    //   summary,
-    //   startTime: stDay,
-    //   endTime: edDay,
-    //   deadline: lectureDay + " " + lectureTime,
-    // });
-    // navigate("/board");
-    console.log("강의 제목: ", title);
-    console.log("썸네일 인덱스 번호: ", imgSelect);
-    console.log("모집 인원: ", participant);
-    console.log("모집시작기간: ", stDay);
-    console.log("모집종료기간: ", edDay);
-    console.log("강의 날짜 및 시간: ", lectureDay + " " + lectureTime);
-    console.log("총 강의 시간: ", classTime);
-    console.log("강의 요약: ", summary);
-    console.log("강의 상세: ", detail);
+    try {
+      await axios.post(`${SERVER_URL}/board`, {
+        uid: userInfo.id,
+        tid: imgSelect,
+        title,
+        maxCnt: participant,
+        content: detail,
+        summary,
+        startTime: stDay,
+        endTime: edDay,
+        deadline: lectureDay + " " + lectureTime,
+      });
+      navigate("/board");
+      console.log("강의 제목: ", title);
+      console.log("썸네일 인덱스 번호: ", imgSelect);
+      console.log("모집 인원: ", participant);
+      console.log("모집시작기간: ", stDay);
+      console.log("모집종료기간: ", edDay);
+      console.log("강의 날짜 및 시간: ", lectureDay + " " + lectureTime);
+      console.log("총 강의 시간: ", classTime);
+      console.log("강의 요약: ", summary);
+      console.log("강의 상세: ", detail);
+    } catch (e) {
+      console.log("서버에 데이터 보내기 실패");
+    }
   };
 
   // 이미지 캐러쉘 세팅 옵션
@@ -151,7 +160,7 @@ const NewBoard = () => {
     slidesToScroll: 1, // 슬라이드 넘기는 아이템 개수
     autoplay: false, // 자동 재생
     draggable: false,
-    // autoplaySpeed: 3000,  // 자동 재생 속도
+    // autoplaySpeed: 3000, // 자동 재생 속도
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
@@ -178,7 +187,7 @@ const NewBoard = () => {
         </S.SBoardTitle>
 
         {/* 썸네일 부분 */}
-        <h3>썸네일 선택</h3>
+        <h3>대표 이미지 선택</h3>
         <Slider {...settings}>
           {thumbnails.map((item, idx) => (
             <div key={idx}>
@@ -297,10 +306,10 @@ const NewBoard = () => {
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        // BackdropComponent={Backdrop}
-        // BackdropProps={{
-        //   timeout: 500,
-        // }}
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
       >
         <Fade in={open}>
           <Box sx={style}>

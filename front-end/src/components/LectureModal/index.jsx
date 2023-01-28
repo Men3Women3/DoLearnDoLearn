@@ -19,6 +19,10 @@ const style = {
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
 const LectureModal = ({ data, open, handleClose }) => {
+  const deadline = data.deadline.substring(0, 10);
+  const startTime = data.startTime.substring(0, 10);
+  const endTime = data.endTime.substring(0, 10);
+
   return (
     <div>
       <Modal
@@ -36,13 +40,13 @@ const LectureModal = ({ data, open, handleClose }) => {
             <S.SInfoItem>
               {/* 3. 강의 시간 */}
               <S.SClock icon={f.faClock}></S.SClock>
-              <S.SSpan>강의 시간 | {data.deadline}</S.SSpan>
+              <S.SSpan>강의 시간 | {deadline}</S.SSpan>
             </S.SInfoItem>
             <S.SInfoItem>
               {/* 4. 모집 기간 */}
               <S.SCalendar icon={f.faCalendarDays}></S.SCalendar>
               <S.SSpan>
-                모집 기간 | {data.startTime} - {data.endTime}
+                모집 기간 | {startTime} - {endTime}
               </S.SSpan>
             </S.SInfoItem>
             <S.SInfoItem>
@@ -60,6 +64,7 @@ const LectureModal = ({ data, open, handleClose }) => {
               <S.SPencil icon={f.faPencil}></S.SPencil>
               <S.SDetail>{data.content}</S.SDetail>
             </S.SInfoItem>
+            {/* 8. 여기는 각 경우에 따른 추가 컴포넌트 띄우는 곳 */}
           </div>
         </Box>
       </Modal>
