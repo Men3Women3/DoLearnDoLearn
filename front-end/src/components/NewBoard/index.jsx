@@ -131,6 +131,7 @@ const NewBoard = () => {
         startTime: lectureDay + " " + lectureTime,
         endTime: classTime,
         deadline: edDay,
+        isFixed: 0,
       });
       navigate("/board");
       console.log("강의 제목: ", title);

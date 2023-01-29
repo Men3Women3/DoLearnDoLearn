@@ -12,16 +12,46 @@ import meeting from "../../assets/images/thumbnail/meeting.svg";
 import conference from "../../assets/images/thumbnail/conference.svg";
 import study from "../../assets/images/thumbnail/study.svg";
 import teamwork from "../../assets/images/thumbnail/teamwork.svg";
+import axios from "axios";
+import { useEffect } from "react";
 
 // 개별 게시물 component
 const UniBoard = ({ data }) => {
+  const BOARD_URL = "http://localhost:8080";
+
   // Modal 파트 ========================
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   // ===================================
 
-  const startTime = data.startTime.substring(5, 10);
+  // 강사 및 수강생 목록 호출 ==========
+  // const [lecturer, setLecturer] = useState([]);
+  // const [student, setStudent] = useState([]);
+  // const bringList = async () => {
+  //   const board = data.id;
+  //   try {
+  //     const res1 = await axios.get(`${BOARD_URL}/instructor_list/${board}`);
+  //     setLecturer(res1);
+  //     const res2 = await axios.get(`${BOARD_URL}/student_list/${board}`);
+  //     setStudent(res2);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // ===================================
+  // const func = async () => {
+  //   const board = data.id;
+  //   try {
+  //     const res = await axios.get(`${BOARD_URL}/instructor_list/${board}`);
+  //     console.log(res);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // func();
+
+  const startTime = data.createdTime.substring(5, 10);
   const endTime = data.endTime.substring(5, 10);
   const deadline = data.deadline.substring(5, 10);
 

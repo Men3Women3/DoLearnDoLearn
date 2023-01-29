@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SButtonGroup = styled.div`
+export const SGroup = styled.div`
   display: flex;
   padding: 0 5vw;
 `;

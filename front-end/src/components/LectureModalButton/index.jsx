@@ -1,26 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { LoginStateContext } from "../../App";
-import { SButton, SButtonGroup } from "./styles";
+import { SButton, SGroup } from "./styles";
 import axios from "axios";
 
 const LectureModalButton = ({ data }) => {
   const BOARD_URL = "http://localhost:8080/board";
 
   const { isLogined, userInfo } = useContext(LoginStateContext);
-  const [instructorList, setInstructorList] = useState([]);
 
-  console.log(isLogined);
   // api 요청 내용 ==============================================================
-  // 신청한 강사 목록
-  const bringList = async (lecture) => {
-    try {
-      const res = await axios.get(`${BOARD_URL}/instructor-list/${lecture}`);
-      setInstructorList(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   // 수강 신청
   const enrollClass = async () => {
     try {
@@ -28,6 +16,7 @@ const LectureModalButton = ({ data }) => {
         uid: userInfo.id,
         bid: data.id,
       });
+      console.log("수강 신청 성공");
     } catch (err) {
       console.log(err);
     }
@@ -40,24 +29,30 @@ const LectureModalButton = ({ data }) => {
         uid: userInfo.id,
         bid: data.id,
       });
+      console.log("강사 신청 성공");
     } catch (err) {
       console.log(err);
     }
   };
 
   // 신청 취소
-  const deleteClass = async (user, lecture) => {
+  const deleteClass = async () => {
+    const user = userInfo.id;
+    const lecture = data.id;
     try {
       await axios.delete(`${BOARD_URL}/apply/${user}/${lecture}`);
+      console.log("신청 취소 성공");
     } catch (err) {
       console.log(err);
     }
   };
 
   // 강의 확정
-  const fixClass = async (lecture) => {
+  const fixClass = async () => {
+    const lecture = data.id;
     try {
       await axios.put(`${BOARD_URL}/${lecture}`);
+      console.log("강의 확정 성공");
     } catch (err) {
       console.log(err);
     }
@@ -67,21 +62,32 @@ const LectureModalButton = ({ data }) => {
   return (
     <>
       {/* 1. 방장 / 강의 미확정 */}
-      <SButtonGroup>
-        <SButton onClick={fixClass}>모집완료</SButton>
-        <SButton onClick={deleteClass}>신청취소</SButton>
-      </SButtonGroup>
+      {isLogined && data.uid === userInfo.id && data.isFixed === 0 ? (
+        <SGroup>
+          <SButton onClick={fixClass}>모집완료</SButton>
+          <SButton onClick={deleteClass}>신청취소</SButton>
+        </SGroup>
+      ) : (
+        ""
+      )}
       {/* 2. 방장 내지는 신청자 / 강의 확정 */}
-      <SButtonGroup>
-        <SButton>Live 입장</SButton>
-        <SButton onClick={deleteClass}>신청취소</SButton>
-      </SButtonGroup>
+      {isLogined && data.isFixed === 0 ? (
+        <SGroup>
+          <SButton>Live 입장</SButton>
+          <SButton onClick={deleteClass}>신청취소</SButton>
+        </SGroup>
+      ) : (
+        ""
+      )}
       {/* 3. 미신청자 */}
-      <SButtonGroup>
-        <SButton onClick={enrollLecturer}>강사 신청</SButton>
-        <SButton onClick={enrollClass}>수강생 신청</SButton>
-      </SButtonGroup>
-      {/* 4. 미로그인 */}
+      {isLogined ? (
+        <SGroup>
+          <SButton onClick={enrollLecturer}>강사 신청</SButton>
+          <SButton onClick={enrollClass}>수강생 신청</SButton>
+        </SGroup>
+      ) : (
+        ""
+      )}
     </>
   );
 };
