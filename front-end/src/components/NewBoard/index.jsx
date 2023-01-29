@@ -60,7 +60,6 @@ const NewBoard = () => {
 
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
-  const [stDay, setStDay] = useState(today); // 모집 시작 날짜
   const [edDay, setEdDay] = useState(""); // 모집 종료 날짜
   const [lectureDay, setLectureDay] = useState(""); // 강의 날짜
   const [lectureTime, setLectureTime] = useState(""); // 강의 시작 시간
@@ -103,7 +102,6 @@ const NewBoard = () => {
     if (
       !imgSelect ||
       !title ||
-      !stDay ||
       !edDay ||
       !lectureDay ||
       !lectureTime ||
@@ -130,21 +128,21 @@ const NewBoard = () => {
         maxCnt: participant,
         content: detail,
         summary,
-        startTime: stDay,
-        endTime: edDay,
-        deadline: lectureDay + " " + lectureTime,
+        startTime: lectureDay + " " + lectureTime,
+        endTime: classTime,
+        deadline: edDay,
       });
       navigate("/board");
       console.log("강의 제목: ", title);
       console.log("썸네일 인덱스 번호: ", imgSelect);
       console.log("모집 인원: ", participant);
-      console.log("모집시작기간: ", stDay);
       console.log("모집종료기간: ", edDay);
       console.log("강의 날짜 및 시간: ", lectureDay + " " + lectureTime);
       console.log("총 강의 시간: ", classTime);
       console.log("강의 요약: ", summary);
       console.log("강의 상세: ", detail);
-    } catch (e) {
+    } catch (err) {
+      console.log(err);
       console.log("서버에 데이터 보내기 실패");
     }
   };
@@ -223,18 +221,13 @@ const NewBoard = () => {
         <S.SRecruit>
           <h3>모집 기간</h3>
           {/* 요거는 시작날짜 */}
-          <S.SRecruitInput
-            type="date"
-            min={today}
-            onChange={(e) => setStDay(e.target.value.substring(0, 10))}
-          ></S.SRecruitInput>
-          <h3>-</h3>
           {/* 요거는 마감날짜 */}
           <S.SRecruitInput
             type="date"
             min={today}
             onChange={(e) => setEdDay(e.target.value)}
           ></S.SRecruitInput>
+          <h3>까지</h3>
         </S.SRecruit>
 
         {/* 6. 강의 일시 */}

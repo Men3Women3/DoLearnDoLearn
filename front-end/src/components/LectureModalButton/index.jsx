@@ -9,6 +9,7 @@ const LectureModalButton = ({ data }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
   const [instructorList, setInstructorList] = useState([]);
 
+  console.log(isLogined);
   // api 요청 내용 ==============================================================
   // 신청한 강사 목록
   const bringList = async (lecture) => {
