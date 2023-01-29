@@ -53,14 +53,14 @@ const SamplePrevArrow = (props) => {
 const NewBoard = () => {
   const SERVER_URL = "http://localhost:3000";
 
-  const userInfo = useContext(LoginStateContext);
+  const { isLogined, userInfo } = useContext(LoginStateContext);
 
   const today = new Date().toISOString().substring(0, 10);
   const navigate = useNavigate();
 
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
-  const [edDay, setEdDay] = useState(""); // 모집 종료 날짜
+  const [deadline, setDeadline] = useState(""); // 모집 종료 날짜
   const [lectureDay, setLectureDay] = useState(""); // 강의 날짜
   const [lectureTime, setLectureTime] = useState(""); // 강의 시작 시간
   const [classTime, setClassTime] = useState(""); // 강의 시간
@@ -102,7 +102,7 @@ const NewBoard = () => {
     if (
       !imgSelect ||
       !title ||
-      !edDay ||
+      !deadline ||
       !lectureDay ||
       !lectureTime ||
       !classTime ||
@@ -130,14 +130,14 @@ const NewBoard = () => {
         summary,
         startTime: lectureDay + " " + lectureTime,
         endTime: classTime,
-        deadline: edDay,
+        deadline,
         isFixed: 0,
       });
       navigate("/board");
       console.log("강의 제목: ", title);
       console.log("썸네일 인덱스 번호: ", imgSelect);
       console.log("모집 인원: ", participant);
-      console.log("모집종료기간: ", edDay);
+      console.log("모집종료기간: ", deadline);
       console.log("강의 날짜 및 시간: ", lectureDay + " " + lectureTime);
       console.log("총 강의 시간: ", classTime);
       console.log("강의 요약: ", summary);
@@ -226,7 +226,7 @@ const NewBoard = () => {
           <S.SRecruitInput
             type="date"
             min={today}
-            onChange={(e) => setEdDay(e.target.value)}
+            onChange={(e) => setDeadline(e.target.value)}
           ></S.SRecruitInput>
           <h3>까지</h3>
         </S.SRecruit>

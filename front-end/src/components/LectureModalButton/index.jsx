@@ -70,7 +70,7 @@ const LectureModalButton = ({ data }) => {
       ) : (
         ""
       )}
-      {/* 2. 방장 내지는 신청자 / 강의 확정 */}
+      {/* 2. 신청자 */}
       {isLogined && data.isFixed === 0 ? (
         <SGroup>
           <SButton>Live 입장</SButton>
