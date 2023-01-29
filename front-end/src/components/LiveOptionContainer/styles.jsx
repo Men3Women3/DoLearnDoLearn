@@ -1,42 +1,11 @@
 import styled from "styled-components";
 
-export const SContainer = styled.section`
-  height: 85%;
-  width: 100%;
-  margin: calc(1vw + 8px) 0px;
-`;
-
-export const SStudentsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  height: 20%;
-  text-align: center; // 나중에 지워야 될 스타일
-  div {
-    background-color: white;
-    width: 20%;
-    margin: calc(1vh + 12px) calc(0.5vw + 2px);
-    margin-top: 0px;
-    border-radius: 12px;
-  }
-`;
-
-export const SLecturerCameraContainer = styled.div`
-  width: 100%;
-  height: 80%;
-  display: flex;
-  justify-content: center;
-`;
-
-export const SLecturerCamera = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  border-radius: 12px;
-  margin: 0px calc(0.5vw + 2px);
-`;
-
 export const SOptionContainer = styled.div`
+  position: absolute;
+  bottom: 0px;
   display: flex;
+  left: 50%;
+  transform: translateX(-50%);
   justify-content: center;
   align-items: center;
   /* background-color: #242424; */
@@ -45,7 +14,7 @@ export const SOptionContainer = styled.div`
   margin: auto;
   width: 65%;
   margin-top: calc(0.8vw + 2px);
-  border-radius: 8px;
+  border-radius: 8px 8px 0px 0px;
   button {
     cursor: pointer;
     display: flex;

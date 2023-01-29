@@ -15,20 +15,18 @@ const LectureChattingContainer = () => {
   return (
     <SContainer>
       <SChattingContainer>
-        <SContentCantainer>
-          <SChattingContent>
-            <p>김싸피 (수강생)</p>
-            <div>다시 설명해주세요!</div>
-          </SChattingContent>
-        </SContentCantainer>
-        <SMessageContainer>
-          <textarea cols="30" rows="3" />
-          {/* 메시지 전송 버튼 */}
-          <button>
-            <FontAwesomeIcon className="send-icon" icon={faPaperPlane} />
-          </button>
-        </SMessageContainer>
+        <SChattingContent>
+          <p>김싸피 (수강생)</p>
+          <div>다시 설명해주세요!</div>
+        </SChattingContent>
       </SChattingContainer>
+      <SMessageContainer>
+        <textarea cols="38" rows="1" />
+        {/* 메시지 전송 버튼 */}
+        <button>
+          <FontAwesomeIcon className="send-icon" icon={faPaperPlane} />
+        </button>
+      </SMessageContainer>
       <SUsersContainer>
         <span>
           <img className="lecturer" src={thumbnailImg} alt="" />
