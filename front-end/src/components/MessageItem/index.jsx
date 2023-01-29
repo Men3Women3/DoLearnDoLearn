@@ -124,7 +124,7 @@ const MessageItem = ({ data, readMessage }) => {
         </div>
         {deleteModalOpen ? (
           <MessageDeleteModal
-            data={data}
+            messageId={data.id}
             open={deleteModalOpen}
             handleClose={handleDeleteModalClose}
           />
