@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as S from "./styles";
 import * as f from "@fortawesome/free-solid-svg-icons";
+import LectureModalButton from "../LectureModalButton";
 
 const style = {
   position: "absolute",
@@ -65,6 +66,7 @@ const LectureModal = ({ data, open, handleClose }) => {
               <S.SDetail>{data.content}</S.SDetail>
             </S.SInfoItem>
             {/* 8. 여기는 각 경우에 따른 추가 컴포넌트 띄우는 곳 */}
+            <LectureModalButton data={data} />
           </div>
         </Box>
       </Modal>
