@@ -3,10 +3,8 @@ package com.example.dolearn.domain;
 import com.example.dolearn.dto.BoardDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -23,6 +21,7 @@ import java.util.List;
 @Getter
 @Builder
 @DynamicUpdate //Update 시에 변경된 필드만 대응
+@Slf4j
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,6 +87,8 @@ public class Board {
         SimpleDateFormat foramatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String date = foramatter.format(input);
+
+        log.info("date: {}",date);
 
         return date;
     }
