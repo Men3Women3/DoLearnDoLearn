@@ -11,11 +11,6 @@ const BoardList = ({ list, setList }) => {
   const offset = (page - 1) * limit; // 첫 게시물의 위치
   // ======================================================
 
-  // const boardData = async () => {
-  //   const res = await axios.get(`${SERVER_URL}/board/list`);
-  //   setList(res.data.response);
-  // };
-
   useEffect(() => {
     // 게시판의 데이터를 받아오는 작업을 하는 부분(boardList)
     boardListAPI(setList);

@@ -194,17 +194,37 @@ const Login = () => {
                 marginBottom: "30px",
               }}
             />
-            <SnaverLoginButton>
+            <SnaverLoginButton
+              type="button"
+              onClick={(e) =>
+                (window.location.href =
+                  // 주소 수정해야 됨
+                  "http://localhost:8080/oauth2/authorization/google")
+              }
+            >
               <img src={naverLogoImg} alt="naver_logo" />
               네이버로 로그인
             </SnaverLoginButton>
 
-            <SkakaoLoginButton>
+            <SkakaoLoginButton
+              type="button"
+              onClick={(e) =>
+                (window.location.href =
+                  // 주소 수정해야 됨
+                  "http://localhost:8080/oauth2/authorization/google")
+              }
+            >
               <img src={kakaoLogoImg} alt="kakao_logo" />
               카카오로 로그인
             </SkakaoLoginButton>
 
-            <SgoogleLoginButton>
+            <SgoogleLoginButton
+              type="button"
+              onClick={(e) =>
+                (window.location.href =
+                  "http://localhost:8080/oauth2/authorization/google")
+              }
+            >
               <img src={googleLogoImg} alt="google_logo" />
               구글로 로그인
             </SgoogleLoginButton>

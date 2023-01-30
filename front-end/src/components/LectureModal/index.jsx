@@ -77,7 +77,9 @@ const LectureModal = ({ data, open, handleClose }) => {
           <S.SInfoItem>
             {/* 6. 수강생 신청 현황 */}
             <S.SStudent icon={f.faChalkboardUser}></S.SStudent>
-            <S.SSpan>수강생 신청 현황 | {data.students} / 5명</S.SSpan>
+            <S.SSpan>
+              수강생 신청 현황 | {data.students} / {data.maxCnt}명
+            </S.SSpan>
           </S.SInfoItem>
           <S.SInfoItem>
             {/* 7. 강의 디테일 */}
