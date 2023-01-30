@@ -99,15 +99,21 @@ public class UserController {
     @PutMapping
     public ResponseEntity<?> update(@RequestPart(value="imgSrc") MultipartFile imgSrc, @Valid @RequestPart(value="userDto") UserDto reqUserDto) {
         try{
-            String totalPath = "";
+            String totalPath = "";      // 저장될 이미지 파일 전체 경로
+
+                                        // 오늘날짜로 폴더 명명
             String today = new SimpleDateFormat("yyMMdd").format(new Date());
             String saveFolder = filePath + File.separator + today;
-            String saveFileName = "";
+
+            String saveFileName = "";   // 저장될 이미지 파일 이름
+            String prevFileName = "";   // 현재 저장되어 있는 이미지 파일 이름
+
             File folder = new File(saveFolder);
 
             if(imgSrc != null){
                 if(!folder.exists())
                     folder.mkdirs();
+                prevFileName = userService.getInfo(reqUserDto.getId()).getImgSrc();
                 String originalFileName = imgSrc.getOriginalFilename();
                 saveFileName = System.nanoTime()+originalFileName.substring(originalFileName.lastIndexOf('.'));
                 totalPath = saveFolder + File.separator + saveFileName;
@@ -115,8 +121,11 @@ public class UserController {
             reqUserDto.setImgSrc(totalPath);
             UserDto userDto = userService.updateInfo(reqUserDto);
 
-            if(imgSrc != null)
+            // 기존 파일 삭제 & 새로운 파일 저장
+            if(imgSrc != null){
+               new File(prevFileName).delete();
                 imgSrc.transferTo(new File(folder, saveFileName));
+            }
 
             return new ResponseEntity<>(new SuccessResponse(userDto), HttpStatus.OK);
         } catch (CustomException e) {
