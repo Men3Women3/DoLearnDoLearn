@@ -1,18 +1,13 @@
 package com.example.dolearn.handler;
 
 import com.example.dolearn.domain.User;
-import com.example.dolearn.dto.JwtToken;
 import com.example.dolearn.dto.OAuthAttributes;
 import com.example.dolearn.jwt.JwtTokenProvider;
 import com.example.dolearn.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
