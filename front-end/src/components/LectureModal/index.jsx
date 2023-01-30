@@ -4,7 +4,6 @@ import Modal from "@mui/material/Modal";
 import * as S from "./styles";
 import * as f from "@fortawesome/free-solid-svg-icons";
 import LectureModalButton from "../LectureModalButton";
-import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -53,10 +52,8 @@ const LectureModal = ({ data, open, handleClose }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        {/* 여기는 제목 */}
         {/* 1. 제목 */}
         <S.STitle>{data.title}</S.STitle>
-        {/* 여기는 내용 */}
         <div id="modal-modal-description" sx={{ mt: 2 }}>
           <S.SInfoItem>
             {/* 3. 모집 기간 */}

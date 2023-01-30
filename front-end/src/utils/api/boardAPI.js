@@ -15,16 +15,16 @@ export const boardListAPI = async (setList) => {
 // 신규 강의 등록 API
 
 // 수강 신청 API
-export const enrollClassAPI = async (userInfo.id, data.id) => {
-    try {
-        await axios.post(`${SERVER_URL}/student`, {
-            uid: userInfo.id,
-            bid: data.id
-        });
-        console.log("수강 신청 성공");
-    } catch(err) {
-        console.log(err);
-    }
+export const enrollClassAPI = async (uid, bid) => {
+  try {
+    await axios.post(`${SERVER_URL}/student`, {
+      uid,
+      bid,
+    });
+    console.log("수강 신청 성공");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // 강사 신청 API

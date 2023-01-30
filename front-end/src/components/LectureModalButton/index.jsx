@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { LoginStateContext } from "../../App";
 import { SButton, SGroup } from "./styles";
 import axios from "axios";
+import { enrollClassAPI } from "../../utils/api/boardAPI";
 
 const LectureModalButton = ({ data }) => {
   const BOARD_URL = "http://localhost:8080/board";
@@ -9,17 +10,21 @@ const LectureModalButton = ({ data }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
   // api 요청 내용 ==============================================================
+  // const enrollClass = async () => {
+  //   try {
+  //     await axios.post(`${BOARD_URL}/student`, {
+  //       uid: userInfo.id,
+  //       bid: data.id,
+  //     });
+  //     console.log("수강 신청 성공");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   // 수강 신청
-  const enrollClass = async () => {
-    try {
-      await axios.post(`${BOARD_URL}/student`, {
-        uid: userInfo.id,
-        bid: data.id,
-      });
-      console.log("수강 신청 성공");
-    } catch (err) {
-      console.log(err);
-    }
+  const handleEnroll = () => {
+    enrollClassAPI(userInfo.id, data.id);
   };
 
   // 강사 신청
@@ -83,7 +88,7 @@ const LectureModalButton = ({ data }) => {
       {isLogined ? (
         <SGroup>
           <SButton onClick={enrollLecturer}>강사 신청</SButton>
-          <SButton onClick={enrollClass}>수강생 신청</SButton>
+          <SButton onClick={handleEnroll}>수강생 신청</SButton>
         </SGroup>
       ) : (
         ""

@@ -19,7 +19,7 @@ const BoardList = ({ list, setList }) => {
   useEffect(() => {
     // 게시판의 데이터를 받아오는 작업을 하는 부분(boardList)
     boardListAPI(setList);
-  }, [list]);
+  }, []);
 
   return (
     <>
