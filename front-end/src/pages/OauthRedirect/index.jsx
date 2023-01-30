@@ -20,7 +20,7 @@ const OauthRedirect = () => {
     navigate("/");
   }, []);
 
-  return <div>OauthRedirects</div>;
+  return <div></div>;
 };
 
 export default OauthRedirect;
