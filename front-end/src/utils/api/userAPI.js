@@ -287,7 +287,7 @@ export const signupAPI = (
     .then((response) => {
       console.log("서버에 데이터 보내기 성공!");
       // 회원가입 성공했으면 메인 페이지로 이동
-      navigate("/");
+      navigate("/login");
     })
     .catch((error) => {
       console.log("서버에 데이터 보내기 실패!");

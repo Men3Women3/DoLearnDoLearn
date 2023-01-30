@@ -53,6 +53,7 @@ const SamplePrevArrow = (props) => {
 
 const NewBoard = () => {
   const SERVER_URL = "http://localhost:8080";
+  const [axiosFlag, setAxiosFlag] = useState(false);
 
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
@@ -98,8 +99,7 @@ const NewBoard = () => {
     outline: "none",
   };
 
-  const handleOpen = (e) => {
-    handleRegister();
+  const handleOpen = () => {
     if (
       !imgSelect ||
       !title ||
@@ -122,20 +122,23 @@ const NewBoard = () => {
   // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
   const handleRegister = async () => {
     try {
-      await axios.post(`${SERVER_URL}/board`, {
-        uid: userInfo.id,
-        tid: imgSelect,
-        title,
-        maxCnt: participant,
-        content: detail,
-        summary,
-        startTime: lectureDay + " " + lectureTime,
-        endTime: classTime,
-        deadline,
-        isFixed: 0,
-      });
-      console.log("완성");
-      navigate("/board");
+      if (!axiosFlag) {
+        await axios.post(`${SERVER_URL}/board`, {
+          uid: userInfo.id,
+          tid: imgSelect,
+          title,
+          maxCnt: participant,
+          content: detail,
+          summary,
+          startTime: lectureDay + " " + lectureTime,
+          endTime: classTime,
+          deadline,
+          isFixed: 0,
+        });
+        console.log("완성");
+        navigate("/board");
+        setAxiosFlag(true);
+      }
     } catch (err) {
       console.log(err);
       // console.log("서버에 데이터 보내기 실패");
