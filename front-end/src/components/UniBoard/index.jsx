@@ -17,6 +17,7 @@ import axios from "axios";
 // 개별 게시물 component
 const UniBoard = ({ data }) => {
   const BOARD_URL = "http://localhost:8080/board";
+  const [lectListTest, setLectListTest] = useState([]);
 
   // Modal 파트 ========================
   const [open, setOpen] = useState(false);
@@ -25,30 +26,37 @@ const UniBoard = ({ data }) => {
   // ===================================
 
   // 강사 및 수강생 목록 호출 ==========
+  const aioxTest = async () => {
+    const board = data.id;
+    const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
+    setLectListTest(res.data.uid);
+    console.log(lectListTest);
+  };
+
   // 이것도 왜 안되는지 확인 필요===========
-  const [lecturer, setLecturer] = useState([]);
-  const [student, setStudent] = useState([]);
-  const bringList = async () => {
-    const board = data.id;
-    try {
-      const res1 = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
-      setLecturer(res1);
-      const res2 = await axios.get(`${BOARD_URL}/student-list/${board}`);
-      setStudent(res2);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const [lecturer, setLecturer] = useState([]);
+  // const [student, setStudent] = useState([]);
+  // const bringList = async () => {
+  //   const board = data.id;
+  //   try {
+  //     const res1 = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
+  //     setLecturer(res1);
+  //     const res2 = await axios.get(`${BOARD_URL}/student-list/${board}`);
+  //     setStudent(res2);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   // ===================================
-  const func = async () => {
-    const board = data.id;
-    try {
-      const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const func = async () => {
+  //   const board = data.id;
+  //   try {
+  //     const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
+  //     console.log(res);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   // func();
 
   const startTime = data.createdTime.substring(5, 10);
@@ -92,7 +100,12 @@ const UniBoard = ({ data }) => {
         </div>
       </div>
       {open ? (
-        <LectureModal data={data} open={open} handleClose={handleClose} />
+        <LectureModal
+          data={data}
+          open={open}
+          setOpen={setOpen}
+          handleClose={handleClose}
+        />
       ) : null}
     </SUniBoard>
   );

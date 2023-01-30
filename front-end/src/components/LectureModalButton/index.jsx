@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LoginStateContext } from "../../App";
 import { SButton, SGroup } from "./styles";
 import {
@@ -8,10 +8,11 @@ import {
   fixClassAPI,
 } from "../../utils/api/boardAPI";
 
-const LectureModalButton = ({ data }) => {
+const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
   // api 요청 내용 ===================================
+  // 수강 신청
   const enrollClass = () => {
     enrollClassAPI(userInfo.id, data.id);
   };
@@ -19,16 +20,19 @@ const LectureModalButton = ({ data }) => {
   // 강사 신청
   const enrollLecturer = () => {
     enrollLecturerAPI(userInfo.id, data.id);
+    setOpen(false);
   };
 
   // 신청 취소
   const deleteClass = () => {
     deleteEnrollAPI(userInfo.id, data.id);
+    setOpen(false);
   };
 
-  // 강의 확정
+  // 방장의 강의 확정
   const fixClass = () => {
     fixClassAPI(data.id);
+    setOpen(false);
   };
   // =================================================
   return (

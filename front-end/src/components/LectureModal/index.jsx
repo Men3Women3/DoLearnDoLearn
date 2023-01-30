@@ -18,25 +18,8 @@ const style = {
   padding: "3vw",
 };
 
-// Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
-const LectureModal = ({ data, open, handleClose }) => {
-  // 이거 왜 안되는데 왜왜왜왜왜왜왜왜왜왜왜왜왜...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // const [lecturer, setLecturer] = useState([]);
-  // const [student, setStudent] = useState([]);
-
-  // const handleList = async () => {
-  //   const board = data.id;
-  //   const lect = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
-  //   const stud = await axios.get(`${BOARD_URL}/student-list/${board}`);
-  //   console.log(lect);
-  //   console.log(stud);
-  // };
-
-  // useEffect(() => {
-  //   handleList();
-  // }, []);
-  // ===========================================================================
-
+// Uniboard에서 데이터 받아올 것
+const LectureModal = ({ data, open, setOpen, handleClose }) => {
   const createdTime = data.createdTime.substring(0, 10); // 모집시작
   const deadline = data.deadline.substring(0, 10); // 모집마감
   const startTime = data.startTime.substring(0, 16); // 강의시작
@@ -85,7 +68,12 @@ const LectureModal = ({ data, open, handleClose }) => {
             <S.SDetail>{data.content}</S.SDetail>
           </S.SInfoItem>
           {/* 8. 여기는 각 경우에 따른 추가 컴포넌트 띄우는 곳 */}
-          <LectureModalButton data={data} />
+          <LectureModalButton
+            data={data}
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose}
+          />
         </div>
       </Box>
     </Modal>
