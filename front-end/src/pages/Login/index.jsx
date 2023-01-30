@@ -39,7 +39,7 @@ import animationData from "../../assets/images/LOGIN";
 import axios from "axios";
 import { useContext } from "react";
 import { LoginStateContext, LoginStateHandlerContext } from "../../App";
-import { loginAPI } from "../../utils/api";
+import { loginAPI } from "../../utils/api/userAPI";
 
 const style = {
   position: "absolute",

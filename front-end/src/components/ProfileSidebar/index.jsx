@@ -12,7 +12,7 @@ import { faCalendarXmark } from "@fortawesome/free-regular-svg-icons";
 import WarningModal from "../WarningModal";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { deleteUserAPI } from "../../utils/api";
+import { deleteUserAPI } from "../../utils/api/userAPI";
 
 const ProfileSidebar = (props) => {
   const navigate = useNavigate();

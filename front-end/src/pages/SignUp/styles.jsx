@@ -252,6 +252,20 @@ export const SSelfIntroduction = styled.textarea`
   &::placeholder {
     color: #cdcdcd;
   }
+
+  /* 스크롤바 */
+  /* Chrome, Edge, and Safari */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #c2c2c2;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
 `;
 
 export const SSNSContainer = styled.div`

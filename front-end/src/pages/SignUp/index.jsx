@@ -47,7 +47,7 @@ import axios from "axios";
 import Lottie from "react-lottie";
 import animationData from "../../assets/images/SIGNUP";
 import { useEffect } from "react";
-import { signupAPI } from "../../utils/api";
+import { signupAPI } from "../../utils/api/userAPI";
 
 const style = {
   position: "absolute",

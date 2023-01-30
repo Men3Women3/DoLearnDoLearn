@@ -9,7 +9,7 @@ import Loading from "./pages/Loading";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-import { getUserInfoAndUpdate, logoutAPI } from "./utils/api";
+import { getUserInfoAndUpdate, logoutAPI } from "./utils/api/userAPI";
 
 // 코드 스플리팅 (Code Splitting)
 const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
