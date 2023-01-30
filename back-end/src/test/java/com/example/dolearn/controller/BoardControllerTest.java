@@ -94,7 +94,7 @@ public class BoardControllerTest {
 
     @DisplayName("글 상세보기")
     @Test
-    public void boadDetilTest() throws Exception{
+    public void boardDetailTest() throws Exception{
 
         when(bService.selectDetail(any())).thenReturn(boardDto1);
 
