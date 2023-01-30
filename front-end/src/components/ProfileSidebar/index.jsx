@@ -10,8 +10,17 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons";
 import { faCalendarXmark } from "@fortawesome/free-regular-svg-icons";
 import WarningModal from "../WarningModal";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { deleteUserAPI } from "../../utils/api/userAPI";
 
 const ProfileSidebar = (props) => {
+  const navigate = useNavigate();
+
+  const handleDeleteUser = () => {
+    deleteUserAPI();
+  };
+
   return (
     <SSidebarContainer>
       {/* 프로필 탭 */}
@@ -74,6 +83,7 @@ const ProfileSidebar = (props) => {
           warningContent="회원 탈퇴 후에는 아이디와 데이터를 복구할 수 없습니다."
           content="탈퇴를 원하시면 확인을 눌러주세요."
           profileSidebar
+          handler={handleDeleteUser}
         />
 
         {/* 강사가 강의 취소 시 (아직 넣을 컴포넌트가 없어서 여기서 임시로 테스트) */}

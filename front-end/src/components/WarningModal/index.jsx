@@ -65,7 +65,9 @@ const WarningModal = (props) => {
             </SUl>
           </Typography>
           <SButtonContainer>
-            <button className="delete-button">확인</button>
+            <button className="delete-button" onClick={props.handler}>
+              확인
+            </button>
             <button className="cancel-button" onClick={handleClose}>
               취소
             </button>

@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { SWriteButton } from "./styles";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LoginStateContext } from "../../App";
 
 const WriteButton = () => {
+  // context api를 통해 로그인 상태 받아오기
+  const { isLogined, userInfo } = useContext(LoginStateContext);
+
   const navigate = useNavigate();
 
   function handleWriteBoard() {
-    // 글쓰기 게시판으로 보내줭
-    // 일단 main으로 가볼게
-    navigate("/write");
+    // 로그인이 되어있으면 글쓰러 가고, 아니면 로그인창
+    if (isLogined) {
+      navigate("/write");
+    } else {
+      navigate("/login");
+    }
   }
 
   return (

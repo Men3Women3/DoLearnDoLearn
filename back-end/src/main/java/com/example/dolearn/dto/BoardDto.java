@@ -2,6 +2,8 @@ package com.example.dolearn.dto;
 
 import com.example.dolearn.domain.Board;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +15,7 @@ import java.util.Date;
 @Setter
 @ToString
 @Builder
+@Slf4j
 public class BoardDto {
     private Long id;
 
@@ -45,6 +48,19 @@ public class BoardDto {
     public void setCounts(int instructors, int students){
         this.instructors= instructors;
         this.students= students;
+
+        log.info("강사 수: {} 학생 수: {}",instructors,students);
+    }
+
+    public void setTimes(){
+        String[] temp = startTime.split(" ");
+        int hour = Integer.parseInt(temp[1])+Integer.parseInt(endTime);
+
+        startTime = this.startTime.concat(":00:00");
+        endTime = temp[0].concat(String.format(" %d:00:00",hour));
+        deadline = deadline.concat(" 00:00:00");
+
+        log.info("startTime: {} endTime:{}",startTime, endTime);
     }
 
     public Board toEntity() throws ParseException {
