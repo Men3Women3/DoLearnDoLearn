@@ -2,68 +2,38 @@ import React, { useContext, useEffect } from "react";
 import { LoginStateContext } from "../../App";
 import { SButton, SGroup } from "./styles";
 import axios from "axios";
-import { enrollClassAPI } from "../../utils/api/boardAPI";
+import {
+  deleteEnrollAPI,
+  enrollClassAPI,
+  enrollLecturerAPI,
+  fixClassAPI,
+} from "../../utils/api/boardAPI";
 
 const LectureModalButton = ({ data }) => {
   const BOARD_URL = "http://localhost:8080/board";
 
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
-  // api 요청 내용 ==============================================================
-  // const enrollClass = async () => {
-  //   try {
-  //     await axios.post(`${BOARD_URL}/student`, {
-  //       uid: userInfo.id,
-  //       bid: data.id,
-  //     });
-  //     console.log("수강 신청 성공");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // 수강 신청
-  const handleEnroll = () => {
+  // api 요청 내용 ===================================
+  const enrollClass = () => {
     enrollClassAPI(userInfo.id, data.id);
   };
 
   // 강사 신청
-  const enrollLecturer = async () => {
-    try {
-      await axios.post(`${BOARD_URL}/instructor`, {
-        uid: userInfo.id,
-        bid: data.id,
-      });
-      console.log("강사 신청 성공");
-    } catch (err) {
-      console.log(err);
-    }
+  const enrollLecturer = () => {
+    enrollLecturerAPI(userInfo.id, data.id);
   };
 
   // 신청 취소
-  const deleteClass = async () => {
-    const user = userInfo.id;
-    const lecture = data.id;
-    try {
-      await axios.delete(`${BOARD_URL}/apply/${user}/${lecture}`);
-      console.log("신청 취소 성공");
-    } catch (err) {
-      console.log(err);
-    }
+  const deleteClass = () => {
+    deleteEnrollAPI(userInfo.id, data.id);
   };
 
   // 강의 확정
-  const fixClass = async () => {
-    const lecture = data.id;
-    try {
-      await axios.put(`${BOARD_URL}/${lecture}`);
-      console.log("강의 확정 성공");
-    } catch (err) {
-      console.log(err);
-    }
+  const fixClass = () => {
+    fixClassAPI(data.id);
   };
-  // ============================================================================
-
+  // =================================================
   return (
     <>
       {/* 1. 방장 / 강의 미확정 */}
@@ -88,7 +58,7 @@ const LectureModalButton = ({ data }) => {
       {isLogined ? (
         <SGroup>
           <SButton onClick={enrollLecturer}>강사 신청</SButton>
-          <SButton onClick={handleEnroll}>수강생 신청</SButton>
+          <SButton onClick={enrollClass}>수강생 신청</SButton>
         </SGroup>
       ) : (
         ""

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
@@ -17,9 +16,8 @@ import studyImg from "../../assets/images/thumbnail/study.svg";
 import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
 import * as S from "./styles.jsx";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { LoginStateContext } from "../../App";
-import { useEffect } from "react";
+import { newBoardAPI } from "../../utils/api/boardAPI";
 
 const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -52,8 +50,7 @@ const SamplePrevArrow = (props) => {
 };
 
 const NewBoard = () => {
-  const SERVER_URL = "http://localhost:8080";
-  const [axiosFlag, setAxiosFlag] = useState(false);
+  // const SERVER_URL = "http://localhost:8080";
 
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
@@ -84,6 +81,7 @@ const NewBoard = () => {
   // 이미지 클릭했을 때 해당 인덱스 번호로 imgSelect 갱신
   const toggleSelect = (e) => {
     setImgSelect(e.target.className);
+    console.log(imgSelect);
   };
 
   // 모달 스타일
@@ -119,39 +117,21 @@ const NewBoard = () => {
 
   const handleClose = () => setOpen(false);
 
-  // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
-  const handleRegister = async () => {
-    try {
-      if (!axiosFlag) {
-        await axios.post(`${SERVER_URL}/board`, {
-          uid: userInfo.id,
-          tid: imgSelect,
-          title,
-          maxCnt: participant,
-          content: detail,
-          summary,
-          startTime: lectureDay + " " + lectureTime,
-          endTime: classTime,
-          deadline,
-          isFixed: 0,
-        });
-        console.log("완성");
-        navigate("/board");
-        setAxiosFlag(true);
-      }
-    } catch (err) {
-      console.log(err);
-      // console.log("서버에 데이터 보내기 실패");
-      // console.log("사용자 아이디: ", userInfo.id);
-      // console.log("강의 제목: ", title);
-      // console.log("썸네일 인덱스 번호: ", imgSelect);
-      // console.log("모집 인원: ", participant);
-      // console.log("모집종료기간: ", deadline);
-      // console.log("강의 날짜 및 시간: ", lectureDay + " " + lectureTime);
-      // console.log("총 강의 시간: ", classTime);
-      // console.log("강의 요약: ", summary);
-      // console.log("강의 상세: ", detail);
-    }
+  // 등록 버튼 클릭으로 작동
+  const handleRegister = () => {
+    newBoardAPI(
+      userInfo.id,
+      imgSelect,
+      title,
+      participant,
+      detail,
+      summary,
+      lectureDay + " " + lectureTime,
+      classTime,
+      deadline,
+      0
+    );
+    navigate("/board");
   };
 
   // 이미지 캐러쉘 세팅 옵션
