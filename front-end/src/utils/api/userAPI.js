@@ -294,3 +294,47 @@ export const signupAPI = (
       console.log(error);
     });
 };
+
+// 유저의 확정된 강의 목록 api를 요청하는 함수
+export const getFixedLecture = (userInfo, setTodayScedule) => {
+  let totalFixedLectures = [];
+  axios
+    .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
+    // .get(`http://localhost:8080/user/fixed-lecture/1`)
+    .then((response) => {
+      const responseData = response.data.response;
+      totalFixedLectures = [...responseData];
+      const todayLectures = totalFixedLectures.filter((item) => {
+        const startTime = item.startTime;
+        const year = new Date().getFullYear();
+        const month = new Date().getMonth() + 1;
+        // const day = new Date().getDate();
+        const day = 29;
+        if (
+          year === +startTime.slice(0, 4) &&
+          month === +startTime.slice(5, 7) &&
+          day === +startTime.slice(8, 10)
+        ) {
+          return true;
+        }
+      });
+      setTodayScedule(todayLectures);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
+
+// 유저가 신청한 전제 목록 api를 요청하는 함수
+export const getRequestLecture = (userInfo, setTotalSchedule) => {
+  axios
+    .get(`${axiosDefaultURL}/user/request-lecture/${userInfo.id}`)
+    // .get(`http://localhost:8080/user/request-lecture/1`)
+    .then((response) => {
+      const responseData = response.data.response;
+      setTotalSchedule(responseData);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
