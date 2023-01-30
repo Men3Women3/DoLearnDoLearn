@@ -47,6 +47,7 @@ import axios from "axios";
 import Lottie from "react-lottie";
 import animationData from "../../assets/images/SIGNUP";
 import { useEffect } from "react";
+import { signupAPI } from "../../utils/api/userAPI";
 
 const style = {
   position: "absolute",
@@ -150,27 +151,17 @@ const SignUp = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (isNext === true) {
-      axios
-        .post(`${axiosDefaultURL}/user`, {
-          // 보내야 될 데이터
-          name: username,
-          email,
-          password,
-          info: selfIntroduction,
-          blog: blogLink,
-          youtube: youtubeLink,
-          instagram: instagramLink,
-          facebook: facebookLink,
-        })
-        .then((response) => {
-          console.log("서버에 데이터 보내기 성공!");
-          // 회원가입 성공했으면 메인 페이지로 이동
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log("서버에 데이터 보내기 실패!");
-          console.log(error);
-        });
+      signupAPI(
+        username,
+        email,
+        password,
+        selfIntroduction,
+        blogLink,
+        youtubeLink,
+        instagramLink,
+        facebookLink,
+        navigate
+      );
     }
   };
 

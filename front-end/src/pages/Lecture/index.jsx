@@ -1,13 +1,23 @@
 import React from "react";
 import LectureCameraContainer from "../../components/LectureCameraContainer";
 import LectureChattingContainer from "../../components/LectureChattingContainer";
-import { SMainContainer } from "./styles";
+import LiveOptionContainer from "../../components/LiveOptionContainer";
+import {
+  SMainContainer,
+  SLeftItemContainer,
+  SRightItemContainer,
+} from "./styles";
 
 const Lecture = () => {
   return (
     <SMainContainer>
-      <LectureCameraContainer></LectureCameraContainer>
-      <LectureChattingContainer></LectureChattingContainer>
+      <SLeftItemContainer>
+        <LectureCameraContainer></LectureCameraContainer>
+        <LiveOptionContainer />
+      </SLeftItemContainer>
+      <SRightItemContainer>
+        <LectureChattingContainer></LectureChattingContainer>
+      </SRightItemContainer>
     </SMainContainer>
   );
 };
