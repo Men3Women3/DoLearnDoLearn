@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components"
 
 export const Box = styled.main`
   width: 100%;
@@ -57,7 +57,15 @@ export const Box = styled.main`
     }
     .unread__notification {
       cursor: pointer;
-      font-size: ${(props) => props.theme.fontSize.h2};
+      width: calc(1vw + 5px);
+      height: calc(1vw + 5px);
+    }
+    .unread__notification:hover {
+      -webkit-animation: fa-shake 2s infinite linear;
+      -moz-animation: fa-shake 2s infinite linear;
+      -o-animation: fa-shake 2s infinite linear;
+      animation: fa-shake 2s infinite linear;
+      color: #ed6c02;
     }
     .user-state {
       background-color: black;
@@ -65,7 +73,7 @@ export const Box = styled.main`
       /* margin-left: calc(1vw + 6px); */
       border-radius: 8px;
       color: white;
-      margin-left: calc(1vw + 1px);
+      margin-left: calc(1vw + 15px);
     }
     .username {
       color: black;
@@ -77,10 +85,10 @@ export const Box = styled.main`
       margin-bottom: 0px;
       cursor: pointer;
     } */
-    span {
+    /* span {
       margin: 0px 12px;
       cursor: default;
-    }
+    } */
     .user-state {
       color: white;
       font-size: ${(props) => props.theme.fontSize.p};
@@ -105,8 +113,14 @@ export const Box = styled.main`
     margin-bottom: 0px;
     cursor: pointer;
   }
-  .unread-container {
-    position: relative;
+  /* .unread-container { */
+  /* position: relative; */
+  .MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightRectangular.MuiBadge-overlapRectangular.MuiBadge-colorWarning.MuiBadge-badge.css-x3w4s2-MuiBadge-badge {
+    font-size: 0.5vw;
+    height: 1.2vw;
+    min-width: 1.2vw;
+    border-radius: 50%;
+    right: -0.3vw;
   }
   .unread-message {
     position: absolute;
@@ -119,4 +133,8 @@ export const Box = styled.main`
   .user-state-nuLogined {
     color: white;
   }
-`;
+  #division {
+    margin: 0px 12px;
+    cursor: default;
+  }
+`

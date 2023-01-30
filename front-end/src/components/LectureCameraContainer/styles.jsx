@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const SContainer = styled.section`
+  height: 85%;
   width: 100%;
-  margin: calc(1vw + 8px);
+  margin: calc(1vw + 8px) 0px;
 `;
 
 export const SStudentsContainer = styled.div`
@@ -21,7 +22,7 @@ export const SStudentsContainer = styled.div`
 
 export const SLecturerCameraContainer = styled.div`
   width: 100%;
-  height: 70%;
+  height: 80%;
   display: flex;
   justify-content: center;
 `;
@@ -38,7 +39,8 @@ export const SOptionContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #242424;
+  /* background-color: #242424; */
+  background-color: #fffbe6;
   text-align: center;
   margin: auto;
   width: 65%;
@@ -59,9 +61,10 @@ export const SOptionContainer = styled.div`
     outline: none;
   }
   button:hover {
-    background-color: #585858;
+    background-color: #ffc07d;
     .icon {
-      color: ${(props) => props.theme.deeperYellow};
+      /* color: ${(props) => props.theme.deeperYellow}; */
+      color: white;
     }
   }
   /* select {

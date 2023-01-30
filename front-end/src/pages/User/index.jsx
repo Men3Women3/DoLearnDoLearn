@@ -21,12 +21,6 @@ const User = () => {
   const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(false);
   const [isMessageTabActive, setIsMessageTabActive] = useState(false);
   const [isProfileEditActive, setIsProfileEditActive] = useState(false);
-  const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
 
   // ProfileSidebar에 내려줄 함수
   // ProfileSidebar에 있는 4개의 탭 중 하나를 클릭하면 그 탭의 클래스네임을 매칭해서
@@ -76,7 +70,7 @@ const User = () => {
         {/* navbar 부분 그리드 설정 */}
         <Grid item xs={0} md={1.5} />
         <Grid item xs={12} md={9}>
-          <Navbar isLogined logout={logout} />
+          <Navbar />
         </Grid>
         <Grid item xs={0} md={1.5} />
 

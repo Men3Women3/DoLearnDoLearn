@@ -1,22 +1,31 @@
 package com.example.dolearn.service;
 
+import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.User;
+import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
+import com.example.dolearn.repository.BoardRepository;
 import com.example.dolearn.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class UserService {
-    
+
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -111,5 +120,37 @@ public class UserService {
         UserDto userDto = user.get().toDto();
         userDto.setPoint(userDto.getPoint() + point);
         return userRepository.save(userDto.toEntity()).toDto();
+    }
+
+    public List<BoardDto> getRequestLecture(Long id) throws ParseException {
+        if(id == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        List<Board> reqBoardEntity = boardRepository.findRequestLectureByUid(id);
+        List<BoardDto> reqBoardDto = new ArrayList<>();
+        for(Board bEntity: reqBoardEntity){
+            reqBoardDto.add(bEntity.toDto());
+        }
+        return reqBoardDto;
+    }
+
+    public List<BoardDto> getFixedLecture(Long id) throws ParseException {
+        if(id == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        List<Board> reqBoardEntity = boardRepository.findFixedLectureByUid(id);
+        List<BoardDto> reqBoardDto = new ArrayList<>();
+        for(Board bEntity: reqBoardEntity){
+            reqBoardDto.add(bEntity.toDto());
+        }
+        return reqBoardDto;
     }
 }

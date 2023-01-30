@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity(name = "user_board")
+@Entity(name = "member_board")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -32,7 +32,7 @@ public class UserBoard {
     @JoinColumn(name = "bid", insertable = false, updatable = false)
     private Board board;
 
-    @Column(name = "user_type")
+    @Column(name = "member_type")
     private String user_type;
 
     public UserBoardDto toDto(){

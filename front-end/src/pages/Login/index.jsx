@@ -39,6 +39,7 @@ import animationData from "../../assets/images/LOGIN";
 import axios from "axios";
 import { useContext } from "react";
 import { LoginStateContext, LoginStateHandlerContext } from "../../App";
+import { loginAPI } from "../../utils/api/userAPI";
 
 const style = {
   position: "absolute",
@@ -67,7 +68,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEmpty, setIsEmpty] = useState("");
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [isCorrectPassword, setIsCorrectPassword] = useState("");
+  const [isCorrectEmail, setIsCorrectEmail] = useState("");
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
@@ -79,28 +81,16 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!open) {
-      axios
-        .post(`${axiosDefaultURL}/user/login`, {
-          email,
-          password,
-        })
-        .then((response) => {
-          const responseData = response.data.response;
-          localStorage.clear();
-          // 로그인 성공하면 localStorage에 토큰과 유저 id 저장
-          localStorage.setItem("accessToken", responseData.accessToken);
-          localStorage.setItem("refreshToken", responseData.refreshToken);
-          localStorage.setItem("id", responseData.id);
-          // 유저 정보 상태 변경
-          handleUserInfo(responseData);
-          // 로그인 상태 변경
-          handleIsLogined();
-          // 메인페이지로 이동
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
+      // 로그인 api 요청
+      loginAPI(
+        email,
+        password,
+        handleUserInfo,
+        handleIsLogined,
+        setIsCorrectEmail,
+        setIsCorrectPassword,
+        navigate
+      );
     }
   };
 
@@ -126,6 +116,14 @@ const Login = () => {
   const handleOnPassword = useCallback((e) => {
     setPassword(e.target.value);
   }, []);
+
+  const handleGoogleLogin = () => {
+    axios
+      .get("http://localhost:8080/oauth2/authorization/google")
+      .then((response) => {
+        console.log(response);
+      });
+  };
 
   return (
     <SMain>
@@ -165,6 +163,7 @@ const Login = () => {
                 className={email ? "active__icon" : ""}
                 icon={faEnvelope}
               />
+              {<p className="warning-message">{isCorrectEmail}</p>}
             </SInputContainer>
             <SInputContainer>
               <SPasswordInput
@@ -178,6 +177,11 @@ const Login = () => {
                 className={password ? "active__icon" : ""}
                 icon={faLock}
               />
+              {isCorrectPassword && (
+                <p className="warning-message password__warning">
+                  {isCorrectPassword}
+                </p>
+              )}
             </SInputContainer>
             <SFindPassword>
               <div>비밀번호 찾기</div>
@@ -209,8 +213,14 @@ const Login = () => {
             </SkakaoLoginButton>
 
             <SgoogleLoginButton>
-              <img src={googleLogoImg} alt="google_logo" />
-              구글로 로그인
+              {/* <div onClick={handleGoogleLogin}>
+                <img src={googleLogoImg} alt="google_logo" />
+                구글로 로그인
+              </div> */}
+              <a href="http://localhost:8080/oauth2/authorization/google">
+                <img src={googleLogoImg} alt="google_logo" />
+                구글로 로그인
+              </a>
             </SgoogleLoginButton>
           </SContainer>
         </SForm>

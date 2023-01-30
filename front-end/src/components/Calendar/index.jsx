@@ -1,16 +1,15 @@
-import React from "react"
-import FullCalendar from "@fullcalendar/react" // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid" // a plugin!
-import timeGridPlugin from "@fullcalendar/timegrid"
-import { SCalendar } from "./styles"
+import React from "react";
+import FullCalendar from "@fullcalendar/react"; // must go before plugins
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { SCalendar } from "./styles";
 
 const Calendar = () => {
   const handleEventClick = (arg) => {
-    alert(arg.event.title)
-    console.log(arg)
-  }
+    alert(arg.event.title);
+    console.log(arg);
+  };
   const eventContent = (eventInfo) => {
-    console.log(eventInfo)
     return (
       <div
         style={{
@@ -24,8 +23,8 @@ const Calendar = () => {
           {eventInfo.event.title}
         </p>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <SCalendar>
@@ -122,7 +121,7 @@ const Calendar = () => {
         eventContent={eventContent}
       />
     </SCalendar>
-  )
-}
+  );
+};
 
-export default Calendar
+export default Calendar;

@@ -1,20 +1,27 @@
 import styled from "styled-components";
 
-// 살펴보기 버튼
-export const SLectureModalButton = styled.button`
-  display: grid;
-  margin: auto;
+export const SGroup = styled.div`
+  display: flex;
+  padding: 0 5vw;
+`;
+
+export const SButton = styled.button`
+  border: none;
   background-color: black;
+  margin: auto;
   color: white;
-  font-family: ${(props) => props.theme.fontFamily};
+  font-family: ${(props) => props.theme.fontFamily.Medium};
   font-size: calc(0.8vw + 0.5px);
-  width: 5vw;
-  height: 4vh;
+  width: 7vw;
+  height: 4.5vh;
   border-radius: 5px;
   cursor: pointer;
   place-items: center;
+  text-align: center;
+
   :hover {
-    background-color: ${(props) => props.theme.deeperYellow};
-    border-color: ${(props) => props.theme.deeperYellow};
+    font-family: ${(props) => props.theme.fontFamily.Bold};
+    transform: translateY(-1px);
+    color: ${(props) => props.theme.deeperYellow};
   }
 `;

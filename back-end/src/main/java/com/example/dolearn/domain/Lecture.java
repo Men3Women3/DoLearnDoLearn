@@ -24,7 +24,7 @@ public class Lecture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="user_cnt", nullable = false)
+    @Column(name="member_cnt", nullable = false)
     private int userCnt;
 
     @Column(length = 100, nullable = true)
@@ -32,10 +32,6 @@ public class Lecture {
 
     @Column(name="is_deleted", columnDefinition = "TINYINT", length=1)
     private int isDeleted;
-
-    @OneToOne
-    @JoinColumn(name="bid")
-    private Board board;
 
     @Column(name="created_time")
     @CreationTimestamp
@@ -52,6 +48,10 @@ public class Lecture {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endRealTime;
+
+    @JoinColumn(name="bid")
+    @OneToOne
+    private Board board;
 
     public LectureDto toMessageDto() {
         return null;

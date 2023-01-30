@@ -1,98 +1,35 @@
-import React from "react";
-import { useState } from "react";
-import MessageItem from "../MessageItem";
-import Pagination from "../Pagination";
+import axios from "axios"
+import React from "react"
+import { useEffect } from "react"
+import { useState } from "react"
+import MessageItem from "../MessageItem"
+import Pagination from "../Pagination"
 
+const SERVER_URL = "http://localhost:8080"
 const Message = () => {
-  const [messageData, setMessageData] = useState([
-    {
-      id: 1,
-      is_checked: true,
-      is_confirm: true,
-      title: "WebSocket 가르쳐주세요!",
-      start_time: "2023.01.14 14:00",
-      end_time: "2023.01.14 16:00",
-      created_time: "01.12 15:27",
-      content: "[확정] WebSocket 가르쳐주세요!",
-      sender: "관리자",
-    },
-    {
-      id: 2,
-      is_checked: false,
-      is_confirm: false,
-      title: "WebSocket 가르쳐주세요!",
-      start_time: "2023.01.14 14:00",
-      end_time: "2023.01.14 16:00",
+  const [messageData, setMessageData] = useState([])
+  const limit = 6
+  const [page, setPage] = useState(1) // 현재 페이지 번호
+  const offset = (page - 1) * limit // 첫 게시물의 위치
 
-      created_time: "01.12 11:53",
-      content: "[폐강] WebSocket 가르쳐주세요!가르쳐주세요!",
-      sender: "관리자",
-    },
-    {
-      id: 3,
-      is_checked: true,
-      is_confirm: true,
-      title: "WebSocket 가르쳐주세요!",
-      start_time: "2023.01.14 14:00",
-      end_time: "2023.01.14 16:00",
+  // 받은 메시지 모두 불러오는 요청
+  const axios_get = async () => {
+    const userId = localStorage.getItem("id")
+    // =================테스트로 1번 유저꺼 가져옴==================
+    // 수정필요!!!!!
+    // =============================================================
+    const res = await axios.get(`${SERVER_URL}/message/user/1`)
+    setMessageData(res.data.response)
+  }
 
-      created_time: "01.10 10:01",
-      content:
-        "[확정] WebSocket 가르쳐주세요!WebSocket 가르쳐주세요!WebSocket 가르쳐주세요!",
-      sender: "관리자",
-    },
-    {
-      id: 4,
-      is_checked: false,
-      is_confirm: false,
-      title: "WebSocket 가르쳐주세요!",
-      start_time: "2023.01.14 14:00",
-      end_time: "2023.01.14 16:00",
-
-      created_time: "01.04 21:01",
-      content: "[폐강] WebSocket 가르쳐주세요!",
-      sender: "관리자",
-    },
-    {
-      id: 5,
-      is_checked: true,
-      is_confirm: true,
-      title: "WebSocket 가르쳐주세요!",
-      start_time: "2023.01.14 14:00",
-      end_time: "2023.01.14 16:00",
-
-      created_time: "12.27 04:33",
-      content: "[확정] WebSocket 가르쳐주세요!",
-      sender: "관리자",
-    },
-    {
-      id: 6,
-      is_checked: true,
-      is_confirm: true,
-      title: "WebSocket 가르쳐주세요!",
-      start_time: "2023.01.14 14:00",
-      end_time: "2023.01.14 16:00",
-
-      created_time: "12.27 04:33",
-      content: "[확정] WebSocket 가르쳐주세요!",
-      sender: "관리자",
-    },
-    {
-      id: 7,
-      is_checked: false,
-      is_confirm: false,
-      title: "WebSocket 가르쳐주세요!",
-      start_time: "2023.01.14 14:00",
-      end_time: "2023.01.14 16:00",
-
-      created_time: "12.27 04:33",
-      content: "[폐강] WebSocket 가르쳐주세요!",
-      sender: "관리자",
-    },
-  ]);
-  const limit = 6;
-  const [page, setPage] = useState(1); // 현재 페이지 번호
-  const offset = (page - 1) * limit; // 첫 게시물의 위치
+  const readMessage = () => {
+    console.log("여기 들어오나요")
+    axios_get()
+  }
+  // 렌더링 될 때마다 해당 유저가 받은 모든 메시지 불러옴
+  useEffect(() => {
+    axios_get()
+  }, [])
 
   return (
     <>
@@ -104,20 +41,22 @@ const Message = () => {
           {messageData.slice(offset, offset + limit).map((item) => {
             return (
               <div key={item.id} style={{ margin: "15px 0" }}>
-                <MessageItem data={item} />
+                <MessageItem data={item} readMessage={readMessage} />
               </div>
-            );
+            )
           })}
         </div>
       )}
-      <Pagination
-        total={messageData.length}
-        limit={limit}
-        page={page}
-        setPage={setPage}
-      />
+      {messageData.length < 7 ? null : (
+        <Pagination
+          total={messageData.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
+      )}
     </>
-  );
-};
+  )
+}
 
-export default Message;
+export default Message

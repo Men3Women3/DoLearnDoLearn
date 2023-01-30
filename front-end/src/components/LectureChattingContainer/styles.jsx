@@ -1,25 +1,31 @@
 import styled from "styled-components";
 
 export const SContainer = styled.section`
-  width: 25%;
   margin: calc(1vw + 8px) 0px;
   margin-right: 10px;
+  height: 90%;
 `;
 
 // 유저 프로필 사진을 감싸는 div
 export const SUsersContainer = styled.div`
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* height: 10%; */
   display: flex;
   justify-content: space-evenly;
-  margin: calc(1vw + 8px);
+  /* margin: calc(1vw + 8px); */
   span {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* margin-top: 16px; */
+    margin: 0px calc(0.5vw + 1px);
   }
   /* 강사 프로필 */
   .lecturer {
-    border: 3px solid ${(props) => props.theme.deeperYellow};
+    /* border: 3px solid ${(props) => props.theme.deeperYellow}; */
+    border: 3px solid white;
   }
   img {
     width: calc(1vw + 24px);
@@ -29,23 +35,14 @@ export const SUsersContainer = styled.div`
 `;
 
 export const SChattingContainer = styled.div`
-  text-align: center;
-  margin: auto;
+  /* text-align: center;
+  margin: auto; */
   margin: 0px;
   width: calc(1vw + 360px);
-  height: 90%;
+  height: 86%;
   background-color: #ffffff;
-  border-radius: 8px;
-`;
-
-export const SContentCantainer = styled.div`
-  text-align: center;
-  margin: auto;
-  transform: translateY(16px);
-  width: calc(1vw + 320px);
-  height: 80%;
-  background-color: #d9d9d9;
-  box-shadow: 0 0 30px #ccc;
+  border-radius: 12px;
+  box-shadow: 5px 5px 5px #3737372d;
 `;
 
 export const SChattingContent = styled.div`
@@ -58,7 +55,7 @@ export const SChattingContent = styled.div`
   }
   /* 채팅내용이 들어갈 div */
   div {
-    background-color: white;
+    background-color: #fffbe6;
     display: inline-block;
     padding: calc(0.5vw + 4px);
     border-radius: 8px;
@@ -73,24 +70,21 @@ export const SMessageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(20px);
-  width: calc(1vw + 360px);
   height: 10%;
-  margin-top: calc(1vw + 4px);
   textarea {
-    width: calc(1vw + 300px);
-    height: calc(10% + 55px);
-    border-radius: 4px;
+    border-radius: 12px;
     border: none;
     outline: none;
-    box-shadow: 0 0 30px #ccc;
+    box-shadow: 5px 5px 5px #3737372d;
     font-family: ${(props) => props.theme.fontFamily.Regular};
     resize: none;
     font-size: calc(1vw + 2px);
-    padding: calc(0.3vw + 5px);
+    padding: calc(0.3vw + 8px);
+    padding-right: calc(0.3vw + 45px);
+    overflow: hidden;
 
     /* Chrome, Edge, and Safari */
-    ::-webkit-scrollbar {
+    /* ::-webkit-scrollbar {
       width: calc(0.9vw + 1px);
     }
 
@@ -102,18 +96,21 @@ export const SMessageContainer = styled.div`
       background-color: #c2c2c2;
       border-radius: 10px;
       border: 3px solid #ffffff;
-    }
+    } */
   }
   button {
     position: absolute;
-    right: calc(0.8vw + 26px);
-    bottom: calc(0.2vw + 0.3px);
+    right: calc(0.5vw + 0.5px);
+    bottom: calc(1vw + 1px);
     border: none;
     outline: none;
-    background-color: #d9d9d9;
+    background-color: #590f0f;
     border-radius: 50%;
     width: calc(1vw + 18px);
     height: calc(1vh + 26px);
     cursor: pointer;
+  }
+  .send-icon {
+    color: white;
   }
 `;

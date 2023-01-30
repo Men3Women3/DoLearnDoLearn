@@ -1,27 +1,62 @@
 import styled from "styled-components";
-// import SCard from '../CardBox';
+import Slider from "react-slick";
 
-// export const SCardBox = styled(SCard)`
-//   margin-top: 100px;
-//   width: 50px;
-//   height: 80vh;
-// `;
+// import SCard from "../CardBox";
+
+export const SCardBox = styled.div`
+  border-radius: 10px;
+  box-shadow: 5px 5px 30px #c4c4c454;
+  padding: 2vw;
+  margin: calc(1vw + 0.5px) calc(1vw + 10px);
+  background-color: transparent;
+`;
 
 // 모든 내용물을 담은 div!
 export const SContainer = styled.div`
-  font-size: calc(1.5vw + 1px);
+  display: flex;
+  flex-direction: column;
+  font-family: ${(props) => props.theme.fontFamily};
   margin: 10%;
   h1 {
-    font-family: ${(props) => props.theme.fontFamily};
     font-size: ${(props) => props.theme.fontSize.h1};
   }
   h3 {
-    font-family: ${(props) => props.theme.fontFamily};
     font-size: ${(props) => props.theme.fontSize.h3};
   }
   h5 {
-    font-family: ${(props) => props.theme.fontFamily};
     font-size: ${(props) => props.theme.fontSize.h3};
+  }
+  input {
+    font-size: ${(props) => props.theme.fontSize.p};
+    height: 4vh;
+  }
+  div {
+    margin-bottom: 1vh;
+    align-items: center;
+  }
+  .slick-slider {
+    margin-bottom: 0;
+    div {
+      margin: 0;
+    }
+    .slick-prev:before {
+      color: black;
+    }
+    .slick-next:before {
+      color: black;
+    }
+    img {
+      height: 8vw;
+      width: 12vw;
+      border: solid calc(0.15vw + 1px) #e2e2e2;
+      border-radius: 10px;
+      padding: 15px;
+      cursor: pointer;
+      /* background-color: yellow; */
+      &.active {
+        border: solid calc(0.15vw + 2px) ${(props) => props.theme.deeperYellow};
+      }
+    }
   }
 `;
 
@@ -41,11 +76,9 @@ export const SBoardTitle = styled.div`
 
 export const STitleInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  font-size: ${(props) => props.theme.fontSize.p};
-  transform: translate(0, 15%);
   width: calc(40vw + 10px);
   height: calc(3.5vh + 15px);
-  border: 3px solid #cdcdcd;
+  border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
 `;
@@ -53,27 +86,30 @@ export const STitleInput = styled.input`
 // 4. 참여 인원 - people-number
 export const SParticipant = styled.div`
   display: flex;
+  margin-top: 2vh;
   h3 {
     margin-right: 1vw;
   }
   h5 {
     margin-left: 10px;
   }
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+    width: 7vw;
+    height: 2.5vw;
+    margin: auto 0;
+    font-family: ${(props) => props.theme.fontFamily.Regular};
+    font-size: ${(props) => props.theme.fontFamily.Regular};
+  }
 `;
 
-export const SParticipantInput = styled.input`
+export const SPartCnt = styled.select`
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.p};
-  transform: translate(0, 15%);
   width: 5vw;
-  height: calc(3.5vh + 15px);
-  border: 3px solid #cdcdcd;
+  height: calc(3.5vh + 9px);
+  border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
-  ::placeholder {
-    font-family: ${(props) => props.theme.fontFamily.Regular};
-    font-size: ${(props) => props.theme.fontSize.p};
-  }
 `;
 
 // 5. 모집 기간 - recruit-period
@@ -86,11 +122,9 @@ export const SRecruit = styled.div`
 
 export const SRecruitInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  font-size: ${(props) => props.theme.fontSize.p};
-  transform: translate(0, 15%);
   width: 15%;
   height: calc(3.5vh + 15px);
-  border: 3px solid #cdcdcd;
+  border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
   padding-right: 30px;
@@ -107,11 +141,9 @@ export const SLecture = styled.div`
 
 export const SLectureInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  font-size: ${(props) => props.theme.fontSize.p};
-  transform: translate(0, 15%);
   width: 15%;
   height: calc(3.5vh + 15px);
-  border: 3px solid #cdcdcd;
+  border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
   padding-right: 30px;
@@ -120,49 +152,57 @@ export const SLectureInput = styled.input`
 
 export const STimeInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  font-size: ${(props) => props.theme.fontSize.p};
-  transform: translate(0, 15%);
-  width: 15%;
+  width: 3vw;
   height: calc(3.5vh + 15px);
-  border: 3px solid #cdcdcd;
+  border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
-  padding-right: 30px;
 `;
 
 export const SRadio = styled.fieldset`
-  transform: translate(0, 15%);
   border: none;
-  label {
+  display: flex;
+  align-items: center;
+  margin: auto 0;
+  .radio-container {
+    display: flex;
+    margin: 0;
+  }
+  input {
+    margin: 0;
+    margin-left: 5px;
+    margin-right: 8px;
+  }
+  div {
     font-family: ${(props) => props.theme.fontFamily.Regular};
-    font-size: calc(1vw + 1px);
-    line-height: 2rem;
-    padding: 0.2em 0.4em;
+    font-size: ${(props) => props.theme.fontSize.p};
   }
   span {
-    /* verticle-align: middle; */
+    margin: 0;
+    margin-right: 5px;
   }
 `;
 
 // 글자수 제한 p태그
 export const SLimit = styled.p`
   text-align: right;
+  margin: 0;
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.p};
 `;
 
 // 요청내용 요약 - request-summary
 export const SSummary = styled.div`
-  font-size: calc(1.5vw + 1px);
+  font-size: ${(props) => props.theme.fontSize.p};
   resize: none;
 `;
 
 export const SSummaryText = styled.textarea`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  font-size: calc(1vw + 1px);
+  font-size: ${(props) => props.theme.fontSize.p};
   width: 98%;
   height: 15%;
-  border: 3px solid #cdcdcd;
+  border: 2px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
   padding-left: 1vw;
@@ -170,25 +210,22 @@ export const SSummaryText = styled.textarea`
   padding-bottom: 10px;
   resize: none;
   &::placeholder {
-    font-size: calc(1vw + 1px);
     color: #cdcdcd;
   }
 `;
 
 // 요청내용 상세 - request-detail
 export const SDetail = styled.div`
-  font-size: calc(1.5vw + 1px);
+  font-size: ${(props) => props.theme.fontSize.p};
   resize: none;
-  /* display: flex;
-  justify-content: space-evenly; */
 `;
 
 export const SDetailText = styled.textarea`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  font-size: calc(1vw + 1px);
+  font-size: ${(props) => props.theme.fontSize.p};
   width: 98%;
   height: 15%;
-  border: 3px solid #cdcdcd;
+  border: 2px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
   padding-left: 1vw;
@@ -196,29 +233,32 @@ export const SDetailText = styled.textarea`
   padding-bottom: 10px;
   resize: none;
   &::placeholder {
-    font-size: calc(1vw + 1px);
     color: #cdcdcd;
   }
 `;
 
 // 마지막 등록 버튼
 export const SButton = styled.div`
-  /* color: ${(props) => props.theme.lightYellow}; */
-  /* padding: 2%; */
   display: grid;
 `;
 
 export const SRegistButton = styled.button`
-  margin: auto;
+  border: none;
   background-color: black;
+  margin: auto;
   color: white;
-  font-family: ${(props) => props.theme.fontFamily.Bold};
-  font-size: calc(0.8vw + 1px);
-  width: 20%;
-  height: 36px;
-  border-radius: 4px;
+  font-family: ${(props) => props.theme.fontFamily.Medium};
+  font-size: calc(0.8vw + 0.5px);
+  width: 7vw;
+  height: 4.5vh;
+  border-radius: 5px;
   cursor: pointer;
+  place-items: center;
+  text-align: center;
+
   :hover {
+    font-family: ${(props) => props.theme.fontFamily.Bold};
+    transform: translateY(-1px);
     color: ${(props) => props.theme.deeperYellow};
   }
 `;
