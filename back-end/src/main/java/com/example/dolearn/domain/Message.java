@@ -79,6 +79,7 @@ public class Message {
                 .start_time(board.getStartTime())
                 .end_time(board.getEndTime())
                 .title(board.getTitle())
+                .type(this.type)
                 .content(this.content)
                 .isChecked(this.isChecked)
                 .createdTime(this.createdTime)

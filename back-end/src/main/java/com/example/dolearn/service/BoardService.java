@@ -5,22 +5,26 @@ import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.BoardRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.util.*;
 
 @Service
+@Slf4j
 public class BoardService {
 
     @Autowired
     private BoardRepository bRepo;
 
     @Transactional
-    public BoardDto insert(BoardDto boardDto) throws ParseException {
-        return bRepo.save(boardDto.toEntity()).toDto();
+    public BoardDto insert(BoardDto boardDto) throws Exception {
+        boardDto.setTimes();
+        Board board =boardDto.toEntity();
+        log.info("저장 요청: {}",board);
+        return bRepo.save(board).toDto();
     }
 
     @Transactional

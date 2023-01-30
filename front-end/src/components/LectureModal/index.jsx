@@ -1,25 +1,10 @@
-import React from "react";
-// import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import {
-  SSpan,
-  SClock,
-  SCalendar,
-  SLecturer,
-  SStudent,
-  SPencil,
-  SDetail,
-  SInfoItem,
-} from "./styles";
-import {
-  faClock,
-  faCalendarDays,
-  faPersonChalkboard,
-  faChalkboardUser,
-  faPencil,
-} from "@fortawesome/free-solid-svg-icons";
+import * as S from "./styles";
+import * as f from "@fortawesome/free-solid-svg-icons";
+import LectureModalButton from "../LectureModalButton";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -36,61 +21,77 @@ const style = {
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
 const LectureModal = ({ data, open, handleClose }) => {
+  const BOARD_URL = "http://localhost:8080";
+
+  // 이거 왜 안되는데 왜왜왜왜왜왜왜왜왜왜왜왜왜...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // const [lecturer, setLecturer] = useState([]);
+  // const [student, setStudent] = useState([]);
+
+  // const handleList = async () => {
+  //   const board = data.id;
+  //   const lect = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
+  //   const stud = await axios.get(`${BOARD_URL}/student-list/${board}`);
+  //   console.log(lect);
+  //   console.log(stud);
+  // };
+
+  // useEffect(() => {
+  //   handleList();
+  // }, []);
+  // ===========================================================================
+
+  const createdTime = data.createdTime.substring(0, 10); // 모집시작
+  const deadline = data.deadline.substring(0, 10); // 모집마감
+  const startTime = data.startTime.substring(0, 16); // 강의시작
+  const endTime = data.endTime.substring(11, 16); // 강의 종료
+
   return (
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          {/* 여기는 제목 */}
-          {/* 1. 제목 */}
-          <Typography
-            id="modal-modal-title"
-            variant="h5"
-            component="h2"
-            sx={{ pb: 2, borderBottom: 3 }}
-          >
-            {data.title}
-          </Typography>
-          {/* 여기는 내용 */}
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <SInfoItem>
-              {/* 3. 강의 시간 */}
-              <SClock icon={faClock}></SClock>
-              <SSpan>강의 시간 | {data.deadline}</SSpan>
-            </SInfoItem>
-            <SInfoItem>
-              {/* 4. 모집 기간 */}
-              <SCalendar icon={faCalendarDays}></SCalendar>
-              <SSpan>
-                모집 기간 | {data.startTime} - {data.endTime}
-              </SSpan>
-            </SInfoItem>
-            <SInfoItem>
-              {/* 5. 강사 신청 현황 */}
-              <SLecturer icon={faPersonChalkboard}></SLecturer>
-              <SSpan>강사 신청 현황 | {data.instructors}명</SSpan>
-            </SInfoItem>
-            <SInfoItem>
-              {/* 6. 수강생 신청 현황 */}
-              <SStudent icon={faChalkboardUser}></SStudent>
-              <SSpan>수강생 신청 현황 | {data.students} / 5명</SSpan>
-            </SInfoItem>
-            <SInfoItem>
-              {/* 7. 강의 디테일 */}
-              <SPencil icon={faPencil}></SPencil>
-              <SDetail>{data.detail}</SDetail>
-            </SInfoItem>
-          </Typography>
-          <Typography id="modal-modal-button" sx={{ mt: 2 }}>
-            {/* <SButton>강사 신청</SButton> */}
-          </Typography>
-        </Box>
-      </Modal>
-    </div>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        {/* 여기는 제목 */}
+        {/* 1. 제목 */}
+        <S.STitle>{data.title}</S.STitle>
+        {/* 여기는 내용 */}
+        <div id="modal-modal-description" sx={{ mt: 2 }}>
+          <S.SInfoItem>
+            {/* 3. 모집 기간 */}
+            <S.SCalendar icon={f.faCalendarDays}></S.SCalendar>
+            <S.SSpan>
+              모집 기간 | {createdTime} - {deadline}
+            </S.SSpan>
+          </S.SInfoItem>
+          <S.SInfoItem>
+            {/* 4. 강의 시간 */}
+            <S.SClock icon={f.faClock}></S.SClock>
+            <S.SSpan>
+              강의 시간 | {startTime} - {endTime}
+            </S.SSpan>
+          </S.SInfoItem>
+          <S.SInfoItem>
+            {/* 5. 강사 신청 현황 */}
+            <S.SLecturer icon={f.faPersonChalkboard}></S.SLecturer>
+            <S.SSpan>강사 신청 현황 | {data.instructors}명</S.SSpan>
+          </S.SInfoItem>
+          <S.SInfoItem>
+            {/* 6. 수강생 신청 현황 */}
+            <S.SStudent icon={f.faChalkboardUser}></S.SStudent>
+            <S.SSpan>수강생 신청 현황 | {data.students} / 5명</S.SSpan>
+          </S.SInfoItem>
+          <S.SInfoItem>
+            {/* 7. 강의 디테일 */}
+            <S.SPencil icon={f.faPencil}></S.SPencil>
+            <S.SDetail>{data.content}</S.SDetail>
+          </S.SInfoItem>
+          {/* 8. 여기는 각 경우에 따른 추가 컴포넌트 띄우는 곳 */}
+          <LectureModalButton data={data} />
+        </div>
+      </Box>
+    </Modal>
   );
 };
 

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Input from "@mui/joy/Input";
 
 export const SSearchContainer = styled.div`
   width: 50vw;
@@ -35,4 +34,12 @@ export const SSearchContainer = styled.div`
   .css-c64t1i-JoyInput-root {
     --Input-focusedHighlight: white;
   }
+`;
+
+export const SWarning = styled.div`
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.fontSize.h3};
+  color: #ff0000;
+  text-align: center;
+  margin-top: 3vh;
 `;
