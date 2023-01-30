@@ -31,7 +31,7 @@ public class Board {
     private Long uid; //user table의 id (foreign key)
 
     @Column(name = "tid")
-    private Long tid; //thumbnail table의 id (foreign key)
+    private Long tid; //thumbnail 이미지 id
 
     @Column(name = "title")
     private String title;
@@ -72,10 +72,6 @@ public class Board {
     @JsonIgnore
     @OneToMany(mappedBy = "board")
     private List<UserBoard> userBoardList = new ArrayList<>();
-
-    public void setFixed(int isFixed){
-        this.isFixed = isFixed;
-    }
 
     public BoardDto toDto() throws ParseException {
         return BoardDto.builder()

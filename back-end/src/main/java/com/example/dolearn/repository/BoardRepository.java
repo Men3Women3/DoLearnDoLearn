@@ -13,18 +13,20 @@ import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends JpaRepository <Board, Long>, QBoardRepository{
-    public Board save(Board board);
+    Board save(Board board);
 
-    public List<Board> findAll();
+    List<Board> findAll();
 
-    public Optional<Board> findById(Long id);
+    Optional<Board> findById(Long id);
 
     @Modifying
     @Query(value = "delete from board where id=:bid")
-    public int deleteBoard(@Param("bid") Long board_id);
+    int deleteBoard(@Param("bid") Long board_id);
 
-    public List<Board> findByTitleContaining(String keyword);
+    List<Board> findByTitleContaining(String keyword);
 
-    public List<Board> findByContentContaining(String keyword);
+    List<Board> findByContentContaining(String keyword);
+
+    List<Board> findBySummaryContaining(String keyword);
 
 }
