@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import SimpleSnackbar from "../SimpleSnackbar";
 
@@ -6,6 +6,8 @@ import { SButtonContainer, SSpan, SScontent } from "./styles";
 
 import { Box, Modal, Slide, Typography } from "@mui/material";
 import axios from "axios";
+import { UnreadMessageContext } from "../../App";
+import { getUnreadMessageCnt } from "../../utils/api/messageAPI";
 
 const style = {
   position: "absolute",
@@ -27,6 +29,8 @@ const MessageDeleteModal = ({
   handleClose,
   setCheckDeleteState,
 }) => {
+  const { unreadMessageCnt, setStateMessageUpdate } =
+    useContext(UnreadMessageContext);
   const slideTransition = (props) => {
     return <Slide {...props} direction="up" />;
   };
@@ -73,6 +77,7 @@ const MessageDeleteModal = ({
     axios_delete();
     handleClose();
     setCheckDeleteState(true);
+    setStateMessageUpdate(true);
     handleSnackbarOpen();
   };
 

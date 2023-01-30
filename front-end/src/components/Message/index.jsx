@@ -1,16 +1,15 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { UnreadMessageContext } from "../../App";
 import MessageItem from "../MessageItem";
 import Pagination from "../Pagination";
 
-const calcUnReadMessage = (target) => {
-  console.log(target);
-};
-
 const SERVER_URL = "http://localhost:8080";
 const Message = () => {
+  const { unreadMessageCnt, setStateMessageUpdate } =
+    useContext(UnreadMessageContext);
   const [messageData, setMessageData] = useState([]);
   // 메시지 읽음 여부 처리할 변수
   const [checkState, setCheckState] = useState(false);
@@ -49,7 +48,7 @@ const Message = () => {
         <p>메시지함이 비어있습니다</p>
       ) : (
         <div>
-          <p>아직 읽지 않은 메시지가 {messageData.length}통 있습니다</p>
+          <p>아직 읽지 않은 메시지가 {unreadMessageCnt}통 있습니다</p>
           {messageData.slice(offset, offset + limit).map((item) => {
             return (
               <div key={item.id} style={{ margin: "15px 0" }}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import { SButton, SContent } from "./styles";
 
@@ -6,6 +6,8 @@ import { Box, Modal, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { UnreadMessageContext } from "../../App";
+import { getUnreadMessageCnt } from "../../utils/api/messageAPI";
 
 const style = {
   position: "absolute",
@@ -87,6 +89,8 @@ const MessageDetailModal = ({
   checkMessage,
   setCheckState,
 }) => {
+  const { unreadMessageCnt, setStateMessageUpdate } =
+    useContext(UnreadMessageContext);
   const type = checkType(data.type);
   const recieveTime = customRecieveTime(data.createdTime);
   const [mainText, additionalText] = typeMessage(data.type, data.content);
@@ -121,6 +125,7 @@ const MessageDetailModal = ({
     if (data.isChecked === 0) {
       axios_put();
       setCheckState(true);
+      setStateMessageUpdate(true);
     }
     handleClose();
   };
