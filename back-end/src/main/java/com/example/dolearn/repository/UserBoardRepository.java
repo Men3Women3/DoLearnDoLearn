@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserBoardRepository extends JpaRepository <UserBoard, Long> {
-//    @Query(value = "select * from applicant where bid=:bid and user_type='강사'", nativeQuery = true)
-//    public List<BoardApplicant> findInst(@Param("bid") Long bid);
 
     @Query(value = "select * from member_board where bid=:bid and member_type='강사'", nativeQuery = true)
     List<UserBoard> findInstructors(@Param("bid") Long bid);
