@@ -1,9 +1,11 @@
 package com.example.dolearn.handler;
 
 import com.example.dolearn.domain.User;
+import com.example.dolearn.dto.JwtToken;
 import com.example.dolearn.dto.OAuthAttributes;
 import com.example.dolearn.jwt.JwtTokenProvider;
 import com.example.dolearn.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,10 +25,14 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private JwtTokenProvider jwtTokenProvider;
     private UserRepository userRepository;
+    private ObjectMapper objectMapper;
 
-    public Oauth2SuccessHandler(JwtTokenProvider jwtTokenProvider,UserRepository userRepository) {
+    public Oauth2SuccessHandler(JwtTokenProvider jwtTokenProvider,
+                                UserRepository userRepository,
+                                ObjectMapper objectMapper) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -39,9 +45,6 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         String refreshToken = jwtTokenProvider.createRefreshToken(oAuthAttributes.getEmail());
         String accessToken = jwtTokenProvider.createAccessToken(refreshToken);
 
-        log.info("refreshToken : {}",refreshToken);
-        log.info("accessToken : {}",accessToken);
-
         Optional<User> user = userRepository.findOneByEmail(oAuthAttributes.getEmail());
         //user가 존재한다면 토큰 갱신
         if(user.isPresent()) {
@@ -49,8 +52,22 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
             userRepository.save(user.get());
         }
 
-        response.setHeader("refreshToken",refreshToken);
-        response.setHeader("accessToken",accessToken);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+
+        JwtToken jwtToken = JwtToken
+                .builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+
+        String res = objectMapper.writeValueAsString(jwtToken);
+        log.info("refreshToken : {}",jwtToken.getRefreshToken());
+        log.info("accessToken : {}",jwtToken.getAccessToken());
+        log.info("res : {}",res);
+        response.getWriter().write(res);
+//        response.setHeader("refreshToken",refreshToken);
+//        response.setHeader("accessToken",accessToken);
 
     }
 }
