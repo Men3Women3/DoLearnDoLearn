@@ -19,6 +19,7 @@ import * as S from "./styles.jsx";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { LoginStateContext } from "../../App";
+import { useEffect } from "react";
 
 const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -62,7 +63,7 @@ const NewBoard = () => {
   const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
   const [deadline, setDeadline] = useState(""); // 모집 종료 날짜
   const [lectureDay, setLectureDay] = useState(""); // 강의 날짜
-  const [lectureTime, setLectureTime] = useState(""); // 강의 시작 시간
+  const [lectureTime, setLectureTime] = useState(1); // 강의 시작 시간
   const [classTime, setClassTime] = useState(""); // 강의 시간
   const [summary, setSummary] = useState(""); // 강의 요약
   const [detail, setDetail] = useState(""); // 강의 상세
@@ -118,38 +119,35 @@ const NewBoard = () => {
 
   const handleClose = () => setOpen(false);
 
+  // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
   const handleRegister = async () => {
-    // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
     try {
-      await axios.post(
-        `${SERVER_URL}/board`,
-        {
-          uid: userInfo.id,
-          tid: imgSelect,
-          title,
-          maxCnt: participant,
-          content: detail,
-          summary,
-          startTime: lectureDay + " " + lectureTime,
-          endTime: classTime,
-          deadline,
-          isFixed: 0,
-        }
-        // { headers: { Authentication: localStorage.getItem("accessToken") } }
-      );
+      await axios.post(`${SERVER_URL}/board`, {
+        uid: userInfo.id,
+        tid: imgSelect,
+        title,
+        maxCnt: participant,
+        content: detail,
+        summary,
+        startTime: lectureDay + " " + lectureTime,
+        endTime: classTime,
+        deadline,
+        isFixed: 0,
+      });
+      console.log("완성");
       navigate("/board");
     } catch (err) {
       console.log(err);
-      console.log("서버에 데이터 보내기 실패");
-      console.log("사용자 아이디: ", userInfo.id);
-      console.log("강의 제목: ", title);
-      console.log("썸네일 인덱스 번호: ", imgSelect);
-      console.log("모집 인원: ", participant);
-      console.log("모집종료기간: ", deadline);
-      console.log("강의 날짜 및 시간: ", lectureDay + " " + lectureTime);
-      console.log("총 강의 시간: ", classTime);
-      console.log("강의 요약: ", summary);
-      console.log("강의 상세: ", detail);
+      // console.log("서버에 데이터 보내기 실패");
+      // console.log("사용자 아이디: ", userInfo.id);
+      // console.log("강의 제목: ", title);
+      // console.log("썸네일 인덱스 번호: ", imgSelect);
+      // console.log("모집 인원: ", participant);
+      // console.log("모집종료기간: ", deadline);
+      // console.log("강의 날짜 및 시간: ", lectureDay + " " + lectureTime);
+      // console.log("총 강의 시간: ", classTime);
+      // console.log("강의 요약: ", summary);
+      // console.log("강의 상세: ", detail);
     }
   };
 
@@ -164,7 +162,6 @@ const NewBoard = () => {
     slidesToScroll: 1, // 슬라이드 넘기는 아이템 개수
     autoplay: false, // 자동 재생
     draggable: false,
-    // autoplaySpeed: 3000, // 자동 재생 속도
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
@@ -295,7 +292,7 @@ const NewBoard = () => {
 
         {/* 9. 등록(작성) 버튼 */}
         <S.SButton>
-          <S.SRegistButton onClick={(e) => handleOpen(e)}>등록</S.SRegistButton>
+          <S.SRegistButton onClick={handleOpen}>등록</S.SRegistButton>
         </S.SButton>
       </S.SContainer>
 
@@ -305,10 +302,6 @@ const NewBoard = () => {
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Fade in={open}>
           <Box sx={style}>
