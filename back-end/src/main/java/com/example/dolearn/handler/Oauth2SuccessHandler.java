@@ -41,7 +41,7 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
 
         OAuthAttributes oAuthAttributes = (OAuthAttributes) authentication.getPrincipal();
-        log.info("email : {}",oAuthAttributes.getEmail());
+
         String refreshToken = jwtTokenProvider.createRefreshToken(oAuthAttributes.getEmail());
         String accessToken = jwtTokenProvider.createAccessToken(refreshToken);
 
@@ -51,23 +51,20 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
             user.get().updateRefreshToken(refreshToken);
             userRepository.save(user.get());
         }
+        Long userId = user.get().getId();
+        log.info("id : {}",userId);
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://localhost:3000/oauth-redirect?refreshToken=")
+                .append(refreshToken)
+                .append("&&accessToken=")
+                .append(accessToken)
+                .append("&&userId=")
+                .append(userId);
 
-        JwtToken jwtToken = JwtToken
-                .builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        response.sendRedirect(sb.toString());
 
-        String res = objectMapper.writeValueAsString(jwtToken);
-        log.info("refreshToken : {}",jwtToken.getRefreshToken());
-        log.info("accessToken : {}",jwtToken.getAccessToken());
-        log.info("res : {}",res);
-        response.getWriter().write(res);
-//        response.setHeader("refreshToken",refreshToken);
-//        response.setHeader("accessToken",accessToken);
+
 
     }
 }
