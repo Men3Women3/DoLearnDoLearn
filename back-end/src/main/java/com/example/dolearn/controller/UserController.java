@@ -10,13 +10,18 @@ import com.example.dolearn.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @Validated
@@ -32,6 +37,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Value("${file.path}")
+    String filePath;
 
     @PostMapping
     public ResponseEntity<?> signup(@Valid @RequestBody UserDto userDto){
@@ -89,9 +97,28 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@Valid @RequestBody UserDto reqUserDto) {
+    public ResponseEntity<?> update(@RequestPart(value="imgSrc") MultipartFile imgSrc, @Valid @RequestPart(value="userDto") UserDto reqUserDto) {
         try{
-            return new ResponseEntity<>(new SuccessResponse(userService.updateInfo(reqUserDto)), HttpStatus.OK);
+            String totalPath = "";
+            String today = new SimpleDateFormat("yyMMdd").format(new Date());
+            String saveFolder = filePath + File.separator + today;
+            String saveFileName = "";
+            File folder = new File(saveFolder);
+
+            if(imgSrc != null){
+                if(!folder.exists())
+                    folder.mkdirs();
+                String originalFileName = imgSrc.getOriginalFilename();
+                saveFileName = System.nanoTime()+originalFileName.substring(originalFileName.lastIndexOf('.'));
+                totalPath = saveFolder + File.separator + saveFileName;
+            }
+            reqUserDto.setImgSrc(totalPath);
+            UserDto userDto = userService.updateInfo(reqUserDto);
+
+            if(imgSrc != null)
+                imgSrc.transferTo(new File(folder, saveFileName));
+
+            return new ResponseEntity<>(new SuccessResponse(userDto), HttpStatus.OK);
         } catch (CustomException e) {
             e.printStackTrace();
             if (e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED){
