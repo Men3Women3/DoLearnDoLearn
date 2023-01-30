@@ -25,6 +25,7 @@ const UniBoard = ({ data }) => {
   // ===================================
 
   // 강사 및 수강생 목록 호출 ==========
+  // 이것도 왜 안되는지 확인 필요===========
   const [lecturer, setLecturer] = useState([]);
   const [student, setStudent] = useState([]);
   const bringList = async () => {

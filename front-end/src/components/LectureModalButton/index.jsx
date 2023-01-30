@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { LoginStateContext } from "../../App";
 import { SButton, SGroup } from "./styles";
-import axios from "axios";
 import {
   deleteEnrollAPI,
   enrollClassAPI,
@@ -10,8 +9,6 @@ import {
 } from "../../utils/api/boardAPI";
 
 const LectureModalButton = ({ data }) => {
-  const BOARD_URL = "http://localhost:8080/board";
-
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
   // api 요청 내용 ===================================

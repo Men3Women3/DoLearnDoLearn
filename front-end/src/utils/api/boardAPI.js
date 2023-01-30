@@ -94,3 +94,17 @@ export const fixClassAPI = async (lecture) => {
     console.log("강의 확정 실패");
   }
 };
+
+// 강의 검색 API
+export const searchAPI = async (keyword, setList, setIsEmpty) => {
+  try {
+    const res = await axios.get(`${SERVER_URL}/search/${keyword}`);
+    setList(res.data.response);
+    setIsEmpty(false);
+  } catch (err) {
+    if (err.response.data.response === "게시물이 없습니다.") {
+      setIsEmpty(true);
+      setList([]);
+    }
+  }
+};

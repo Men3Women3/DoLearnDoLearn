@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as S from "./styles";
@@ -20,8 +20,6 @@ const style = {
 
 // Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
 const LectureModal = ({ data, open, handleClose }) => {
-  const BOARD_URL = "http://localhost:8080";
-
   // 이거 왜 안되는데 왜왜왜왜왜왜왜왜왜왜왜왜왜...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // const [lecturer, setLecturer] = useState([]);
   // const [student, setStudent] = useState([]);
