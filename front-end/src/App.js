@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { getUserInfoAndUpdate, logoutAPI } from "./utils/api/userAPI";
-import OauthRedirect from "./pages/OauthRedirect";
+import { getUnreadMessageCnt } from "./utils/api/messageAPI";
 
 // 코드 스플리팅 (Code Splitting)
 const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
@@ -30,6 +30,8 @@ const Lecture = React.lazy(() => pMinDelay(import("./pages/Lecture"), 0)); // �
 export const LoginStateContext = React.createContext();
 // 로그인 상태를 관리하는 함수가 담긴 context API
 export const LoginStateHandlerContext = React.createContext();
+// 안읽은 메시지 상태를 관리하는 함수가 담긴 context API
+export const UnreadMessageContext = React.createContext();
 
 // 기본 도메인 주소
 const axiosDefaultURL = "http://localhost:8080";
@@ -37,6 +39,8 @@ const axiosDefaultURL = "http://localhost:8080";
 function App() {
   const [isLogined, setIsLogined] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const [unreadMessageCnt, setUnreadMessageCnt] = useState(0);
+  const [stateMessageUpdate, setStateMessageUpdate] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") !== null) {
@@ -51,6 +55,12 @@ function App() {
       getUserInfoAndUpdate(setUserInfo);
     }
   }, []);
+
+  // // 안 읽은 메시지 정보 최신화시키기
+  useEffect(() => {
+    setStateMessageUpdate(false);
+    getUnreadMessageCnt(setUnreadMessageCnt);
+  }, [stateMessageUpdate]);
 
   // 로그인 상태 관리 함수
   const handleIsLogined = () => {
@@ -73,30 +83,36 @@ function App() {
         <LoginStateHandlerContext.Provider
           value={{ handleIsLogined, handleLogout, handleUserInfo }}
         >
-          <Suspense fallback={<Loading />}>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route
-                  path="/login"
-                  element={isLogined ? <Home /> : <Login />}
-                />
-                <Route
-                  path="/signup"
-                  element={isLogined ? <Home /> : <SingUp />}
-                />
-                <Route path="/board" element={<Board />} />
-                <Route path="/write" element={<WriteBoard />} />
-                <Route
-                  path={"/mypage"}
-                  element={isLogined ? <User /> : <Home />}
-                />
-                <Route path="/lecture" element={<Lecture />} />
-                <Route path="/oauth-redirect" element={<OauthRedirect />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </Suspense>
+          <UnreadMessageContext.Provider
+            value={{
+              unreadMessageCnt,
+              setStateMessageUpdate,
+            }}
+          >
+            <Suspense fallback={<Loading />}>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route
+                    path="/login"
+                    element={isLogined ? <Home /> : <Login />}
+                  />
+                  <Route
+                    path="/signup"
+                    element={isLogined ? <Home /> : <SingUp />}
+                  />
+                  <Route path="/board" element={<Board />} />
+                  <Route path="/write" element={<WriteBoard />} />
+                  <Route
+                    path={"/mypage"}
+                    element={isLogined ? <User /> : <Home />}
+                  />
+                  <Route path="/lecture" element={<Lecture />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </Suspense>
+          </UnreadMessageContext.Provider>
         </LoginStateHandlerContext.Provider>
       </LoginStateContext.Provider>
     </ThemeProvider>
