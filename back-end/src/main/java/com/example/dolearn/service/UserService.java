@@ -68,7 +68,7 @@ public class UserService {
     }
 
     public UserDto updateInfo(UserDto reqUserDto){
-        if(reqUserDto.getId() == null || reqUserDto.getImgSrc() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null || reqUserDto.getYoutube() == null){
+        if(reqUserDto.getId() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null || reqUserDto.getYoutube() == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
         Optional<User> user = userRepository.findOneById(reqUserDto.getId());
