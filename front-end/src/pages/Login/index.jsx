@@ -117,6 +117,14 @@ const Login = () => {
     setPassword(e.target.value);
   }, []);
 
+  const handleGoogleLogin = () => {
+    axios
+      .get("http://localhost:8080/oauth2/authorization/google")
+      .then((response) => {
+        console.log(response);
+      });
+  };
+
   return (
     <SMain>
       <SMainContainer>
@@ -205,8 +213,14 @@ const Login = () => {
             </SkakaoLoginButton>
 
             <SgoogleLoginButton>
-              <img src={googleLogoImg} alt="google_logo" />
-              구글로 로그인
+              {/* <div onClick={handleGoogleLogin}>
+                <img src={googleLogoImg} alt="google_logo" />
+                구글로 로그인
+              </div> */}
+              <a href="http://localhost:8080/oauth2/authorization/google">
+                <img src={googleLogoImg} alt="google_logo" />
+                구글로 로그인
+              </a>
             </SgoogleLoginButton>
           </SContainer>
         </SForm>
