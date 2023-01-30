@@ -12,13 +12,9 @@ import meeting from "../../assets/images/thumbnail/meeting.svg";
 import conference from "../../assets/images/thumbnail/conference.svg";
 import study from "../../assets/images/thumbnail/study.svg";
 import teamwork from "../../assets/images/thumbnail/teamwork.svg";
-import axios from "axios";
-import { useEffect } from "react";
 
 // 개별 게시물 component
 const UniBoard = ({ data }) => {
-  const BOARD_URL = "http://localhost:8080";
-
   // Modal 파트 ========================
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

@@ -10,13 +10,18 @@ import com.example.dolearn.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @Validated
@@ -32,6 +37,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Value("${file.path}")
+    String filePath;
 
     @PostMapping
     public ResponseEntity<?> signup(@Valid @RequestBody UserDto userDto){
@@ -89,9 +97,37 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@Valid @RequestBody UserDto reqUserDto) {
+    public ResponseEntity<?> update(@RequestPart(value="imgSrc") MultipartFile imgSrc, @Valid @RequestPart(value="userDto") UserDto reqUserDto) {
         try{
-            return new ResponseEntity<>(new SuccessResponse(userService.updateInfo(reqUserDto)), HttpStatus.OK);
+            String totalPath = "";      // 저장될 이미지 파일 전체 경로
+
+                                        // 오늘날짜로 폴더 명명
+            String today = new SimpleDateFormat("yyMMdd").format(new Date());
+            String saveFolder = filePath + File.separator + today;
+
+            String saveFileName = "";   // 저장될 이미지 파일 이름
+            String prevFileName = "";   // 현재 저장되어 있는 이미지 파일 이름
+
+            File folder = new File(saveFolder);
+
+            if(imgSrc != null){
+                if(!folder.exists())
+                    folder.mkdirs();
+                prevFileName = userService.getInfo(reqUserDto.getId()).getImgSrc();
+                String originalFileName = imgSrc.getOriginalFilename();
+                saveFileName = System.nanoTime()+originalFileName.substring(originalFileName.lastIndexOf('.'));
+                totalPath = saveFolder + File.separator + saveFileName;
+            }
+            reqUserDto.setImgSrc(totalPath);
+            UserDto userDto = userService.updateInfo(reqUserDto);
+
+            // 기존 파일 삭제 & 새로운 파일 저장
+            if(imgSrc != null){
+               new File(prevFileName).delete();
+                imgSrc.transferTo(new File(folder, saveFileName));
+            }
+
+            return new ResponseEntity<>(new SuccessResponse(userDto), HttpStatus.OK);
         } catch (CustomException e) {
             e.printStackTrace();
             if (e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED){

@@ -51,7 +51,7 @@ const SamplePrevArrow = (props) => {
 };
 
 const NewBoard = () => {
-  const SERVER_URL = "http://localhost:3000";
+  const SERVER_URL = "http://localhost:8080";
 
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
@@ -121,19 +121,27 @@ const NewBoard = () => {
   const handleRegister = async () => {
     // 등록버튼 눌렀을 때 어떤 작업을 해야 하는지 작성하세용
     try {
-      await axios.post(`${SERVER_URL}/board`, {
-        uid: userInfo.id,
-        tid: imgSelect,
-        title,
-        maxCnt: participant,
-        content: detail,
-        summary,
-        startTime: lectureDay + " " + lectureTime,
-        endTime: classTime,
-        deadline,
-        isFixed: 0,
-      });
+      await axios.post(
+        `${SERVER_URL}/board`,
+        {
+          uid: userInfo.id,
+          tid: imgSelect,
+          title,
+          maxCnt: participant,
+          content: detail,
+          summary,
+          startTime: lectureDay + " " + lectureTime,
+          endTime: classTime,
+          deadline,
+          isFixed: 0,
+        }
+        // { headers: { Authentication: localStorage.getItem("accessToken") } }
+      );
       navigate("/board");
+    } catch (err) {
+      console.log(err);
+      console.log("서버에 데이터 보내기 실패");
+      console.log("사용자 아이디: ", userInfo.id);
       console.log("강의 제목: ", title);
       console.log("썸네일 인덱스 번호: ", imgSelect);
       console.log("모집 인원: ", participant);
@@ -142,9 +150,6 @@ const NewBoard = () => {
       console.log("총 강의 시간: ", classTime);
       console.log("강의 요약: ", summary);
       console.log("강의 상세: ", detail);
-    } catch (err) {
-      console.log(err);
-      console.log("서버에 데이터 보내기 실패");
     }
   };
 
@@ -239,6 +244,7 @@ const NewBoard = () => {
             min={today}
             onChange={(e) => setLectureDay(e.target.value)}
           ></S.SLectureInput>
+          {/* <h3>-</h3> */}
           <S.STimeInput
             type="number"
             min={1}

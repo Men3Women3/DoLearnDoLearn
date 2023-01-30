@@ -33,22 +33,17 @@ public class UserBoardService {
     public List<UserBoard> getInstructors(Long bid){
         List<UserBoard> instructorList = ubRepo.findInstructors(bid);
 
-        if(instructorList.isEmpty()) throw new CustomException(ErrorCode.NO_INSTRUCTORS);
-
         return instructorList;
     }
-
     public List<UserBoard> getStudents(Long bid){
         List<UserBoard> studentList = ubRepo.findStudents(bid);
-
-        if(studentList.isEmpty()) throw new CustomException(ErrorCode.NO_STUDENTS);
 
         return studentList;
     }
 
 
     @Transactional
-    public UserBoardDto applyClass(UserBoard userBoard) throws Exception{
+    public UserBoardDto applyClass(UserBoard userBoard){
         Optional<User> user = userRepository.findOneById(userBoard.getUid());
         Optional<Board> board = boardRepository.findById(userBoard.getBid());
 
@@ -64,7 +59,7 @@ public class UserBoardService {
             return ubRepo.save(result).toDto();
         }
         else{
-            if(result.getBoard().getMaxCnt()>ubRepo.countStudents(userBoard.getBid())){
+            if(result.getBoard().getMaxCnt()>=ubRepo.countStudents(userBoard.getBid())){
                 return ubRepo.save(result).toDto();
             }
             else{
