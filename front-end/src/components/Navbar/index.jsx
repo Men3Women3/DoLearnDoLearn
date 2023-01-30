@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Box } from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-regular-svg-icons";
-import logoImg from "../../assets/images/logo.png";
-import profileImg from "../../assets/images/thumbnail.png";
-import { useEffect } from "react";
-import axios from "axios";
-import { useContext } from "react";
-import { LoginStateContext, LoginStateHandlerContext } from "../../App";
+import React, { useState } from "react"
+import { Link, NavLink } from "react-router-dom"
+import { Box } from "./styles"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faBell } from "@fortawesome/free-regular-svg-icons"
+import logoImg from "../../assets/images/logo.png"
+import profileImg from "../../assets/images/thumbnail.png"
+import { useEffect } from "react"
+import axios from "axios"
+import { useContext } from "react"
+import { LoginStateContext, LoginStateHandlerContext } from "../../App"
+import { Badge } from "@mui/material"
+import { NotificationsNone } from "@mui/icons-material"
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
-const defaultURL = "http://localhost:3000";
+const defaultURL = "http://localhost:3000"
 
 const Navbar = () => {
   // context api를 통해 로그인 상태 받아오기
-  const { isLogined, userInfo } = useContext(LoginStateContext);
+  const { isLogined, userInfo } = useContext(LoginStateContext)
   // context api를 통해 로그인 상태 관리 함수들 받아오기
-  const { handleIsLogined, handleLogout } = useContext(
-    LoginStateHandlerContext
-  );
+  const { handleIsLogined, handleLogout } = useContext(LoginStateHandlerContext)
 
   return (
     <Box>
@@ -39,7 +39,7 @@ const Navbar = () => {
             <img src={profileImg} alt="profileImg" />
             <span
               style={{
-                margin: "auto calc(1vw + 1px) auto 5px",
+                margin: "auto 10px auto 5px",
                 cursor: "pointer",
               }}
             >
@@ -49,8 +49,17 @@ const Navbar = () => {
         )}
         {isLogined && (
           <div className="unread-container">
-            <FontAwesomeIcon className="unread__notification" icon={faBell} />
-            <div className="unread-message"></div>
+            <Badge
+              // variant="dot"
+              badgeContent={1}
+              color="warning"
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <FontAwesomeIcon className="unread__notification" icon={faBell} />
+            </Badge>
           </div>
         )}
 
@@ -66,7 +75,7 @@ const Navbar = () => {
               <Link to={"/login"} className="link user-state-nuLogined">
                 로그인
               </Link>
-              <span>|</span>
+              <span id="division">|</span>
               <Link to={"/signup"} className="link user-state-nuLogined">
                 회원가입
               </Link>
@@ -75,7 +84,7 @@ const Navbar = () => {
         </div>
       </div>
     </Box>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

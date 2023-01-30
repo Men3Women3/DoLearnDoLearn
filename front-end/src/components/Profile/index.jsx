@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from "react"
 import {
   SProfileContainer,
   SSubContainerUp,
@@ -6,31 +6,50 @@ import {
   SBlackButton,
   SSnsContainer,
   SCustomToolTip,
-} from "./styles";
-import { Tooltip } from "@mui/material";
+} from "./styles"
+import { Tooltip } from "@mui/material"
 
-import profileImg from "../../assets/images/thumbnail.png";
+import defaultProfile from "../../assets/images/defaultProfile.png"
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
-import blogImg from "../../assets/images/sns/blog.png";
-import youtubeImg from "../../assets/images/sns/youtube.png";
-import instagramImg from "../../assets/images/sns/instagram.png";
-import facebookImg from "../../assets/images/sns/facebook.png";
+import blogImg from "../../assets/images/sns/blog.png"
+import youtubeImg from "../../assets/images/sns/youtube.png"
+import instagramImg from "../../assets/images/sns/instagram.png"
+import facebookImg from "../../assets/images/sns/facebook.png"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import { LoginStateContext } from "../../App";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
+import { LoginStateContext } from "../../App"
+
+const checkIsBlank = (target) => {
+  console.log(target)
+  if (target !== "") return true
+  return false
+}
 
 const Profile = (props) => {
   // context API에서 유저 정보 가져오기
-  const getUserInfo = useContext(LoginStateContext);
-  console.log(getUserInfo);
+  const getUserInfo = useContext(LoginStateContext)
+  console.log("유저정보", getUserInfo.userInfo)
+  // SMS 링크 존재하는지 확인
+  const checkBlog = checkIsBlank(getUserInfo.userInfo.blog)
+  const checkYoutube = checkIsBlank(getUserInfo.userInfo.youtube)
+  const checkInsta = checkIsBlank(getUserInfo.userInfo.instagram)
+  const checkFacebook = checkIsBlank(getUserInfo.userInfo.facebook)
 
   return (
     <SProfileContainer>
       <SSubContainerUp>
         {/* 프로필 이미지 */}
-        <img className="profile-img" src={profileImg} alt="defaultProfile" />
+        <img
+          className="profile-img"
+          src={
+            getUserInfo.userInfo.imgSrc
+              ? getUserInfo.userInfo.imgSrc
+              : defaultProfile
+          }
+          alt="defaultProfile"
+        />
         <section>
           <div className="info__container">
             <div>
@@ -41,65 +60,65 @@ const Profile = (props) => {
             </div>
             {/* SNS 아이콘 */}
             <SSnsContainer>
-              <Tooltip
-                title={`${getUserInfo.userInfo.name}님의 블로그 바로가기`}
-                // placement="top"
-                followCursor
-              >
-                <a
-                  // className="tooltip"
-                  href={`https://${getUserInfo.userInfo.blog}`}
-                  target="_blank"
-                  // info={`${name}님의 블로그 바로가기`}
+              {checkBlog && (
+                <Tooltip
+                  title={`${getUserInfo.userInfo.name}님의 블로그 바로가기`}
+                  // placement="top"
+                  followCursor
                 >
-                  <img src={blogImg} />
-                </a>
-              </Tooltip>
-              <Tooltip
-                title={`${getUserInfo.userInfo.name}님의 유튜브 채널 바로가기`}
-                // placement="top"
-                // arrow
-                followCursor
-              >
-                <a
-                  // className="tooltip"
-                  href={`https://${getUserInfo.userInfo.youtube}`}
-                  target="_blank"
-                  // info={`${name}님의 유튜브 채널 바로가기`}
+                  <a href={`${getUserInfo.userInfo.blog}`} target="_blank">
+                    <img src={blogImg} />
+                  </a>
+                </Tooltip>
+              )}
+              {checkYoutube && (
+                <Tooltip
+                  title={`${getUserInfo.userInfo.name}님의 유튜브 채널 바로가기`}
+                  // placement="top"
+                  // arrow
+                  followCursor
                 >
-                  <img src={youtubeImg} />
-                </a>
-              </Tooltip>
-              <Tooltip
-                title={`${getUserInfo.userInfo.name}님의 인스타그램 바로가기`}
-                // placement="top"
-                // arrow
-                followCursor
-              >
-                <a
-                  // className="tooltip"
-                  href={`https://${getUserInfo.userInfo.instagram}`}
-                  target="_blank"
-                  // info={`${name}님의 인스타그램 바로가기`}
+                  <a
+                    // className="tooltip"
+                    href={`${getUserInfo.userInfo.youtube}`}
+                    target="_blank"
+                  >
+                    <img src={youtubeImg} />
+                  </a>
+                </Tooltip>
+              )}
+              {checkInsta && (
+                <Tooltip
+                  title={`${getUserInfo.userInfo.name}님의 인스타그램 바로가기`}
+                  // placement="top"
+                  // arrow
+                  followCursor
                 >
-                  <img src={instagramImg} />
-                </a>
-              </Tooltip>
-              <Tooltip
-                title={`${getUserInfo.userInfo.name}님의 페이스북 바로가기`}
-                // placement="top"
-                // arrow
-                followCursor
-              >
-                <a
-                  // className="tooltip"
-                  href={`https://${getUserInfo.userInfo.facebook}`}
-                  target="_blank"
-                  // info={`${name}님의 페이스북 바로가기`}
+                  <a
+                    // className="tooltip"
+                    href={`https://www.instagram.com/${getUserInfo.userInfo.instagram}/`}
+                    target="_blank"
+                  >
+                    <img src={instagramImg} />
+                  </a>
+                </Tooltip>
+              )}
+              {checkFacebook && (
+                <Tooltip
+                  title={`${getUserInfo.userInfo.name}님의 페이스북 바로가기`}
+                  // placement="top"
+                  // arrow
+                  followCursor
                 >
-                  <img src={facebookImg} />
-                </a>
-              </Tooltip>
+                  <a
+                    // className="tooltip"
+                    href={`https://facebook.com/${getUserInfo.userInfo.facebook}/`}
+                    target="_blank"
+                  >
+                    <img src={facebookImg} />
+                  </a>
+                </Tooltip>
+              )}
             </SSnsContainer>
           </div>
           {/* 마일리지 바 */}
@@ -157,7 +176,7 @@ const Profile = (props) => {
         </SBlackButton>
       </SSubContainerDown>
     </SProfileContainer>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile
