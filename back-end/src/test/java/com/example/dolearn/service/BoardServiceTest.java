@@ -55,17 +55,19 @@ public class BoardServiceTest {
     @DisplayName("글 생성 테스트")
     @Test
     public void BoardCreateTest() throws Exception {
+        UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
-        BoardDto boardDto = BoardDto.builder()
-                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+        BoardDto boardDto3 = BoardDto.builder()
+                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18")
+                .startTime("2023-01-18 14").endTime("2")
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
-        when(boardRepository.save(any(Board.class))).thenReturn(boardDto.toEntity());
+        when(boardRepository.save(any(Board.class))).thenReturn(boardDto1.toEntity());
+        when(userRepository.findOneById(any())).thenReturn(Optional.ofNullable(userDto.toEntity()));
 
-        Board result = boardService.insert(boardDto).toEntity();
+        Board result = boardService.insert(boardDto3).toEntity();
 
-        assertEquals(boardDto.getContent(),result.getContent());
+        assertEquals(boardDto1.getContent(),result.getContent());
     }
 
     @DisplayName("글 목록 전체 조회")
@@ -88,9 +90,9 @@ public class BoardServiceTest {
     public void detailBoardTest() throws Exception {
         when(boardRepository.findById(any())).thenReturn(Optional.ofNullable(boardDto1.toEntity()));
 
-        Optional<BoardDto> result = boardService.selectDetail(any());
+        BoardDto result = boardService.selectDetail(any());
 
-        assertEquals(boardDto1.getId(),result.get().getId());
+        assertEquals(boardDto1.getId(),result.getId());
     }
 
     @DisplayName("글 삭제")
@@ -211,9 +213,6 @@ public class BoardServiceTest {
     @Test
     public void applyCancelTest() throws Exception{
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
-
-        UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
 
         when(userBoardRepository.delete(any(),any())).thenReturn(1);
 

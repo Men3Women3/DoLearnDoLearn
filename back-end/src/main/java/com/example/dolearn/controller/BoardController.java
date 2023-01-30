@@ -24,10 +24,10 @@ import java.util.*;
 public class BoardController {
 
     @Autowired
-    private BoardService bService;
+    private BoardService boardService;
 
     @Autowired
-    private UserBoardService ubService;
+    private UserBoardService userBoardService;
 
     @Autowired
     private UserService userService;
@@ -35,7 +35,7 @@ public class BoardController {
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody BoardDto boardDto){
         try {
-            Board board = bService.insert(boardDto).toEntity();
+            Board board = boardService.insert(boardDto).toEntity();
             log.info("글 등록: {}",boardDto);
 
             return new ResponseEntity<>(new SuccessResponse(board), HttpStatus.CREATED);
@@ -48,7 +48,7 @@ public class BoardController {
     @GetMapping("/list")
     public ResponseEntity<?> selectAll(){
         try {
-            List<BoardDto> boardDtoList = bService.selectAll();
+            List<BoardDto> boardDtoList = boardService.selectAll();
 
             return new ResponseEntity<>(new SuccessResponse(boardDtoList),HttpStatus.OK);
         }catch (CustomException e){
@@ -62,7 +62,7 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getDetails(@PathVariable Long id){
         try{
-            BoardDto boardDto = bService.selectDetail(id);
+            BoardDto boardDto = boardService.selectDetail(id);
 
             log.info("글 상세정보 조회: {}",boardDto);
 
@@ -78,7 +78,7 @@ public class BoardController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         try{
-            bService.deleteBoard(id);
+            boardService.deleteBoard(id);
 
             log.info("삭제할 id: {}",id);
 
@@ -95,7 +95,7 @@ public class BoardController {
     public ResponseEntity<?> getInstructors(@PathVariable Long bid){
         try{
             log.info("강사 목록 가져오기 요청: {}",bid);
-            List<UserBoard> applicants= ubService.getInstructors(bid);
+            List<UserBoard> applicants= userBoardService.getInstructors(bid);
             log.info("목록: {}",applicants);
 
             if(applicants.isEmpty()) return new ResponseEntity<>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.OK);
@@ -112,7 +112,7 @@ public class BoardController {
     public ResponseEntity<?> getStudents(@PathVariable Long bid){
         try{
             log.info("학생 목록 가져오기 요청: {}",bid);
-            List<UserBoard> applicants = ubService.getStudents(bid);
+            List<UserBoard> applicants = userBoardService.getStudents(bid);
 
             if(applicants.isEmpty()) return new ResponseEntity<>(new SuccessResponse("신청한 학생이 없습니다."),HttpStatus.OK);
             return new ResponseEntity<>(new SuccessResponse(applicants),HttpStatus.OK);
@@ -127,10 +127,10 @@ public class BoardController {
     @GetMapping("/search/{keyword}")
     public ResponseEntity<?> search(@PathVariable String keyword){
         try{
-            List<Board> bListByTitle = bService.searchBoardTitle(keyword);
-            List<Board> bListByContent = bService.searchBoardContent(keyword);
+            List<Board> bListByTitle = boardService.searchBoardTitle(keyword);
+            List<Board> bListByContent = boardService.searchBoardContent(keyword);
 
-            List<BoardDto> result = bService.searchResult(bListByTitle,bListByContent);
+            List<BoardDto> result = boardService.searchResult(bListByTitle,bListByContent);
 
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         }catch (CustomException e){
@@ -150,7 +150,7 @@ public class BoardController {
             log.info("수강신청: {}, {}",uid,bid);
 
             UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).user_type("학생").build();
-            ubService.applyClass(userBoard);
+            userBoardService.applyClass(userBoard);
 
             return new ResponseEntity<>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.OK);
         }catch (CustomException e){
@@ -171,7 +171,7 @@ public class BoardController {
             log.info("강의신청: {}, {}",uid,bid);
 
             UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).user_type("강사").build();
-            ubService.applyClass(userBoard);
+            userBoardService.applyClass(userBoard);
 
             return new ResponseEntity<>(new SuccessResponse("강사 신청이 완료되었습니다!!"),HttpStatus.OK);
         }catch (CustomException e){
@@ -186,7 +186,7 @@ public class BoardController {
     public ResponseEntity<?> cancelApply(@PathVariable Long uid, @PathVariable Long bid){
         try{
             log.info("삭제요청: {}, {}",uid,bid);
-            int result = ubService.cancelApply(uid,bid);
+            int result = userBoardService.cancelApply(uid,bid);
 
             return new ResponseEntity<>(new SuccessResponse("강의 신청 취소가 완료되었습니다!!"),HttpStatus.OK);
         }catch (CustomException e){
@@ -200,7 +200,7 @@ public class BoardController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateFixed(@PathVariable Long id){
         try{
-            BoardDto updateBoard = bService.update(id);
+            BoardDto updateBoard = boardService.update(id);
             log.info("강의 업데이트 완료: {}",updateBoard);
             return new ResponseEntity<>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.OK);
         }catch (CustomException e){

@@ -1,26 +1,52 @@
 package com.example.dolearn.service;
 
 import com.example.dolearn.domain.Board;
+import com.example.dolearn.domain.User;
+import com.example.dolearn.domain.UserBoard;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.BoardRepository;
+import com.example.dolearn.repository.UserBoardRepository;
+import com.example.dolearn.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.util.*;
 
 @Service
+@Slf4j
 public class BoardService {
 
     @Autowired
     private BoardRepository bRepo;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserBoardRepository userBoardRepository;
+
     @Transactional
-    public BoardDto insert(BoardDto boardDto) throws ParseException {
-        return bRepo.save(boardDto.toEntity()).toDto();
+    public BoardDto insert(BoardDto boardDto) throws Exception {
+        boardDto.setTimes();
+        Board board =boardDto.toEntity();
+
+        BoardDto result = bRepo.save(board).toDto();
+
+        User user = userRepository.findOneById(board.getUid()).get();
+
+        UserBoard userBoard = UserBoard.builder()
+                .uid(board.getUid()).bid(board.getId()).user(user).board(board).user_type("학생").build();
+
+        userBoardRepository.save(userBoard);
+
+        log.info("저장 요청: {}",board);
+        log.info("작성자 정보 저장: {}",userBoard);
+
+        return result;
     }
 
     @Transactional
@@ -30,8 +56,8 @@ public class BoardService {
 
         if(boardList.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
 
-        for(Board board: boardList){
-            BoardDto boardDto = board.toDto();
+        for(int i=boardList.size()-1;i>=0;i--){
+            BoardDto boardDto = boardList.get(i).toDto();
             boardDtoList.add(boardDto);
         }
 
