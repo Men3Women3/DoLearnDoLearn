@@ -135,6 +135,21 @@ public class BoardServiceTest {
         assertEquals(boardList.size(),result.size());
     }
 
+    @DisplayName("요약으로 검색")
+    @Test
+    public void searchBoardSummaryTest() throws Exception{
+        List<Board> boardList = new ArrayList<>();
+
+        boardList.add(boardDto1.toEntity());
+        boardList.add(boardDto2.toEntity());
+
+        when(boardRepository.findBySummaryContaining(any())).thenReturn(boardList);
+
+        List<Board> result = boardService.searchBoardSummary(any());
+
+        assertEquals(boardList.size(),result.size());
+    }
+
     @DisplayName("강의 확정 업데이트")
     @Test
     public void updateTest() throws Exception{
@@ -211,7 +226,7 @@ public class BoardServiceTest {
 
     @DisplayName("수강 취소")
     @Test
-    public void applyCancelTest() throws Exception{
+    public void applyCancelTest(){
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
 
         when(userBoardRepository.delete(any(),any())).thenReturn(1);
