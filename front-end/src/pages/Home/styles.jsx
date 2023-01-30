@@ -1,55 +1,64 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SContainer = styled.main`
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   .main__section {
-    position: static;
+    font-family: ${(props) => props.theme.fontFamily.Bold};
+    /* font-family: "Noto Sans KR", sans-serif; */
+    font-weight: 400;
+    position: relative;
     width: 100%;
     height: 550px;
-    background-color: #fff9db;
+    /* background-color: #ffe89a; */
+    background: rgb(255, 247, 205);
+    background: linear-gradient(
+      140deg,
+      rgba(255, 247, 205, 1) 32%,
+      rgba(255, 191, 103, 1) 100%
+    );
     display: flex;
     justify-content: center;
     align-items: center;
     h1 {
+      /* font-family: ${(props) => props.theme.fontFamily.Light}; */
+      font-family: "GmarketSansBold";
+
       margin: 0px;
-      font-size: 60px;
-      margin-bottom: 40px;
+      font-size: calc(2vw + 28px);
+      margin-bottom: calc(1vw + 30px);
+      margin-top: calc(1vw + 1px);
     }
     h3 {
-      font-size: 48px;
+      /* font-family: ${(props) => props.theme.fontFamily.Thin}; */
+      font-family: "GmarketSansLight";
+      font-size: calc(1vw + 11px);
       margin: 0px;
+      line-height: calc(1vw+40px);
     }
-    span {
-      font-size: 22px;
+    h4 {
+      font-family: "GmarketSansLight";
+      font-size: calc(1vw + 3px);
+      margin: 0px;
+      line-height: calc(1vw+20px);
+      color: #787878;
     }
     & > div {
       display: flex;
       justify-content: center;
       .main__content {
-        min-width: 525px;
+        /* min-width: 525px; */
         /* padding-left: 50px; */
         display: flex;
         flex-direction: column;
         justify-content: center;
       }
     }
-    .added-margin-right {
-      margin-right: 14px;
-    }
-    .normal-margin-right {
-    }
-    img {
-    }
-    .main__normal-img {
-      width: 480px;
-      height: 346px;
-    }
-    .main__small-img {
-      width: 320px;
-      height: 346px;
-      margin-right: 146px;
-      transform: translateX(-60px);
+    .lottie-container {
+      cursor: pointer;
+      width: calc(2vw + 600px);
+      margin-left: calc(2vw + 80px);
+      /* transform: translateX(60px); */
     }
   }
 
@@ -80,4 +89,4 @@ export const SContainer = styled.main`
       }
     }
   }
-`;
+`
