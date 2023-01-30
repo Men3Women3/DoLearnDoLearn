@@ -239,7 +239,6 @@ const NewBoard = () => {
             min={today}
             onChange={(e) => setLectureDay(e.target.value)}
           ></S.SLectureInput>
-          <h3>-</h3>
           <S.STimeInput
             type="number"
             min={1}
