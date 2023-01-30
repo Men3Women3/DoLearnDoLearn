@@ -22,6 +22,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.3",
     "bootstrap": "^5.2.3",
+    "http-proxy-middleware": "^2.0.6",
     "p-min-delay": "^4.0.2",
     "react": "^18.2.0",
     "react-custom-scrollbars": "^4.2.1",

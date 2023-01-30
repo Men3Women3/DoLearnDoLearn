@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { getUserInfoAndUpdate, logoutAPI } from "./utils/api/userAPI";
+import OauthRedirect from "./pages/OauthRedirect";
 
 // 코드 스플리팅 (Code Splitting)
 const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
@@ -91,6 +92,7 @@ function App() {
                   element={isLogined ? <User /> : <Home />}
                 />
                 <Route path="/lecture" element={<Lecture />} />
+                <Route path="/oauth-redirect" element={<OauthRedirect />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
