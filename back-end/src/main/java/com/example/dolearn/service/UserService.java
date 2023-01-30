@@ -76,12 +76,24 @@ public class UserService {
             throw new CustomException(ErrorCode.NO_USER);
         }
         UserDto userDto = user.get().toDto();
-        userDto.setImgSrc(reqUserDto.getImgSrc());
         userDto.setInfo(reqUserDto.getInfo());
         userDto.setBlog(reqUserDto.getBlog());
         userDto.setInstagram(reqUserDto.getInstagram());
         userDto.setFacebook(reqUserDto.getFacebook());
         userDto.setYoutube(reqUserDto.getYoutube());
+        return userRepository.save(userDto.toEntity()).toDto();
+    }
+
+    public UserDto updateImgSrc(Long id, String imgSrc){
+        if(imgSrc == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        UserDto userDto = user.get().toDto();
+        userDto.setImgSrc(imgSrc);
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
