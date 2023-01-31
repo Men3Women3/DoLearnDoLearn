@@ -20,6 +20,7 @@ const style = {
 
 // Uniboard에서 데이터 받아올 것
 const LectureModal = ({ data, open, setOpen, handleClose }) => {
+  console.log("받은 데이터", data);
   const createdTime = data.createdTime.substring(0, 10).replaceAll("-", "."); // 모집시작
   const deadline = data.deadline.substring(0, 10).replaceAll("-", "."); // 모집마감
   const startTime = data.startTime.substring(0, 16).replaceAll("-", "."); // 강의시작

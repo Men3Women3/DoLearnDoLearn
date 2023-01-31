@@ -4,8 +4,15 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { SCalendar } from "./styles";
 import { getScheduledLectureAPI } from "../../utils/api/userAPI";
+import LectureModal from "../LectureModal";
 
 const Calendar = () => {
+  // Modal 파트 ========================
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  let data; //모달에 전달할 데이터
+  // ===================================
   const [scheduledLecture, setScheduledLecture] = useState({});
 
   useEffect(() => {
@@ -13,8 +20,23 @@ const Calendar = () => {
   }, []);
 
   const handleEventClick = (arg) => {
-    alert(arg.event.title);
-    console.log(arg);
+    data = {
+      id: arg.event.id,
+      uid: arg.event._def.extendedProps.uid,
+      createdTime: arg.event._def.extendedProps.createdTime,
+      deadline: arg.event._def.extendedProps.deadline,
+      startTime: arg.event.startStr,
+      endTime: arg.event.endStr,
+      title: arg.event.title,
+      content: arg.event._def.extendedProps.content,
+      summary: arg.event._def.extendedProps.summary,
+      instructors: arg.event._def.extendedProps.instructors,
+      students: arg.event._def.extendedProps.students,
+      maxCnt: arg.event._def.extendedProps.maxCnt,
+      isFixed: arg.event._def.extendedProps.isFixed,
+    };
+    console.log("모달에 보낼 데이터", data);
+    setOpen(true);
   };
   const eventContent = (eventInfo) => {
     return (
@@ -59,6 +81,14 @@ const Calendar = () => {
         // firstDay={1}
         eventContent={eventContent}
       />
+      {open ? (
+        <LectureModal
+          data={data}
+          open={open}
+          setOpen={setOpen}
+          handleClose={handleClose}
+        />
+      ) : null}
     </SCalendar>
   );
 };
