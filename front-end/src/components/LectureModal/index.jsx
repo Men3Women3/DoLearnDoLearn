@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as S from "./styles";
@@ -18,31 +18,12 @@ const style = {
   padding: "3vw",
 };
 
-// Uniboard에서 데이터 받아와야함 (그래서 props가 있는거)
-const LectureModal = ({ data, open, handleClose }) => {
-  const BOARD_URL = "http://localhost:8080";
-
-  // 이거 왜 안되는데 왜왜왜왜왜왜왜왜왜왜왜왜왜...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // const [lecturer, setLecturer] = useState([]);
-  // const [student, setStudent] = useState([]);
-
-  // const handleList = async () => {
-  //   const board = data.id;
-  //   const lect = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
-  //   const stud = await axios.get(`${BOARD_URL}/student-list/${board}`);
-  //   console.log(lect);
-  //   console.log(stud);
-  // };
-
-  // useEffect(() => {
-  //   handleList();
-  // }, []);
-  // ===========================================================================
-
-  const createdTime = data.createdTime.substring(0, 10); // 모집시작
-  const deadline = data.deadline.substring(0, 10); // 모집마감
-  const startTime = data.startTime.substring(0, 16); // 강의시작
-  const endTime = data.endTime.substring(11, 16); // 강의 종료
+// Uniboard에서 데이터 받아올 것
+const LectureModal = ({ data, open, setOpen, handleClose }) => {
+  const createdTime = data.createdTime.substring(0, 10).replaceAll("-", "."); // 모집시작
+  const deadline = data.deadline.substring(0, 10).replaceAll("-", "."); // 모집마감
+  const startTime = data.startTime.substring(0, 16).replaceAll("-", "."); // 강의시작
+  const endTime = data.endTime.substring(11, 16).replaceAll("-", "."); // 강의 종료
 
   return (
     <Modal
@@ -59,14 +40,14 @@ const LectureModal = ({ data, open, handleClose }) => {
             {/* 3. 모집 기간 */}
             <S.SCalendar icon={f.faCalendarDays}></S.SCalendar>
             <S.SSpan>
-              모집 기간 | {createdTime} - {deadline}
+              모집 기간 | {createdTime} ~ {deadline}
             </S.SSpan>
           </S.SInfoItem>
           <S.SInfoItem>
             {/* 4. 강의 시간 */}
             <S.SClock icon={f.faClock}></S.SClock>
             <S.SSpan>
-              강의 시간 | {startTime} - {endTime}
+              강의 시간 | {startTime} ~ {endTime}
             </S.SSpan>
           </S.SInfoItem>
           <S.SInfoItem>
@@ -87,7 +68,12 @@ const LectureModal = ({ data, open, handleClose }) => {
             <S.SDetail>{data.content}</S.SDetail>
           </S.SInfoItem>
           {/* 8. 여기는 각 경우에 따른 추가 컴포넌트 띄우는 곳 */}
-          <LectureModalButton data={data} />
+          <LectureModalButton
+            data={data}
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose}
+          />
         </div>
       </Box>
     </Modal>
