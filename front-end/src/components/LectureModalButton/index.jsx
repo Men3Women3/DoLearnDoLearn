@@ -6,9 +6,9 @@ import {
   enrollClassAPI,
   enrollLecturerAPI,
   fixClassAPI,
-  lecturerListAPI,
-  studentListAPI,
+  lecturerNameAPI,
 } from "../../utils/api/boardAPI";
+import axios from "axios";
 
 const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
@@ -39,27 +39,42 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
 
   // 강사 목록 호출
   // LectureModal 클릭시 즉시 확인
-  const [nameList, setNameList] = useState([]); // 강사 목록용 배열
-  const [lecList, setLecList] = useState([]); // 강사 id용 배열
-  const [stuList, setStuList] = useState([]); // 신청자 id용 배열
-  useEffect(() => {});
-  lecturerListAPI(data.id, setNameList, setLecList);
-  studentListAPI(data.id, setStuList);
-
-  // 수강생 목록 호출
+  const [nameList, setNameList] = useState([]);
+  useEffect(() => {
+    lecturerNameAPI(data.id, setNameList);
+  });
 
   // =================================================
 
+  const SERVER_URL = "http://localhost:8080";
+
+  const [stuList, setStuList] = useState([]);
+  const handleStuList = async () => {
+    const board = data.id;
+    const list = [];
+    const res = await axios.get(`${SERVER_URL}/board/student-list/${board}`);
+    if (res.data.response === "신청한 학생이 없습니다") {
+      console.log(res.data.response);
+    } else {
+      res.data.response.map((item) => {
+        list.push(item.uid); // 각 신청자의 uid입력
+      });
+      // console.log(list);
+      setStuList(list);
+      // console.log(stuList);
+    }
+  };
+
   return (
     <>
-      {/* <button onClick={handlestuList}>테스트</button> */}
+      <button onClick={handleStuList}>테스트</button>
       {/* 1. 방장 / 강의 미확정 */}
       {isLogined && data.uid === userInfo.id && data.isFixed === 0 ? (
         <>
           {/* 신청 강사 목록이 비어있지 않은 경우에는 목록을 보여주고 그 외에는 공백 */}
-          {lecList.length > 0 ? (
+          {nameList.length > 0 ? (
             <SBox>
-              {lecList.map((item, i) => {
+              {nameList.map((item, i) => {
                 return (
                   // 여기 수정하자 =======================
                   <SListBox key={i}>
@@ -87,7 +102,7 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
       {/* 2. 신청자 */}
       {/* 로그인을 한 사용자고 강사 혹은 수강생으로 신청한 이력이 있는 경우 */}
       {isLogined &&
-      (lecList.includes(userInfo.id) || stuList.includes(userInfo.id)) ? (
+      (nameList.includes(userInfo.id) || stuList.includes(userInfo.id)) ? (
         <SButtonBox>
           <SButton>Live 입장</SButton>
           <SButton onClick={deleteClass}>신청취소</SButton>
