@@ -37,6 +37,7 @@ public class UserRepositoryTest {
     private  String instagram;
     private  String facebook;
     private  String blog;
+    private String youtube;
     private String imgSrc;
     private String refreshToken;
     private String accessToken;
@@ -49,6 +50,9 @@ public class UserRepositoryTest {
         name = "가입자명";
         email = "abcd@daum.net";
         password = "abcdpassord";
+        info = "안녕하세요";
+        gender = "F";
+        point = 50;
     }
 
     @Nested
@@ -57,7 +61,8 @@ public class UserRepositoryTest {
         @Test
         @DisplayName("사용자 추가 성공")
         public void success() {
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
+            UserDto userDto = UserDto.builder().name(name).email(email).password(password).info(info).gender(gender).
+                    instagram(instagram).facebook(facebook).blog(blog).youtube(youtube).build();
 
             User user = userRepository.save(userDto.toEntity());
 
