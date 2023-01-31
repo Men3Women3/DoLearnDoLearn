@@ -6,7 +6,8 @@ import {
   enrollClassAPI,
   enrollLecturerAPI,
   fixClassAPI,
-  lecturerAPI,
+  lecturerNameAPI,
+  lecListAPI,
   stuListAPI,
 } from "../../utils/api/boardAPI";
 
@@ -43,11 +44,13 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   const [stuList, setStuList] = useState([]);
   const [lecList, setLecList] = useState([]);
   useEffect(() => {
-    lecturerAPI(data.id, setNameList);
+    lecturerNameAPI(data.id, setNameList);
+    lecListAPI(data.id, setLecList);
     stuListAPI(data.id, setStuList);
   }, []);
 
   console.log(stuList);
+  console.log(lecList);
 
   // =================================================
 
