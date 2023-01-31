@@ -314,3 +314,21 @@ export const getUnScheduledLectureAPI = (userId, setTotalSchedule) => {
       setTotalSchedule(res.data.response);
     });
 };
+
+// 확정 강의 내열 불러오는 api를 요청하는 함수
+export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
+  const accessToken = localStorage.getItem("accessToken");
+  axios
+    .get(
+      `${axiosDefaultURL}/user/fixed-lecture/${userId}`,
+      {},
+      {
+        headers: {
+          Authentication: accessToken,
+        },
+      }
+    )
+    .then((res) => {
+      setScheduledLecture(res.data.response);
+    });
+};

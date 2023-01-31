@@ -26,7 +26,6 @@ import axios from "axios";
 
 const ProfileEdit = (props) => {
   const SERVER_URL = "http://localhost:8080";
-
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext);
   const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
@@ -44,9 +43,8 @@ const ProfileEdit = (props) => {
   // 프로필 이미지 관련 변수
   const [profileImg, setProfileImg] = useState({
     image_file: "",
-    preview_URL: getUserInfo.userInfo.imgSrc,
+    preview_URL: `${SERVER_URL}${getUserInfo.userInfo.imgUrl}`,
   });
-  // const [profileImgUrl, setProfileImgUrl] = useState("")
 
   const fileInput = React.useRef(null);
 
@@ -65,9 +63,7 @@ const ProfileEdit = (props) => {
     }
     reader.onloadend = () => {
       const previewImgUrl = reader.result;
-
       if (previewImgUrl) {
-        // setProfileImgUrl(previewImgUrl)
         setProfileImg({
           image_file: file,
           preview_URL: previewImgUrl,
@@ -77,7 +73,7 @@ const ProfileEdit = (props) => {
   };
 
   // DB에 수정요청을 하는 axios 함수
-  const updateUserInfoAPI = async () => {
+  const updateUserInfoAPI = () => {
     const data = {
       id: getUserInfo.userInfo.id,
       info: selfIntroduction,
@@ -86,8 +82,8 @@ const ProfileEdit = (props) => {
       facebook: facebook,
       youtube: youtubeLink,
     };
-    try {
-      const res = await axios.put(`${SERVER_URL}/user`, data, {
+    axios
+      .put(`${SERVER_URL}/user`, data, {
         headers: {
           // ------------------------------------------
           // -----------------수정 필요----------------
@@ -96,12 +92,11 @@ const ProfileEdit = (props) => {
           // ------------------------------------------
           Authentication: localStorage.getItem("accessToken"),
         },
+        // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트
+      })
+      .then((res) => {
+        handleUserInfo(res.data.response);
       });
-      // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트
-      handleUserInfo(res.data.response);
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const updateProfileImgAPI = () => {
@@ -134,7 +129,6 @@ const ProfileEdit = (props) => {
     props.handleProfileEditBtn();
   };
 
-  console.log("현재 들어오는 값", profileImg);
   return (
     <SProfileEditContainer>
       <div className="profileContentContainer">

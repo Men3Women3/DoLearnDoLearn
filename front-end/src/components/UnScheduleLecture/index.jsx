@@ -115,7 +115,7 @@ const UnScheduleLecture = () => {
     handleFilterData();
   }, [filterValue]);
 
-  console.log("데이터가 들어오나?", filteredData);
+  // console.log("데이터가 들어오나?", filteredData);
   return (
     <>
       <div

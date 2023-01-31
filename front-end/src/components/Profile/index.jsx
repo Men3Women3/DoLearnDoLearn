@@ -26,6 +26,7 @@ const checkIsBlank = (target) => {
   if (target !== "") return true;
   return false;
 };
+const SERVER_URL = "http://localhost:8080";
 
 const Profile = (props) => {
   // context API에서 유저 정보 가져오기
@@ -44,8 +45,8 @@ const Profile = (props) => {
         <img
           className="profile-img"
           src={
-            getUserInfo.userInfo.imgSrc
-              ? getUserInfo.userInfo.imgSrc
+            getUserInfo.userInfo.imgUrl
+              ? `${SERVER_URL}${getUserInfo.userInfo.imgUrl}`
               : defaultProfile
           }
           alt="defaultProfile"
