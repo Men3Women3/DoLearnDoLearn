@@ -131,16 +131,17 @@ public class UserController {
 
             // 기존 파일 삭제
             UserDto userDto = userService.getInfo(id);
-            if(!userDto.getImgSrc().equals("")){
+            if(userDto.getImgSrc() != null && !userDto.getImgSrc().equals("")){
                 String prevFileName = userDto.getImgSrc();
                 new File(prevFileName).delete();
             }
             
+            UserDto result = userService.updateImgSrc(id, saveFolder + File.separator + saveFileName);
+
             // 파일 저장
             imgSrc.transferTo(new File(folder, saveFileName));
-            userDto.setImgSrc(saveFolder + File.separator + saveFileName);
 
-            return new ResponseEntity<>(new SuccessResponse(userService.updateInfo(userDto)), HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
