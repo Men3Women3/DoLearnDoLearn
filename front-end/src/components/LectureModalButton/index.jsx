@@ -49,12 +49,11 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
     stuListAPI(data.id, setStuList);
   }, []);
 
+  // 테스트용
   console.log(stuList);
   console.log(lecList);
 
   // =================================================
-
-  const SERVER_URL = "http://localhost:8080";
 
   // const handleStuList = async () => {
   //   const board = data.id;
@@ -72,18 +71,15 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   //   }
   // };
 
-  return (
-    <>
-      {/* <button onClick={handleStuList}>테스트</button> */}
-      {/* 1. 방장 / 강의 미확정 */}
-      {isLogined && data.uid === userInfo.id && data.isFixed === 0 ? (
+  if (data.uid === userInfo.id) {
+    if (data.isFixed === 0) {
+      return (
         <>
           {/* 신청 강사 목록이 비어있지 않은 경우에는 목록을 보여주고 그 외에는 공백 */}
           {nameList.length > 0 ? (
             <SBox>
               {nameList.map((item, i) => {
                 return (
-                  // 여기 수정하자 =======================
                   <SListBox key={i}>
                     <div>
                       {/* 신청한 강사의 uid를 value로 지정해 나중에 api로 서버에 확정 전송 시 이 value를 담아서 보냄 */}
@@ -103,31 +99,32 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
             <SButton onClick={deleteClass}>신청취소</SButton>
           </SButtonBox>
         </>
-      ) : (
-        ""
-      )}
-      {/* 2. 신청자 */}
-      {/* 로그인을 한 사용자고 강사 혹은 수강생으로 신청한 이력이 있는 경우 */}
-      {isLogined &&
-      (nameList.includes(userInfo.id) || stuList.includes(userInfo.id)) ? (
+      );
+    } else {
+      return (
         <SButtonBox>
           <SButton>Live 입장</SButton>
           <SButton onClick={deleteClass}>신청취소</SButton>
         </SButtonBox>
-      ) : (
-        ""
-      )}
-      {/* 3. 미신청자 */}
-      {isLogined ? (
-        <SButtonBox>
-          <SButton onClick={enrollLecturer}>강사 신청</SButton>
-          <SButton onClick={enrollClass}>수강생 신청</SButton>
-        </SButtonBox>
-      ) : (
-        ""
-      )}
-    </>
-  );
+      );
+    }
+  } else if (lecList.includes(userInfo.id) || stuList.includes(userInfo.id)) {
+    return (
+      <SButtonBox>
+        <SButton>Live 입장</SButton>
+        <SButton onClick={deleteClass}>신청취소</SButton>
+      </SButtonBox>
+    );
+  } else if (isLogined) {
+    return (
+      <SButtonBox>
+        <SButton onClick={enrollLecturer}>강사 신청</SButton>
+        <SButton onClick={enrollClass}>수강생 신청</SButton>
+      </SButtonBox>
+    );
+  } else {
+    return "";
+  }
 };
 
 export default LectureModalButton;
