@@ -84,8 +84,8 @@ public class UserService {
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
-    public UserDto updateImgSrc(Long id, String imgSrc){
-        if(imgSrc == null){
+    public UserDto updateImgInfo(Long id, String imgPath, String imgUrl){
+        if(id == null || imgPath == null || imgUrl == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
         Optional<User> user = userRepository.findOneById(id);
@@ -93,7 +93,8 @@ public class UserService {
             throw new CustomException(ErrorCode.NO_USER);
         }
         UserDto userDto = user.get().toDto();
-        userDto.setImgSrc(imgSrc);
+        userDto.setImgPath(imgPath);
+        userDto.setImgUrl(imgUrl);
         return userRepository.save(userDto.toEntity()).toDto();
     }
 

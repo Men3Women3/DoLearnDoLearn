@@ -11,12 +11,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.io.File;
@@ -115,13 +119,11 @@ public class UserController {
     }
 
     @PostMapping("/upload-img/{id}")
-    public ResponseEntity<?> uploadProfileImg(@PathVariable("id") Long id, @RequestPart(value="profileImg") MultipartFile imgSrc) throws IOException {
+    public ResponseEntity<?> uploadProfileImg(HttpServletRequest request, @PathVariable("id") Long id, @RequestPart(value="profileImg") MultipartFile imgSrc) throws IOException {
         try{
-            // 오늘날짜로 폴더 명명
-            String today = new SimpleDateFormat("yyMMdd").format(new Date());
-            String saveFolder = filePath + File.separator + today;
+            String folderPath = request.getSession().getServletContext().getRealPath(filePath);
 
-            File folder = new File(saveFolder);
+            File folder = new File(folderPath);
             if(!folder.exists())
                 folder.mkdirs();
 
@@ -131,12 +133,13 @@ public class UserController {
 
             // 기존 파일 삭제
             UserDto userDto = userService.getInfo(id);
-            if(userDto.getImgSrc() != null && !userDto.getImgSrc().equals("")){
-                String prevFileName = userDto.getImgSrc();
+            if(userDto.getImgPath() != null && !userDto.getImgPath().equals("")){
+                String prevFileName = userDto.getImgPath();
                 new File(prevFileName).delete();
             }
-            
-            UserDto result = userService.updateImgSrc(id, saveFolder + File.separator + saveFileName);
+            String imgPath = folderPath + File.separator + saveFileName;
+            String imgUrl = filePath+ "/" + saveFileName;
+            UserDto result = userService.updateImgInfo(id, imgPath, imgUrl);
 
             // 파일 저장
             imgSrc.transferTo(new File(folder, saveFileName));

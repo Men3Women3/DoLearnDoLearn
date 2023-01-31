@@ -181,7 +181,8 @@ class UserServiceTest {
 
         private Long id;
         private String email;
-        private String imgSrc;
+        private String imgPath;
+        private String imgUrl;
         private String info;
         private String blog;
         private String facebook;
@@ -192,7 +193,8 @@ class UserServiceTest {
         void setup(){
             id = 1L;
             email = "ssafy@naver.com";
-            imgSrc = "새로운 이미지 링크";
+            imgPath = "새로운 이미지 path";
+            imgUrl = "새로운 이미지 url";
             info = "안녕하세요";
             blog = "새로운 블로그 링크";
             facebook = "새로운 페이스북 링크";
@@ -204,7 +206,7 @@ class UserServiceTest {
         @DisplayName("사용자 정보 수정 성공")
         void success() {
             UserDto reqUserDto = UserDto.builder().id(id).email(email)
-                    .imgSrc(imgSrc).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
+                    .imgPath(imgPath).imgUrl(imgUrl).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
                     .build();
 
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
@@ -233,7 +235,7 @@ class UserServiceTest {
         @DisplayName("사용자 정보 수정 실패 - 존재하지 않는 사용자")
         void failById() {
             UserDto reqUserDto = UserDto.builder().id(id).email(email)
-                    .imgSrc(imgSrc).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
+                    .imgPath(imgPath).imgUrl(imgUrl).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
                     .build();
 
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
