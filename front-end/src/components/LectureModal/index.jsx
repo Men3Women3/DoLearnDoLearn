@@ -20,10 +20,10 @@ const style = {
 
 // Uniboard에서 데이터 받아올 것
 const LectureModal = ({ data, open, setOpen, handleClose }) => {
-  const createdTime = data.createdTime.substring(0, 10); // 모집시작
-  const deadline = data.deadline.substring(0, 10); // 모집마감
-  const startTime = data.startTime.substring(0, 16); // 강의시작
-  const endTime = data.endTime.substring(11, 16); // 강의 종료
+  const createdTime = data.createdTime.substring(0, 10).replaceAll("-", "."); // 모집시작
+  const deadline = data.deadline.substring(0, 10).replaceAll("-", "."); // 모집마감
+  const startTime = data.startTime.substring(0, 16).replaceAll("-", "."); // 강의시작
+  const endTime = data.endTime.substring(11, 16).replaceAll("-", "."); // 강의 종료
 
   return (
     <Modal
@@ -40,14 +40,14 @@ const LectureModal = ({ data, open, setOpen, handleClose }) => {
             {/* 3. 모집 기간 */}
             <S.SCalendar icon={f.faCalendarDays}></S.SCalendar>
             <S.SSpan>
-              모집 기간 | {createdTime} - {deadline}
+              모집 기간 | {createdTime} ~ {deadline}
             </S.SSpan>
           </S.SInfoItem>
           <S.SInfoItem>
             {/* 4. 강의 시간 */}
             <S.SClock icon={f.faClock}></S.SClock>
             <S.SSpan>
-              강의 시간 | {startTime} - {endTime}
+              강의 시간 | {startTime} ~ {endTime}
             </S.SSpan>
           </S.SInfoItem>
           <S.SInfoItem>
