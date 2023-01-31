@@ -59,7 +59,7 @@ public class UserBoardService {
             return ubRepo.save(result).toDto();
         }
         else{
-            if(result.getBoard().getMaxCnt()>=ubRepo.countStudents(userBoard.getBid())){
+            if(result.getBoard().getMaxCnt()>=ubRepo.findStudents(userBoard.getBid()).size()){
                 return ubRepo.save(result).toDto();
             }
             else{
