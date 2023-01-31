@@ -1,24 +1,24 @@
-import React, { useContext } from "react"
-import UnScheduleLectureItem from "../UnScheduleLectureItem"
-import profileImg from "../../assets/images/thumbnail.png"
-import { Menu, Typography } from "@mui/material"
-import { Modal } from "@mui/material"
-import { Box } from "@mui/material"
-import { Select } from "@mui/material"
-import { MenuItem } from "@mui/material"
-import { FormControl } from "@mui/material"
-import { useState, useEffect } from "react"
-import { SnippetFolder } from "@mui/icons-material"
+import React, { useContext } from "react";
+import UnScheduleLectureItem from "../UnScheduleLectureItem";
+import profileImg from "../../assets/images/thumbnail.png";
+import { Menu, Typography } from "@mui/material";
+import { Modal } from "@mui/material";
+import { Box } from "@mui/material";
+import { Select } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { FormControl } from "@mui/material";
+import { useState, useEffect } from "react";
+import { SnippetFolder } from "@mui/icons-material";
 import {
   getUnScheduledLecture,
   getUnScheduledLectureAPI,
-} from "../../utils/api/userAPI"
-import { LoginStateContext } from "../../App"
+} from "../../utils/api/userAPI";
+import { LoginStateContext } from "../../App";
 
 const UnScheduleLecture = () => {
-  const getUserInfo = useContext(LoginStateContext)
+  const getUserInfo = useContext(LoginStateContext);
   // 현재 로그인한 유저 데이터
-  const user = getUserInfo.name
+  const user = getUserInfo.name;
   // api로 받아오는 데이터(임시)
   const [totalUnScheduledLecture, setTotalUnScheduledLecture] = useState([
     {
@@ -77,32 +77,32 @@ const UnScheduleLecture = () => {
       host: "구싸피",
       teacher: "박싸피",
     },
-  ])
+  ]);
   // select 선택시 받을 값
-  const [filterValue, setFilterValue] = useState("all")
+  const [filterValue, setFilterValue] = useState("all");
   // 필터된 데이터
-  const [filteredData, setFilteredData] = useState(totalUnScheduledLecture)
+  const [filteredData, setFilteredData] = useState(totalUnScheduledLecture);
 
   const handleChange = (e) => {
     // 모든 데이터에서 필터할 수 있도록 데이터 초기화
-    setFilteredData(totalUnScheduledLecture)
+    setFilteredData(totalUnScheduledLecture);
     // 필터값 변경
-    setFilterValue(e.target.value)
-  }
+    setFilterValue(e.target.value);
+  };
 
   const handleFilterData = () => {
     if (filterValue === "all") {
-      return
+      return;
     } else if (filterValue === "host") {
-      setFilteredData((data) => data.filter((x) => x.host === user))
+      setFilteredData((data) => data.filter((x) => x.host === user));
     } else if (filterValue === "teacher") {
-      setFilteredData((data) => data.filter((x) => x.teacher === user))
+      setFilteredData((data) => data.filter((x) => x.teacher === user));
     } else {
       setFilteredData((data) =>
         data.filter((x) => x.teacher !== user && x.host !== user)
-      )
+      );
     }
-  }
+  };
 
   // 렌더링시 미확인 강의 목록 받아옴
   // useEffect(() => {
@@ -112,10 +112,10 @@ const UnScheduleLecture = () => {
 
   useEffect(() => {
     // 필터 값 변경시, handlefilterData 함수 실행
-    handleFilterData()
-  }, [filterValue])
+    handleFilterData();
+  }, [filterValue]);
 
-  console.log("데이터가 들어오나?", filteredData)
+  console.log("데이터가 들어오나?", filteredData);
   return (
     <>
       <div
@@ -144,12 +144,12 @@ const UnScheduleLecture = () => {
               <div key={item.id} style={{ margin: "15px 0" }}>
                 <UnScheduleLectureItem data={item} />
               </div>
-            )
+            );
           })
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UnScheduleLecture
+export default UnScheduleLecture;

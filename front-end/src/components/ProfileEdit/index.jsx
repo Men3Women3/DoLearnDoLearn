@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import { useContext } from "react"
-import { LoginStateContext, LoginStateHandlerContext } from "../../App"
+import React, { useState } from "react";
+import { useContext } from "react";
+import { LoginStateContext, LoginStateHandlerContext } from "../../App";
 import {
   SProfileEditContainer,
   SSubContainerUp,
@@ -10,75 +10,74 @@ import {
   SBlackButton,
   STextAreaIcon,
   SInputIcon,
-} from "./styles"
+} from "./styles";
 
-import defaultProfileImg from "../../assets/images/defaultProfile.png"
+import defaultProfileImg from "../../assets/images/defaultProfile.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faComment, faGear, faLink } from "@fortawesome/free-solid-svg-icons"
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment, faGear, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebook,
   faInstagram,
   faYoutube,
-} from "@fortawesome/free-brands-svg-icons"
-import axios from "axios"
+} from "@fortawesome/free-brands-svg-icons";
+import axios from "axios";
 
 const ProfileEdit = (props) => {
-  const SERVER_URL = "http://localhost:8080"
+  const SERVER_URL = "http://localhost:8080";
 
   // context API에서 유저 정보 가져오기
-  const getUserInfo = useContext(LoginStateContext)
+  const getUserInfo = useContext(LoginStateContext);
   const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
     LoginStateHandlerContext
-  )
+  );
   // 받아오는 데이터 -> 수정될 데이터
-  const [blogLink, setBlogLink] = useState(getUserInfo.userInfo.blog)
-  const [youtubeLink, setYoutubeLink] = useState(getUserInfo.userInfo.youtube)
-  const [instagram, setInstagram] = useState(getUserInfo.userInfo.instagram)
-  const [facebook, setFacebook] = useState(getUserInfo.userInfo.facebook)
+  const [blogLink, setBlogLink] = useState(getUserInfo.userInfo.blog);
+  const [youtubeLink, setYoutubeLink] = useState(getUserInfo.userInfo.youtube);
+  const [instagram, setInstagram] = useState(getUserInfo.userInfo.instagram);
+  const [facebook, setFacebook] = useState(getUserInfo.userInfo.facebook);
   const [selfIntroduction, setSelfIntroduction] = useState(
     getUserInfo.userInfo.info
-  )
+  );
 
   // 프로필 이미지 관련 변수
   const [profileImg, setProfileImg] = useState({
     image_file: "",
-    preview_URL: defaultProfileImg,
-  })
+    preview_URL: getUserInfo.userInfo.imgSrc,
+  });
   // const [profileImgUrl, setProfileImgUrl] = useState("")
 
-  const fileInput = React.useRef(null)
+  const fileInput = React.useRef(null);
 
   // 프로필 이미지 수정을 눌렀을 때,
   // 사진 파일 선택할 수 있는 창 띄움
   const handleEditProfileImg = (e) => {
-    fileInput.current.click()
-  }
+    fileInput.current.click();
+  };
   // 사진 파일 선택한 후,
   // 바뀐 파일로 프로필 사진 변경 미리보기
   const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    let reader = new FileReader()
+    const file = e.target.files[0];
+    let reader = new FileReader();
     if (file) {
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file);
     }
     reader.onloadend = () => {
-      const previewImgUrl = reader.result
+      const previewImgUrl = reader.result;
 
       if (previewImgUrl) {
         // setProfileImgUrl(previewImgUrl)
         setProfileImg({
           image_file: file,
           preview_URL: previewImgUrl,
-        })
+        });
       }
-    }
-  }
+    };
+  };
 
   // DB에 수정요청을 하는 axios 함수
-  const axios_put = async () => {
-    // const formData = new FormData();
+  const updateUserInfoAPI = async () => {
     const data = {
       id: getUserInfo.userInfo.id,
       info: selfIntroduction,
@@ -86,10 +85,7 @@ const ProfileEdit = (props) => {
       instagram: instagram,
       facebook: facebook,
       youtube: youtubeLink,
-    }
-    // for (let value of formData.values()) {
-    // console.log("값들", value);
-    // }
+    };
     try {
       const res = await axios.put(`${SERVER_URL}/user`, data, {
         headers: {
@@ -100,23 +96,45 @@ const ProfileEdit = (props) => {
           // ------------------------------------------
           Authentication: localStorage.getItem("accessToken"),
         },
-      })
+      });
       // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트
-      handleUserInfo(res.data.response)
+      handleUserInfo(res.data.response);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
+
+  const updateProfileImgAPI = () => {
+    const formData = new FormData();
+    formData.append("profileImg", profileImg.image_file);
+    axios
+      .post(
+        `${SERVER_URL}/user/upload-img/${getUserInfo.userInfo.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        handleUserInfo(res.data.response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // 수정완료 버튼을 눌렀을 때 기능
   // 입력받은 데이터를 db에서 수정하도록 PUT 요청
   // 다시 프로필 화면으로 이동
   const handleCompleteEdit = () => {
-    // console.log("프로필 이미지에 들어있는 값", profileImg);
-    axios_put()
-    props.handleProfileEditBtn()
-  }
+    updateUserInfoAPI();
+    updateProfileImgAPI();
+    props.handleProfileEditBtn();
+  };
 
+  console.log("현재 들어오는 값", profileImg);
   return (
     <SProfileEditContainer>
       <div className="profileContentContainer">
@@ -282,7 +300,7 @@ const ProfileEdit = (props) => {
         </SSubContainerDown>
       </div>
     </SProfileEditContainer>
-  )
-}
+  );
+};
 
-export default ProfileEdit
+export default ProfileEdit;
