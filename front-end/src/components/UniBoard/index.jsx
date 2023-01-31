@@ -21,7 +21,7 @@ const UniBoard = ({ data }) => {
   // ===================================
 
   const startTime = data.createdTime.substring(5, 10).replaceAll("-", ".");
-  const deadline = data.endTime.substring(5, 10).replaceAll("-", ".");
+  const deadline = data.endTime.substring(5, 13).replaceAll("-", ".");
   const endTime = data.deadline.substring(5, 10).replaceAll("-", ".");
 
   const thumbnails = [
@@ -48,7 +48,7 @@ const UniBoard = ({ data }) => {
           </p>
           <p>
             <FontAwesomeIcon icon={F.faCalendarDays} />
-            &nbsp;강의시간 | {deadline}
+            &nbsp;강의시간 | {deadline}시
           </p>
           <p>
             <FontAwesomeIcon icon={F.faPersonChalkboard} />
