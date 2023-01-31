@@ -6,6 +6,7 @@ import {
   enrollClassAPI,
   enrollLecturerAPI,
   fixClassAPI,
+  lecturerNameAPI,
 } from "../../utils/api/boardAPI";
 import axios from "axios";
 
@@ -30,46 +31,47 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
     setOpen(false);
   };
 
-  // 방장의 강의 확정
+  // 강의 확정
   const fixClass = () => {
     fixClassAPI(data.id);
     setOpen(false);
   };
+
+  // 강사 목록 호출
+  // LectureModal 클릭시 즉시 확인
+  const [nameList, setNameList] = useState([]);
+  useEffect(() => {
+    lecturerNameAPI(data.id, setNameList);
+  });
+
   // =================================================
 
   const SERVER_URL = "http://localhost:8080";
-  const [nameList, setNameList] = useState([]);
-  const handleNameList = async () => {
-    const board = data.id;
-    const res = await axios.get(`${SERVER_URL}/board/instructor-list/${board}`);
-    if (res.data.response === "신청한 강사가 없습니다") {
-      console.log("신청 강사 없음");
-      setNameList([]);
-    } else {
-      setNameList(res.data.response);
-      console.log(res.data.response); // 신청한 강사 이름
-    }
-  };
 
   const [stuIdList, setStuIdList] = useState([]);
   const handleStuIdList = async () => {
     const board = data.id;
+    const list = [];
     const res = await axios.get(`${SERVER_URL}/board/student-list/${board}`);
-    setStuIdList(res.data.response);
+    res.data.response.map((item) => {
+      list.push(item.uid); // 각 신청자의 uid입력
+    });
+    // setStuIdList(list);
     if (res.data.response === "신청한 학생이 없습니다") {
       console.log(res.data.response);
     } else {
-      stuIdList.map((student) => {
-        setStuIdList(stuIdList.concat(student.uid));
-      });
+      // stuIdList.map((student) => {
+      //   setStuIdList(stuIdList.concat(student.uid));
+      // });
       // console.log(res.data.response[0].uid); // 신청한 학생 uid
-      console.log(stuIdList);
+      // console.log(stuIdList);
+      console.log(list);
     }
   };
 
   return (
     <>
-      <button onClick={handleNameList}>테스트</button>
+      <button onClick={handleStuIdList}>테스트</button>
       {/* 1. 방장 / 강의 미확정 */}
       {isLogined && data.uid === userInfo.id && data.isFixed === 0 ? (
         <>
@@ -83,7 +85,7 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
                     <div>
                       {/* 신청한 강사의 uid를 value로 지정해 나중에 api로 서버에 확정 전송 시 이 value를 담아서 보냄 */}
                       <input type="radio" name="lecturer" value={item.uid} />
-                      {/* 강사의 이름을 순서대로 출력 */}
+                      {/* 강사의 이름(user.name)을 순서대로 출력 */}
                       <span>{item.user.name}</span>
                     </div>
                   </SListBox>

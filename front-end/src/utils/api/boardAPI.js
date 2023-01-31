@@ -108,3 +108,18 @@ export const searchAPI = async (keyword, setList, setIsEmpty) => {
     }
   }
 };
+
+// 신청 강사 목록 확인 API
+export const lecturerNameAPI = async (board, setNameList) => {
+  try {
+    const res = await axios.get(`${SERVER_URL}/instructor-list/${board}`);
+    if (res.data.response === "신청한 강사가 없습니다") {
+      setNameList([]);
+    } else {
+      setNameList(res.data.response);
+    }
+  } catch (err) {
+    console.log(err);
+    console.log("강사 목록 가져오기 실패");
+  }
+};
