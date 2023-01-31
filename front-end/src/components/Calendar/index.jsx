@@ -44,7 +44,7 @@ const Calendar = () => {
 
   // 모달에 보낼 데이터 상태 바뀌면 LectureModal 띄움
   useEffect(() => {
-    handleOpen()
+    // handleOpen()
   }, [data])
 
   const eventContent = (eventInfo) => {

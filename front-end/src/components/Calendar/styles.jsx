@@ -159,7 +159,7 @@ export const SCalendar = styled.div`
     }
   }
   /* timegrid -> allDay 슬롯 숨기기 안됨!! */
-  /* .fc .fc-daygrid-body {
+  .fc-scrollgrid-section .fc-scrollgrid-section-body {
     display: none;
-  } */
+  }
 `
