@@ -2,32 +2,20 @@ import React, { useState, useRef, useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/joy/Input";
 import { SSearchContainer, SWarning } from "./styles";
-import axios from "axios";
+import { searchAPI } from "../../utils/api/boardAPI";
 
 const SearchBar = ({ setList }) => {
-  const SERVER_URL = "http://localhost:8080";
   const [isEmpty, setIsEmpty] = useState(false); // 검색 결과가 있는지 확인
 
   // 검색 수행
-  const doSearch = async () => {
-    const keyword = search;
-    try {
-      const res = await axios.get(`${SERVER_URL}/board/search/${keyword}`);
-      setList(res.data.response);
-      setIsEmpty(false);
-    } catch (err) {
-      if (err.response.data.response === "게시물이 없습니다.") {
-        setIsEmpty(true);
-        setList([]);
-      }
-    }
+  const doSearch = () => {
+    searchAPI(search, setList, setIsEmpty);
   };
 
   // 검색 input값
   const [search, setSearch] = useState("");
 
   // 처음 렌더링 되면 검색바에 focus 되도록
-  // ======= 작동 안하는거 확인해보기 =======
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();

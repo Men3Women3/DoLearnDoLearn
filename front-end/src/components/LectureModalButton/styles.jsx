@@ -5,6 +5,14 @@ export const SGroup = styled.div`
   padding: 0 5vw;
 `;
 
+export const SRadioInput = styled.input``;
+
+export const SList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const SButton = styled.button`
   border: none;
   background-color: black;

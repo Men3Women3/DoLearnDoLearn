@@ -112,6 +112,12 @@ export const SPartCnt = styled.select`
   padding-left: 1vw;
 `;
 
+export const SGuide = styled.span`
+  font-family: ${(props) => props.theme.fontFamily.Light};
+  font-size: ${(props) => props.theme.fontSize.p};
+  color: #cdcdcd;
+`;
+
 // 5. 모집 기간 - recruit-period
 export const SRecruit = styled.div`
   display: flex;
