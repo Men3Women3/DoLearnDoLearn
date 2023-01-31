@@ -300,6 +300,7 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
   let totalFixedLectures = [];
   axios
     .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
+    // 테스트용
     // .get(`http://localhost:8080/user/fixed-lecture/1`)
     .then((response) => {
       const responseData = response.data.response;
@@ -308,8 +309,7 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
         const startTime = item.startTime;
         const year = new Date().getFullYear();
         const month = new Date().getMonth() + 1;
-        // const day = new Date().getDate();
-        const day = 29;
+        const day = new Date().getDate();
         if (
           year === +startTime.slice(0, 4) &&
           month === +startTime.slice(5, 7) &&
@@ -329,6 +329,7 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
 export const getRequestLecture = (userInfo, setTotalSchedule) => {
   axios
     .get(`${axiosDefaultURL}/user/request-lecture/${userInfo.id}`)
+    // 테스트용
     // .get(`http://localhost:8080/user/request-lecture/1`)
     .then((response) => {
       const responseData = response.data.response;

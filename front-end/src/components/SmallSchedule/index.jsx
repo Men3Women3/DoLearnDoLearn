@@ -6,7 +6,6 @@ import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { Scrollbars } from "react-custom-scrollbars";
 import TodayScheduleItem from "../TodayScheduleItem";
 import TotalScheduleItem from "../TotalScheduleItem";
-import axios from "axios";
 import { LoginStateContext } from "../../App";
 import { getFixedLecture, getRequestLecture } from "../../utils/api/userAPI";
 
