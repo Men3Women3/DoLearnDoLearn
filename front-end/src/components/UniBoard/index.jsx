@@ -3,7 +3,6 @@ import { SImg, SUniBoard } from "./styles";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as F from "@fortawesome/free-solid-svg-icons";
-// thumbnails
 import scrum from "../../assets/images/thumbnail/scrum.svg";
 import cooking from "../../assets/images/thumbnail/cooking.svg";
 import exercise from "../../assets/images/thumbnail/exercise.svg";
@@ -12,47 +11,18 @@ import meeting from "../../assets/images/thumbnail/meeting.svg";
 import conference from "../../assets/images/thumbnail/conference.svg";
 import study from "../../assets/images/thumbnail/study.svg";
 import teamwork from "../../assets/images/thumbnail/teamwork.svg";
-import axios from "axios";
 
 // 개별 게시물 component
 const UniBoard = ({ data }) => {
-  const BOARD_URL = "http://localhost:8080/board";
-
   // Modal 파트 ========================
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   // ===================================
 
-  // 강사 및 수강생 목록 호출 ==========
-  const [lecturer, setLecturer] = useState([]);
-  const [student, setStudent] = useState([]);
-  const bringList = async () => {
-    const board = data.id;
-    try {
-      const res1 = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
-      setLecturer(res1);
-      const res2 = await axios.get(`${BOARD_URL}/student-list/${board}`);
-      setStudent(res2);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  // ===================================
-  const func = async () => {
-    const board = data.id;
-    try {
-      const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  // func();
-
-  const startTime = data.createdTime.substring(5, 10);
-  const deadline = data.endTime.substring(5, 10);
-  const endTime = data.deadline.substring(5, 10);
+  const startTime = data.createdTime.substring(5, 10).replaceAll("-", ".");
+  const deadline = data.endTime.substring(5, 10).replaceAll("-", ".");
+  const endTime = data.deadline.substring(5, 10).replaceAll("-", ".");
 
   const thumbnails = [
     scrum,
@@ -74,7 +44,7 @@ const UniBoard = ({ data }) => {
         <div style={{ textAlign: "left" }}>
           <p>
             <FontAwesomeIcon icon={F.faClock} />
-            &nbsp;모집기간 | {startTime} - {endTime}
+            &nbsp;모집기간 | {startTime} ~ {endTime}
           </p>
           <p>
             <FontAwesomeIcon icon={F.faCalendarDays} />
@@ -91,7 +61,12 @@ const UniBoard = ({ data }) => {
         </div>
       </div>
       {open ? (
-        <LectureModal data={data} open={open} handleClose={handleClose} />
+        <LectureModal
+          data={data}
+          open={open}
+          setOpen={setOpen}
+          handleClose={handleClose}
+        />
       ) : null}
     </SUniBoard>
   );
