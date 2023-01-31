@@ -41,6 +41,7 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   // LectureModal 클릭시 즉시 확인
   const [nameList, setNameList] = useState([]);
   const [stuList, setStuList] = useState([]);
+  const [lecList, setLecList] = useState([]);
   useEffect(() => {
     lecturerAPI(data.id, setNameList);
     stuListAPI(data.id, setStuList);

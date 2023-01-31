@@ -110,13 +110,19 @@ export const searchAPI = async (keyword, setList, setIsEmpty) => {
 };
 
 // 강사 목록 확인 API
-export const lecturerAPI = async (board, setNameList) => {
+export const lecturerAPI = async (board, setNameList, setLecList) => {
   try {
+    const list = [];
     const res = await axios.get(`${SERVER_URL}/instructor-list/${board}`);
     if (res.data.response === "신청한 강사가 없습니다") {
       setNameList([]);
+      setLecList([]);
     } else {
+      res.data.response.map((item) => {
+        list.push(item.uid);
+      });
       setNameList(res.data.response);
+      setLecList(list);
     }
   } catch (err) {
     console.log(err);
@@ -139,5 +145,6 @@ export const stuListAPI = async (board, setStuList) => {
     }
   } catch (err) {
     console.log(err);
+    console.log("수강생 목록 가져오기 실패");
   }
 };
