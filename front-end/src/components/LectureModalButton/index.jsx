@@ -6,9 +6,9 @@ import {
   enrollClassAPI,
   enrollLecturerAPI,
   fixClassAPI,
-  lecturerNameAPI,
+  lecturerAPI,
+  stuListAPI,
 } from "../../utils/api/boardAPI";
-import axios from "axios";
 
 const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
@@ -40,34 +40,37 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   // 강사 목록 호출
   // LectureModal 클릭시 즉시 확인
   const [nameList, setNameList] = useState([]);
+  const [stuList, setStuList] = useState([]);
   useEffect(() => {
-    lecturerNameAPI(data.id, setNameList);
-  });
+    lecturerAPI(data.id, setNameList);
+    stuListAPI(data.id, setStuList);
+  }, []);
+
+  console.log(stuList);
 
   // =================================================
 
   const SERVER_URL = "http://localhost:8080";
 
-  const [stuList, setStuList] = useState([]);
-  const handleStuList = async () => {
-    const board = data.id;
-    const list = [];
-    const res = await axios.get(`${SERVER_URL}/board/student-list/${board}`);
-    if (res.data.response === "신청한 학생이 없습니다") {
-      console.log(res.data.response);
-    } else {
-      res.data.response.map((item) => {
-        list.push(item.uid); // 각 신청자의 uid입력
-      });
-      // console.log(list);
-      setStuList(list);
-      // console.log(stuList);
-    }
-  };
+  // const handleStuList = async () => {
+  //   const board = data.id;
+  //   const list = [];
+  //   const res = await axios.get(`${SERVER_URL}/board/student-list/${board}`);
+  //   if (res.data.response === "신청한 학생이 없습니다") {
+  //     console.log(res.data.response);
+  //   } else {
+  //     res.data.response.map((item) => {
+  //       list.push(item.uid); // 각 신청자의 uid입력
+  //     });
+  //     // console.log(list);
+  //     setStuList(list);
+  //     // console.log(stuList);
+  //   }
+  // };
 
   return (
     <>
-      <button onClick={handleStuList}>테스트</button>
+      {/* <button onClick={handleStuList}>테스트</button> */}
       {/* 1. 방장 / 강의 미확정 */}
       {isLogined && data.uid === userInfo.id && data.isFixed === 0 ? (
         <>
