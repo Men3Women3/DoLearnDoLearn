@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LoginStateContext } from "../../App";
-import { SButton, SGroup, SRadioInput, SList } from "./styles";
+import { SButton, SButtonBox, SListBox, SBox } from "./styles";
 import {
   deleteEnrollAPI,
   enrollClassAPI,
@@ -38,67 +38,86 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   // =================================================
 
   const SERVER_URL = "http://localhost:8080";
-  const [lecList, setLecList] = useState([]);
-  const handleLecList = async () => {
+  const [nameList, setNameList] = useState([]);
+  const handleNameList = async () => {
     const board = data.id;
     const res = await axios.get(`${SERVER_URL}/board/instructor-list/${board}`);
-    // setLecList(res.data.response);
-    console.log(res.data.response[0].user.name);
+    if (res.data.response === "신청한 강사가 없습니다") {
+      console.log("신청 강사 없음");
+      setNameList([]);
+    } else {
+      setNameList(res.data.response);
+      console.log(res.data.response); // 신청한 강사 이름
+    }
   };
 
-  const [stuList, setStuList] = useState([]);
-  const handleStuList = async () => {
+  const [stuIdList, setStuIdList] = useState([]);
+  const handleStuIdList = async () => {
     const board = data.id;
     const res = await axios.get(`${SERVER_URL}/board/student-list/${board}`);
-    // setStuList(res.data.response);
+    setStuIdList(res.data.response);
     if (res.data.response === "신청한 학생이 없습니다") {
       console.log(res.data.response);
     } else {
-      console.log(res.data.response[0].uid);
+      stuIdList.map((student) => {
+        setStuIdList(stuIdList.concat(student.uid));
+      });
+      // console.log(res.data.response[0].uid); // 신청한 학생 uid
+      console.log(stuIdList);
     }
   };
 
   return (
     <>
-      <button onClick={(handleLecList, handleStuList)}>테스트</button>
+      <button onClick={handleNameList}>테스트</button>
       {/* 1. 방장 / 강의 미확정 */}
       {isLogined && data.uid === userInfo.id && data.isFixed === 0 ? (
-        <SGroup>
-          {lecList.map((item, i) => {
-            return (
-              <SList key={i}>
-                <label>
-                  <SRadioInput
-                    type="radio"
-                    name="lecturer"
-                    value={item[i].user.name}
-                  />
-                  <span>{item[i].user.name}</span>
-                </label>
-              </SList>
-            );
-          })}
-          <SButton onClick={fixClass}>모집완료</SButton>
-          <SButton onClick={deleteClass}>신청취소</SButton>
-        </SGroup>
+        <>
+          {/* 신청 강사 목록이 비어있지 않은 경우에는 목록을 보여주고 그 외에는 공백 */}
+          {nameList.length > 0 ? (
+            <SBox>
+              {nameList.map((item, i) => {
+                return (
+                  // 여기 수정하자 =======================
+                  <SListBox key={i}>
+                    <div>
+                      {/* 신청한 강사의 uid를 value로 지정해 나중에 api로 서버에 확정 전송 시 이 value를 담아서 보냄 */}
+                      <input type="radio" name="lecturer" value={item.uid} />
+                      {/* 강사의 이름을 순서대로 출력 */}
+                      <span>{item.user.name}</span>
+                    </div>
+                  </SListBox>
+                );
+              })}
+            </SBox>
+          ) : (
+            ""
+          )}
+          <SButtonBox>
+            <SButton onClick={fixClass}>모집완료</SButton>
+            <SButton onClick={deleteClass}>신청취소</SButton>
+          </SButtonBox>
+        </>
       ) : (
         ""
       )}
       {/* 2. 신청자 */}
-      {isLogined && data.isFixed === 0 ? (
-        <SGroup>
+      {/* 로그인을 한 사용자고 강사 혹은 수강생으로 신청한 이력이 있는 경우 */}
+      {isLogined &&
+      (nameList.includes(userInfo.id) || stuIdList.includes(userInfo.id)) ? (
+        <SButtonBox>
           <SButton>Live 입장</SButton>
           <SButton onClick={deleteClass}>신청취소</SButton>
-        </SGroup>
+        </SButtonBox>
       ) : (
         ""
       )}
       {/* 3. 미신청자 */}
       {isLogined ? (
-        <SGroup>
+        <SButtonBox>
           <SButton onClick={enrollLecturer}>강사 신청</SButton>
           <SButton onClick={enrollClass}>수강생 신청</SButton>
-        </SGroup>
+        </SButtonBox>
       ) : (
         ""
       )}
