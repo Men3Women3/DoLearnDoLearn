@@ -41,6 +41,11 @@ public class UserBoardService {
         return studentList;
     }
 
+    public List<UserBoard> getApplicationList(Long uid){
+        List<UserBoard> applicationList = ubRepo.checkApply(uid);
+
+        return applicationList;
+    }
 
     @Transactional
     public UserBoardDto applyClass(UserBoard userBoard){
@@ -72,7 +77,7 @@ public class UserBoardService {
     public int cancelApply(Long uid, Long bid){
         log.info("삭제 응답: {}, {}",uid,bid);
 
-        if(ubRepo.checkApply(uid, bid).isEmpty()) throw new CustomException(ErrorCode.NO_APPLICANT);
+        if(ubRepo.checkApply(uid).isEmpty()) throw new CustomException(ErrorCode.NO_APPLICANT);
 
         if(boardRepository.findById(bid).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
 
