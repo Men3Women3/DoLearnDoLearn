@@ -166,6 +166,7 @@ public class UserControllerTest {
             });
             mockMvc.perform(builder.file(imgSrc)
                             .content(toJson(userDto))
+                            .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf()))
                     .andExpect(status().isOk());
         }
@@ -179,8 +180,8 @@ public class UserControllerTest {
 
             mockMvc.perform(put("/user")
                             .with(csrf())
-                            .contentType(MediaType.MULTIPART_FORM_DATA)
-                            .param("userDto", toJson(userDto)))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(toJson(userDto)))
                     .andExpect(status().isMethodNotAllowed());
         }
 
@@ -193,7 +194,7 @@ public class UserControllerTest {
 
             mockMvc.perform(put("/user")
                             .with(csrf())
-                            .contentType(MediaType.MULTIPART_FORM_DATA)
+                            .contentType(MediaType.APPLICATION_JSON)
                             .content(toJson(userDto)))
                     .andExpect(status().isBadRequest());
         }
