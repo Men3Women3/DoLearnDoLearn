@@ -299,17 +299,21 @@ export const signupAPI = (
 export const getFixedLecture = (userInfo, setTodayScedule) => {
   let totalFixedLectures = [];
   axios
-    .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
+    // .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
     // 테스트용
-    // .get(`http://localhost:8080/user/fixed-lecture/1`)
+    .get(`http://localhost:8080/user/fixed-lecture/1`)
     .then((response) => {
       const responseData = response.data.response;
+      console.log(responseData);
       totalFixedLectures = [...responseData];
       const todayLectures = totalFixedLectures.filter((item) => {
         const startTime = item.startTime;
         const year = new Date().getFullYear();
-        const month = new Date().getMonth() + 1;
-        const day = new Date().getDate();
+        // const month = new Date().getMonth() + 1;
+        // const day = new Date().getDate();
+        // 테스트용
+        const month = 1;
+        const day = 12;
         if (
           year === +startTime.slice(0, 4) &&
           month === +startTime.slice(5, 7) &&
