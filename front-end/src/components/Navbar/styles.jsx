@@ -54,6 +54,7 @@ export const Box = styled.main`
       border-radius: 50%;
       object-fit: cover;
       text-align: center;
+      /* border: 0.1vw solid #6e6e6eeb; */
     }
     .unread__notification {
       cursor: pointer;

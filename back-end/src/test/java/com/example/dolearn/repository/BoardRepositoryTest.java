@@ -114,5 +114,19 @@ public class BoardRepositoryTest {
 
         assertEquals(boardList.size(),result.size());
     }
+
+    @DisplayName("요약으로 검색 테스트")
+    @Test
+    public void boardRepositoryFindBySummaryTest() throws Exception{
+        List<Board> boardList = new ArrayList<>();
+
+        boardRepository.save(boardDto1.toEntity());
+
+        boardList.add(boardDto1.toEntity());
+
+        List<Board> result = boardRepository.findBySummaryContaining("summary");
+
+        assertEquals(boardList.size(),result.size());
+    }
 }
 
