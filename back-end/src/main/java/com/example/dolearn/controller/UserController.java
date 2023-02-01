@@ -119,8 +119,22 @@ public class UserController {
     }
 
     @PostMapping("/upload-img/{id}")
-    public ResponseEntity<?> uploadProfileImg(HttpServletRequest request, @PathVariable("id") Long id, @RequestPart(value="profileImg") MultipartFile imgSrc) throws IOException {
+    public ResponseEntity<?> uploadProfileImg(HttpServletRequest request, @PathVariable("id") Long id, @RequestPart(value="profileImg", required = false) MultipartFile img) throws IOException {
         try{
+            // 기존 파일 삭제
+            UserDto userDto = userService.getInfo(id);
+            if(userDto.getImgPath() != "" && !userDto.getImgPath().equals("")){
+                String prevFileName = userDto.getImgPath();
+                new File(prevFileName).delete();
+            }
+
+            UserDto result;
+            // 기본 이미지로 초기화
+            if(img == null){
+                result = userService.updateImgInfo(id, "", "");
+                return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
+            }
+
             String folderPath = request.getSession().getServletContext().getRealPath(filePath);
 
             File folder = new File(folderPath);
@@ -128,21 +142,15 @@ public class UserController {
                 folder.mkdirs();
 
             // 저장될 파일 명명
-            String originalFileName = imgSrc.getOriginalFilename();
+            String originalFileName = img.getOriginalFilename();
             String saveFileName = System.nanoTime()+originalFileName.substring(originalFileName.lastIndexOf('.'));
 
-            // 기존 파일 삭제
-            UserDto userDto = userService.getInfo(id);
-            if(userDto.getImgPath() != null && !userDto.getImgPath().equals("")){
-                String prevFileName = userDto.getImgPath();
-                new File(prevFileName).delete();
-            }
             String imgPath = folderPath + File.separator + saveFileName;
             String imgUrl = filePath+ "/" + saveFileName;
-            UserDto result = userService.updateImgInfo(id, imgPath, imgUrl);
+            result = userService.updateImgInfo(id, imgPath, imgUrl);
 
             // 파일 저장
-            imgSrc.transferTo(new File(folder, saveFileName));
+            img.transferTo(new File(folder, saveFileName));
 
             return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
         } catch (Exception e){
