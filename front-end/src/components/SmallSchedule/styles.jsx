@@ -9,7 +9,12 @@ export const SContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
   /* width: calc(2vw + 290px); */
   min-width: calc(2vw + 260px);
-  height: calc(1vw + 450px);
+  height: ${(props) =>
+    props.isEmpty
+      ? "calc(1vw + 90px)"
+      : props.isIncreaseTotalScheduleHight && props.isIncreaseTodayScheduleHight
+      ? "calc(1vw + 450px)"
+      : "calc(1vw + 340px)"};
   background-color: white;
   padding: calc(1vw + 1px) calc(1vw + 4px);
   border-radius: 20px;
@@ -42,9 +47,23 @@ export const SContainer = styled.div`
   }
 
   .totalSchedule {
+    /* height: ${(props) =>
+      props.isIncreaseTotalScheduleHight
+        ? "calc(1vw + 180px)"
+        : "calc(1vw + 300px)"}; */
     height: calc(1vw + 180px);
   }
   .Scrollbars {
     height: calc(1vw + 100px);
   }
+  .empty {
+    height: auto;
+  }
+`;
+
+export const SEmptyNotice = styled.div`
+  background-color: ${(props) => props.theme.lighterYellow};
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
 `;
