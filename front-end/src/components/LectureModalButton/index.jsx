@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LoginStateContext } from "../../App";
+import { Flag } from "../BoardList";
 import { SButton, SButtonBox } from "./styles";
 import {
   cancelEnrollAPI,
@@ -12,37 +13,43 @@ import {
   deleteClassAPI,
 } from "../../utils/api/boardAPI";
 
-const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
+const LectureModalButton = ({ data, setOpen }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
+  const { flag, setFlag } = useContext(Flag);
 
   // api 요청 내용 ===================================
   // 수강 신청
-  const enrollClass = () => {
-    enrollClassAPI(userInfo.id, data.id);
+  const enrollClass = async () => {
+    await enrollClassAPI(userInfo.id, data.id);
+    setFlag(!flag);
     setOpen(false);
   };
 
   // 강사 신청
-  const enrollLecturer = () => {
-    enrollLecturerAPI(userInfo.id, data.id);
+  const enrollLecturer = async () => {
+    await enrollLecturerAPI(userInfo.id, data.id);
+    setFlag(!flag);
     setOpen(false);
   };
 
   // 폐강
-  const deleteClass = () => {
-    deleteClassAPI(data.id);
+  const deleteClass = async () => {
+    await deleteClassAPI(data.id);
+    setFlag(!flag);
     setOpen(false);
   };
 
   // 신청 취소
-  const cancelClass = () => {
-    cancelEnrollAPI(userInfo.id, data.id);
+  const cancelClass = async () => {
+    await cancelEnrollAPI(userInfo.id, data.id);
+    setFlag(!flag);
     setOpen(false);
   };
 
   // 강의 확정
-  const fixClass = () => {
-    fixClassAPI(data.id);
+  const fixClass = async () => {
+    await fixClassAPI(data.id);
+    setFlag(!flag);
     setOpen(false);
   };
 
@@ -59,7 +66,7 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
 
   // 테스트용
   // console.log(stuList);
-  // console.log(lecList);
+  console.log(lecList);
 
   // =================================================
 
@@ -83,12 +90,20 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
       );
     }
   } else if (lecList.includes(userInfo.id) || stuList.includes(userInfo.id)) {
-    return (
-      <SButtonBox>
-        <SButton>Live 입장</SButton>
-        <SButton onClick={cancelClass}>신청취소</SButton>
-      </SButtonBox>
-    );
+    if (data.isFixed === 0) {
+      return (
+        <SButtonBox>
+          <SButton onClick={cancelClass}>신청취소</SButton>
+        </SButtonBox>
+      );
+    } else {
+      return (
+        <SButtonBox>
+          <SButton>Live 입장</SButton>
+          <SButton onClick={cancelClass}>신청취소</SButton>
+        </SButtonBox>
+      );
+    }
   } else if (isLogined) {
     return (
       <SButtonBox>
