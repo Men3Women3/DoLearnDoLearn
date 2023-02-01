@@ -4,7 +4,8 @@ import { Box } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import logoImg from "../../assets/images/logo.png";
-import profileImg from "../../assets/images/thumbnail.png";
+import defaultProfile from "../../assets/images/defaultProfile.png";
+
 import { useEffect } from "react";
 import axios from "axios";
 import { useContext } from "react";
@@ -18,11 +19,13 @@ import { NotificationsNone } from "@mui/icons-material";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
-const defaultURL = "http://localhost:3000";
+const SERVER_URL = "http://localhost:8080";
 
 const Navbar = () => {
   // context api를 통해 로그인 상태 받아오기
   const { isLogined, userInfo } = useContext(LoginStateContext);
+  const getUserInfo = useContext(LoginStateContext);
+
   // context api를 통해 로그인 상태 관리 함수들 받아오기
   const { handleIsLogined, handleLogout } = useContext(
     LoginStateHandlerContext
@@ -44,7 +47,14 @@ const Navbar = () => {
       <div className="right-item">
         {isLogined && (
           <NavLink to={"/mypage"} className="link username">
-            <img src={profileImg} alt="profileImg" />
+            <img
+              src={
+                getUserInfo.userInfo.imgUrl
+                  ? `${SERVER_URL}${getUserInfo.userInfo.imgUrl}`
+                  : defaultProfile
+              }
+              alt="profileImg"
+            />
             <span
               style={{
                 margin: "auto 10px auto 5px",

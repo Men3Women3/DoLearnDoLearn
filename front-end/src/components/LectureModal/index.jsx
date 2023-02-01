@@ -1,9 +1,9 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import * as S from "./styles";
-import * as f from "@fortawesome/free-solid-svg-icons";
-import LectureModalButton from "../LectureModalButton";
+import React from "react"
+import Box from "@mui/material/Box"
+import Modal from "@mui/material/Modal"
+import * as S from "./styles"
+import * as f from "@fortawesome/free-solid-svg-icons"
+import LectureModalButton from "../LectureModalButton"
 
 const style = {
   position: "absolute",
@@ -16,14 +16,15 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "3vw",
-};
+}
 
 // Uniboard에서 데이터 받아올 것
 const LectureModal = ({ data, open, setOpen, handleClose }) => {
-  const createdTime = data.createdTime.substring(0, 10).replaceAll("-", "."); // 모집시작
-  const deadline = data.deadline.substring(0, 10).replaceAll("-", "."); // 모집마감
-  const startTime = data.startTime.substring(0, 16).replaceAll("-", "."); // 강의시작
-  const endTime = data.endTime.substring(11, 16).replaceAll("-", "."); // 강의 종료
+  console.log("렉쳐모달 받은 데이터", data)
+  const createdTime = data.createdTime.substring(0, 10).replaceAll("-", ".") // 모집시작
+  const deadline = data.deadline.substring(0, 10).replaceAll("-", ".") // 모집마감
+  const startTime = data.startTime.substring(0, 16).replaceAll("-", ".") // 강의시작
+  const endTime = data.endTime.substring(11, 16).replaceAll("-", ".") // 강의 종료
 
   return (
     <Modal
@@ -77,7 +78,7 @@ const LectureModal = ({ data, open, setOpen, handleClose }) => {
         </div>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default LectureModal;
+export default LectureModal

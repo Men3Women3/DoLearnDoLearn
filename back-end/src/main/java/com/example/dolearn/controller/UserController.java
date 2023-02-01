@@ -11,15 +11,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -97,37 +102,9 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestPart(value="imgSrc") MultipartFile imgSrc, @Valid @RequestPart(value="userDto") UserDto reqUserDto) {
+    public ResponseEntity<?> update(@Valid @RequestBody UserDto reqUserDto) {
         try{
-            String totalPath = "";      // 저장될 이미지 파일 전체 경로
-
-                                        // 오늘날짜로 폴더 명명
-            String today = new SimpleDateFormat("yyMMdd").format(new Date());
-            String saveFolder = filePath + File.separator + today;
-
-            String saveFileName = "";   // 저장될 이미지 파일 이름
-            String prevFileName = "";   // 현재 저장되어 있는 이미지 파일 이름
-
-            File folder = new File(saveFolder);
-
-            if(imgSrc != null){
-                if(!folder.exists())
-                    folder.mkdirs();
-                prevFileName = userService.getInfo(reqUserDto.getId()).getImgSrc();
-                String originalFileName = imgSrc.getOriginalFilename();
-                saveFileName = System.nanoTime()+originalFileName.substring(originalFileName.lastIndexOf('.'));
-                totalPath = saveFolder + File.separator + saveFileName;
-            }
-            reqUserDto.setImgSrc(totalPath);
-            UserDto userDto = userService.updateInfo(reqUserDto);
-
-            // 기존 파일 삭제 & 새로운 파일 저장
-            if(imgSrc != null){
-               new File(prevFileName).delete();
-                imgSrc.transferTo(new File(folder, saveFileName));
-            }
-
-            return new ResponseEntity<>(new SuccessResponse(userDto), HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(userService.updateInfo(reqUserDto)), HttpStatus.OK);
         } catch (CustomException e) {
             e.printStackTrace();
             if (e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED){
@@ -141,6 +118,47 @@ public class UserController {
         }
     }
 
+    @PostMapping("/upload-img/{id}")
+    public ResponseEntity<?> uploadProfileImg(HttpServletRequest request, @PathVariable("id") Long id, @RequestPart(value="profileImg", required = false) MultipartFile img) throws IOException {
+        try{
+            // 기존 파일 삭제
+            UserDto userDto = userService.getInfo(id);
+            if(userDto.getImgPath() != "" && !userDto.getImgPath().equals("")){
+                String prevFileName = userDto.getImgPath();
+                new File(prevFileName).delete();
+            }
+
+            UserDto result;
+            // 기본 이미지로 초기화
+            if(img == null){
+                result = userService.updateImgInfo(id, "", "");
+                return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
+            }
+
+            String folderPath = request.getSession().getServletContext().getRealPath(filePath);
+
+            File folder = new File(folderPath);
+            if(!folder.exists())
+                folder.mkdirs();
+
+            // 저장될 파일 명명
+            String originalFileName = img.getOriginalFilename();
+            String saveFileName = System.nanoTime()+originalFileName.substring(originalFileName.lastIndexOf('.'));
+
+            String imgPath = folderPath + File.separator + saveFileName;
+            String imgUrl = filePath+ "/" + saveFileName;
+            result = userService.updateImgInfo(id, imgPath, imgUrl);
+
+            // 파일 저장
+            img.transferTo(new File(folder, saveFileName));
+
+            return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     @PostMapping("/check-email/{email}")
     public ResponseEntity<?> checkEmail(@PathVariable("email") @Email(message = "이메일 형식에 맞지 않습니다.") String email){
         try{

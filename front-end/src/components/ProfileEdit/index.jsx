@@ -26,7 +26,6 @@ import axios from "axios";
 
 const ProfileEdit = (props) => {
   const SERVER_URL = "http://localhost:8080";
-
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext);
   const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
@@ -44,9 +43,10 @@ const ProfileEdit = (props) => {
   // 프로필 이미지 관련 변수
   const [profileImg, setProfileImg] = useState({
     image_file: "",
-    preview_URL: defaultProfileImg,
+    preview_URL: getUserInfo.userInfo.imgUrl
+      ? `${SERVER_URL}${getUserInfo.userInfo.imgUrl}`
+      : defaultProfileImg,
   });
-  // const [profileImgUrl, setProfileImgUrl] = useState("")
 
   const fileInput = React.useRef(null);
 
@@ -65,9 +65,7 @@ const ProfileEdit = (props) => {
     }
     reader.onloadend = () => {
       const previewImgUrl = reader.result;
-
       if (previewImgUrl) {
-        // setProfileImgUrl(previewImgUrl)
         setProfileImg({
           image_file: file,
           preview_URL: previewImgUrl,
@@ -77,9 +75,8 @@ const ProfileEdit = (props) => {
   };
 
   // DB에 수정요청을 하는 axios 함수
-  const axios_put = async () => {
-    const formData = new FormData();
-    const userDto = {
+  const updateUserInfoAPI = () => {
+    const data = {
       id: getUserInfo.userInfo.id,
       info: selfIntroduction,
       blog: blogLink,
@@ -87,13 +84,8 @@ const ProfileEdit = (props) => {
       facebook: facebook,
       youtube: youtubeLink,
     };
-    formData.append("userDto", userDto);
-    formData.append("imgSrc", profileImg.image_file);
-    for (let value of formData.values()) {
-      console.log("값들", value);
-    }
-    try {
-      const res = await axios.put(`${SERVER_URL}/user`, formData, {
+    axios
+      .put(`${SERVER_URL}/user`, data, {
         headers: {
           // ------------------------------------------
           // -----------------수정 필요----------------
@@ -101,22 +93,57 @@ const ProfileEdit = (props) => {
           // ------------------------------------------
           // ------------------------------------------
           Authentication: localStorage.getItem("accessToken"),
-          "Content-Type": "multipart/form-data ",
         },
+        // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트
+      })
+      .then((res) => {
+        console.log("프로필 사진 제외 업데이트 완료");
+        handleUserInfo(res.data.response);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트
-      handleUserInfo(res.data.response);
-    } catch (e) {
-      console.log(e);
-    }
+  };
+
+  const updateProfileImgAPI = () => {
+    const formData = new FormData();
+    formData.append("profileImg", profileImg.image_file);
+    console.log("프로필 보내고 있어요", profileImg);
+    console.log(formData);
+    axios
+      .post(
+        `${SERVER_URL}/user/upload-img/${getUserInfo.userInfo.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        console.log("이미지파일", profileImg);
+        console.log("프로필 이미지 업데이트 완료");
+        handleUserInfo(res.data.response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // 기본 이미지로 되돌리기 (defaultProfile로)
+  const handleBackToDefaultProfile = () => {
+    setProfileImg({
+      image_file: null,
+      preview_URL: "",
+    });
   };
 
   // 수정완료 버튼을 눌렀을 때 기능
   // 입력받은 데이터를 db에서 수정하도록 PUT 요청
   // 다시 프로필 화면으로 이동
   const handleCompleteEdit = () => {
-    // console.log("프로필 이미지에 들어있는 값", profileImg);
-    axios_put();
+    updateUserInfoAPI();
+    updateProfileImgAPI();
     props.handleProfileEditBtn();
   };
 
@@ -128,7 +155,11 @@ const ProfileEdit = (props) => {
           <div className="profile-container">
             <img
               className="profile__img"
-              src={profileImg.preview_URL}
+              src={
+                profileImg.preview_URL
+                  ? profileImg.preview_URL
+                  : defaultProfileImg
+              }
               alt="defaultProfile"
               onClick={handleEditProfileImg}
             />
@@ -162,7 +193,13 @@ const ProfileEdit = (props) => {
             </div>
             {/* 마일리지 바 */}
             <div>
-              <FontAwesomeIcon
+              <button
+                className="back__btn"
+                onClick={handleBackToDefaultProfile}
+              >
+                기본 이미지로 되돌리기
+              </button>
+              {/* <FontAwesomeIcon
                 icon={faLocationPin}
                 style={{
                   color: "black",
@@ -170,37 +207,7 @@ const ProfileEdit = (props) => {
                   marginTop: "10px",
                 }}
               />
-              <div className="wrapper">
-                {/* <div
-                  style={{
-                    backgroundColor: "#24E843",
-                    borderTopLeftRadius: "50px",
-                    borderBottomLeftRadius: "50px",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#9f551c",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#DCD7D4",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#FFD258",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#FF0C63",
-                    borderTopRightRadius: "50px",
-                    borderBottomRightRadius: "50px",
-                  }}
-                ></div> */}
-              </div>
+              <div className="wrapper" /> */}
             </div>
           </section>
         </SSubContainerUp>
