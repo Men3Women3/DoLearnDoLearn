@@ -52,6 +52,10 @@ export const SSubContainerUp = styled.div`
     right: 5px;
     cursor: pointer;
   }
+  .back__btn {
+    margin-top: 20px;
+    cursor: pointer;
+  }
   Input {
     display: none;
   }
@@ -88,7 +92,6 @@ export const SSubContainerUp = styled.div`
     }
     .wrapper > div {
       flex: 1;
-      /* border: calc(0.1vw + 1px) solid black; */
     }
   }
 `

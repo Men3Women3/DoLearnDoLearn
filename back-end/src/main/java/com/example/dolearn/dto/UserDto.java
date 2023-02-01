@@ -39,7 +39,9 @@ public class UserDto {
 
     private String blog;
 
-    private String imgSrc;
+    private String imgPath;
+
+    private String imgUrl;
 
     private String refreshToken;
 
@@ -60,7 +62,8 @@ public class UserDto {
                 .instagram(instagram)
                 .facebook(facebook)
                 .blog(blog)
-                .imgSrc(imgSrc)
+                .imgPath(imgPath)
+                .imgUrl(imgUrl)
                 .refreshToken(refreshToken)
                 .joinDate(joinDate)
                 .build();

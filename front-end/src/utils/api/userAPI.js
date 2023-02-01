@@ -295,47 +295,57 @@ export const signupAPI = (
     });
 };
 
-// 유저의 확정된 강의 목록 api를 요청하는 함수
-export const getFixedLecture = (userInfo, setTodayScedule) => {
-  let totalFixedLectures = [];
+// 미확정 강의 내역 불러오는 api를 요청하는 함수
+export const getUnScheduledLectureAPI = (userId, setTotalSchedule) => {
+  const accessToken = localStorage.getItem("accessToken");
   axios
-    .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
-    // 테스트용
-    // .get(`http://localhost:8080/user/fixed-lecture/1`)
-    .then((response) => {
-      const responseData = response.data.response;
-      totalFixedLectures = [...responseData];
-      const todayLectures = totalFixedLectures.filter((item) => {
-        const startTime = item.startTime;
-        const year = new Date().getFullYear();
-        const month = new Date().getMonth() + 1;
-        const day = new Date().getDate();
-        if (
-          year === +startTime.slice(0, 4) &&
-          month === +startTime.slice(5, 7) &&
-          day === +startTime.slice(8, 10)
-        ) {
-          return true;
-        }
-      });
-      setTodayScedule(todayLectures);
-    })
-    .catch((error) => {
-      console.log(error.response);
+    .get(
+      `${axiosDefaultURL}/user/request-lecture/${userId}`,
+      {},
+      {
+        headers: {
+          Authentication: accessToken,
+        },
+      }
+    )
+    .then((res) => {
+      console.log("요청은 되었니?");
+      console.log(res);
+      setTotalSchedule(res.data.response);
     });
 };
 
-// 유저가 신청한 전제 목록 api를 요청하는 함수
-export const getRequestLecture = (userInfo, setTotalSchedule) => {
+// 확정 강의 내역 불러오는 api를 요청하는 함수(커스텀 api => 달력에서 쓰기 위함)
+const preprocessingData = (obj) => {
+  obj.map((item) => {
+    item.start = item.startTime;
+    item.end = item.endTime;
+    item.color = "black";
+    item.backgroundColor = "black";
+    item.display = "item-list";
+    delete item.startTime;
+    delete item.endTime;
+  });
+};
+export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
+  const accessToken = localStorage.getItem("accessToken");
   axios
-    .get(`${axiosDefaultURL}/user/request-lecture/${userInfo.id}`)
-    // 테스트용
-    // .get(`http://localhost:8080/user/request-lecture/1`)
-    .then((response) => {
-      const responseData = response.data.response;
-      setTotalSchedule(responseData);
+    .get(
+      `${axiosDefaultURL}/user/fixed-lecture/${userId}`,
+      {},
+      {
+        headers: {
+          Authentication: accessToken,
+        },
+      }
+    )
+    .then((res) => {
+      const result = res.data.response;
+      // 받아온 데이터를 전처리해서 반환
+      preprocessingData(result);
+      setScheduledLecture(result);
     })
-    .catch((error) => {
-      console.log(error.response);
+    .catch((e) => {
+      console.log(e);
     });
 };

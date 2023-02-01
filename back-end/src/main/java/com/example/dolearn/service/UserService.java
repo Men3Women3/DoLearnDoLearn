@@ -68,7 +68,7 @@ public class UserService {
     }
 
     public UserDto updateInfo(UserDto reqUserDto){
-        if(reqUserDto.getId() == null || reqUserDto.getImgSrc() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null || reqUserDto.getYoutube() == null){
+        if(reqUserDto.getId() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null || reqUserDto.getYoutube() == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
         Optional<User> user = userRepository.findOneById(reqUserDto.getId());
@@ -76,12 +76,25 @@ public class UserService {
             throw new CustomException(ErrorCode.NO_USER);
         }
         UserDto userDto = user.get().toDto();
-        userDto.setImgSrc(reqUserDto.getImgSrc());
         userDto.setInfo(reqUserDto.getInfo());
         userDto.setBlog(reqUserDto.getBlog());
         userDto.setInstagram(reqUserDto.getInstagram());
         userDto.setFacebook(reqUserDto.getFacebook());
         userDto.setYoutube(reqUserDto.getYoutube());
+        return userRepository.save(userDto.toEntity()).toDto();
+    }
+
+    public UserDto updateImgInfo(Long id, String imgPath, String imgUrl){
+        if(id == null || imgPath == null || imgUrl == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        UserDto userDto = user.get().toDto();
+        userDto.setImgPath(imgPath);
+        userDto.setImgUrl(imgUrl);
         return userRepository.save(userDto.toEntity()).toDto();
     }
 

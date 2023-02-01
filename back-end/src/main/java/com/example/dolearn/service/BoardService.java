@@ -36,7 +36,11 @@ public class BoardService {
 
         BoardDto result = boardRepository.save(board).toDto();
 
-        User user = userRepository.findOneById(board.getUid()).get();
+        Optional<User> userData = userRepository.findOneById(board.getUid());
+
+        if(userData.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
+
+        User user = userData.get();
 
         UserBoard userBoard = UserBoard.builder()
                 .uid(board.getUid()).bid(board.getId()).user(user).board(board).user_type("학생").build();
@@ -57,6 +61,7 @@ public class BoardService {
         if(boardList.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
 
         for(int i=boardList.size()-1;i>=0;i--){
+            if(boardList.get(i).getIsFixed()==1) continue;
             BoardDto boardDto = boardList.get(i).toDto();
             boardDtoList.add(boardDto);
         }
@@ -74,7 +79,7 @@ public class BoardService {
     }
 
     @Transactional
-    public int deleteBoard(Long id) throws Exception{
+    public int deleteBoard(Long id){
 //        if(bRepo.findById(id).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
 
         return boardRepository.deleteBoard(id);
@@ -91,7 +96,8 @@ public class BoardService {
 
         List<Board> bListResult = new ArrayList<>(set);
 
-        for(int i=0;i<bListResult.size();i++){
+        for(int i=bListResult.size()-1;i>=0;i--){
+            if(bListResult.get(i).getIsFixed()==1) continue;
             result.add(bListResult.get(i).toDto());
         }
 
@@ -115,13 +121,13 @@ public class BoardService {
 
     @Transactional
     public BoardDto update(Long id) throws Exception{
-        Optional<BoardDto> result = Optional.ofNullable(boardRepository.findById(id).get().toDto());
+        Optional<Board> result = boardRepository.findById(id);
 
         if(result.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
 
         if(result.get().getIsFixed()==1) throw new CustomException(ErrorCode.FIXED_LECTURE);
 
-        BoardDto board = result.get();
+        BoardDto board = result.get().toDto();
         board.setFixed(1);
 
         return boardRepository.save(board.toEntity()).toDto();
