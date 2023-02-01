@@ -96,7 +96,8 @@ public class BoardService {
 
         List<Board> bListResult = new ArrayList<>(set);
 
-        for(int i=0;i<bListResult.size();i++){
+        for(int i=bListResult.size()-1;i>=0;i--){
+            if(bListResult.get(i).getIsFixed()==1) continue;
             result.add(bListResult.get(i).toDto());
         }
 
