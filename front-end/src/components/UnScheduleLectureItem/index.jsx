@@ -32,10 +32,10 @@ const UnScheduleLectureItem = ({ data }) => {
             </p>
             <span>{data.title}</span>
           </div>
-          <div className="host__section">
+          {/* <div className="host__section">
             <img src={data.profileImg.profileImg} />
             <span>{data.host}</span>
-          </div>
+          </div> */}
         </div>
       </SMain>
       {open ? (
