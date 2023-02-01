@@ -69,3 +69,10 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
       }
     });
 };
+
+// 받은 메시지 모두 불러오는 요청
+export const getMessageList = (userId, setMessageData) => {
+  axios.get(`${axiosDefaultURL}/message/user/1`).then((res) => {
+    setMessageData(res.data.response);
+  });
+};
