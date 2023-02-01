@@ -58,9 +58,17 @@ public class BoardDto {
 
         startTime = this.startTime.concat(":00:00");
         endTime = temp[0].concat(String.format(" %d:00:00",hour));
-        deadline = deadline.concat(" 00:00:00");
+        deadline = deadline.concat(" 23:59:59");
 
         log.info("startTime: {} endTime:{}",startTime, endTime);
+    }
+
+    public int checkDeadline() throws Exception{
+        Date today = new Date();
+        Date deadline = dateConverter(this.deadline);
+        int result = today.compareTo(deadline);
+
+        return result;
     }
 
     public Board toEntity() throws ParseException {
