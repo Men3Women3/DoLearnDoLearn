@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react"
-import FullCalendar from "@fullcalendar/react" // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid" // a plugin!
-import timeGridPlugin from "@fullcalendar/timegrid"
-import { SCalendar } from "./styles"
-import { getScheduledLectureAPI } from "../../utils/api/userAPI"
-import LectureModal from "../LectureModal"
+import React, { useEffect, useState } from "react";
+import FullCalendar from "@fullcalendar/react"; // must go before plugins
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { SCalendar } from "./styles";
+import { getScheduledLectureAPI } from "../../utils/api/userAPI";
+import LectureModal from "../LectureModal";
 
 const Calendar = () => {
   // Modal 파트 ========================
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   //모달에 전달할 데이터
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
+  const [checkModalState, setCheckModalState] = useState(false);
   // ===================================
-  const [scheduledLecture, setScheduledLecture] = useState({})
+  const [scheduledLecture, setScheduledLecture] = useState({});
 
   useEffect(() => {
-    getScheduledLectureAPI(1, setScheduledLecture)
-  }, [])
+    getScheduledLectureAPI(1, setScheduledLecture);
+  }, []);
 
   // 달력에 일정 클릭했을 때 LectureModal띄울 수 있도록 데이터 정제하기
   const handleEventClick = (arg) => {
-    console.log("달력", arg)
     const dataForm = {
       id: Number(arg.event.id),
       uid: arg.event._def.extendedProps.uid,
@@ -37,15 +37,18 @@ const Calendar = () => {
       students: arg.event._def.extendedProps.students,
       maxCnt: arg.event._def.extendedProps.maxCnt,
       isFixed: arg.event._def.extendedProps.isFixed,
-    }
-    console.log("모달에 보낼 데이터", dataForm)
-    setData(dataForm)
-  }
+    };
+    setData(dataForm);
+    setCheckModalState(true);
+  };
 
   // 모달에 보낼 데이터 상태 바뀌면 LectureModal 띄움
   useEffect(() => {
-    // handleOpen()
-  }, [data])
+    if (checkModalState) {
+      handleOpen();
+      setCheckModalState(false);
+    }
+  }, [checkModalState]);
 
   const eventContent = (eventInfo) => {
     return (
@@ -61,8 +64,8 @@ const Calendar = () => {
           {eventInfo.event.title}
         </p>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <SCalendar>
@@ -99,7 +102,7 @@ const Calendar = () => {
         />
       ) : null}
     </SCalendar>
-  )
-}
+  );
+};
 
-export default Calendar
+export default Calendar;
