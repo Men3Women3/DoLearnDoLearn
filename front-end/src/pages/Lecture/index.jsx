@@ -9,6 +9,8 @@ import {
 } from "./styles";
 
 const Lecture = () => {
+  const ws = new WebSocket("wss://localhost:8443/groupcall");
+  console.log(ws);
   return (
     <SMainContainer>
       <SLeftItemContainer>
