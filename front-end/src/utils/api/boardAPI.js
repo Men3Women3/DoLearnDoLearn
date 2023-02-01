@@ -54,7 +54,10 @@ export const enrollClassAPI = async (uid, bid) => {
     });
     console.log("수강 신청 성공");
   } catch (err) {
-    console.log(err);
+    if (err.response.data.response === "신청 학생 수를 초과하였습니다") {
+      console.log("신청 가능 인원 초과");
+    }
+    // console.log(err);
     console.log("수강 신청 실패");
   }
 };
@@ -73,8 +76,19 @@ export const enrollLecturerAPI = async (uid, bid) => {
   }
 };
 
+// 폐강 API
+export const deleteClassAPI = async (board) => {
+  try {
+    await axios.delete(`${SERVER_URL}/${board}`);
+    console.log("폐강 성공");
+  } catch (err) {
+    console.log(err);
+    console.log("폐강 실패");
+  }
+};
+
 // 신청 취소 API
-export const deleteEnrollAPI = async (user, lecture) => {
+export const cancelEnrollAPI = async (user, lecture) => {
   try {
     await axios.delete(`${SERVER_URL}/apply/${user}/${lecture}`);
     console.log("신청 취소 성공");

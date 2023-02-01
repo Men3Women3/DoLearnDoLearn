@@ -28,15 +28,4 @@ export const SUniBoard = styled.div`
   :hover {
     transform: scale(1.05);
   }
-  /* display: block;
-  width: 185px; */
-  /* margin-top: 7vh; */
-  /*
-  width: 13vw;
-  padding: 1vh 1vw 1vh 1vw;
-  */
-  /*
-  place-items: center; */
-  /* aspect-ratio: 5/6; */
-  /* display: grid; */
 `;

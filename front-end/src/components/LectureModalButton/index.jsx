@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LoginStateContext } from "../../App";
-import { SButton, SButtonBox, SListBox, SBox } from "./styles";
+import { SButton, SButtonBox } from "./styles";
 import {
-  deleteEnrollAPI,
+  cancelEnrollAPI,
   enrollClassAPI,
   enrollLecturerAPI,
   fixClassAPI,
   lecturerNameAPI,
   lecListAPI,
   stuListAPI,
+  deleteClassAPI,
 } from "../../utils/api/boardAPI";
 
 const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
@@ -26,9 +27,15 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
     setOpen(false);
   };
 
-  // 신청 취소
+  // 폐강
   const deleteClass = () => {
-    deleteEnrollAPI(userInfo.id, data.id);
+    deleteClassAPI(data.id);
+    setOpen(false);
+  };
+
+  // 신청 취소
+  const cancelClass = () => {
+    cancelEnrollAPI(userInfo.id, data.id);
     setOpen(false);
   };
 
@@ -50,8 +57,8 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   }, []);
 
   // 테스트용
-  console.log(stuList);
-  console.log(lecList);
+  // console.log(stuList);
+  // console.log(lecList);
 
   // =================================================
 
@@ -76,27 +83,9 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
       return (
         <>
           {/* 신청 강사 목록이 비어있지 않은 경우에는 목록을 보여주고 그 외에는 공백 */}
-          {nameList.length > 0 ? (
-            <SBox>
-              {nameList.map((item, i) => {
-                return (
-                  <SListBox key={i}>
-                    <div>
-                      {/* 신청한 강사의 uid를 value로 지정해 나중에 api로 서버에 확정 전송 시 이 value를 담아서 보냄 */}
-                      <input type="radio" name="lecturer" value={item.uid} />
-                      {/* 강사의 이름(user.name)을 순서대로 출력 */}
-                      <span>{item.user.name}</span>
-                    </div>
-                  </SListBox>
-                );
-              })}
-            </SBox>
-          ) : (
-            ""
-          )}
           <SButtonBox>
             <SButton onClick={fixClass}>모집완료</SButton>
-            <SButton onClick={deleteClass}>신청취소</SButton>
+            <SButton onClick={deleteClass}>강의삭제</SButton>
           </SButtonBox>
         </>
       );
@@ -104,7 +93,7 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
       return (
         <SButtonBox>
           <SButton>Live 입장</SButton>
-          <SButton onClick={deleteClass}>신청취소</SButton>
+          <SButton onClick={cancelClass}>신청취소</SButton>
         </SButtonBox>
       );
     }
@@ -112,7 +101,7 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
     return (
       <SButtonBox>
         <SButton>Live 입장</SButton>
-        <SButton onClick={deleteClass}>신청취소</SButton>
+        <SButton onClick={cancelClass}>신청취소</SButton>
       </SButtonBox>
     );
   } else if (isLogined) {
