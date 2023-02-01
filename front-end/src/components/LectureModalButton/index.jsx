@@ -19,6 +19,7 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   // 수강 신청
   const enrollClass = () => {
     enrollClassAPI(userInfo.id, data.id);
+    setOpen(false);
   };
 
   // 강사 신청
@@ -61,22 +62,6 @@ const LectureModalButton = ({ data, open, setOpen, handleOpen }) => {
   // console.log(lecList);
 
   // =================================================
-
-  // const handleStuList = async () => {
-  //   const board = data.id;
-  //   const list = [];
-  //   const res = await axios.get(`${SERVER_URL}/board/student-list/${board}`);
-  //   if (res.data.response === "신청한 학생이 없습니다") {
-  //     console.log(res.data.response);
-  //   } else {
-  //     res.data.response.map((item) => {
-  //       list.push(item.uid); // 각 신청자의 uid입력
-  //     });
-  //     // console.log(list);
-  //     setStuList(list);
-  //     // console.log(stuList);
-  //   }
-  // };
 
   if (data.uid === userInfo.id) {
     if (data.isFixed === 0) {

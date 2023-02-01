@@ -11,7 +11,6 @@ export const SBox = styled.div`
   border-radius: 8px;
   margin: auto;
   margin-left: 1rem;
-  /* padding: 7em 0; */
   text-align: center;
   .title {
     font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -40,6 +39,7 @@ export const SListBox = styled.div`
   white-space: -moz-pre-wrap;
   white-space: pre-wrap;
   overflow-y: auto;
+  cursor: pointer;
 
   ::-webkit-scrollbar {
     width: 12px;
