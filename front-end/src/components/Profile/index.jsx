@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState } from "react";
 import {
   SProfileContainer,
   SSubContainerUp,
@@ -6,37 +6,37 @@ import {
   SBlackButton,
   SSnsContainer,
   SCustomToolTip,
-} from "./styles"
-import { Tooltip } from "@mui/material"
+} from "./styles";
+import { Tooltip } from "@mui/material";
 
-import defaultProfile from "../../assets/images/defaultProfile.png"
+import defaultProfile from "../../assets/images/defaultProfile.png";
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
-import blogImg from "../../assets/images/sns/blog.png"
-import youtubeImg from "../../assets/images/sns/youtube.png"
-import instagramImg from "../../assets/images/sns/instagram.png"
-import facebookImg from "../../assets/images/sns/facebook.png"
+import blogImg from "../../assets/images/sns/blog.png";
+import youtubeImg from "../../assets/images/sns/youtube.png";
+import instagramImg from "../../assets/images/sns/instagram.png";
+import facebookImg from "../../assets/images/sns/facebook.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
-import { LoginStateContext } from "../../App"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { LoginStateContext } from "../../App";
 
 const checkIsBlank = (target) => {
   // console.log(target)
-  if (target !== "") return true
-  return false
-}
-const SERVER_URL = "http://localhost:8080"
+  if (target !== "") return true;
+  return false;
+};
+const SERVER_URL = "http://localhost:8080";
 
 const Profile = (props) => {
   // context API에서 유저 정보 가져오기
-  const getUserInfo = useContext(LoginStateContext)
+  const getUserInfo = useContext(LoginStateContext);
   // console.log("유저정보", getUserInfo.userInfo)
   // SMS 링크 존재하는지 확인
-  const checkBlog = checkIsBlank(getUserInfo.userInfo.blog)
-  const checkYoutube = checkIsBlank(getUserInfo.userInfo.youtube)
-  const checkInsta = checkIsBlank(getUserInfo.userInfo.instagram)
-  const checkFacebook = checkIsBlank(getUserInfo.userInfo.facebook)
+  const checkBlog = checkIsBlank(getUserInfo.userInfo.blog);
+  const checkYoutube = checkIsBlank(getUserInfo.userInfo.youtube);
+  const checkInsta = checkIsBlank(getUserInfo.userInfo.instagram);
+  const checkFacebook = checkIsBlank(getUserInfo.userInfo.facebook);
 
   return (
     <SProfileContainer>
@@ -180,7 +180,7 @@ const Profile = (props) => {
         </SBlackButton>
       </SSubContainerDown>
     </SProfileContainer>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
