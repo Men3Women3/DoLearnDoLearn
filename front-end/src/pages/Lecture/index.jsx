@@ -28,20 +28,8 @@ import {
  */
 
 const Lecture = () => {
-  // let ws = new WebSocket("wss://i8a802.p.ssafy.io:8443/groupcall");
   const ws = new WebSocket("wss://localhost:8443/groupcall");
-
-  let participants = {};
-
   console.log(ws);
-  /**
-   * Creates a video element for a new participant
-   *
-   * @param {String} name - the name of the new participant, to be used as tag
-   *                        name of the video element.
-   *                        The tag of the new element will be 'video<name>'
-   * @return
-   */
 
   return (
     <SMainContainer>
