@@ -54,7 +54,10 @@ export const enrollClassAPI = async (uid, bid) => {
     });
     console.log("수강 신청 성공");
   } catch (err) {
-    console.log(err);
+    if (err.response.data.response === "신청 학생 수를 초과하였습니다") {
+      console.log("신청 가능 인원 초과");
+    }
+    // console.log(err);
     console.log("수강 신청 실패");
   }
 };
@@ -73,8 +76,19 @@ export const enrollLecturerAPI = async (uid, bid) => {
   }
 };
 
+// 폐강 API
+export const deleteClassAPI = async (board) => {
+  try {
+    await axios.delete(`${SERVER_URL}/${board}`);
+    console.log("폐강 성공");
+  } catch (err) {
+    console.log(err);
+    console.log("폐강 실패");
+  }
+};
+
 // 신청 취소 API
-export const deleteEnrollAPI = async (user, lecture) => {
+export const cancelEnrollAPI = async (user, lecture) => {
   try {
     await axios.delete(`${SERVER_URL}/apply/${user}/${lecture}`);
     console.log("신청 취소 성공");
@@ -106,5 +120,58 @@ export const searchAPI = async (keyword, setList, setIsEmpty) => {
       setIsEmpty(true);
       setList([]);
     }
+  }
+};
+
+// 강사 후보 명단 확인 API
+export const lecturerNameAPI = async (board, setNameList) => {
+  try {
+    const res = await axios.get(`${SERVER_URL}/instructor-list/${board}`);
+    if (res.data.response === "신청한 강사가 없습니다") {
+      setNameList([]);
+    } else {
+      setNameList(res.data.response);
+    }
+  } catch (err) {
+    console.log(err);
+    console.log("강사 목록 가져오기 실패");
+  }
+};
+
+// 강사 목록 확인 API
+export const lecListAPI = async (board, setLecList) => {
+  try {
+    const list = [];
+    const res = await axios.get(`${SERVER_URL}/student-list/${board}`);
+    if (res.data.response === "신청한 학생이 없습니다.") {
+      setLecList([]);
+    } else {
+      res.data.response.map((item) => {
+        list.push(item.uid);
+      });
+      setLecList(list);
+    }
+  } catch (err) {
+    console.log(err);
+    console.log("강사 목록 가져오기 실패");
+  }
+};
+
+// 수강생 목록 확인 API
+export const stuListAPI = async (board, setStuList) => {
+  try {
+    const list = [];
+    const res = await axios.get(`${SERVER_URL}/student-list/${board}`);
+    if (res.data.response === "신청한 학생이 없습니다.") {
+      setStuList([]);
+    } else {
+      res.data.response.map((item) => {
+        list.push(item.uid);
+      });
+      setStuList(list);
+    }
+  } catch (err) {
+    console.log(err);
+    console.log("수강생 목록 가져오기 실패");
   }
 };

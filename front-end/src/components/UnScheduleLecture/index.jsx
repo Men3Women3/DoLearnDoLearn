@@ -14,6 +14,7 @@ import {
   getUnScheduledLectureAPI,
 } from "../../utils/api/userAPI";
 import { LoginStateContext } from "../../App";
+import { Scontainer } from "./styles";
 
 const UnScheduleLecture = () => {
   const getUserInfo = useContext(LoginStateContext);
@@ -135,7 +136,7 @@ const UnScheduleLecture = () => {
           </Select>
         </FormControl>
       </div>
-      <div>
+      <Scontainer>
         {filteredData.length === 0 ? (
           <p>조건에 부합하는 강의 스케줄이 존재하지 않습니다</p>
         ) : (
@@ -147,7 +148,7 @@ const UnScheduleLecture = () => {
             );
           })
         )}
-      </div>
+      </Scontainer>
     </>
   );
 };

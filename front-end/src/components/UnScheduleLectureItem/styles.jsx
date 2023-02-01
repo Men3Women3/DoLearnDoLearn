@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SMain = styled.main`
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
   box-shadow: 5px 5px 5px #3737372d;
   border-radius: 20px;
