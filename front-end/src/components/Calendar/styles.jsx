@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SCalendar = styled.div`
   /* 현재 날짜 셀 */
@@ -162,4 +162,4 @@ export const SCalendar = styled.div`
   .fc-scrollgrid-section .fc-scrollgrid-section-body {
     display: none;
   }
-`
+`;

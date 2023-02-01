@@ -11,9 +11,8 @@ const Calendar = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  //모달에 전달할 데이터
-  const [data, setData] = useState({});
-  const [checkModalState, setCheckModalState] = useState(false);
+  const [data, setData] = useState({}); //모달에 전달할 데이터
+  const [checkModalState, setCheckModalState] = useState(false); // 모달에 전달할 데이터 상태 체크 변수
   // ===================================
   const [scheduledLecture, setScheduledLecture] = useState({});
 
