@@ -66,11 +66,12 @@ const LectureModalButton = ({ data, setOpen }) => {
 
   // 테스트용
   // console.log(stuList);
-  console.log(lecList);
+  // console.log(lecList);
 
   // =================================================
 
   if (data.uid === userInfo.id) {
+    // 방장이고, 모집완료 이전
     if (data.isFixed === 0) {
       return (
         <>
@@ -81,6 +82,7 @@ const LectureModalButton = ({ data, setOpen }) => {
           </SButtonBox>
         </>
       );
+      // 방장이고, 모집완료 이후
     } else {
       return (
         <SButtonBox>
@@ -89,7 +91,25 @@ const LectureModalButton = ({ data, setOpen }) => {
         </SButtonBox>
       );
     }
-  } else if (lecList.includes(userInfo.id) || stuList.includes(userInfo.id)) {
+  } else if (lecList.includes(userInfo.id)) {
+    // 강사 신청했고, 모집중인 경우
+    if (data.isFixed === 0) {
+      return (
+        <SButtonBox>
+          <SButton onClick={cancelClass}>신청취소</SButton>
+        </SButtonBox>
+      );
+      // 강사 신청했고, 모집완료된 경우
+    } else {
+      return (
+        <SButtonBox>
+          <SButton>Live 입장</SButton>
+          <SButton onClick={cancelClass}>신청취소</SButton>
+        </SButtonBox>
+      );
+    }
+    // 수강생 신청 했고, 모집
+  } else if (stuList.includes(userInfo.id)) {
     if (data.isFixed === 0) {
       return (
         <SButtonBox>
