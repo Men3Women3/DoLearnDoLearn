@@ -175,6 +175,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/summary-info/{id}")
+    public ResponseEntity<?> getSummaryInfo(@PathVariable("id") Long id){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getSummaryInfo(id)), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
         try{
