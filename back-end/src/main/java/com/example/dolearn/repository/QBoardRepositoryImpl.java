@@ -2,7 +2,6 @@ package com.example.dolearn.repository;
 
 import com.example.dolearn.domain.Board;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -56,15 +55,6 @@ public class QBoardRepositoryImpl extends QuerydslRepositorySupport implements Q
                 .from(board)
                 .leftJoin(board.userBoardList, userBoard)
                 .where(board.isFixed.eq(0), (board.uid.eq(uid).or((userBoard.uid.eq(uid).and(userBoard.userType.eq("학생"))))))
-                .fetch();
-    }
-
-    @Override
-    public List<Board> findFixedLecture(Long uid) {
-        return jpaQueryFactory
-                .selectFrom(board)
-                .leftJoin(board.userBoardList, userBoard)
-                .where(board.isFixed.eq(1), (board.uid.eq(uid).or(userBoard.uid.eq(uid))))
                 .fetch();
     }
 }

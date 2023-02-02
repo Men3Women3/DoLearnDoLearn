@@ -74,6 +74,13 @@ public class CallHandler extends TextWebSocketHandler {
       case "leaveRoom":
         leaveRoom(user);
         break;
+      case "helpUser":
+        UserSession userSession = registry.getBySession(session);
+        Room room = roomManager.getRoom(userSession.getRoomName());
+        for (UserSession participant : room.getParticipants()) {
+          participant.sendMessage(jsonMessage);
+        }
+        break;
       case "onIceCandidate":
         JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 

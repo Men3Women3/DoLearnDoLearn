@@ -43,6 +43,7 @@ const Lecture = () => {
 
   const [username, setUsername] = useState(userInfo.name);
   const [roomId, setRoomId] = useState(location.state.roomId);
+  const [helpOnOff, setHelpOnOff] = useState(false);
 
   const ws = new WebSocket("wss://localhost:8443/groupcall");
   console.log(ws);
@@ -68,6 +69,8 @@ const Lecture = () => {
    * @return
    */
 
+  var rtcPeer;
+
   function Participant(name) {
     this.name = name;
     // 카메라를 담을 컨테이너 div 생성
@@ -80,7 +83,7 @@ const Lecture = () => {
     let span = document.createElement("span");
     span.className = "username_span";
     let video = document.createElement("video");
-    let rtcPeer;
+    this.rtcPeer = rtcPeer;
 
     container.appendChild(video);
     container.appendChild(span);
@@ -160,6 +163,9 @@ const Lecture = () => {
     console.info("Received message: " + message.data);
 
     switch (parsedMessage.id) {
+      case "helpUser":
+        handleHelpRequest(parsedMessage);
+        break;
       case "existingParticipants":
         onExistingParticipants(parsedMessage);
         break;
@@ -308,6 +314,59 @@ const Lecture = () => {
     ws.send(jsonMessage);
   }
 
+  const vidOnOff = () => {
+    if (participants[username].rtcPeer.videoEnabled) {
+      // 끌때
+      participants[username].rtcPeer.videoEnabled = false;
+      document.getElementById("vidOn").style.display = "none";
+      document.getElementById("vidOff").style.display = "";
+    } else {
+      participants[username].rtcPeer.videoEnabled = true;
+      document.getElementById("vidOn").style.display = "";
+      document.getElementById("vidOff").style.display = "none";
+    }
+  };
+
+  const audOnOff = () => {
+    if (participants[username].rtcPeer.audioEnabled) {
+      participants[username].rtcPeer.audioEnabled = false;
+      document.getElementById("audOn").style.display = "none";
+      document.getElementById("audOff").style.display = "";
+    } else {
+      participants[username].rtcPeer.audioEnabled = true;
+      document.getElementById("audOn").style.display = "";
+      document.getElementById("audOff").style.display = "none";
+    }
+  };
+
+  const handleOnClickHelpRequest = () => {
+    let message = {
+      id: "helpUser",
+      name: name,
+    };
+
+    sendMessage(message);
+  };
+
+  const handleHelpRequest = (request) => {
+    // console.log(request, 33333333);
+    const targetUser = request.name;
+
+    const userVideo = document.getElementById("video-" + targetUser);
+    console.log(userVideo);
+    if (!userVideo.classList.contains("help")) {
+      setHelpOnOff(true);
+      userVideo.classList.add("help");
+      document.getElementById("helpOn").style.display = "none";
+      document.getElementById("helpOff").style.display = "";
+    } else {
+      setHelpOnOff(false);
+      userVideo.classList.remove("help");
+      document.getElementById("helpOn").style.display = "";
+      document.getElementById("helpOff").style.display = "none";
+    }
+  };
+
   return (
     <>
       <SMainContainer>
@@ -327,7 +386,13 @@ const Lecture = () => {
               <SLecturerCamera></SLecturerCamera>
             </SLecturerCameraContainer>
           </SContainer>
-          <LiveOptionContainer leaveRoom={leaveRoom} />
+          <LiveOptionContainer
+            leaveRoom={leaveRoom}
+            vidOnOff={vidOnOff}
+            audOnOff={audOnOff}
+            // handleHelpRequest={handleHelpRequest}
+            handleOnClickHelpRequest={handleOnClickHelpRequest}
+          />
         </SLeftItemContainer>
         <SRightItemContainer>
           <LectureChattingContainer></LectureChattingContainer>

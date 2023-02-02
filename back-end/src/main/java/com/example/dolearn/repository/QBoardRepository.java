@@ -14,7 +14,4 @@ public interface QBoardRepository {
     List<Board> findRequestLectureByInst(Long uid);
 
     List<Board> findRequestLectureByStud(Long uid);
-
-    List<Board> findFixedLecture(Long uid);
-
 }
