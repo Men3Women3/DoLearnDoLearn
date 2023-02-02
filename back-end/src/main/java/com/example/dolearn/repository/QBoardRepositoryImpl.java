@@ -2,6 +2,7 @@ package com.example.dolearn.repository;
 
 import com.example.dolearn.domain.Board;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -59,7 +60,7 @@ public class QBoardRepositoryImpl extends QuerydslRepositorySupport implements Q
     }
 
     @Override
-    public List<Board> findFixedLectureByUid(Long uid) {
+    public List<Board> findFixedLecture(Long uid) {
         return jpaQueryFactory
                 .selectFrom(board)
                 .leftJoin(board.userBoardList, userBoard)
