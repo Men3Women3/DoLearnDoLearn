@@ -1,5 +1,6 @@
 package com.example.dolearn.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
 import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -23,8 +24,10 @@ public class FixedLectureDto {
 
     private String summary;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     public FixedLectureDto(Long id, String title, String summary, Date startTime, Date endTime) {
