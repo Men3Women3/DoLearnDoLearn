@@ -4,7 +4,10 @@ import { SBox, SList, SListBox } from "./styles";
 
 const LecturerList = ({ data }) => {
   const [nameList, setNameList] = useState([]);
-  const [lid, setLid] = useState();
+  // ============= lid받아둬야함 =============
+  // const [lid, setLid] = useState(0);
+  // console.log(lid);
+  // ============= lid받아둬야함 =============
 
   const handleProfile = (lid) => {
     window.open(`/board/profile/${lid}`);
@@ -20,10 +23,10 @@ const LecturerList = ({ data }) => {
         <h4 className="title">신청 강사</h4>
 
         <SListBox>
-          {nameList.map((item, i) => {
+          {nameList.map((item) => {
             return (
               <>
-                <SList key={i}>
+                <SList key={item}>
                   <div className="full-list">
                     {/* 신청한 강사의 uid를 value로 지정해 나중에 api로 서버에 확정 전송 시 이 value를 담아서 보냄 */}
                     <input type="radio" name="lecturer" value={item.uid} />
