@@ -13,7 +13,7 @@ import study from "../../assets/images/thumbnail/study.svg";
 import teamwork from "../../assets/images/thumbnail/teamwork.svg";
 
 // 개별 게시물 component
-const UniBoard = ({ data }) => {
+const UniBoard = ({ data, flag, setFlag }) => {
   // Modal 파트 ========================
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -66,6 +66,8 @@ const UniBoard = ({ data }) => {
           open={open}
           setOpen={setOpen}
           handleClose={handleClose}
+          flag={flag}
+          setFlag={setFlag}
         />
       ) : null}
     </SUniBoard>

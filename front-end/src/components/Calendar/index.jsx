@@ -17,7 +17,7 @@ const Calendar = () => {
   const [scheduledLecture, setScheduledLecture] = useState({});
 
   useEffect(() => {
-    getScheduledLectureAPI(1, setScheduledLecture);
+    getScheduledLectureAPI(localStorage.getItem("id"), setScheduledLecture);
   }, []);
 
   // 달력에 일정 클릭했을 때 LectureModal띄울 수 있도록 데이터 정제하기

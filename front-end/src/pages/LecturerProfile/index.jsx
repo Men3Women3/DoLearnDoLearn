@@ -11,8 +11,12 @@ const LecturerProfile = () => {
         <Navbar />
       </Grid>
       <Grid item xs={0} md={1.5} />
-      {/* 요 아래 lecProfile 해결하자! */}
-      <LecProfile />
+
+      <Grid item xs={0} md={1.5} />
+      <Grid item xs={12} md={9}>
+        <LecProfile />
+      </Grid>
+      <Grid item xs={0} md={1.5} />
     </Grid>
   );
 };

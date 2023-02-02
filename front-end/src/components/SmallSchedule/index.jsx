@@ -75,8 +75,8 @@ const SmallSchedule = () => {
           >
             {totalSchedule.length ? (
               <Scrollbars autoHide className="Scrollbars">
-                {totalSchedule.map((item) => (
-                  <TotalScheduleItem key={item} item={item} />
+                {totalSchedule.map((item, idx) => (
+                  <TotalScheduleItem key={idx} item={item} />
                 ))}
               </Scrollbars>
             ) : (
