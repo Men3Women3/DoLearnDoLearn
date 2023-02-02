@@ -61,6 +61,29 @@ export const SForm = styled.form`
     cursor: default;
     .Home-link {
       z-index: 2;
+      img:hover {
+        animation: swing 5000ms infinite;
+      }
+
+      @keyframes swing {
+        0%,
+        10% {
+          transform: rotate(0deg);
+        }
+        5%,
+        15%,
+        25%,
+        35%,
+        45% {
+          transform: rotate(5deg);
+        }
+        10%,
+        20%,
+        30%,
+        40% {
+          transform: rotate(-5deg);
+        }
+      }
     }
   }
 `;
