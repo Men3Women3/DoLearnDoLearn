@@ -63,6 +63,10 @@ public class BoardService {
         for(int i=boardList.size()-1;i>=0;i--){ //id 높은 순으로 리스트 구성 (최근에 올린 글 순으로 정렬하기 위해)
             if(boardList.get(i).getIsFixed()==1) continue; //이미 확정된 강의의 경우 리스트에서 제외
             BoardDto boardDto = boardList.get(i).toDto();//dto로 변환
+
+            if(boardDto.checkDeadline()>0){ //모집기간이 지난 경우
+                deleteBoard(boardList.get(i).getId()); //board table에서 삭제
+            }
             boardDtoList.add(boardDto);//변환된 dto 리스트에 추가
         }
 
@@ -70,7 +74,7 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardDto selectDetail(Long id) throws Exception{
+    public BoardDto selectDetail(Long id){
         Optional<Board> board = boardRepository.findById(id);
         if(board.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD); //글이 없는 경우 오류 발생
 
@@ -82,11 +86,11 @@ public class BoardService {
     @Transactional
     public int deleteBoard(Long id){
 //        if(bRepo.findById(id).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
-
+        userBoardRepository.deleteByBid(id);
         return boardRepository.deleteBoard(id);
     }
 
-    public List<BoardDto> searchResult(List<Board> bListByTitle, List<Board> bListByContent, List<Board> bListBySummary) throws Exception{
+    public List<BoardDto> searchResult(List<Board> bListByTitle, List<Board> bListByContent, List<Board> bListBySummary){
         List<BoardDto> result = new ArrayList<>();
 
         //검색 결과가 없는 경우 오류 발생

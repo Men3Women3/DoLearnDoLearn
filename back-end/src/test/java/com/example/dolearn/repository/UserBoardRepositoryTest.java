@@ -145,4 +145,21 @@ public class UserBoardRepositoryTest {
 
         assertEquals(userBoardList.size(),result.size());
     }
+
+    @DisplayName("bid로 삭제 테스트")
+    @Test
+    public void UserBoardRepositoryDeleteByBidTest() throws Exception{
+        Board boardSaved = boardRepository.save(boardDto1.toEntity());
+
+        User userSaved = userRepository.save(userDto.toEntity());
+
+        UserBoard userBoard= UserBoard.builder()
+                .bid(boardSaved.getId()).uid(userSaved.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+
+        UserBoard saved = userBoardRepository.save(userBoard);
+
+        int result = userBoardRepository.deleteByBid(saved.getBid());
+
+        assertEquals(1,result);
+    }
 }
