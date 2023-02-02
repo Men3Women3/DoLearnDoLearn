@@ -24,4 +24,8 @@ public interface UserBoardRepository extends JpaRepository <UserBoard, Long> {
     @Modifying
     @Query(value = "delete from member_board where uid=:uid and bid=:bid")
     int delete(@Param("uid") Long uid, @Param("bid") Long bid);
+
+    @Modifying
+    @Query(value = "delete from member_board where bid=:bid")
+    int deleteByBid(@Param("bid") Long bid);
 }

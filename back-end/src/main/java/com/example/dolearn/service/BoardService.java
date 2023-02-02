@@ -31,21 +31,21 @@ public class BoardService {
 
     @Transactional
     public BoardDto insert(BoardDto boardDto) throws Exception {
-        boardDto.setTimes();
+        boardDto.setTimes(); //date format에 맞춰 data 수정
         Board board =boardDto.toEntity();
 
-        BoardDto result = boardRepository.save(board).toDto();
+        BoardDto result = boardRepository.save(board).toDto(); //글 등록
 
-        Optional<User> userData = userRepository.findOneById(board.getUid());
+        Optional<User> userData = userRepository.findOneById(board.getUid()); //작성자에 대한 데이터 받음
 
-        if(userData.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
+        if(userData.isEmpty()) throw new CustomException(ErrorCode.NO_USER); //작성자 데이터가 없는 경우 에러 발생
 
-        User user = userData.get();
+        User user = userData.get(); //엔티티에 user data 받음
 
         UserBoard userBoard = UserBoard.builder()
-                .uid(board.getUid()).bid(board.getId()).user(user).board(board).user_type("학생").build();
+                .uid(board.getUid()).bid(board.getId()).user(user).board(board).userType("학생").build(); //UserBoard 엔티티에 저장
 
-        userBoardRepository.save(userBoard);
+        userBoardRepository.save(userBoard);// member_board table에 작성자 저장
 
         log.info("저장 요청: {}",board);
         log.info("작성자 정보 저장: {}",userBoard);
@@ -55,25 +55,30 @@ public class BoardService {
 
     @Transactional
     public List<BoardDto> selectAll() throws Exception{
-        List<Board> boardList = boardRepository.findAll();
-        List<BoardDto> boardDtoList = new ArrayList<>();
+        List<Board> boardList = boardRepository.findAll(); //글 리스트 받아오기
+        List<BoardDto> boardDtoList = new ArrayList<>(); //Dto list 생성
 
-        if(boardList.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
+        if(boardList.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD); //읽어올 글이 없는 경우 오류 발생
 
-        for(int i=boardList.size()-1;i>=0;i--){
-            if(boardList.get(i).getIsFixed()==1) continue;
-            BoardDto boardDto = boardList.get(i).toDto();
-            boardDtoList.add(boardDto);
+        for(int i=boardList.size()-1;i>=0;i--){ //id 높은 순으로 리스트 구성 (최근에 올린 글 순으로 정렬하기 위해)
+            if(boardList.get(i).getIsFixed()==1) continue; //이미 확정된 강의의 경우 리스트에서 제외
+            BoardDto boardDto = boardList.get(i).toDto();//dto로 변환
+
+            if(boardDto.checkDeadline()>0){ //모집기간이 지난 경우
+                deleteBoard(boardList.get(i).getId()); //board table에서 삭제
+            }
+            boardDtoList.add(boardDto);//변환된 dto 리스트에 추가
         }
 
         return boardDtoList;
     }
 
     @Transactional
-    public BoardDto selectDetail(Long id) throws Exception{
-        if(boardRepository.findById(id).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
+    public BoardDto selectDetail(Long id){
+        Optional<Board> board = boardRepository.findById(id);
+        if(board.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD); //글이 없는 경우 오류 발생
 
-        BoardDto result = boardRepository.findById(id).get().toDto();
+        BoardDto result = board.get().toDto(); //받아온 상세정보 dto로 변환
 
         return result;
     }
@@ -81,23 +86,24 @@ public class BoardService {
     @Transactional
     public int deleteBoard(Long id){
 //        if(bRepo.findById(id).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
-
+        userBoardRepository.deleteByBid(id);
         return boardRepository.deleteBoard(id);
     }
 
-    public List<BoardDto> searchResult(List<Board> bListByTitle, List<Board> bListByContent, List<Board> bListBySummary) throws Exception{
+    public List<BoardDto> searchResult(List<Board> bListByTitle, List<Board> bListByContent, List<Board> bListBySummary){
         List<BoardDto> result = new ArrayList<>();
 
+        //검색 결과가 없는 경우 오류 발생
         if(bListByContent.isEmpty() && bListByTitle.isEmpty() && bListBySummary.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
 
-        Set<Board> set = new LinkedHashSet<>(bListByTitle);
+        Set<Board> set = new LinkedHashSet<>(bListByTitle); //검색결과 중복 방지를 위해 set 선언 후 각 리스트 set에 추가
         set.addAll(bListByContent);
         set.addAll(bListBySummary);
 
-        List<Board> bListResult = new ArrayList<>(set);
+        List<Board> bListResult = new ArrayList<>(set); //list로 변환
 
-        for(int i=bListResult.size()-1;i>=0;i--){
-            if(bListResult.get(i).getIsFixed()==1) continue;
+        for(int i=bListResult.size()-1;i>=0;i--){ //id 높은 순으로 정렬 (최근에 쓴 글 순으로 정렬)
+            if(bListResult.get(i).getIsFixed()==1) continue; //확정된 강의 제외
             result.add(bListResult.get(i).toDto());
         }
 
@@ -121,15 +127,15 @@ public class BoardService {
 
     @Transactional
     public BoardDto update(Long id) throws Exception{
-        Optional<Board> result = boardRepository.findById(id);
+        Optional<Board> result = boardRepository.findById(id); //수정할 글 읽어오기
 
-        if(result.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
+        if(result.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);//수정할 글이 없는 경우 오류 발생
 
-        if(result.get().getIsFixed()==1) throw new CustomException(ErrorCode.FIXED_LECTURE);
+        if(result.get().getIsFixed()==1) throw new CustomException(ErrorCode.FIXED_LECTURE); //이미 확정된 강의의 경우 오류 발생
 
-        BoardDto board = result.get().toDto();
-        board.setFixed(1);
+        BoardDto board = result.get().toDto();//수정할 글 dto로 변환
+        board.setFixed(1);//is_fixed 1로 변환
 
-        return boardRepository.save(board.toEntity()).toDto();
+        return boardRepository.save(board.toEntity()).toDto();//수정한 정보 저장
     }
 }
