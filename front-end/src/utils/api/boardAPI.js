@@ -134,7 +134,7 @@ export const lecturerNameAPI = async (board, setNameList) => {
     }
   } catch (err) {
     console.log(err);
-    console.log("강사 목록 가져오기 실패");
+    console.log("강사 이름 가져오기 실패");
   }
 };
 
@@ -143,13 +143,15 @@ export const lecListAPI = async (board, setLecList) => {
   try {
     const list = [];
     const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
-    if (res.data.response === "신청한 학생이 없습니다.") {
+    console.log(res.data.response);
+    if (res.data.response === "신청한 강사가 없습니다") {
       setLecList([]);
     } else {
       res.data.response.map((item) => {
         list.push(item.uid);
       });
       setLecList(list);
+      console.log("강사 성공");
     }
   } catch (err) {
     console.log(err);
@@ -169,6 +171,7 @@ export const stuListAPI = async (board, setStuList) => {
         list.push(item.uid);
       });
       setStuList(list);
+      console.log("수강생 성공");
     }
   } catch (err) {
     console.log(err);
