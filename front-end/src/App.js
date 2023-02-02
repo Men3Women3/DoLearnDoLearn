@@ -106,7 +106,10 @@ function App() {
                   />
                   <Route path="/board" element={<Board />} />
                   <Route path="/write" element={<WriteBoard />} />
-                  <Route path="/board/profile" element={<LecturerProfile />} />
+                  <Route
+                    path="/board/profile/:lid"
+                    element={<LecturerProfile />}
+                  />
                   <Route
                     path={"/mypage"}
                     element={isLogined ? <User /> : <Home />}
