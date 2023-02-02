@@ -33,10 +33,10 @@ public class UserBoard {
     private Board board;
 
     @Column(name = "member_type")
-    private String user_type;
+    private String userType;
 
     public UserBoardDto toDto(){
         return UserBoardDto.builder()
-                .id(id).uid(user.getId()).bid(board.getId()).board(board).user(user).user_type(user_type).build();
+                .id(id).uid(user.getId()).bid(board.getId()).board(board).user(user).userType(userType).build();
     }
 }

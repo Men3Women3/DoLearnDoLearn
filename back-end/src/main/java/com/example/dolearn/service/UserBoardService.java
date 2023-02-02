@@ -58,9 +58,9 @@ public class UserBoardService {
 
         UserBoard result= UserBoard.builder()
                 .id(userBoard.getId()).uid(userBoard.getUid()).bid(userBoard.getBid()).board(board.get())
-                .user(user.get()).user_type(userBoard.getUser_type()).build(); //UserBoard data 생성
+                .user(user.get()).userType(userBoard.getUserType()).build(); //UserBoard data 생성
 
-        if(result.getUser_type().equals("강사")){ //강사로 신청한 경우
+        if(result.getUserType().equals("강사")){ //강사로 신청한 경우
             return ubRepo.save(result).toDto(); //강사로 신청 적용
         }
         else{ //학생으로 신청한 경우

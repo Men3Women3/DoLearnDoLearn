@@ -43,7 +43,7 @@ public class BoardService {
         User user = userData.get(); //엔티티에 user data 받음
 
         UserBoard userBoard = UserBoard.builder()
-                .uid(board.getUid()).bid(board.getId()).user(user).board(board).user_type("학생").build(); //UserBoard 엔티티에 저장
+                .uid(board.getUid()).bid(board.getId()).user(user).board(board).userType("학생").build(); //UserBoard 엔티티에 저장
 
         userBoardRepository.save(userBoard);// member_board table에 작성자 저장
 

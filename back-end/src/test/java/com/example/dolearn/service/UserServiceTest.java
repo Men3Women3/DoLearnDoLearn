@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -503,7 +502,7 @@ class UserServiceTest {
             List<Board> reqBoardEntity = new ArrayList<>();
 
             when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
-            when(boardRepository.findRequestLectureByUid(id)).thenReturn(reqBoardEntity);
+            when(boardRepository.findRequestLecture(id)).thenReturn(reqBoardEntity);
 
             userService.getRequestLecture(id);
         }
@@ -554,7 +553,7 @@ class UserServiceTest {
         @DisplayName("확정 강의 조회 실패 - 기입되지 않은 정보")
         void failByInput() throws ParseException {
             Exception exception = assertThrows(CustomException.class, ()->{
-                List<BoardDto> result = userService.getFixedLecture(null);
+               List<BoardDto> result = userService.getFixedLecture(null);
             });
             assertTrue(exception instanceof CustomException);
             assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
@@ -568,7 +567,7 @@ class UserServiceTest {
             when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
 
             Exception exception = assertThrows(CustomException.class, ()->{
-                List<BoardDto> result = userService.getFixedLecture(id);
+               List<BoardDto> result = userService.getFixedLecture(id);
             });
 
             assertTrue(exception instanceof CustomException);
