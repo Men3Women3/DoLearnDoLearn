@@ -36,7 +36,6 @@ public class UserRepositoryTest {
     private String email;
     private String password;
     private  String info;
-    private  String gender;
     private  Integer point;
     private  String instagram;
     private  String facebook;
@@ -58,7 +57,6 @@ public class UserRepositoryTest {
         email = "abcd@daum.net";
         password = "abcdpassord";
         info = "안녕하세요";
-        gender = "F";
         point = 50;
         instagram = "insta__";
         facebook = "";
@@ -69,7 +67,7 @@ public class UserRepositoryTest {
         refreshToken = null;
         accessToken = null;
         joinDate = new Date();
-        userDto = UserDto.builder().name(name).email(email).password(password).info(info).gender(gender).
+        userDto = UserDto.builder().name(name).email(email).password(password).info(info).
                 instagram(instagram).facebook(facebook).blog(blog).youtube(youtube).
                 imgPath(imgPath).imgUrl(imgUrl).build();
     }
@@ -103,7 +101,7 @@ public class UserRepositoryTest {
         @Test
         @DisplayName("이메일로 사용자 찾기 성공")
         public void success() {
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).info(info).gender(gender).
+            UserDto userDto = UserDto.builder().name(name).email(email).password(password).info(info).
                     instagram(instagram).facebook(facebook).blog(blog).youtube(youtube).
                     imgPath(imgPath).imgUrl(imgUrl).build();
 
