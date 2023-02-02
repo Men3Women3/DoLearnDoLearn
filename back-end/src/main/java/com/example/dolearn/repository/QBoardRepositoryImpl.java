@@ -60,7 +60,7 @@ public class QBoardRepositoryImpl extends QuerydslRepositorySupport implements Q
     }
 
     @Override
-    public List<Board> findFixedLecture(Long uid) {
+    public List<Tuple> findFixedLecture(Long uid) {
         return jpaQueryFactory
                 .selectFrom(board)
                 .leftJoin(board.userBoardList, userBoard)
