@@ -544,7 +544,7 @@ class UserServiceTest {
             UserDto resUserDto = UserDto.builder().id(id).build();
 
             when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
-            when(boardRepository.findFixedLectureByUid(id)).thenReturn(new ArrayList<>());
+            when(boardRepository.findFixedLecture(id)).thenReturn(new ArrayList<>());
 
             userService.getFixedLecture(id);
         }
