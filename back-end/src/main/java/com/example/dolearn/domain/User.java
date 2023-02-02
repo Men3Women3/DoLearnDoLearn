@@ -38,9 +38,6 @@ public class User {
     @Column(length = 3000)
     private String info;
 
-    @Column(length = 4)
-    private String gender;
-
     @Column
     private Integer point;
 
@@ -114,7 +111,6 @@ public class User {
                 .email(email)
                 .password(password)
                 .info(info)
-                .gender(gender)
                 .point(point)
                 .youtube(youtube)
                 .instagram(instagram)
