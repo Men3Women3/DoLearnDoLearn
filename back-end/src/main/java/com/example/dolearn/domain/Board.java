@@ -9,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,16 +72,16 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<UserBoard> userBoardList = new ArrayList<>();
 
-    public BoardDto toDto() throws ParseException {
+    public BoardDto toDto(){
         return BoardDto.builder()
                 .id(id).uid(uid).tid(tid).title(title).maxCnt(maxCnt).content(content).summary(summary).startTime(stringConverter(startTime))
                 .endTime(stringConverter(endTime)).deadline(stringConverter(deadline)).isFixed(isFixed).createdTime(createdTime).build();
     }
 
     public String stringConverter(Date input){
-        SimpleDateFormat foramatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String date = foramatter.format(input);
+        String date = formatter.format(input);
 
         log.info("date: {}",date);
 

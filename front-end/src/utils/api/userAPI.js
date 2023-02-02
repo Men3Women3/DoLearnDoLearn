@@ -344,12 +344,12 @@ export const getRequestLecture = (userInfo, setTotalSchedule) => {
     });
 };
 
-// 미확정 강의 내역 불러오는 api를 요청하는 함수
-export const getUnScheduledLectureAPI = (userId, setTotalSchedule) => {
+// 미확정 강의 내역 불러오는 api를 요청하는 함수 (모든 강의)
+export const getUnScheduledLectureAPI = (userId, setUnScheduledLectureList) => {
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/${userId}`,
+      `${axiosDefaultURL}/user/request-lecture/1`,
       {},
       {
         headers: {
@@ -358,9 +358,74 @@ export const getUnScheduledLectureAPI = (userId, setTotalSchedule) => {
       }
     )
     .then((res) => {
-      console.log("요청은 되었니?");
-      console.log(res);
-      setTotalSchedule(res.data.response);
+      setUnScheduledLectureList(res.data.response);
+      console.log("전체강의 불러오기 완료");
+    });
+};
+
+// 미확정 강의 내역 불러오는 api를 요청하는 함수 (방장인 글)
+export const getUnScheduledLectureHostAPI = (
+  userId,
+  setUnScheduledLectureList
+) => {
+  const accessToken = localStorage.getItem("accessToken");
+  axios
+    .get(
+      `${axiosDefaultURL}/user/request-lecture/1/host`,
+      {},
+      {
+        headers: {
+          Authentication: accessToken,
+        },
+      }
+    )
+    .then((res) => {
+      setUnScheduledLectureList(res.data.response);
+      console.log("방장 글 불러오기 완료");
+    });
+};
+
+// 미확정 강의 내역 불러오는 api를 요청하는 함수 (강사)
+export const getUnScheduledLectureInstructorAPI = (
+  userId,
+  setUnScheduledLectureList
+) => {
+  const accessToken = localStorage.getItem("accessToken");
+  axios
+    .get(
+      `${axiosDefaultURL}/user/request-lecture/1/instructor`,
+      {},
+      {
+        headers: {
+          Authentication: accessToken,
+        },
+      }
+    )
+    .then((res) => {
+      setUnScheduledLectureList(res.data.response);
+      console.log("강사 글 불러오기 완료");
+    });
+};
+
+// 미확정 강의 내역 불러오는 api를 요청하는 함수 (수강생)
+export const getUnScheduledLectureStudentAPI = (
+  userId,
+  setUnScheduledLectureList
+) => {
+  const accessToken = localStorage.getItem("accessToken");
+  axios
+    .get(
+      `${axiosDefaultURL}/user/request-lecture/1/student`,
+      {},
+      {
+        headers: {
+          Authentication: accessToken,
+        },
+      }
+    )
+    .then((res) => {
+      setUnScheduledLectureList(res.data.response);
+      console.log("수강생 글 불러오기 완료");
     });
 };
 
@@ -397,5 +462,42 @@ export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
     })
     .catch((e) => {
       console.log(e);
+    });
+};
+
+// DB에 프로필 수정 요청(프로필 사진 외 부가 정보)
+export const updateUserInfoAPI = (data, handleUserInfo) => {
+  axios
+    .put(`${axiosDefaultURL}/user`, data, {
+      headers: {
+        // ------------------------------------------
+        // -----------------수정 필요----------------
+        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
+        // ------------------------------------------
+        // ------------------------------------------
+        Authentication: localStorage.getItem("accessToken"),
+      },
+      // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트
+    })
+    .then((res) => {
+      handleUserInfo(res.data.response);
+    });
+};
+
+// DB에 프로필 사진 수정 요청
+export const updateProfileImgAPI = (data, img_file, handleUserInfo) => {
+  const formData = new FormData();
+  formData.append("profileImg", img_file);
+  axios
+    .post(`${axiosDefaultURL}/user/upload-img/${data.id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      handleUserInfo(res.data.response);
+    })
+    .then(() => {
+      updateUserInfoAPI(data, handleUserInfo);
     });
 };
