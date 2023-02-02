@@ -376,6 +376,7 @@ const preprocessingData = (obj) => {
     delete item.endTime;
   });
 };
+
 export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
   const accessToken = localStorage.getItem("accessToken");
   axios

@@ -215,16 +215,16 @@ const Lecture = () => {
     );
   }
 
-  function callResponse(message) {
-    if (message.response !== "accepted") {
-      console.info("Call not accepted by peer. Closing call");
-      stop();
-    } else {
-      webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
-        if (error) return console.error(error);
-      });
-    }
-  }
+  // function callResponse(message) {
+  //   if (message.response !== "accepted") {
+  //     console.info("Call not accepted by peer. Closing call");
+  //     stop();
+  //   } else {
+  //     webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
+  //       if (error) return console.error(error);
+  //     });
+  //   }
+  // }
 
   function onExistingParticipants(msg) {
     var constraints = {
@@ -319,12 +319,6 @@ const Lecture = () => {
                   <div id="room" style={{ display: "none" }}>
                     <h2 id="room-header" style={{ display: "none" }}></h2>
                     <div id="participants"></div>
-                    {/* <input
-                      type="button"
-                      id="button-leave"
-                      onMouseUp={leaveRoom}
-                      data-value="Leave room"
-                    /> */}
                   </div>
                 </div>
               </div>
@@ -333,7 +327,7 @@ const Lecture = () => {
               <SLecturerCamera></SLecturerCamera>
             </SLecturerCameraContainer>
           </SContainer>
-          <LiveOptionContainer />
+          <LiveOptionContainer leaveRoom={leaveRoom} />
         </SLeftItemContainer>
         <SRightItemContainer>
           <LectureChattingContainer></LectureChattingContainer>
