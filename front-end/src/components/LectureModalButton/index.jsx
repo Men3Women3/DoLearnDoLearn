@@ -64,13 +64,10 @@ const LectureModalButton = ({ data, setOpen }) => {
     stuListAPI(data.id, setStuList);
   }, []);
 
-  // 테스트용
-  // console.log(stuList);
-  console.log(lecList);
-
   // =================================================
 
   if (data.uid === userInfo.id) {
+    // 방장이고, 모집완료 이전
     if (data.isFixed === 0) {
       return (
         <>
@@ -81,6 +78,7 @@ const LectureModalButton = ({ data, setOpen }) => {
           </SButtonBox>
         </>
       );
+      // 방장이고, 모집완료 이후
     } else {
       return (
         <SButtonBox>

@@ -57,7 +57,6 @@ export const enrollClassAPI = async (uid, bid) => {
     if (err.response.data.response === "신청 학생 수를 초과하였습니다") {
       console.log("신청 가능 인원 초과");
     }
-    // console.log(err);
     console.log("수강 신청 실패");
   }
 };
@@ -142,7 +141,7 @@ export const lecturerNameAPI = async (board, setNameList) => {
 export const lecListAPI = async (board, setLecList) => {
   try {
     const list = [];
-    const res = await axios.get(`${SERVER_URL}/student-list/${board}`);
+    const res = await axios.get(`${SERVER_URL}/instructor-list/${board}`);
     if (res.data.response === "신청한 학생이 없습니다.") {
       setLecList([]);
     } else {
