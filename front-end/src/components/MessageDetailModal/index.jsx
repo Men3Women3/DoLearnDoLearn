@@ -1,13 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { SButton, SContent } from "./styles";
 
 import { Box, Modal, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { UnreadMessageContext } from "../../App";
-import { getUnreadMessageCnt } from "../../utils/api/messageAPI";
+import { changeMessageReadStateAPI } from "../../utils/api/messageAPI";
 
 const style = {
   position: "absolute",
@@ -80,50 +79,18 @@ const typeMessage = (target, content) => {
   return [mainText, additionalText];
 };
 
-const SERVER_URL = "http://localhost:8080";
-const MessageDetailModal = ({
-  data,
-  open,
-  handleClose,
-  readMessage,
-  checkMessage,
-  setCheckState,
-}) => {
+const MessageDetailModal = ({ data, open, handleClose, setCheckState }) => {
   const { unreadMessageCnt, setStateMessageUpdate } =
     useContext(UnreadMessageContext);
   const type = checkType(data.type);
   const recieveTime = customRecieveTime(data.createdTime);
   const [mainText, additionalText] = typeMessage(data.type, data.content);
 
-  // 확인 버튼 누르면 메시지 읽음으로 변경
-  const axios_put = async () => {
-    try {
-      const res = await axios.put(
-        `${SERVER_URL}/message`,
-        { id: data.id },
-        {
-          headers: {
-            // ------------------------------------------
-            // -----------------수정 필요----------------
-            // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-            // ------------------------------------------
-            // ------------------------------------------
-            Authentication: localStorage.getItem("accessToken"),
-          },
-        }
-      );
-      // 성공했을 때 화면에 바로 적용할 수 있는 방법 생각하기!!
-      // 지금은 새로고침해야만 적용됨
-      console.log("성공!!!!!");
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const handleReadMessage = () => {
     // 읽지 않은 경우에 axios 요청
     if (data.isChecked === 0) {
-      axios_put();
+      changeMessageReadStateAPI(data.id);
+      // axios_put();
       setCheckState(true);
       setStateMessageUpdate(true);
     }
