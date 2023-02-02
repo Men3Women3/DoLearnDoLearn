@@ -154,7 +154,7 @@ public class UserBoardRepositoryTest {
         User userSaved = userRepository.save(userDto.toEntity());
 
         UserBoard userBoard= UserBoard.builder()
-                .bid(boardSaved.getId()).uid(userSaved.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+                .bid(boardSaved.getId()).uid(userSaved.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("학생").build();
 
         UserBoard saved = userBoardRepository.save(userBoard);
 
