@@ -7,9 +7,18 @@ import kurentoUtils from "kurento-utils";
 
 import {
   SMainContainer,
-  SLeftItemContainer,
   SRightItemContainer,
+  SContainer,
+  SStudentsContainer,
+  SLecturerCameraContainer,
+  SLecturerCamera,
+  SLeftItemContainer,
+  SOptionContainer,
 } from "./styles";
+import { useLocation } from "react-router";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { LoginStateContext } from "../../App";
 
 /*
  * (C) Copyright 2014 Kurento (http://kurento.org/)
@@ -29,8 +38,23 @@ import {
  */
 
 const Lecture = () => {
-  const [username, setUsername] = useState("");
-  const [roomNumber, setRoomNumber] = useState("");
+  const location = useLocation();
+  const { userInfo } = useContext(LoginStateContext);
+
+  const [username, setUsername] = useState(userInfo.name);
+  const [roomId, setRoomId] = useState(location.state.roomId);
+
+  const ws = new WebSocket("wss://localhost:8443/groupcall");
+  console.log(ws);
+
+  var participants = {};
+  var name = username;
+
+  useEffect(() => {
+    ws.onopen = () => {
+      register(name, roomId);
+    };
+  }, []);
 
   const PARTICIPANT_MAIN_CLASS = "participant main";
   const PARTICIPANT_CLASS = "participant";
@@ -54,6 +78,7 @@ const Lecture = () => {
       : PARTICIPANT_MAIN_CLASS;
     container.id = name;
     let span = document.createElement("span");
+    span.className = "username_span";
     let video = document.createElement("video");
     let rtcPeer;
 
@@ -67,6 +92,8 @@ const Lecture = () => {
     video.id = "video-" + name;
     video.autoplay = true;
     video.controls = false;
+    video.style.width = "160px";
+    video.style.height = "120px";
 
     this.getElement = function () {
       return container;
@@ -124,12 +151,6 @@ const Lecture = () => {
     };
   }
 
-  const ws = new WebSocket("wss://localhost:8443/groupcall");
-  console.log(ws);
-
-  var participants = {};
-  var name;
-
   window.onbeforeunload = function () {
     ws.close();
   };
@@ -167,21 +188,14 @@ const Lecture = () => {
     }
   };
 
-  function register(e) {
-    e.preventDefault();
-    name = username;
-    console.log(name);
-    var room = roomNumber;
-    console.log(room, 22222222222);
-
-    document.getElementById("room-header").innerText = "ROOM " + room;
-    document.getElementById("join").style.display = "none";
+  function register(name, roomId) {
+    document.getElementById("room-header").innerText = "ROOM " + roomId;
     document.getElementById("room").style.display = "block";
 
     var message = {
       id: "joinRoom",
+      room: roomId,
       name: name,
-      room: room,
     };
     sendMessage(message);
 
@@ -255,7 +269,6 @@ const Lecture = () => {
       participants[key].dispose();
     }
 
-    document.getElementById("join").style.display = "block";
     document.getElementById("room").style.display = "none";
 
     ws.close();
@@ -297,60 +310,29 @@ const Lecture = () => {
 
   return (
     <>
-      {/* <SMainContainer>
+      <SMainContainer>
         <SLeftItemContainer>
-          <LectureCameraContainer></LectureCameraContainer>
-          <LiveOptionContainer />
+          <SContainer>
+            <SStudentsContainer>
+              <div id="container">
+                <div id="wrapper">
+                  <div id="room" style={{ display: "none" }}>
+                    <h2 id="room-header" style={{ display: "none" }}></h2>
+                    <div id="participants"></div>
+                  </div>
+                </div>
+              </div>
+            </SStudentsContainer>
+            <SLecturerCameraContainer>
+              <SLecturerCamera></SLecturerCamera>
+            </SLecturerCameraContainer>
+          </SContainer>
+          <LiveOptionContainer leaveRoom={leaveRoom} />
         </SLeftItemContainer>
         <SRightItemContainer>
           <LectureChattingContainer></LectureChattingContainer>
         </SRightItemContainer>
-      </SMainContainer> */}
-      <div id="container">
-        <div id="wrapper">
-          <div id="join" className="animate join">
-            <h1>Join a Room</h1>
-            <form onSubmit={(e) => register(e)} acceptCharset="UTF-8">
-              {/* <form acceptCharset="UTF-8"> */}
-              <p>
-                <input
-                  type="text"
-                  name="name"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  id="name"
-                  placeholder="Username"
-                  required
-                />
-              </p>
-              <p>
-                <input
-                  type="text"
-                  name="room"
-                  value={roomNumber}
-                  onChange={(e) => setRoomNumber(e.target.value)}
-                  id="roomName"
-                  placeholder="Room"
-                  required
-                />
-              </p>
-              <p className="submit">
-                <input type="submit" name="commit" data-value="Join!" />
-              </p>
-            </form>
-          </div>
-          <div id="room" style={{ display: "none" }}>
-            <h2 id="room-header">??</h2>
-            <div id="participants"></div>
-            <input
-              type="button"
-              id="button-leave"
-              onMouseUp={leaveRoom}
-              data-value="Leave room"
-            />
-          </div>
-        </div>
-      </div>
+      </SMainContainer>
     </>
   );
 };

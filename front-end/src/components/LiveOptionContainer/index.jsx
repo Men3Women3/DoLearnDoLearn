@@ -12,8 +12,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import CastIcon from "@mui/icons-material/Cast";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { useNavigate } from "react-router";
 
-const LiveOptionContainer = () => {
+const LiveOptionContainer = (props) => {
+  const navigate = useNavigate();
+
+  const handleMoveToHome = () => {
+    props.leaveRoom();
+    navigate("/");
+  };
+
   return (
     <SOptionContainer>
       <button>
@@ -41,7 +49,7 @@ const LiveOptionContainer = () => {
       <button>
         <FontAwesomeIcon className="icon" icon={faCommentSlash} />
       </button>
-      <button className="exit-button">
+      <button className="exit-button" onClick={handleMoveToHome}>
         <ExitToAppIcon className="icon big-icon exit-icon" />
       </button>
     </SOptionContainer>
