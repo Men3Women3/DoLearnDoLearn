@@ -21,6 +21,7 @@ export const SMainContainer = styled.main`
   }
   video {
     border-radius: 12px;
+    border: 5px solid transparent;
   }
   .username_span {
     position: absolute;
@@ -29,6 +30,27 @@ export const SMainContainer = styled.main`
     background-color: white;
     padding: 3px;
     border-radius: 4px;
+  }
+  .help {
+    animation: help 500ms infinite;
+  }
+  @keyframes help {
+    0% {
+      border: 5px solid transparent;
+    }
+
+    50% {
+      border: 5px solid ${(props) => props.theme.lighterYellow};
+    }
+
+    100% {
+      border: 5px solid transparent;
+    }
+  }
+
+  #container {
+    margin-top: calc(0.5vw + 1px);
+    margin-bottom: calc(1vw + 16px);
   }
 `;
 
@@ -49,7 +71,7 @@ export const SRightItemContainer = styled.div`
 export const SContainer = styled.section`
   height: 85%;
   width: 100%;
-  margin: calc(1vw + 8px) 0px;
+  /* margin: calc(1vw + 8px) 0px; */
 `;
 
 export const SStudentsContainer = styled.div`
@@ -72,7 +94,7 @@ export const SLecturerCameraContainer = styled.div`
 
 export const SLecturerCamera = styled.div`
   width: 100%;
-  height: 100%;
+  height: 97%;
   background-color: white;
   border-radius: 12px;
   margin: 0px calc(0.5vw + 2px);

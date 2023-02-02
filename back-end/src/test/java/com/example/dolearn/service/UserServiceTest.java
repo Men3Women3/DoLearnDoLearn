@@ -3,9 +3,11 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.dto.FixedLectureDto;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.repository.BoardRepository;
+import com.example.dolearn.repository.FixedLectureRepository;
 import com.example.dolearn.repository.UserRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +36,9 @@ class UserServiceTest {
 
     @Mock
     BoardRepository boardRepository;
+
+    @Mock
+    FixedLectureRepository fixedLectureRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -544,7 +549,7 @@ class UserServiceTest {
             UserDto resUserDto = UserDto.builder().id(id).build();
 
             when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
-            when(boardRepository.findFixedLecture(id)).thenReturn(new ArrayList<>());
+            when(fixedLectureRepository.findFixedLecture(id)).thenReturn(new ArrayList<>());
 
             userService.getFixedLecture(id);
         }
@@ -553,7 +558,7 @@ class UserServiceTest {
         @DisplayName("확정 강의 조회 실패 - 기입되지 않은 정보")
         void failByInput() throws ParseException {
             Exception exception = assertThrows(CustomException.class, ()->{
-               List<BoardDto> result = userService.getFixedLecture(null);
+                List<FixedLectureDto> result = userService.getFixedLecture(id);
             });
             assertTrue(exception instanceof CustomException);
             assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
@@ -567,7 +572,7 @@ class UserServiceTest {
             when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
 
             Exception exception = assertThrows(CustomException.class, ()->{
-               List<BoardDto> result = userService.getFixedLecture(id);
+                List<FixedLectureDto> result = userService.getFixedLecture(id);
             });
 
             assertTrue(exception instanceof CustomException);

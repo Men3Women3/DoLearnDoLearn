@@ -3,14 +3,15 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.dto.FixedLectureDto;
 import com.example.dolearn.dto.SummaryUserDto;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
-import com.example.dolearn.repository.BoardRepository;
-import com.example.dolearn.repository.UserRepository;
+import com.example.dolearn.repository.*;
 import com.querydsl.core.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,9 @@ public class UserService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    FixedLectureRepository fixedLectureRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -221,7 +225,7 @@ public class UserService {
         return reqBoardDto;
     }
 
-    public List<BoardDto> getFixedLecture(Long id) throws ParseException {
+    public List<FixedLectureDto> getFixedLecture(Long id) throws ParseException {
         if(id == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
@@ -229,11 +233,7 @@ public class UserService {
         if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
-        List<Board> reqBoardEntity = boardRepository.findFixedLecture(id);
-        List<BoardDto> reqBoardDto = new ArrayList<>();
-        for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
-        }
-        return reqBoardDto;
+        List<FixedLectureDto> reqBoard = fixedLectureRepository.findFixedLecture(id);
+        return reqBoard;
     }
 }
