@@ -1,13 +1,11 @@
-import axios from "axios";
-import React, { useContext } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UnreadMessageContext } from "../../App";
+import { getMessageListAPI } from "../../utils/api/messageAPI";
 import MessageItem from "../MessageItem";
 import Pagination from "../Pagination";
 
-const SERVER_URL = "http://localhost:8080";
 const Message = () => {
+  const userId = localStorage.getItem("id");
   const { unreadMessageCnt, setStateMessageUpdate } =
     useContext(UnreadMessageContext);
   const [messageData, setMessageData] = useState([]);
@@ -19,27 +17,17 @@ const Message = () => {
   const [page, setPage] = useState(1); // 현재 페이지 번호
   const offset = (page - 1) * limit; // 첫 게시물의 위치
 
-  // 받은 메시지 모두 불러오는 요청
-  const getAllMessageList = async () => {
-    const userId = localStorage.getItem("id");
-    // =================테스트로 1번 유저꺼 가져옴==================
-    // 수정필요!!!!!
-    // =============================================================
-    const res = await axios.get(`${SERVER_URL}/message/user/1`);
-    setMessageData(res.data.response);
-  };
-
   // 메시지를 읽었다면(checkState가 true일 때), 다시 모든 메시지 불러옴
   useEffect(() => {
     // 다시 체크해주기 위해 초기화
     setCheckState(false);
-    getAllMessageList();
+    getMessageListAPI(userId, setMessageData);
   }, [checkState]);
 
   // 메시지 지웠다면(checkDeleteState가 trud일 때), 다시 모든 메시지 불러옴
   useEffect(() => {
     setCheckDeleteState(false);
-    getAllMessageList();
+    getMessageListAPI(userId, setMessageData);
   }, [checkDeleteState]);
 
   return (

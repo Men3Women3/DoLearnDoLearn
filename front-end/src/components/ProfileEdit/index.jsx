@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { LoginStateContext, LoginStateHandlerContext } from "../../App";
 import {
+  updateProfileImgAPI,
+  updateUserInfoAPI,
+} from "../../utils/api/userAPI";
+import ProfileCardBox from "../ProfileCardBox";
+import {
   SProfileEditContainer,
   SSubContainerUp,
   SSubContainerDown,
@@ -13,17 +18,13 @@ import {
 } from "./styles";
 
 import defaultProfileImg from "../../assets/images/defaultProfile.png";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faGear, faLink } from "@fortawesome/free-solid-svg-icons";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebook,
   faInstagram,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import axios from "axios";
-import ProfileCardBox from "../ProfileCardBox";
 
 const ProfileEdit = (props) => {
   const SERVER_URL = "http://localhost:8080";
@@ -43,7 +44,7 @@ const ProfileEdit = (props) => {
 
   // 프로필 이미지 관련 변수
   const [profileImg, setProfileImg] = useState({
-    image_file: "",
+    image_file: "default",
     preview_URL: getUserInfo.userInfo.imgUrl
       ? `${SERVER_URL}${getUserInfo.userInfo.imgUrl}`
       : defaultProfileImg,
@@ -75,62 +76,6 @@ const ProfileEdit = (props) => {
     };
   };
 
-  // DB에 수정요청을 하는 axios 함수
-  const updateUserInfoAPI = () => {
-    const data = {
-      id: getUserInfo.userInfo.id,
-      info: selfIntroduction,
-      blog: blogLink,
-      instagram: instagram,
-      facebook: facebook,
-      youtube: youtubeLink,
-    };
-    axios
-      .put(`${SERVER_URL}/user`, data, {
-        headers: {
-          // ------------------------------------------
-          // -----------------수정 필요----------------
-          // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-          // ------------------------------------------
-          // ------------------------------------------
-          Authentication: localStorage.getItem("accessToken"),
-        },
-        // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트
-      })
-      .then((res) => {
-        console.log("프로필 사진 제외 업데이트 완료");
-        handleUserInfo(res.data.response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const updateProfileImgAPI = () => {
-    const formData = new FormData();
-    formData.append("profileImg", profileImg.image_file);
-    console.log("프로필 보내고 있어요", profileImg);
-    console.log(formData);
-    axios
-      .post(
-        `${SERVER_URL}/user/upload-img/${getUserInfo.userInfo.id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
-      .then((res) => {
-        console.log("이미지파일", profileImg);
-        console.log("프로필 이미지 업데이트 완료");
-        handleUserInfo(res.data.response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   // 기본 이미지로 되돌리기 (defaultProfile로)
   const handleBackToDefaultProfile = () => {
     setProfileImg({
@@ -143,8 +88,21 @@ const ProfileEdit = (props) => {
   // 입력받은 데이터를 db에서 수정하도록 PUT 요청
   // 다시 프로필 화면으로 이동
   const handleCompleteEdit = () => {
-    updateUserInfoAPI();
-    updateProfileImgAPI();
+    // axios 요청 시 필요한 데이터
+    const data = {
+      id: getUserInfo.userInfo.id,
+      info: selfIntroduction,
+      blog: blogLink,
+      instagram: instagram,
+      facebook: facebook,
+      youtube: youtubeLink,
+    };
+    // 기존 이미지에서 프로필 사진 바꼈을 때만 요청
+    if (profileImg.image_file !== "default") {
+      updateProfileImgAPI(data, profileImg.image_file, handleUserInfo);
+    } else {
+      updateUserInfoAPI(data, handleUserInfo);
+    }
     props.handleProfileEditBtn();
   };
 

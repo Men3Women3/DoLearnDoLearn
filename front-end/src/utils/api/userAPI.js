@@ -394,3 +394,40 @@ export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
       console.log(e);
     });
 };
+
+// DB에 프로필 수정 요청
+export const updateUserInfoAPI = (data, handleUserInfo) => {
+  axios
+    .put(`${axiosDefaultURL}/user`, data, {
+      headers: {
+        // ------------------------------------------
+        // -----------------수정 필요----------------
+        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
+        // ------------------------------------------
+        // ------------------------------------------
+        Authentication: localStorage.getItem("accessToken"),
+      },
+      // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트
+    })
+    .then((res) => {
+      handleUserInfo(res.data.response);
+    });
+};
+
+// DB에 프로필 사진 수정 요청
+export const updateProfileImgAPI = (data, img_file, handleUserInfo) => {
+  const formData = new FormData();
+  formData.append("profileImg", img_file);
+  axios
+    .post(`${axiosDefaultURL}/user/upload-img/${data.id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      handleUserInfo(res.data.response);
+    })
+    .then(() => {
+      updateUserInfoAPI(data, handleUserInfo);
+    });
+};
