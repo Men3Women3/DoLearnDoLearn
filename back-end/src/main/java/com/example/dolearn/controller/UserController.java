@@ -11,22 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 @Validated
@@ -180,6 +175,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/summary-info/{id}")
+    public ResponseEntity<?> getSummaryInfo(@PathVariable("id") Long id){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getSummaryInfo(id)), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
         try{
@@ -212,6 +217,57 @@ public class UserController {
     public ResponseEntity<?> getRequestLecture(@PathVariable("id") Long id){
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getRequestLecture(id)), HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
+            } else {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/request-lecture/{id}/host")
+    public ResponseEntity<?> getRequestLectureByHost(@PathVariable("id") Long id){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getRequestLectureByHost(id)), HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
+            } else {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/request-lecture/{id}/instructor")
+    public ResponseEntity<?> getRequestLectureByInst(@PathVariable("id") Long id){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getRequestLectureByInst(id)), HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
+            } else {
+                return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/request-lecture/{id}/student")
+    public ResponseEntity<?> getRequestLectureByStud(@PathVariable("id") Long id){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getRequestLectureByStud(id)), HttpStatus.OK);
         } catch (CustomException e){
             e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {

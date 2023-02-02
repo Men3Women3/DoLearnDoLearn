@@ -191,7 +191,7 @@ public class BoardServiceTest {
         UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("강사").build();
 
         userBoardList.add(userBoardDto.toEntity());
 
@@ -210,7 +210,7 @@ public class BoardServiceTest {
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("학생").build();
 
         userBoardList.add(userBoardDto.toEntity());
 
@@ -229,7 +229,7 @@ public class BoardServiceTest {
         Optional<Board> board = Optional.of(boardDto1.toEntity());
 
         UserBoard userBoard= UserBoard.builder()
-                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("강사").build();
 
         when(userRepository.findOneById(any())).thenReturn(user);
         when(boardRepository.findById(any())).thenReturn(board);
@@ -237,7 +237,7 @@ public class BoardServiceTest {
 
         UserBoardDto result = userBoardService.applyClass(userBoard);
 
-        assertEquals(userBoard.getUser_type(),result.getUser_type());
+        assertEquals(userBoard.getUserType(),result.getUserType());
 
     }
 

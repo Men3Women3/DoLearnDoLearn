@@ -1,7 +1,6 @@
 package com.example.dolearn.jwt;
 
 import com.example.dolearn.repository.UserRepository;
-import com.example.dolearn.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

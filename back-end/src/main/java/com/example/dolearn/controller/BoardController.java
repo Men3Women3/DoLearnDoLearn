@@ -150,7 +150,7 @@ public class BoardController {
 
             log.info("수강신청: {}, {}",uid,bid);
 
-            UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).user_type("학생").build();
+            UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).userType("학생").build();
             userBoardService.applyClass(userBoard);
 
             return new ResponseEntity<>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.OK);
@@ -171,7 +171,7 @@ public class BoardController {
 
             log.info("강의신청: {}, {}",uid,bid);
 
-            UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).user_type("강사").build();
+            UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).userType("강사").build();
             userBoardService.applyClass(userBoard);
 
             return new ResponseEntity<>(new SuccessResponse("강사 신청이 완료되었습니다!!"),HttpStatus.OK);
