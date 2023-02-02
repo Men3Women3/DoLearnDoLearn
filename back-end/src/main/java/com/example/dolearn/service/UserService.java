@@ -3,11 +3,13 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.dto.SummaryUserDto;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.BoardRepository;
 import com.example.dolearn.repository.UserRepository;
+import com.querydsl.core.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -106,6 +108,26 @@ public class UserService {
         return user.get().toDto();
     }
 
+    public SummaryUserDto getSummaryInfo(Long id){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        UserDto detailUser = user.get().toDto();
+        SummaryUserDto summUser = SummaryUserDto.builder()
+                .name(detailUser.getName())
+                .email(detailUser.getEmail())
+                .info(detailUser.getInfo())
+                .point(detailUser.getPoint())
+                .youtube(detailUser.getYoutube())
+                .instagram(detailUser.getInstagram())
+                .facebook(detailUser.getFacebook())
+                .blog(detailUser.getBlog())
+                .imgUrl(detailUser.getImgUrl())
+                .build();
+        return summUser;
+    }
+
     public void checkEmail(String email){
         if(userRepository.findOneByEmail(email).isPresent()) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
@@ -143,7 +165,55 @@ public class UserService {
         if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
-        List<Board> reqBoardEntity = boardRepository.findRequestLectureByUid(id);
+        List<Board> reqBoardEntity = boardRepository.findRequestLecture(id);
+        List<BoardDto> reqBoardDto = new ArrayList<>();
+        for(Board bEntity: reqBoardEntity){
+            reqBoardDto.add(bEntity.toDto());
+        }
+        return reqBoardDto;
+    }
+
+    public List<BoardDto> getRequestLectureByHost(Long id) throws ParseException {
+        if(id == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        List<Board> reqBoardEntity = boardRepository.findRequestLectureByHost(id);
+        List<BoardDto> reqBoardDto = new ArrayList<>();
+        for(Board bEntity: reqBoardEntity){
+            reqBoardDto.add(bEntity.toDto());
+        }
+        return reqBoardDto;
+    }
+
+    public List<BoardDto> getRequestLectureByInst(Long id) throws ParseException {
+        if(id == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        List<Board> reqBoardEntity = boardRepository.findRequestLectureByInst(id);
+        List<BoardDto> reqBoardDto = new ArrayList<>();
+        for(Board bEntity: reqBoardEntity){
+            reqBoardDto.add(bEntity.toDto());
+        }
+        return reqBoardDto;
+    }
+
+    public List<BoardDto> getRequestLectureByStud(Long id) throws ParseException {
+        if(id == null){
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        List<Board> reqBoardEntity = boardRepository.findRequestLectureByStud(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
         for(Board bEntity: reqBoardEntity){
             reqBoardDto.add(bEntity.toDto());
@@ -159,7 +229,7 @@ public class UserService {
         if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
-        List<Board> reqBoardEntity = boardRepository.findFixedLectureByUid(id);
+        List<Board> reqBoardEntity = boardRepository.findFixedLecture(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
         for(Board bEntity: reqBoardEntity){
             reqBoardDto.add(bEntity.toDto());
