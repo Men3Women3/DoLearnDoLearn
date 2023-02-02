@@ -24,6 +24,9 @@ const NotFound = React.lazy(() =>
 );
 const Board = React.lazy(() => pMinDelay(import("./pages/Board"), 0)); // delay 0
 const WriteBoard = React.lazy(() => pMinDelay(import("./pages/WriteBoard"), 0)); // 요 친구도 delay 0
+const LecturerProfile = React.lazy(() =>
+  pMinDelay(import("./pages/LecturerProfile"), 0)
+); // 요 친구도 delay 0
 const Lecture = React.lazy(() => pMinDelay(import("./pages/Lecture"), 0)); // 나도 delay 0 할래
 
 // 로그인 상태가 담긴 context API
@@ -103,6 +106,10 @@ function App() {
                   />
                   <Route path="/board" element={<Board />} />
                   <Route path="/write" element={<WriteBoard />} />
+                  <Route
+                    path="/board/profile/:lid"
+                    element={<LecturerProfile />}
+                  />
                   <Route
                     path={"/mypage"}
                     element={isLogined ? <User /> : <Home />}

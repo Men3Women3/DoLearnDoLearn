@@ -4,14 +4,15 @@ import { SBox, SList, SListBox } from "./styles";
 
 const LecturerList = ({ data }) => {
   const [nameList, setNameList] = useState([]);
+  const [lid, setLid] = useState();
+
+  const handleProfile = (lid) => {
+    window.open(`/board/profile/${lid}`);
+  };
+
   useEffect(() => {
     lecturerNameAPI(data.id, setNameList);
   }, []);
-
-  const openProfile = () => {
-    // 강사 프로필 띄우기
-    console.log("프로필 버튼 작동 확인");
-  };
 
   if (nameList.length > 0) {
     return (
@@ -27,7 +28,9 @@ const LecturerList = ({ data }) => {
                     {/* 신청한 강사의 uid를 value로 지정해 나중에 api로 서버에 확정 전송 시 이 value를 담아서 보냄 */}
                     <input type="radio" name="lecturer" value={item.uid} />
                     {/* 강사의 이름(user.name)을 순서대로 출력 */}
-                    <span onClick={openProfile}>{item.user.name}</span>
+                    <span onClick={(e) => handleProfile(item.uid)}>
+                      {item.user.name}
+                    </span>
                   </div>
                 </SList>
               </>
