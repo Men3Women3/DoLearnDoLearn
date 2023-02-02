@@ -43,6 +43,7 @@ export const SChattingContainer = styled.div`
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 5px 5px 5px #3737372d;
+  overflow: auto;
 `;
 
 export const SChattingContent = styled.div`
@@ -54,13 +55,20 @@ export const SChattingContent = styled.div`
     font-size: calc(0.5vw + 1px);
   }
   /* 채팅내용이 들어갈 div */
-  div {
+  .content {
     background-color: #fffbe6;
     display: inline-block;
     padding: calc(0.5vw + 4px);
     border-radius: 8px;
     margin-top: calc(0.3vw + 1px);
+    margin-bottom: calc(0.5vw + 1px);
     font-size: calc(0.5vw + 5px);
+  }
+  .entrance {
+    margin: calc(0.5vw + 1px) 0px;
+  }
+  .content-container {
+    margin-top: calc(0.5vw + 1px);
   }
 `;
 

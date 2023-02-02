@@ -15,9 +15,11 @@ const LectureChattingContainer = () => {
   return (
     <SContainer>
       <SChattingContainer>
-        <SChattingContent>
-          <p>김싸피 (수강생)</p>
-          <div>다시 설명해주세요!</div>
+        <SChattingContent id="chatting-Content">
+          <div className="content-container">
+            <p>김싸피 (수강생)</p>
+            <div className="content">다시 설명해주세요!</div>
+          </div>
         </SChattingContent>
       </SChattingContainer>
       <SMessageContainer>

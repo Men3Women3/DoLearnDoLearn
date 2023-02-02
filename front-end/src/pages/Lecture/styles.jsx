@@ -40,7 +40,7 @@ export const SMainContainer = styled.main`
     }
 
     50% {
-      border: 5px solid ${(props) => props.theme.lighterYellow};
+      border: 5px solid #ff7979;
     }
 
     100% {

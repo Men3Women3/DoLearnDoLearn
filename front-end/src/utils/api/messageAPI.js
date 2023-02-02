@@ -1,5 +1,7 @@
 import axios from "axios";
-const axiosDefaultURL = "http://localhost:8080";
+import { baseURL } from "./baseURL";
+
+const axiosDefaultURL = baseURL;
 
 // 유저 정보를 최신화하는 함수 (유저 정보를 가져와서 갱신시키는 함수)
 export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
