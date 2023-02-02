@@ -200,7 +200,7 @@ public class UserService {
         return reqBoardDto;
     }
 
-    public List<Tuple> getFixedLecture(Long id) throws ParseException {
+    public List<BoardDto> getFixedLecture(Long id) throws ParseException {
         if(id == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
@@ -208,7 +208,11 @@ public class UserService {
         if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
         }
-        List<Tuple> reqBoardEntity = boardRepository.findFixedLecture(id);
-        return reqBoardEntity;
+        List<Board> reqBoardEntity = boardRepository.findFixedLecture(id);
+        List<BoardDto> reqBoardDto = new ArrayList<>();
+        for(Board bEntity: reqBoardEntity){
+            reqBoardDto.add(bEntity.toDto());
+        }
+        return reqBoardDto;
     }
 }
