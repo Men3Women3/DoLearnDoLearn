@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LoginStateContext } from "../../App";
-import { Flag } from "../BoardList";
+// import { Flag } from "../BoardList";
 import { SButton, SButtonBox } from "./styles";
 import {
   cancelEnrollAPI,
@@ -13,9 +13,9 @@ import {
   deleteClassAPI,
 } from "../../utils/api/boardAPI";
 
-const LectureModalButton = ({ data, setOpen }) => {
+const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
-  const { flag, setFlag } = useContext(Flag);
+  // const { flag, setFlag } = useContext(Flag);
 
   // api 요청 내용 ===================================
   // 수강 신청
@@ -60,8 +60,8 @@ const LectureModalButton = ({ data, setOpen }) => {
   const [lecList, setLecList] = useState([]);
   useEffect(() => {
     lecturerNameAPI(data.id, setNameList);
-    lecListAPI(data.id, setLecList);
     stuListAPI(data.id, setStuList);
+    lecListAPI(data.id, setLecList);
   }, []);
 
   // =================================================
@@ -87,7 +87,7 @@ const LectureModalButton = ({ data, setOpen }) => {
         </SButtonBox>
       );
     }
-  } else if (lecList.includes(userInfo.id) || stuList.includes(userInfo.id)) {
+  } else if (stuList.includes(userInfo.id) || lecList.includes(userInfo.id)) {
     if (data.isFixed === 0) {
       return (
         <SButtonBox>

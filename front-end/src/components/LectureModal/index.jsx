@@ -21,7 +21,7 @@ const style = {
 };
 
 // Uniboard에서 데이터 받아올 것
-const LectureModal = ({ data, open, setOpen, handleClose }) => {
+const LectureModal = ({ data, open, setOpen, handleClose, flag, setFlag }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
   const createdTime = data.createdTime.substring(0, 10).replaceAll("-", "."); // 모집시작
   const deadline = data.deadline.substring(0, 10).replaceAll("-", "."); // 모집마감
@@ -83,9 +83,9 @@ const LectureModal = ({ data, open, setOpen, handleClose }) => {
         </S.SNoBtnBox>
         <LectureModalButton
           data={data}
-          open={open}
           setOpen={setOpen}
-          handleClose={handleClose}
+          flag={flag}
+          setFlag={setFlag}
         />
       </Box>
     </Modal>

@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const SERVER_URL = "http://localhost:8080/board";
+const BOARD_URL = "http://localhost:8080/board";
+const PROFILE_URL = "http://localhost:8080/user";
 
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {
   try {
-    const res = await axios.get(`${SERVER_URL}/list`);
+    const res = await axios.get(`${BOARD_URL}/list`);
     setList(res.data.response);
   } catch (err) {
     console.log(err);
@@ -27,7 +28,7 @@ export const newBoardAPI = async (
   isFixed
 ) => {
   try {
-    await axios.post(`${SERVER_URL}`, {
+    await axios.post(`${BOARD_URL}`, {
       uid,
       tid,
       title,
@@ -48,7 +49,7 @@ export const newBoardAPI = async (
 // 수강 신청 API
 export const enrollClassAPI = async (uid, bid) => {
   try {
-    await axios.post(`${SERVER_URL}/student`, {
+    await axios.post(`${BOARD_URL}/student`, {
       uid,
       bid,
     });
@@ -64,7 +65,7 @@ export const enrollClassAPI = async (uid, bid) => {
 // 강사 신청 API
 export const enrollLecturerAPI = async (uid, bid) => {
   try {
-    await axios.post(`${SERVER_URL}/instructor`, {
+    await axios.post(`${BOARD_URL}/instructor`, {
       uid,
       bid,
     });
@@ -78,7 +79,7 @@ export const enrollLecturerAPI = async (uid, bid) => {
 // 폐강 API
 export const deleteClassAPI = async (board) => {
   try {
-    await axios.delete(`${SERVER_URL}/${board}`);
+    await axios.delete(`${BOARD_URL}/${board}`);
     console.log("폐강 성공");
   } catch (err) {
     console.log(err);
@@ -89,7 +90,7 @@ export const deleteClassAPI = async (board) => {
 // 신청 취소 API
 export const cancelEnrollAPI = async (user, lecture) => {
   try {
-    await axios.delete(`${SERVER_URL}/apply/${user}/${lecture}`);
+    await axios.delete(`${BOARD_URL}/apply/${user}/${lecture}`);
     console.log("신청 취소 성공");
   } catch (err) {
     console.log(err);
@@ -100,7 +101,7 @@ export const cancelEnrollAPI = async (user, lecture) => {
 // 강의 확정 API
 export const fixClassAPI = async (lecture) => {
   try {
-    await axios.put(`${SERVER_URL}/${lecture}`);
+    await axios.put(`${BOARD_URL}/${lecture}`);
     console.log("강의 확정 성공");
   } catch (err) {
     console.log(err);
@@ -111,7 +112,7 @@ export const fixClassAPI = async (lecture) => {
 // 강의 검색 API
 export const searchAPI = async (keyword, setList, setIsEmpty) => {
   try {
-    const res = await axios.get(`${SERVER_URL}/search/${keyword}`);
+    const res = await axios.get(`${BOARD_URL}/search/${keyword}`);
     setList(res.data.response);
     setIsEmpty(false);
   } catch (err) {
@@ -125,7 +126,7 @@ export const searchAPI = async (keyword, setList, setIsEmpty) => {
 // 강사 후보 명단 확인 API
 export const lecturerNameAPI = async (board, setNameList) => {
   try {
-    const res = await axios.get(`${SERVER_URL}/instructor-list/${board}`);
+    const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
     if (res.data.response === "신청한 강사가 없습니다") {
       setNameList([]);
     } else {
@@ -133,7 +134,7 @@ export const lecturerNameAPI = async (board, setNameList) => {
     }
   } catch (err) {
     console.log(err);
-    console.log("강사 목록 가져오기 실패");
+    console.log("강사 이름 가져오기 실패");
   }
 };
 
@@ -141,14 +142,16 @@ export const lecturerNameAPI = async (board, setNameList) => {
 export const lecListAPI = async (board, setLecList) => {
   try {
     const list = [];
-    const res = await axios.get(`${SERVER_URL}/instructor-list/${board}`);
-    if (res.data.response === "신청한 학생이 없습니다.") {
+    const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
+    console.log(res.data.response);
+    if (res.data.response === "신청한 강사가 없습니다") {
       setLecList([]);
     } else {
       res.data.response.map((item) => {
         list.push(item.uid);
       });
       setLecList(list);
+      console.log("강사 성공");
     }
   } catch (err) {
     console.log(err);
@@ -160,7 +163,7 @@ export const lecListAPI = async (board, setLecList) => {
 export const stuListAPI = async (board, setStuList) => {
   try {
     const list = [];
-    const res = await axios.get(`${SERVER_URL}/student-list/${board}`);
+    const res = await axios.get(`${BOARD_URL}/student-list/${board}`);
     if (res.data.response === "신청한 학생이 없습니다.") {
       setStuList([]);
     } else {
@@ -168,9 +171,21 @@ export const stuListAPI = async (board, setStuList) => {
         list.push(item.uid);
       });
       setStuList(list);
+      console.log("수강생 성공");
     }
   } catch (err) {
     console.log(err);
     console.log("수강생 목록 가져오기 실패");
+  }
+};
+
+// 강사 프로필 확인 API
+export const lecProfileAPI = async (id, setData) => {
+  try {
+    const res = await axios.get(`${PROFILE_URL}/summary-info/${id}`);
+    setData(res.data.response);
+  } catch (err) {
+    console.log(err);
+    console.log("프로필 정보 반환 실패");
   }
 };

@@ -3,6 +3,7 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.dto.SummaryUserDto;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
@@ -105,6 +106,26 @@ public class UserService {
             throw new CustomException(ErrorCode.NO_USER);
         }
         return user.get().toDto();
+    }
+
+    public SummaryUserDto getSummaryInfo(Long id){
+        Optional<User> user = userRepository.findOneById(id);
+        if(!user.isPresent()){
+            throw new CustomException(ErrorCode.NO_USER);
+        }
+        UserDto detailUser = user.get().toDto();
+        SummaryUserDto summUser = SummaryUserDto.builder()
+                .name(detailUser.getName())
+                .email(detailUser.getEmail())
+                .info(detailUser.getInfo())
+                .point(detailUser.getPoint())
+                .youtube(detailUser.getYoutube())
+                .instagram(detailUser.getInstagram())
+                .facebook(detailUser.getFacebook())
+                .blog(detailUser.getBlog())
+                .imgUrl(detailUser.getImgUrl())
+                .build();
+        return summUser;
     }
 
     public void checkEmail(String email){
