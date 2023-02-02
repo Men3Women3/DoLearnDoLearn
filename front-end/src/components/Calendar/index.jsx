@@ -38,6 +38,7 @@ const Calendar = () => {
       isFixed: arg.event._def.extendedProps.isFixed,
     };
     setData(dataForm);
+    console.log("lecturemodal확인", dataForm);
     setCheckModalState(true);
   };
 

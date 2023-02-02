@@ -1,16 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { SButton, SContent } from "./styles";
 
 import { Box, Modal, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { UnreadMessageContext } from "../../App";
-import {
-  changeMessageReadStateAPI,
-  getUnreadMessageCnt,
-} from "../../utils/api/messageAPI";
+import { changeMessageReadStateAPI } from "../../utils/api/messageAPI";
 
 const style = {
   position: "absolute",
@@ -83,14 +79,7 @@ const typeMessage = (target, content) => {
   return [mainText, additionalText];
 };
 
-const MessageDetailModal = ({
-  data,
-  open,
-  handleClose,
-  readMessage,
-  checkMessage,
-  setCheckState,
-}) => {
+const MessageDetailModal = ({ data, open, handleClose, setCheckState }) => {
   const { unreadMessageCnt, setStateMessageUpdate } =
     useContext(UnreadMessageContext);
   const type = checkType(data.type);

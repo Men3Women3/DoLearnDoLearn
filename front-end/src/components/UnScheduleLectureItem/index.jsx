@@ -28,7 +28,7 @@ const UnScheduleLectureItem = ({ data }) => {
           <div className="lecture-info__section">
             <p>
               <FontAwesomeIcon icon={faCalendarDays} />
-              &nbsp;{data.time}
+              &nbsp;{data.startTime} ~ {data.endTime}
             </p>
             <span>{data.title}</span>
           </div>
