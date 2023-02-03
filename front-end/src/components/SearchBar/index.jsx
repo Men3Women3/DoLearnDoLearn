@@ -27,7 +27,7 @@ const SearchBar = ({ setList }) => {
   };
 
   // Enter 키를 눌렀을 때의 작업 처리
-  const onEnter = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
     doSearch();
     setSearch("");
@@ -35,13 +35,11 @@ const SearchBar = ({ setList }) => {
 
   return (
     <SSearchContainer>
-      <form className="search-bar" onSubmit={(e) => onEnter(e)}>
-        {/* <input type="text" placeholder="안녕하세요" /> */}
+      <form className="search-bar" onSubmit={(e) => handleSearch(e)}>
         <Input
           className="input-box"
           ref={inputRef}
           onChange={onChange}
-          // onKeyUp={(e) => onEnter(e)}
           value={search}
           placeholder="원하는 강의를 검색하세요"
           aria-label="Search"

@@ -51,7 +51,7 @@ const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
   const fixClass = async () => {
     await fixClassAPI(data.id);
     // 확정되었다는 메시지 보내기
-    await sendMessageAPI(data.id, "", "confirm");
+    // await sendMessageAPI(data.id, "", "confirm");
     setFlag(!flag);
     setOpen(false);
   };
