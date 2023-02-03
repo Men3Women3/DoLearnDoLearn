@@ -7,6 +7,7 @@ import LecturerList from "../LecturerList";
 import LectureModalButton from "../LectureModalButton";
 import { LoginStateContext } from "../../App";
 
+// 확인주석
 const style = {
   position: "absolute",
   top: "50%",

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { lecturerNameAPI } from "../../utils/api/boardAPI";
 import { SBox, SList, SListBox } from "./styles";
 
+// 확인주석
 const LecturerList = ({ data }) => {
   const [nameList, setNameList] = useState([]);
   // ============= lid받아둬야함 =============
