@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { lecturerNameAPI } from "../../utils/api/boardAPI";
 import { SBox, SList, SListBox } from "./styles";
 
-// 확인주석
 const LecturerList = ({ data }) => {
   const [nameList, setNameList] = useState([]);
   // ============= lid받아둬야함 =============
-  // const [lid, setLid] = useState(0);
-  // console.log(lid);
+  const [Luid, setLuid] = useState(0);
+  console.log(Luid);
   // ============= lid받아둬야함 =============
 
   const handleProfile = (lid) => {

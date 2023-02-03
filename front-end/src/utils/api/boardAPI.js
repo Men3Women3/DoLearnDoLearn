@@ -4,16 +4,18 @@ import { baseURL } from "./baseURL";
 
 const BOARD_URL = `${baseURL}/board`;
 const PROFILE_URL = `${baseURL}/user`;
+const LECTURE_URL = `${baseURL}/lecture`;
 
-// 확인주석
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {
   try {
     const res = await axios.get(`${BOARD_URL}/list`);
+    console.log(res.data.response);
     setList(res.data.response);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     console.log("강의 목록 출력 실패");
+    setList([]);
   }
 };
 
@@ -101,10 +103,13 @@ export const cancelEnrollAPI = async (user, lecture) => {
   }
 };
 
-// 강의 확정 API
-export const fixClassAPI = async (lecture) => {
+// 모집 완료 API
+export const fixClassAPI = async (lecture, uid) => {
   try {
-    await axios.put(`${BOARD_URL}/${lecture}`);
+    await axios.post(`${LECTURE_URL}/fix`, {
+      lecture,
+      uid,
+    });
     console.log("강의 확정 성공");
   } catch (err) {
     console.log(err);
