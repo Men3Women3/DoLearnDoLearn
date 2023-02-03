@@ -87,7 +87,7 @@ const ProfileSidebar = (props) => {
         />
 
         {/* 강사가 강의 취소 시 (아직 넣을 컴포넌트가 없어서 여기서 임시로 테스트) */}
-        {/* <WarningModal
+        <WarningModal
           title="강의 취소 확인"
           warningContent="강의를 취소하면 점수 패널티를 받게 됩니다."
           content="강의 취소를 원하시면 확인을 눌러주세요."
@@ -105,7 +105,7 @@ const ProfileSidebar = (props) => {
             cols="52"
             rows="6"
           ></textarea>
-        </WarningModal> */}
+        </WarningModal>
       </SUserDeleteButtonContainer>
     </SSidebarContainer>
   );

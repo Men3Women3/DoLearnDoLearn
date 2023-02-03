@@ -42,7 +42,7 @@ const MessageDeleteModal = ({
   });
 
   const handleSnackbarOpen = () => {
-    console.log("보여줘");
+    console.log("snackbar test");
     setState({ ...state, open: true });
   };
 
