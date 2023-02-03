@@ -1,5 +1,7 @@
 import axios from "axios";
-const axiosDefaultURL = "http://localhost:8080";
+import { baseURL } from "./baseURL";
+
+const axiosDefaultURL = baseURL;
 
 // 유저 회원탈퇴 api를 요청하는 함수
 export const deleteUserAPI = () => {
@@ -260,6 +262,31 @@ export const loginAPI = (
     });
 };
 
+// 회원가입 시 이메일 중복을 확인하는 api를 요청하는 함수
+export const duplicatedEmailCheckAPI = (
+  isDuplicatedEmail,
+  email,
+  setIsNext,
+  setIsDuplicatedEmail,
+  setOpen
+) => {
+  if (isDuplicatedEmail) {
+    axios
+      .post(`${axiosDefaultURL}/user/check-email/${email}`)
+      .then((response) => {
+        console.log("이메일 중복 확인 성공!");
+        setIsNext(true);
+      })
+      .catch((error) => {
+        if (error.response.data.response === "이미 존재하는 이메일입니다.") {
+          setIsDuplicatedEmail(false);
+          setOpen(true);
+          setIsNext(false);
+        }
+      });
+  }
+};
+
 // 회원가입 api를 요청하는 함수
 export const signupAPI = (
   username,
@@ -309,17 +336,16 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
       const todayLectures = totalFixedLectures.filter((item) => {
         const startTime = item.startTime;
         const year = new Date().getFullYear();
-        // const month = new Date().getMonth() + 1;
+        const month = new Date().getMonth() + 1;
         // const day = new Date().getDate();
         // 테스트용
-        const month = 1;
-        const day1 = 12;
-        const day2 = 17;
+        const day = 2;
         if (
-          (year === +startTime.slice(0, 4) &&
-            month === +startTime.slice(5, 7) &&
-            day1 === +startTime.slice(8, 10)) ||
-          day2 === +startTime.slice(8, 10)
+          year === +startTime.slice(0, 4) &&
+          month === +startTime.slice(5, 7) &&
+          day === +startTime.slice(8, 10)
+          // day1 === +startTime.slice(8, 10)) ||
+          // day2 === +startTime.slice(8, 10)
         ) {
           return true;
         }
