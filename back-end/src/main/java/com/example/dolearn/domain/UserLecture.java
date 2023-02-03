@@ -1,5 +1,6 @@
 package com.example.dolearn.domain;
 
+import com.example.dolearn.dto.UserLectureDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,4 +33,8 @@ public class UserLecture {
     @Column(name="member_type", length = 10, nullable = false)
     private String memberType;
 
+    public UserLectureDto toDto(){
+        return UserLectureDto.builder()
+                .id(id).lid(lecture.getId()).uid(user.getId()).lecture(lecture).user(user).memberType(memberType).build();
+    }
 }

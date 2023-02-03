@@ -1,14 +1,10 @@
 package com.example.dolearn.service;
 
-import com.example.dolearn.domain.Board;
-import com.example.dolearn.domain.User;
-import com.example.dolearn.domain.UserBoard;
+import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
-import com.example.dolearn.repository.BoardRepository;
-import com.example.dolearn.repository.UserBoardRepository;
-import com.example.dolearn.repository.UserRepository;
+import com.example.dolearn.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,19 +119,5 @@ public class BoardService {
     @Transactional
     public List<Board> searchBoardSummary(String keyword){
         return boardRepository.findBySummaryContaining(keyword);
-    }
-
-    @Transactional
-    public BoardDto update(Long id) throws Exception{
-        Optional<Board> result = boardRepository.findById(id); //수정할 글 읽어오기
-
-        if(result.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);//수정할 글이 없는 경우 오류 발생
-
-        if(result.get().getIsFixed()==1) throw new CustomException(ErrorCode.FIXED_LECTURE); //이미 확정된 강의의 경우 오류 발생
-
-        BoardDto board = result.get().toDto();//수정할 글 dto로 변환
-        board.setFixed(1);//is_fixed 1로 변환
-
-        return boardRepository.save(board.toEntity()).toDto();//수정한 정보 저장
     }
 }

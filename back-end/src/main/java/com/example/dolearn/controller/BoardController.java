@@ -198,21 +198,6 @@ public class BoardController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateFixed(@PathVariable Long id){
-        try{
-            BoardDto updateBoard = boardService.update(id);
-            log.info("강의 업데이트 완료: {}",updateBoard);
-            return new ResponseEntity<>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.OK);
-        }catch (CustomException e){
-            e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.FIXED_LECTURE), HttpStatus.CONFLICT);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ExceptionHandling("강의 확정을 하는 과정에서 오류가 발생했습니다!!");
-        }
-    }
-
     public ResponseEntity<String> ExceptionHandling(String errorMessage){
         return new ResponseEntity<>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
     }
