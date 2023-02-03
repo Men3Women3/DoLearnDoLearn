@@ -95,8 +95,8 @@ const Lecture = () => {
     video.id = "video-" + name;
     video.autoplay = true;
     video.controls = false;
-    video.style.width = "160px";
-    video.style.height = "120px";
+    video.style.width = "calc(1vw + 150px)";
+    // video.style.height = "120px";
 
     this.getElement = function () {
       return container;
@@ -163,6 +163,9 @@ const Lecture = () => {
     console.info("Received message: " + message.data);
 
     switch (parsedMessage.id) {
+      case "joinRoom":
+        onJoinRoom(parsedMessage);
+        break;
       case "helpUser":
         handleHelpRequest(parsedMessage);
         break;
@@ -316,7 +319,6 @@ const Lecture = () => {
 
   const vidOnOff = () => {
     if (participants[username].rtcPeer.videoEnabled) {
-      // 끌때
       participants[username].rtcPeer.videoEnabled = false;
       document.getElementById("vidOn").style.display = "none";
       document.getElementById("vidOff").style.display = "";
@@ -344,27 +346,32 @@ const Lecture = () => {
       id: "helpUser",
       name: name,
     };
-
     sendMessage(message);
   };
 
   const handleHelpRequest = (request) => {
-    // console.log(request, 33333333);
     const targetUser = request.name;
 
     const userVideo = document.getElementById("video-" + targetUser);
-    console.log(userVideo);
+
     if (!userVideo.classList.contains("help")) {
-      setHelpOnOff(true);
       userVideo.classList.add("help");
       document.getElementById("helpOn").style.display = "none";
       document.getElementById("helpOff").style.display = "";
     } else {
-      setHelpOnOff(false);
       userVideo.classList.remove("help");
       document.getElementById("helpOn").style.display = "";
       document.getElementById("helpOff").style.display = "none";
     }
+  };
+
+  const onJoinRoom = (request) => {
+    const chattingContentContainer =
+      document.getElementById("chatting-Content");
+    const entranceContent = document.createElement("p");
+    entranceContent.className = "entrance";
+    entranceContent.innerText = `${request.name} 님이 접속했습니다.`;
+    chattingContentContainer.appendChild(entranceContent);
   };
 
   return (

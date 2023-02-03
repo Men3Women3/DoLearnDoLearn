@@ -27,8 +27,6 @@ public class UserDto {
 
     private String info;
 
-    private String gender;
-
     private Integer point;
 
     private String youtube;
@@ -56,7 +54,6 @@ public class UserDto {
                 .email(email)
                 .password(password)
                 .info(info)
-                .gender(gender)
                 .point(point)
                 .youtube(youtube)
                 .instagram(instagram)
