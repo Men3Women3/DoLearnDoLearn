@@ -331,7 +331,7 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
     .get(`http://localhost:8080/user/fixed-lecture/${userInfo.id}`)
     .then((response) => {
       const responseData = response.data.response;
-      console.log(responseData);
+      // console.log(responseData);
       totalFixedLectures = [...responseData];
       const todayLectures = totalFixedLectures.filter((item) => {
         const startTime = item.startTime;

@@ -132,7 +132,11 @@ const NewBoard = () => {
       0
     );
     // boardListAPI(setList);
-    navigate("/board");
+    navigate("/board", {
+      state: {
+        isWritten: "true",
+      },
+    });
   };
 
   // 이미지 캐러쉘 세팅 옵션

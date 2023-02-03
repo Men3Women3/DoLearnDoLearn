@@ -4,10 +4,12 @@ import { SContainer, SUniDiv } from "./styles";
 import Pagination from "../Pagination";
 import UniBoard from "../UniBoard";
 import { boardListAPI } from "../../utils/api/boardAPI";
+import { useLocation } from "react-router";
 // export const Flag = createContext();
 
 const BoardList = ({ list, setList }) => {
   const [flag, setFlag] = useState(false);
+  const location = useLocation();
 
   // 이 구간은 Pagination을 위해 필요한 부분 ==============
   const limit = 6; // 페이지 당 게시물 수
@@ -17,12 +19,11 @@ const BoardList = ({ list, setList }) => {
 
   useEffect(() => {
     // 게시판의 데이터를 받아오는 작업을 하는 부분(boardList)
-    boardListAPI(setList);
-    // 이 아래 주석은 에러 잡는다고 작성한 주석
-    // if (list.length !== 0) {
-    // }
-    // }, [flag, list]);
-    // ======================================
+    if (location.state?.isWritten === "true") {
+      console.log(location);
+      boardListAPI(setList);
+      // location.state.isWritten = "false";
+    }
   }, [flag]);
 
   return (
