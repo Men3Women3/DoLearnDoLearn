@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import Navbar from "../../components/Navbar";
 import SearchBar from "../../components/SearchBar";
 import WriteButton from "../../components/WriteButton";
@@ -7,6 +7,8 @@ import { Grid } from "@mui/material";
 import SmallSchedule from "../../components/SmallSchedule";
 import { SOutterBox, SInnerBox } from "./styles";
 import { LoginStateContext } from "../../App";
+
+// const ListUpdateContext = createContext();
 
 const Board = () => {
   const [list, setList] = useState([]); // 강의 정보 List
@@ -29,8 +31,10 @@ const Board = () => {
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <SearchBar setList={setList} />
                 <SInnerBox>
-                  <WriteButton />
+                  {/* <ListUpdateContext.Provider value={{ list, setList }}> */}
+                  <WriteButton setList={setList} />
                   <BoardList list={list} setList={setList} />
+                  {/* </ListUpdateContext.Provider> */}
                 </SInnerBox>
               </div>
               <SmallSchedule />

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { lecturerNameAPI } from "../../utils/api/boardAPI";
 import { SBox, SList, SListBox } from "./styles";
 
-const LecturerList = ({ data }) => {
+const LecturerList = ({ data, setLuid }) => {
   const [nameList, setNameList] = useState([]);
-  const [lid, setLid] = useState();
+  // const [Luid, setLuid] = useState(0);
 
   const handleProfile = (lid) => {
     window.open(`/board/profile/${lid}`);
@@ -20,11 +20,14 @@ const LecturerList = ({ data }) => {
         <h4 className="title">신청 강사</h4>
 
         <SListBox>
-          {nameList.map((item, i) => {
+          {nameList.map((item) => {
             return (
               <>
-                <SList key={i}>
-                  <div className="full-list">
+                <SList key={item}>
+                  <div
+                    className="full-list"
+                    onChange={(e) => setLuid(e.target.value)}
+                  >
                     {/* 신청한 강사의 uid를 value로 지정해 나중에 api로 서버에 확정 전송 시 이 value를 담아서 보냄 */}
                     <input type="radio" name="lecturer" value={item.uid} />
                     {/* 강사의 이름(user.name)을 순서대로 출력 */}

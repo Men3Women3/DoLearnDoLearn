@@ -328,7 +328,7 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
   axios
     // .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
     // 테스트용
-    .get(`http://localhost:8080/user/fixed-lecture/1`)
+    .get(`http://localhost:8080/user/fixed-lecture/${userInfo.id}`)
     .then((response) => {
       const responseData = response.data.response;
       console.log(responseData);
@@ -336,10 +336,11 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
       const todayLectures = totalFixedLectures.filter((item) => {
         const startTime = item.startTime;
         const year = new Date().getFullYear();
-        const month = new Date().getMonth() + 1;
+        // const month = new Date().getMonth() + 1;
         // const day = new Date().getDate();
         // 테스트용
-        const day = 2;
+        const month = 2;
+        const day = 3;
         if (
           year === +startTime.slice(0, 4) &&
           month === +startTime.slice(5, 7) &&
@@ -357,7 +358,7 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
     });
 };
 
-// 유저가 신청한 전제 목록 api를 요청하는 함수
+// 유저가 신청한 전체 목록 api를 요청하는 함수
 export const getRequestLecture = (userInfo, setTotalSchedule) => {
   axios
     .get(`${axiosDefaultURL}/user/request-lecture/${userInfo.id}`)
@@ -377,7 +378,7 @@ export const getUnScheduledLectureAPI = (userId, setUnScheduledLectureList) => {
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/1`,
+      `${axiosDefaultURL}/user/request-lecture/${userId}`,
       {},
       {
         headers: {
@@ -399,7 +400,7 @@ export const getUnScheduledLectureHostAPI = (
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/1/host`,
+      `${axiosDefaultURL}/user/request-lecture/${userId}/host`,
       {},
       {
         headers: {
@@ -421,7 +422,7 @@ export const getUnScheduledLectureInstructorAPI = (
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/1/instructor`,
+      `${axiosDefaultURL}/user/request-lecture/${userId}/instructor`,
       {},
       {
         headers: {
@@ -443,7 +444,7 @@ export const getUnScheduledLectureStudentAPI = (
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/1/student`,
+      `${axiosDefaultURL}/user/request-lecture/${userId}/student`,
       {},
       {
         headers: {

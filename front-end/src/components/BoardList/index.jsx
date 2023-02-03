@@ -18,6 +18,11 @@ const BoardList = ({ list, setList }) => {
   useEffect(() => {
     // 게시판의 데이터를 받아오는 작업을 하는 부분(boardList)
     boardListAPI(setList);
+    // 이 아래 주석은 에러 잡는다고 작성한 주석
+    // if (list.length !== 0) {
+    // }
+    // }, [flag, list]);
+    // ======================================
   }, [flag]);
 
   return (
@@ -25,18 +30,21 @@ const BoardList = ({ list, setList }) => {
       {/* <Flag.Provider value={{ flag, setFlag }}> */}
       <SContainer className="container">
         {/* // offset으로 slicing해서 limit 만큼만 한 화면에 표시 */}
-        {list.slice(offset, offset + limit).map((data) => {
-          return (
-            <SUniDiv key={data.id}>
-              <UniBoard
-                className="uni-board"
-                data={data}
-                flag={flag}
-                setFlag={setFlag}
-              />
-            </SUniDiv>
-          );
-        })}
+        {list.length > 0
+          ? list.slice(offset, offset + limit).map((data) => {
+              return (
+                <SUniDiv key={data.id}>
+                  <UniBoard
+                    className="uni-board"
+                    data={data}
+                    flag={flag}
+                    setFlag={setFlag}
+                    setList={setList}
+                  />
+                </SUniDiv>
+              );
+            })
+          : ""}
       </SContainer>
       {list.length < 7 ? null : (
         <Pagination

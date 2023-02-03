@@ -13,6 +13,7 @@ import { getUserInfoAndUpdate, logoutAPI } from "./utils/api/userAPI";
 import { getUnreadMessageCnt } from "./utils/api/messageAPI";
 import OauthRedirect from "./pages/OauthRedirect";
 
+// 확인주석
 // 코드 스플리팅 (Code Splitting)
 const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
 const Login = React.lazy(() => pMinDelay(import("./pages/Login/index"), 1000));
@@ -37,9 +38,6 @@ export const LoginStateHandlerContext = React.createContext();
 // 안읽은 메시지 상태를 관리하는 함수가 담긴 context API
 export const UnreadMessageContext = React.createContext();
 
-// 기본 도메인 주소
-const axiosDefaultURL = "http://localhost:8080";
-
 function App() {
   const [isLogined, setIsLogined] = useState(false);
   const [userInfo, setUserInfo] = useState({});
@@ -62,8 +60,11 @@ function App() {
 
   // // 안 읽은 메시지 정보 최신화시키기
   useEffect(() => {
-    setStateMessageUpdate(false);
-    getUnreadMessageCnt(setUnreadMessageCnt);
+    // 로그인 했을 경우 보냄
+    if (isLogined) {
+      setStateMessageUpdate(false);
+      getUnreadMessageCnt(setUnreadMessageCnt);
+    }
   }, [stateMessageUpdate]);
 
   // 로그인 상태 관리 함수

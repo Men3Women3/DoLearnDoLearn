@@ -2,7 +2,6 @@ package com.example.dolearn.domain;
 
 import com.example.dolearn.dto.LectureDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,9 +25,6 @@ public class Lecture {
 
     @Column(name="member_cnt", nullable = false)
     private int userCnt;
-
-    @Column(length = 100, nullable = true)
-    private String link;
 
     @Column(name="is_deleted", columnDefinition = "TINYINT", length=1)
     private int isDeleted;
@@ -55,5 +51,11 @@ public class Lecture {
 
     public LectureDto toMessageDto() {
         return null;
+    }
+
+    public LectureDto toDto(){
+        return LectureDto.builder()
+                .id(id).bid(board.getId()).userCnt(userCnt).isDeleted(isDeleted).createdTime(createdDate)
+                .startRealTime(startRealTime).endRealTime(endRealTime).build();
     }
 }

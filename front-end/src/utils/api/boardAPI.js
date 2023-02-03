@@ -1,17 +1,21 @@
 import axios from "axios";
 import { baseURL } from "./baseURL";
+// import { sendMessageAPI } from "./messageAPI";
 
 const BOARD_URL = `${baseURL}/board`;
 const PROFILE_URL = `${baseURL}/user`;
+const LECTURE_URL = `${baseURL}/lecture`;
 
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {
   try {
     const res = await axios.get(`${BOARD_URL}/list`);
+    console.log(res.data.response);
     setList(res.data.response);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     console.log("강의 목록 출력 실패");
+    setList([]);
   }
 };
 
@@ -99,10 +103,13 @@ export const cancelEnrollAPI = async (user, lecture) => {
   }
 };
 
-// 강의 확정 API
-export const fixClassAPI = async (lecture) => {
+// 모집 완료 API
+export const fixClassAPI = async (lecture, uid) => {
   try {
-    await axios.put(`${BOARD_URL}/${lecture}`);
+    await axios.post(`${LECTURE_URL}/fix`, {
+      bid: lecture,
+      Luid: uid,
+    });
     console.log("강의 확정 성공");
   } catch (err) {
     console.log(err);
@@ -152,7 +159,6 @@ export const lecListAPI = async (board, setLecList) => {
         list.push(item.uid);
       });
       setLecList(list);
-      console.log("강사 성공");
     }
   } catch (err) {
     console.log(err);
@@ -172,7 +178,6 @@ export const stuListAPI = async (board, setStuList) => {
         list.push(item.uid);
       });
       setStuList(list);
-      console.log("수강생 성공");
     }
   } catch (err) {
     console.log(err);
