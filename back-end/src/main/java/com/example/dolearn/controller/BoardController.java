@@ -33,9 +33,6 @@ public class BoardController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private LectureService lectureService;
-
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody BoardDto boardDto){
         try {
