@@ -82,6 +82,7 @@ export const getMessageListAPI = async (userId, setMessageData) => {
 
 // 메시지 삭제 요청
 export const deleteMessageAPI = async (messageId) => {
+  const accessToken = localStorage.getItem("accessToken");
   const res = await axios.delete(
     `${axiosDefaultURL}/message/${messageId}`,
     {},
@@ -92,7 +93,7 @@ export const deleteMessageAPI = async (messageId) => {
         // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
         // ------------------------------------------
         // ------------------------------------------
-        Authentication: localStorage.getItem("accessToken"),
+        Authentication: accessToken,
       },
     }
   );
@@ -100,6 +101,7 @@ export const deleteMessageAPI = async (messageId) => {
 
 // 메시지 읽음 상태로 상태 변경
 export const changeMessageReadStateAPI = async (id) => {
+  const accessToken = localStorage.getItem("accessToken");
   await axios.put(
     `${axiosDefaultURL}/message`,
     { id },
@@ -110,8 +112,28 @@ export const changeMessageReadStateAPI = async (id) => {
         // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
         // ------------------------------------------
         // ------------------------------------------
-        Authentication: localStorage.getItem("accessToken"),
+        Authentication: accessToken,
       },
     }
   );
+};
+
+// 메시지 보내기
+export const sendMessageAPI = async (bid, content, type) => {
+  const accessToken = localStorage.getItem("accessToken");
+  await axios.post(
+    `${axiosDefaultURL}/message`,
+    { bid, content, type },
+    {
+      headers: {
+        // ------------------------------------------
+        // -----------------수정 필요----------------
+        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
+        // ------------------------------------------
+        // ------------------------------------------
+        Authentication: accessToken,
+      },
+    }
+  );
+  console.log("메시지 보내기 성공");
 };
