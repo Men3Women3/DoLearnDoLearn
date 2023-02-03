@@ -1,12 +1,6 @@
 package com.example.dolearn.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.querydsl.core.annotations.QueryProjection;
-import com.querydsl.core.types.dsl.DateTimePath;
-import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.StringPath;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
