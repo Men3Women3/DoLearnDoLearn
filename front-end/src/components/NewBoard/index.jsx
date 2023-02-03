@@ -15,9 +15,9 @@ import scrumImg from "../../assets/images/thumbnail/scrum.svg";
 import studyImg from "../../assets/images/thumbnail/study.svg";
 import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
 import * as S from "./styles.jsx";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { LoginStateContext } from "../../App";
-import { newBoardAPI } from "../../utils/api/boardAPI";
+import { boardListAPI, newBoardAPI } from "../../utils/api/boardAPI";
 
 const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -50,6 +50,8 @@ const SamplePrevArrow = (props) => {
 };
 
 const NewBoard = () => {
+  // const location = useLocation();
+  // console.log(location);
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
   const today = new Date().toISOString().substring(0, 10);
@@ -129,6 +131,7 @@ const NewBoard = () => {
       deadline,
       0
     );
+    // boardListAPI(setList);
     navigate("/board");
   };
 
