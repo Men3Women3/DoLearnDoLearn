@@ -16,10 +16,9 @@ import {
 } from "../../App";
 import { Badge } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
+import { baseURL } from "../../utils/api/baseURL";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
-
-const SERVER_URL = "http://localhost:8080";
 
 const Navbar = () => {
   // context api를 통해 로그인 상태 받아오기
@@ -50,7 +49,7 @@ const Navbar = () => {
             <img
               src={
                 getUserInfo.userInfo.imgUrl
-                  ? `${SERVER_URL}${getUserInfo.userInfo.imgUrl}`
+                  ? `${baseURL}${getUserInfo.userInfo.imgUrl}`
                   : defaultProfile
               }
               alt="profileImg"

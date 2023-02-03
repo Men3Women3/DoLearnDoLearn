@@ -25,9 +25,9 @@ import {
   faInstagram,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import { baseURL } from "../../utils/api/baseURL";
 
 const ProfileEdit = (props) => {
-  const SERVER_URL = "http://localhost:8080";
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext);
   const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
@@ -46,7 +46,7 @@ const ProfileEdit = (props) => {
   const [profileImg, setProfileImg] = useState({
     image_file: "default",
     preview_URL: getUserInfo.userInfo.imgUrl
-      ? `${SERVER_URL}${getUserInfo.userInfo.imgUrl}`
+      ? `${baseURL}${getUserInfo.userInfo.imgUrl}`
       : defaultProfileImg,
   });
 
