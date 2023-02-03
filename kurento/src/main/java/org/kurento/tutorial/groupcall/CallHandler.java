@@ -77,6 +77,11 @@ public class CallHandler extends TextWebSocketHandler {
         user.receiveVideoFrom(sender, sdpOffer);
         break;
       case "leaveRoom":
+        userSession = registry.getBySession(session);
+        room = roomManager.getRoom(userSession.getRoomName());
+        for (UserSession participant : room.getParticipants()) {
+          participant.sendMessage(jsonMessage);
+        }
         leaveRoom(user);
         break;
       case "helpUser":

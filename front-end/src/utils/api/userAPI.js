@@ -275,7 +275,7 @@ export const duplicatedEmailCheckAPI = (
       .post(`${axiosDefaultURL}/user/check-email/${email}`)
       .then((response) => {
         console.log("이메일 중복 확인 성공!");
-        setIsNext(true);
+        // setIsNext(true);
       })
       .catch((error) => {
         if (error.response.data.response === "이미 존재하는 이메일입니다.") {
