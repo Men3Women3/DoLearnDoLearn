@@ -1,5 +1,6 @@
 import axios from "axios";
 import { baseURL } from "./baseURL";
+import { sendMessageAPI } from "./messageAPI";
 
 const BOARD_URL = `${baseURL}/board`;
 const PROFILE_URL = `${baseURL}/user`;

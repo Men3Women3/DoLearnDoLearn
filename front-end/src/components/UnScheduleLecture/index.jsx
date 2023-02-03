@@ -33,23 +33,29 @@ const UnScheduleLecture = () => {
   const handleFilterData = () => {
     // 모두보기
     if (filterValue === "all") {
-      getUnScheduledLectureAPI(getUserInfo.id, setUnScheduledLectureList);
+      getUnScheduledLectureAPI(
+        getUserInfo.userInfo.id,
+        setUnScheduledLectureList
+      );
     }
     // 방장으로 신청한 글 보기
     else if (filterValue === "host") {
-      getUnScheduledLectureHostAPI(getUserInfo.id, setUnScheduledLectureList);
+      getUnScheduledLectureHostAPI(
+        getUserInfo.userInfo.id,
+        setUnScheduledLectureList
+      );
     }
     // 강사로 신청한 글 보기
     else if (filterValue === "instructor") {
       getUnScheduledLectureInstructorAPI(
-        getUserInfo.id,
+        getUserInfo.userInfo.id,
         setUnScheduledLectureList
       );
     }
     // 학생으로 신청한 글 보기
     else {
       getUnScheduledLectureStudentAPI(
-        getUserInfo.id,
+        getUserInfo.userInfo.id,
         setUnScheduledLectureList
       );
     }
@@ -57,7 +63,10 @@ const UnScheduleLecture = () => {
 
   // 렌더링시 미확인 강의 목록 받아옴
   useEffect(() => {
-    getUnScheduledLectureAPI(getUserInfo.id, setUnScheduledLectureList);
+    getUnScheduledLectureAPI(
+      getUserInfo.userInfo.id,
+      setUnScheduledLectureList
+    );
   }, []);
 
   useEffect(() => {

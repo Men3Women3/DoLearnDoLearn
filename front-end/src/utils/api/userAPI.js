@@ -327,7 +327,7 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
   axios
     // .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
     // 테스트용
-    .get(`http://localhost:8080/user/fixed-lecture/1`)
+    .get(`http://localhost:8080/user/fixed-lecture/${userInfo.id}`)
     .then((response) => {
       const responseData = response.data.response;
       console.log(responseData);
@@ -357,7 +357,7 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
     });
 };
 
-// 유저가 신청한 전제 목록 api를 요청하는 함수
+// 유저가 신청한 전체 목록 api를 요청하는 함수
 export const getRequestLecture = (userInfo, setTotalSchedule) => {
   axios
     .get(`${axiosDefaultURL}/user/request-lecture/${userInfo.id}`)
@@ -377,7 +377,7 @@ export const getUnScheduledLectureAPI = (userId, setUnScheduledLectureList) => {
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/1`,
+      `${axiosDefaultURL}/user/request-lecture/${userId}`,
       {},
       {
         headers: {
@@ -399,7 +399,7 @@ export const getUnScheduledLectureHostAPI = (
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/1/host`,
+      `${axiosDefaultURL}/user/request-lecture/${userId}/host`,
       {},
       {
         headers: {
@@ -421,7 +421,7 @@ export const getUnScheduledLectureInstructorAPI = (
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/1/instructor`,
+      `${axiosDefaultURL}/user/request-lecture/${userId}/instructor`,
       {},
       {
         headers: {
@@ -443,7 +443,7 @@ export const getUnScheduledLectureStudentAPI = (
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
-      `${axiosDefaultURL}/user/request-lecture/1/student`,
+      `${axiosDefaultURL}/user/request-lecture/${userId}/student`,
       {},
       {
         headers: {

@@ -49,11 +49,12 @@ const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
 
   // 강의 확정
   const fixClass = async () => {
-    await fixClassAPI(data.id);
-    // 확정되었다는 메시지 보내기
-    // await sendMessageAPI(data.id, "", "confirm");
+    await fixClassAPI(data.id, data);
     setFlag(!flag);
     setOpen(false);
+    // 확정되었다는 메시지 보내기
+    await console.log("보내질 데이터", data.title, data.id, data.isFixed);
+    await sendMessageAPI(data.id, "", "confirm");
   };
 
   // 강사 목록 호출
