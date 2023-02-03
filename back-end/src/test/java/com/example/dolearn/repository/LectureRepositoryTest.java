@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
@@ -33,12 +32,11 @@ public class LectureRepositoryTest {
         Lecture lecture = Lecture
                 .builder()
                 .id(1L).
-                isDeleted(0).link("https://abcd").build();
+                isDeleted(0).build();
 
         Lecture result = lectureRepository.save(lecture);
 
         assertThat(result.getIsDeleted()).isEqualTo(lecture.getIsDeleted());
-        assertThat(result.getLink()).isEqualTo(lecture.getLink());
     }
 
     @DisplayName("lecture repository findByBoardId 테스트")
@@ -55,8 +53,7 @@ public class LectureRepositoryTest {
                 .builder()
                 .id(1L)
                 .isDeleted(0)
-                .board(board)
-                .link("https://abcd").build();
+                .board(board).build();
 
         Board boardResult = boardRepository.save(board);
         lectureRepository.save(lecture);
@@ -64,7 +61,6 @@ public class LectureRepositoryTest {
         Lecture result = lectureRepository.findByBoardId(boardResult.getId());
 
         assertThat(result.getIsDeleted()).isEqualTo(lecture.getIsDeleted());
-        assertThat(result.getLink()).isEqualTo(lecture.getLink());
         assertThat(result.getBoard().getId()).isEqualTo(boardResult.getId());
     }
 }

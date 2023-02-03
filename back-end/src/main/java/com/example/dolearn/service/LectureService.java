@@ -8,6 +8,7 @@ import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class LectureService {
 
     private final LectureRepository lectureRepository;
@@ -40,6 +42,22 @@ public class LectureService {
         throw new CustomException(ErrorCode.NO_MESSSAGE);
     }
 
+    public Long getInstructor(Long lid){
+        List<UserLecture> userLectureList = userLectureRepository.searchLecture(lid);
+        Long instructorId =0L;
+
+        if(userLectureList.isEmpty()) throw new CustomException(ErrorCode.NO_LECTURE);
+
+        for(UserLecture userLecture: userLectureList){
+            log.info("참가자: {}",userLecture);
+            if(userLecture.getMemberType().equals("강사")){
+                instructorId=userLecture.getUser().getId();
+                log.info("강사 id: {}",instructorId);
+            }
+        }
+        return instructorId;
+    }
+
     public LectureDto save(Lecture lecture){
         return lectureRepository.save(lecture).toDto();
     }
@@ -62,27 +80,27 @@ public class LectureService {
         Board updatedBoard = boardRepository.save(board.toEntity());//수정한 정보 저장
 
         Lecture lecture = Lecture.builder()
-                .userCnt(0).isDeleted(0).board(updatedBoard).build();
+                .userCnt(0).isDeleted(0).board(updatedBoard).build(); //Lecture 생성
 
-        Lecture updatedLecture = lectureRepository.save(lecture);
+        Lecture updatedLecture = lectureRepository.save(lecture);//생성되었던 lecture 저장
 
-        List<UserBoard> applicantList = userBoardRepository.findStudents(bid);
-        Optional<User> lecturerData = userRepository.findOneById(Luid);
+        List<UserBoard> applicantList = userBoardRepository.findStudents(bid); //신청했던 학생 목록 가져오기
+        Optional<User> lecturerData = userRepository.findOneById(Luid); //강사의 User 데이터 가져오기
 
-        if(lecturerData.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
+        if(lecturerData.isEmpty()) throw new CustomException(ErrorCode.NO_USER); //강사 데이터가 없는 경우 에러 발생
 
         UserBoard lecturer = UserBoard.builder()
-                .uid(Luid).user(lecturerData.get()).board(updatedBoard).userType("강사").build();
+                .uid(Luid).user(lecturerData.get()).board(updatedBoard).userType("강사").build();//UserBoard 형식으로 강사 데이터 구성
 
-        applicantList.add(lecturer);
+        applicantList.add(lecturer);//목록에 강사 추가
 
         for(UserBoard userBoard: applicantList){
             UserLecture userLecture = UserLecture.builder()
-                    .user(userBoard.getUser()).lecture(updatedLecture).memberType(userBoard.getUserType()).build();
+                    .user(userBoard.getUser()).lecture(updatedLecture).memberType(userBoard.getUserType()).build();//member_board table에 저장하기 위해 UserLecture로 재구성
 
-            userLectureRepository.save(userLecture);
+            userLectureRepository.save(userLecture);//member_board table에 저장
         }
 
-        return updatedLecture.toDto();
+        return updatedLecture.toDto();//확정된 강의 반환
     }
 }
