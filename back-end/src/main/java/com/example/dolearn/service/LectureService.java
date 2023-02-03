@@ -8,6 +8,7 @@ import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class LectureService {
 
     private final LectureRepository lectureRepository;
@@ -38,6 +40,22 @@ public class LectureService {
         }
 
         throw new CustomException(ErrorCode.NO_MESSSAGE);
+    }
+
+    public Long getInstructor(Long lid){
+        List<UserLecture> userLectureList = userLectureRepository.searchLecture(lid);
+        Long instructorId =0L;
+
+        if(userLectureList.isEmpty()) throw new CustomException(ErrorCode.NO_LECTURE);
+
+        for(UserLecture userLecture: userLectureList){
+            log.info("참가자: {}",userLecture);
+            if(userLecture.getMemberType().equals("강사")){
+                instructorId=userLecture.getUser().getId();
+                log.info("강사 id: {}",instructorId);
+            }
+        }
+        return instructorId;
     }
 
     public LectureDto save(Lecture lecture){
