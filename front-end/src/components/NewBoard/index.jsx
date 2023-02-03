@@ -50,8 +50,6 @@ const SamplePrevArrow = (props) => {
 };
 
 const NewBoard = () => {
-  // const SERVER_URL = "http://localhost:8080";
-
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
   const today = new Date().toISOString().substring(0, 10);

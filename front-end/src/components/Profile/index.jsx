@@ -19,8 +19,7 @@ import facebookImg from "../../assets/images/sns/facebook.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import ProfileCardBox from "../ProfileCardBox";
-
-const SERVER_URL = "http://localhost:8080";
+import { baseURL } from "../../utils/api/baseURL";
 
 const Profile = ({
   handleProfileEditBtn,
@@ -44,7 +43,7 @@ const Profile = ({
           {/* 프로필 이미지 */}
           <img
             className="profile-img"
-            src={user.imgUrl ? `${SERVER_URL}${user.imgUrl}` : defaultProfile}
+            src={user.imgUrl ? `${baseURL}${user.imgUrl}` : defaultProfile}
             alt="defaultProfile"
           />
           <section>
