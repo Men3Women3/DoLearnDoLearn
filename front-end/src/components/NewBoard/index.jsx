@@ -58,7 +58,7 @@ const NewBoard = () => {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState(""); // 강의의 제목
-  const [participant, setParticipant] = useState(0); // 참가인원(5명까지만!)
+  const [participant, setParticipant] = useState(1); // 참가인원(5명까지만!)
   const [deadline, setDeadline] = useState(""); // 모집 종료 날짜
   const [lectureDay, setLectureDay] = useState(""); // 강의 날짜
   const [lectureTime, setLectureTime] = useState(1); // 강의 시작 시간
@@ -106,8 +106,7 @@ const NewBoard = () => {
       !lectureTime ||
       !classTime ||
       !summary ||
-      !detail ||
-      !participant
+      !detail
     ) {
       setOpen(true); // 빈 내용이 있으면 경고 띄우기
     } else {
@@ -193,7 +192,7 @@ const NewBoard = () => {
           {/* 모집인원으로 수정함!!! */}
           <h3>모집 인원</h3>
           <S.SPartCnt onChange={(e) => setParticipant(e.target.value)}>
-            <option value="">0</option>
+            {/* <option value="">0</option> */}
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>

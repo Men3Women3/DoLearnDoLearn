@@ -12,6 +12,7 @@ import {
   stuListAPI,
   deleteClassAPI,
 } from "../../utils/api/boardAPI";
+import { sendMessageAPI } from "../../utils/api/messageAPI";
 
 const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
@@ -49,6 +50,8 @@ const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
   // 강의 확정
   const fixClass = async () => {
     await fixClassAPI(data.id);
+    // 확정되었다는 메시지 보내기
+    await sendMessageAPI(data.id, "", "confirm");
     setFlag(!flag);
     setOpen(false);
   };
