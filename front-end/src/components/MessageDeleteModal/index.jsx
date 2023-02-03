@@ -1,11 +1,16 @@
-import React from "react"
-import { useState } from "react"
-import SimpleSnackbar from "../SimpleSnackbar"
+import React, { useContext } from "react";
+import { useState } from "react";
+import SimpleSnackbar from "../SimpleSnackbar";
 
-import { SButtonContainer, SSpan, SScontent } from "./styles"
+import { SButtonContainer, SSpan, SScontent } from "./styles";
 
-import { Box, Modal, Slide, Typography } from "@mui/material"
-import axios from "axios"
+import { Box, Modal, Slide, Typography } from "@mui/material";
+import axios from "axios";
+import { UnreadMessageContext } from "../../App";
+import {
+  deleteMessageAPI,
+  getUnreadMessageCnt,
+} from "../../utils/api/messageAPI";
 
 const style = {
   position: "absolute",
@@ -18,57 +23,43 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "20px 30px",
-}
+};
 
-const SERVER_URL = "http://localhost:8080"
-const MessageDeleteModal = ({ messageId, open, handleClose }) => {
+const MessageDeleteModal = ({
+  messageId,
+  open,
+  handleClose,
+  setCheckDeleteState,
+}) => {
+  const { unreadMessageCnt, setStateMessageUpdate } =
+    useContext(UnreadMessageContext);
   const slideTransition = (props) => {
-    return <Slide {...props} direction="up" />
-  }
+    return <Slide {...props} direction="up" />;
+  };
   const [state, setState] = useState({
     open: false,
     Transition: slideTransition,
-  })
+  });
 
   const handleSnackbarOpen = () => {
-    console.log("보여줘")
-    setState({ ...state, open: true })
-  }
+    console.log("보여줘");
+    setState({ ...state, open: true });
+  };
 
   const handleSnackbarClose = () => {
     setState({
       ...state,
       open: false,
-    })
-  }
-
-  // 확인 버튼 누르면 메시지 삭제 api 호출
-  const axios_delete = async () => {
-    try {
-      const res = await axios.delete(
-        `${SERVER_URL}/message/${messageId}`,
-        {},
-        {
-          headers: {
-            // ------------------------------------------
-            // -----------------수정 필요----------------
-            // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-            // ------------------------------------------
-            // ------------------------------------------
-            Authentication: localStorage.getItem("accessToken"),
-          },
-        }
-      )
-    } catch (e) {
-      console.log(e)
-    }
-  }
+    });
+  };
 
   const handleDeleteMessage = () => {
-    axios_delete()
-    handleClose()
-    handleSnackbarOpen()
-  }
+    deleteMessageAPI(messageId);
+    handleClose();
+    setCheckDeleteState(true);
+    setStateMessageUpdate(true);
+    handleSnackbarOpen();
+  };
 
   return (
     <div>
@@ -103,7 +94,7 @@ const MessageDeleteModal = ({ messageId, open, handleClose }) => {
         />
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default MessageDeleteModal
+export default MessageDeleteModal;

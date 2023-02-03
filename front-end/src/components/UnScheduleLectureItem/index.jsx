@@ -1,20 +1,14 @@
-import React from "react"
-import { Typography } from "@mui/material"
-import { Modal } from "@mui/material"
-import { Box } from "@mui/material"
-import { useState } from "react"
+import React from "react";
 
-// import profileImg from "../../assets/images/thumbnail.png"
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCalendarDays } from "@fortawesome/free-solid-svg-icons"
-import { SMain } from "./styles"
-import LectureModal from "../LectureModal"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { SMain } from "./styles";
+import LectureModal from "../LectureModal";
 
 const UnScheduleLectureItem = ({ data }) => {
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const style = {
     position: "absolute",
@@ -26,7 +20,7 @@ const UnScheduleLectureItem = ({ data }) => {
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
-  }
+  };
   return (
     <>
       <SMain onClick={handleOpen}>
@@ -34,14 +28,14 @@ const UnScheduleLectureItem = ({ data }) => {
           <div className="lecture-info__section">
             <p>
               <FontAwesomeIcon icon={faCalendarDays} />
-              &nbsp;{data.time}
+              &nbsp;{data.startTime} ~ {data.endTime}
             </p>
             <span>{data.title}</span>
           </div>
-          <div className="host__section">
+          {/* <div className="host__section">
             <img src={data.profileImg.profileImg} />
             <span>{data.host}</span>
-          </div>
+          </div> */}
         </div>
       </SMain>
       {open ? (
@@ -53,7 +47,7 @@ const UnScheduleLectureItem = ({ data }) => {
         />
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default UnScheduleLectureItem
+export default UnScheduleLectureItem;

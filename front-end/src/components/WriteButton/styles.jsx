@@ -8,8 +8,8 @@ export const SWriteButton = styled.button`
   color: white;
   font-family: ${(props) => props.theme.fontFamily.Medium};
   font-size: calc(0.8vw + 0.5px);
-  width: 6vw;
-  height: 4vh;
+  width: 5rem;
+  height: 2rem;
   border-radius: 5px;
   cursor: pointer;
   place-items: center;

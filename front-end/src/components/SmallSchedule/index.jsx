@@ -1,106 +1,92 @@
-import React, { useState } from "react";
-import { SContainer } from "./styles";
+import React, { useContext, useEffect, useState } from "react";
+import { SContainer, SEmptyNotice } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { Scrollbars } from "react-custom-scrollbars";
 import TodayScheduleItem from "../TodayScheduleItem";
 import TotalScheduleItem from "../TotalScheduleItem";
+import { LoginStateContext } from "../../App";
+import { getFixedLecture, getRequestLecture } from "../../utils/api/userAPI";
 
 const SmallSchedule = () => {
-  const [todaySchedule, setTodayScedule] = useState([
-    {
-      id: 1,
-      startTime: "14:00",
-      endTime: "16:00",
-      title: "WebSocket 가르쳐주세요!",
-    },
-    {
-      id: 2,
-      startTime: "16:00",
-      endTime: "18:00",
-      title: "WebRTC 가르쳐주세요!",
-    },
-    {
-      id: 3,
-      startTime: "18:00",
-      endTime: "20:00",
-      title: "WebRTC 가르쳐주세요!",
-    },
-    {
-      id: 4,
-      startTime: "20:00",
-      endTime: "22:00",
-      title: "WebRTC 가르쳐주세요!",
-    },
-    {
-      id: 5,
-      startTime: "22:00",
-      endTime: "24:00",
-      title: "WebRTC 가르쳐주세요!",
-    },
-  ]);
-  const [totalSchedule, setTotalSchedule] = useState([
-    {
-      id: 1,
-      Time: "2023. 01. 16. 14:00 ~ 16:00",
-      title: "WebSocket 가르쳐주세요!",
-    },
-    {
-      id: 2,
-      Time: "2023. 01. 16. 16:00 ~ 18:00",
-      title: "WebSocket 가르쳐주세요!",
-    },
-    {
-      id: 3,
-      Time: "2023. 01. 16. 18:00 ~ 20:00",
-      title: "WebSocket 가르쳐주세요!",
-    },
-    {
-      id: 4,
-      Time: "2023. 01. 16. 20:00 ~ 22:00",
-      title: "WebSocket 가르쳐주세요!",
-    },
-    {
-      id: 5,
-      Time: "2023. 01. 16. 22:00 ~ 24:00",
-      title: "WebSocket 가르쳐주세요!",
-    },
-    {
-      id: 6,
-      Time: "2023. 01. 17. 20:00 ~ 22:00",
-      title: "WebSocket 가르쳐주세요!",
-    },
-    {
-      id: 7,
-      Time: "2023. 01. 18. 22:00 ~ 24:00",
-      title: "WebSocket 가르쳐주세요!",
-    },
-  ]);
+  const { userInfo } = useContext(LoginStateContext);
+
+  const [todaySchedule, setTodayScedule] = useState([]);
+  const [totalSchedule, setTotalSchedule] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  useEffect(() => {
+    // 유저의 확정된 강의 목록 api를 요청하는 함수
+    getFixedLecture(userInfo, setTodayScedule);
+
+    // 유저가 신청한 전체 목록 api를 요청하는 함수
+    getRequestLecture(userInfo, setTotalSchedule);
+  }, []);
+
+  useEffect(() => {
+    if (todaySchedule.length === 0 && totalSchedule.length === 0) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  }, [todaySchedule, totalSchedule]);
 
   return (
-    <SContainer>
+    <SContainer
+      isEmpty={isEmpty}
+      isIncreaseTotalScheduleHight={totalSchedule.length}
+      isIncreaseTodayScheduleHight={todaySchedule.length}
+    >
       <div className="header">
         <p>오늘의 일정</p>
         <p>{`${new Date().getMonth() + 1}월 ${new Date().getDate()}일`}</p>
       </div>
-      <div className="todaySchedule">
-        <Scrollbars autoHide className="Scrollbars">
-          {/* 컴포넌트로 따로 분리해야 됨 */}
-          {todaySchedule.map((item) => (
-            <TodayScheduleItem key={item.id} item={item} />
-          ))}
-        </Scrollbars>
-      </div>
-      <div className="boundary"></div>
-      <p className="totalSchedule__header">신청 내역</p>
-      <div className="totalSchedule">
-        <Scrollbars autoHide className="Scrollbars">
-          {totalSchedule.map((item) => (
-            <TotalScheduleItem key={item.id} item={item} />
-          ))}
-        </Scrollbars>
-      </div>
+      {isEmpty ? (
+        <SEmptyNotice>
+          <div>배우고 싶은 강의를 신청하세요 😊</div>
+        </SEmptyNotice>
+      ) : (
+        <>
+          <div
+            className={
+              todaySchedule.length ? "todaySchedule" : "todaySchedule empty"
+            }
+          >
+            {todaySchedule.length ? (
+              <Scrollbars autoHide className="Scrollbars">
+                {/* key 수정해야 됨 */}
+                {todaySchedule.map((item, idx) => (
+                  <TodayScheduleItem key={idx} item={item} />
+                ))}
+              </Scrollbars>
+            ) : (
+              <SEmptyNotice>
+                <div>배우고 싶은 강의를 신청하세요 😊</div>
+              </SEmptyNotice>
+            )}
+          </div>
+          <div className="boundary"></div>
+          <p className="totalSchedule__header">신청 내역</p>
+          <div
+            className={
+              totalSchedule.length ? "totalSchedule" : "totalSchedule empty"
+            }
+          >
+            {totalSchedule.length ? (
+              <Scrollbars autoHide className="Scrollbars">
+                {totalSchedule.map((item, idx) => (
+                  <TotalScheduleItem key={idx} item={item} />
+                ))}
+              </Scrollbars>
+            ) : (
+              <SEmptyNotice>
+                <div>배우고 싶은 강의를 신청하세요 😊</div>
+              </SEmptyNotice>
+            )}
+          </div>
+        </>
+      )}
     </SContainer>
   );
 };
