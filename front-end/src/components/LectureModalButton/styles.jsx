@@ -1,19 +1,20 @@
 import styled from "styled-components";
 
-export const SGroup = styled.div`
+export const SButtonBox = styled.div`
   display: flex;
   padding: 0 5vw;
+  justify-content: center;
 `;
 
 export const SButton = styled.button`
   border: none;
   background-color: black;
-  margin: auto;
+  margin: 0 1rem;
   color: white;
   font-family: ${(props) => props.theme.fontFamily.Medium};
   font-size: calc(0.8vw + 0.5px);
-  width: 7vw;
-  height: 4.5vh;
+  width: 5rem;
+  height: 2rem;
   border-radius: 5px;
   cursor: pointer;
   place-items: center;

@@ -87,22 +87,6 @@ public class UserDtoTest {
                     );
         }
 
-        @Test
-        @DisplayName("DTO 유효성 체크 실패 - 유효하지 않은 비밀번호 형식; 테스트 전에 UserDto의 Password에서 @JsonPropert 주석처리")
-        public void failByPassword() throws Exception {
-            UserDto userDto = UserDto.builder().email("ssafy@naver.com").name("민싸피").password("이상한 비번").build();
-
-            when(userService.signup(any(UserDto.class))).thenReturn(userDto);
-
-            mockMvc.perform(post("/user")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .content(toJson(userDto)))
-                    .andExpect(
-                            (res)-> assertTrue(res.getResolvedException().getClass().isAssignableFrom(MethodArgumentNotValidException.class))
-                    );
-        }
-
         private String toJson(Object object) {
             try {
                 return new ObjectMapper().writeValueAsString(object);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 
 import Navbar from "../../components/Navbar";
@@ -14,8 +14,11 @@ import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
 import Message from "../../components/Message";
 import { useNavigate } from "react-router";
+import { LoginStateContext } from "../../App";
 
 const User = () => {
+  const getUserInfo = useContext(LoginStateContext);
+
   const [isProfileTabActive, setIsProfileTabActive] = useState(true);
   const [isScheduleTabActive, setIsScheduleTabActive] = useState(false);
   const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(false);
@@ -88,20 +91,18 @@ const User = () => {
         </Grid>
         <Grid item xs={10} md={7.5}>
           {isProfileTabActive && !isProfileEditActive && (
-            <ProfileCardBox>
-              <Profile
-                handleProfileEditBtn={handleProfileEditBtn}
-                isProfileEditActive={isProfileEditActive}
-              />
-            </ProfileCardBox>
+            <Profile
+              handleProfileEditBtn={handleProfileEditBtn}
+              // isProfileEditActive={isProfileEditActive}
+              user={getUserInfo.userInfo}
+              userState="me"
+            />
           )}
           {isProfileTabActive && isProfileEditActive && (
-            <ProfileCardBox>
-              <ProfileEdit
-                handleProfileEditBtn={handleProfileEditBtn}
-                isProfileEditActive={isProfileEditActive}
-              />
-            </ProfileCardBox>
+            <ProfileEdit
+              handleProfileEditBtn={handleProfileEditBtn}
+              isProfileEditActive={isProfileEditActive}
+            />
           )}
           {isScheduleTabActive && (
             <CardBox>

@@ -90,9 +90,9 @@ public class MessageService {
         Optional<User> result = userRepository.findOneById(userId);
 
         if(result.isPresent()) {
-            User user = result.get();
 
-            List<Message> messageList = user.getMessageList();
+            List<Message> messageList = messageRepository.findMessageByUserId(userId);
+
             List<MessageDto> ret = new ArrayList<>();
 
             for(Message m : messageList) {

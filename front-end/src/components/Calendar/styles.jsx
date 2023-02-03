@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SCalendar = styled.div`
   /* 현재 날짜 셀 */
@@ -158,8 +158,62 @@ export const SCalendar = styled.div`
       font-weight: 500;
     }
   }
-  /* timegrid -> allDay 슬롯 숨기기 안됨!! */
-  /* .fc .fc-daygrid-body {
-    display: none;
-  } */
-`
+
+  .fc-timeGridWeek-view {
+    .fc-scrollgrid-section-body:first-child {
+      display: none;
+    }
+    .fc-timegrid-divider {
+      display: none;
+    }
+    .fc-scroller {
+      overflow: hidden !important;
+    }
+    .fc-scroller-liquid-absolute {
+      overflow: auto !important;
+
+      /* 스크롤바 */
+      /* Chrome, Edge, and Safari */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #ffffff;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #c2c2c2;
+        border-radius: 10px;
+        border: 3px solid #ffffff;
+      }
+    }
+  }
+
+  .fc-timeGridDay-view {
+    .fc-scrollgrid-section-body:first-child {
+      display: none;
+    }
+    .fc-timegrid-divider {
+      display: none;
+    }
+    .fc-scroller {
+      overflow: hidden !important;
+    }
+    .fc-scroller-liquid-absolute {
+      overflow: auto !important;
+
+      /* 스크롤바 */
+      /* Chrome, Edge, and Safari */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #ffffff;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #c2c2c2;
+        border-radius: 10px;
+        border: 3px solid #ffffff;
+      }
+    }
+  }
+`;

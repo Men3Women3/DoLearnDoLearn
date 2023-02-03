@@ -1,8 +1,13 @@
 package com.example.dolearn.service;
 
+import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.User;
+import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.dto.FixedLectureDto;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
+import com.example.dolearn.repository.BoardRepository;
+import com.example.dolearn.repository.FixedLectureRepository;
 import com.example.dolearn.repository.UserRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.text.ParseException;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +33,12 @@ class UserServiceTest {
 
     @Mock
     UserRepository userRepository;
+
+    @Mock
+    BoardRepository boardRepository;
+
+    @Mock
+    FixedLectureRepository fixedLectureRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -181,7 +191,8 @@ class UserServiceTest {
 
         private Long id;
         private String email;
-        private String imgSrc;
+        private String imgPath;
+        private String imgUrl;
         private String info;
         private String blog;
         private String facebook;
@@ -192,7 +203,8 @@ class UserServiceTest {
         void setup(){
             id = 1L;
             email = "ssafy@naver.com";
-            imgSrc = "새로운 이미지 링크";
+            imgPath = "새로운 이미지 path";
+            imgUrl = "새로운 이미지 url";
             info = "안녕하세요";
             blog = "새로운 블로그 링크";
             facebook = "새로운 페이스북 링크";
@@ -204,7 +216,7 @@ class UserServiceTest {
         @DisplayName("사용자 정보 수정 성공")
         void success() {
             UserDto reqUserDto = UserDto.builder().id(id).email(email)
-                    .imgSrc(imgSrc).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
+                    .imgPath(imgPath).imgUrl(imgUrl).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
                     .build();
 
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
@@ -233,13 +245,80 @@ class UserServiceTest {
         @DisplayName("사용자 정보 수정 실패 - 존재하지 않는 사용자")
         void failById() {
             UserDto reqUserDto = UserDto.builder().id(id).email(email)
-                    .imgSrc(imgSrc).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
+                    .imgPath(imgPath).imgUrl(imgUrl).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
                     .build();
 
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
 
             Exception exception = assertThrows(CustomException.class, ()->{
                 UserDto result = userService.updateInfo(reqUserDto);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("없는 사용자입니다.", exception.getMessage());
+        }
+    }
+
+    @Nested
+    @Transactional
+    class updateImgInfo{
+        Long id;
+        String imgPath;
+        String imgUrl;
+
+        @Test
+        @DisplayName("프로필 이미지 업데이트 성공")
+        void success(){
+            id = 1L;
+            imgPath = "imgpath";
+            imgUrl = "imgurl";
+            UserDto reqUserDto = UserDto.builder().id(id).imgPath(imgPath).imgUrl(imgUrl).build();
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+            when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
+
+            UserDto userDto = userService.updateImgInfo(id, imgPath, imgUrl);
+
+            assertEquals(imgPath, userDto.getImgPath());
+        }
+
+        @Test
+        @DisplayName("프로필 이미지 업데이트 실패 - 기입되지 않은 정보")
+        void failByInput(){
+            id = 1L;
+            imgPath = "imgpath";
+            imgUrl = "imgurl";
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                UserDto result = userService.updateImgInfo(null, imgPath, imgUrl);
+            });
+            assertTrue(exception instanceof CustomException);
+            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+
+            exception = assertThrows(CustomException.class, ()->{
+                UserDto result = userService.updateImgInfo(id, null, imgUrl);
+            });
+            assertTrue(exception instanceof CustomException);
+            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+
+            exception = assertThrows(CustomException.class, ()->{
+                UserDto result = userService.updateImgInfo(id, imgPath, null);
+            });
+            assertTrue(exception instanceof CustomException);
+            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("프로필 이미지 업데이트 실패 - 존재하지 않는 사용자")
+        void failById(){
+            id = 1L;
+            imgPath = "imgpath";
+            imgUrl = "imgurl";
+
+            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                UserDto result = userService.updateImgInfo(id, imgPath, imgUrl);
             });
 
             assertTrue(exception instanceof CustomException);
@@ -409,6 +488,91 @@ class UserServiceTest {
 
             Exception exception = assertThrows(CustomException.class, ()->{
                 UserDto userDto = userService.updatePoint(params);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("없는 사용자입니다.", exception.getMessage());
+        }
+    }
+
+    @Nested
+    class getRequestLecture{
+        Long id;
+
+        @Test
+        @DisplayName("미확정 강의 조회 성공")
+        void success() throws ParseException {
+            id = 1L;
+            UserDto resUserDto = UserDto.builder().id(id).build();
+            List<Board> reqBoardEntity = new ArrayList<>();
+
+            when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
+            when(boardRepository.findRequestLecture(id)).thenReturn(reqBoardEntity);
+
+            userService.getRequestLecture(id);
+        }
+
+        @Test
+        @DisplayName("미확정 강의 조회 실패 - 기입되지 않은 정보")
+        void failByInput() throws ParseException {
+            Exception exception = assertThrows(CustomException.class, ()->{
+                List<BoardDto> result = userService.getRequestLecture(null);
+            });
+            assertTrue(exception instanceof CustomException);
+            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("미확정 강의 조회 실패 - 기입되지 않은 정보")
+        void failById() throws ParseException {
+            id = 1L;
+
+            when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                List<BoardDto> result = userService.getRequestLecture(id);
+            });
+
+            assertTrue(exception instanceof CustomException);
+            assertEquals("없는 사용자입니다.", exception.getMessage());
+        }
+    }
+
+    @Nested
+    class getFixedLecture{
+        Long id;
+
+        @Test
+        @DisplayName("확정 강의 조회 성공")
+        void success() throws ParseException {
+            id = 1L;
+            UserDto resUserDto = UserDto.builder().id(id).build();
+
+            when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
+            when(fixedLectureRepository.findFixedLecture(id)).thenReturn(new ArrayList<>());
+
+            userService.getFixedLecture(id);
+        }
+
+        @Test
+        @DisplayName("확정 강의 조회 실패 - 기입되지 않은 정보")
+        void failByInput() throws ParseException {
+            Exception exception = assertThrows(CustomException.class, ()->{
+                List<FixedLectureDto> result = userService.getFixedLecture(id);
+            });
+            assertTrue(exception instanceof CustomException);
+            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("확정 강의 조회 실패 - 기입되지 않은 정보")
+        void failById() throws ParseException {
+            id = 1L;
+
+            when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+
+            Exception exception = assertThrows(CustomException.class, ()->{
+                List<FixedLectureDto> result = userService.getFixedLecture(id);
             });
 
             assertTrue(exception instanceof CustomException);

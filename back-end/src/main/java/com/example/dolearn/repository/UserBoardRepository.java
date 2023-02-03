@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserBoardRepository extends JpaRepository <UserBoard, Long> {
-//    @Query(value = "select * from applicant where bid=:bid and user_type='강사'", nativeQuery = true)
-//    public List<BoardApplicant> findInst(@Param("bid") Long bid);
 
     @Query(value = "select * from member_board where bid=:bid and member_type='강사'", nativeQuery = true)
     List<UserBoard> findInstructors(@Param("bid") Long bid);
@@ -18,18 +16,16 @@ public interface UserBoardRepository extends JpaRepository <UserBoard, Long> {
     @Query(value = "select * from member_board where bid=:bid and member_type='학생'", nativeQuery = true)
     List<UserBoard> findStudents(@Param("bid") Long bid);
 
-    @Query(value = "select count(*) from member_board where bid=:bid and member_type='학생'",nativeQuery = true)
-    int countStudents(@Param("bid") Long bid);
-
-    @Query(value = "select count(*) from member_board where bid=:bid and member_type='강사'",nativeQuery = true)
-    int countInstructors(@Param("bid") Long bid);
-
-    @Query(value = "select * from member_board where uid=:uid and bid=:bid",nativeQuery = true)
-    List<UserBoard> checkApply(@Param("uid") Long uid, @Param("bid") Long bid);
+    @Query(value = "select * from member_board where uid=:uid",nativeQuery = true)
+    List<UserBoard> checkApply(@Param("uid") Long uid);
 
     UserBoard save(UserBoard userBoard);
 
     @Modifying
     @Query(value = "delete from member_board where uid=:uid and bid=:bid")
     int delete(@Param("uid") Long uid, @Param("bid") Long bid);
+
+    @Modifying
+    @Query(value = "delete from member_board where bid=:bid")
+    int deleteByBid(@Param("bid") Long bid);
 }

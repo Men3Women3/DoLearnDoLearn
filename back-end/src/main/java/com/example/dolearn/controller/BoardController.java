@@ -50,6 +50,10 @@ public class BoardController {
         try {
             List<BoardDto> boardDtoList = boardService.selectAll();
 
+            for(BoardDto boardDto:boardDtoList){
+                boardDto.setCounts(userBoardService.getInstructors(boardDto.getId()).size(),userBoardService.getStudents(boardDto.getId()).size());
+            }
+
             return new ResponseEntity<>(new SuccessResponse(boardDtoList),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
@@ -100,11 +104,9 @@ public class BoardController {
 
             if(applicants.isEmpty()) return new ResponseEntity<>(new SuccessResponse("신청한 강사가 없습니다"),HttpStatus.OK);
             return new ResponseEntity<>(new SuccessResponse(applicants),HttpStatus.OK);
-        }catch (CustomException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_INSTRUCTORS), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("강사 목록을 가져오는 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_INSTRUCTORS), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -116,11 +118,9 @@ public class BoardController {
 
             if(applicants.isEmpty()) return new ResponseEntity<>(new SuccessResponse("신청한 학생이 없습니다."),HttpStatus.OK);
             return new ResponseEntity<>(new SuccessResponse(applicants),HttpStatus.OK);
-        }catch (CustomException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_STUDENTS), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("학생 목록을 가져오는 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_STUDENTS), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -129,8 +129,9 @@ public class BoardController {
         try{
             List<Board> bListByTitle = boardService.searchBoardTitle(keyword);
             List<Board> bListByContent = boardService.searchBoardContent(keyword);
+            List<Board> bListBySummary = boardService.searchBoardSummary(keyword);
 
-            List<BoardDto> result = boardService.searchResult(bListByTitle,bListByContent);
+            List<BoardDto> result = boardService.searchResult(bListByTitle,bListByContent,bListBySummary);
 
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         }catch (CustomException e){
@@ -149,7 +150,7 @@ public class BoardController {
 
             log.info("수강신청: {}, {}",uid,bid);
 
-            UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).user_type("학생").build();
+            UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).userType("학생").build();
             userBoardService.applyClass(userBoard);
 
             return new ResponseEntity<>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.OK);
@@ -170,7 +171,7 @@ public class BoardController {
 
             log.info("강의신청: {}, {}",uid,bid);
 
-            UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).user_type("강사").build();
+            UserBoard userBoard = UserBoard.builder().uid(uid).bid(bid).userType("강사").build();
             userBoardService.applyClass(userBoard);
 
             return new ResponseEntity<>(new SuccessResponse("강사 신청이 완료되었습니다!!"),HttpStatus.OK);
@@ -213,6 +214,6 @@ public class BoardController {
     }
 
     public ResponseEntity<String> ExceptionHandling(String errorMessage){
-        return new ResponseEntity<String>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

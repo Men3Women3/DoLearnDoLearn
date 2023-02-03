@@ -2,6 +2,7 @@ package com.example.dolearn.repository;
 
 import com.example.dolearn.config.TestConfig;
 import com.example.dolearn.domain.Message;
+import com.example.dolearn.domain.User;
 import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +27,9 @@ public class MessageRepositoryTest {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @DisplayName("message repository 저장 테스트")
     @Test
@@ -59,5 +65,52 @@ public class MessageRepositoryTest {
 
         assertThat(result.getContent()).isEqualTo(message.getContent());
         assertThat(result.getIsChecked()).isEqualTo(result.getIsChecked());
+    }
+
+    @DisplayName("messageRepository findMessageByUserId 테스트")
+    @Test
+    public void MessageRepositoryFindMessageByUserId() {
+
+        User user = User
+                .builder()
+                .id(1L)
+                .email("cksgnlcjswo@naver.com")
+                .password("1234")
+                .name("test user")
+                .build();
+
+        Message message1 = Message
+                .builder()
+                .id(1L)
+                .content("test")
+                .user(user)
+                .isChecked(0)
+                .build();
+
+        Message message2 = Message
+                .builder()
+                .id(2L)
+                .content("test 2")
+                .user(user)
+                .isChecked(0)
+                .build();
+
+        Message message3 = Message
+                .builder()
+                .id(3L)
+                .content("test")
+                .user(user)
+                .isChecked(0)
+                .build();
+
+        userRepository.save(user);
+
+        messageRepository.save(message1);
+        messageRepository.save(message2);
+        messageRepository.save(message3);
+
+        List<Message> result = messageRepository.findMessageByUserId(1L);
+
+        assertThat(result.size()).isEqualTo(3);
     }
 }

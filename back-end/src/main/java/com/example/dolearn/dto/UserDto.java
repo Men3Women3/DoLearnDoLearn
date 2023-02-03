@@ -27,8 +27,6 @@ public class UserDto {
 
     private String info;
 
-    private String gender;
-
     private Integer point;
 
     private String youtube;
@@ -39,7 +37,9 @@ public class UserDto {
 
     private String blog;
 
-    private String imgSrc;
+    private String imgPath;
+
+    private String imgUrl;
 
     private String refreshToken;
 
@@ -54,13 +54,13 @@ public class UserDto {
                 .email(email)
                 .password(password)
                 .info(info)
-                .gender(gender)
                 .point(point)
                 .youtube(youtube)
                 .instagram(instagram)
                 .facebook(facebook)
                 .blog(blog)
-                .imgSrc(imgSrc)
+                .imgPath(imgPath)
+                .imgUrl(imgUrl)
                 .refreshToken(refreshToken)
                 .joinDate(joinDate)
                 .build();

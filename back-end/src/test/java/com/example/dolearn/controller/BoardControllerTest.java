@@ -94,7 +94,7 @@ public class BoardControllerTest {
 
     @DisplayName("글 상세보기")
     @Test
-    public void boadDetilTest() throws Exception{
+    public void boardDetailTest() throws Exception{
 
         when(bService.selectDetail(any())).thenReturn(boardDto1);
 
@@ -121,7 +121,7 @@ public class BoardControllerTest {
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("강사").build();
 
         result.add(userBoardDto.toEntity());
 
@@ -140,7 +140,7 @@ public class BoardControllerTest {
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("학생").build();
 
         result.add(userBoardDto.toEntity());
 
@@ -175,7 +175,7 @@ public class BoardControllerTest {
         UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+                .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("학생").build();
 
         when(userService.signup(any())).thenReturn(userDto);
         when(bService.insert(any())).thenReturn(boardDto1);
@@ -200,7 +200,7 @@ public class BoardControllerTest {
         UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("강사").build();
 
         when(userService.signup(any())).thenReturn(userDto);
         when(bService.insert(any())).thenReturn(boardDto1);
