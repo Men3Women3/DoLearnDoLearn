@@ -1,14 +1,10 @@
 package com.example.dolearn.service;
 
-import com.example.dolearn.domain.Board;
-import com.example.dolearn.domain.User;
-import com.example.dolearn.domain.UserBoard;
+import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.UserBoardDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
-import com.example.dolearn.repository.BoardRepository;
-import com.example.dolearn.repository.UserBoardRepository;
-import com.example.dolearn.repository.UserRepository;
+import com.example.dolearn.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,12 +35,6 @@ public class UserBoardService {
         List<UserBoard> studentList = ubRepo.findStudents(bid);//학생 리스트 받아오기
 
         return studentList;
-    }
-
-    public List<UserBoard> getApplicationList(Long uid){
-        List<UserBoard> applicationList = ubRepo.checkApply(uid);//해당 유저가 신청한 목록 받아오기
-
-        return applicationList;
     }
 
     @Transactional

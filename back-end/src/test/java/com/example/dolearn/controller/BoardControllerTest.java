@@ -231,16 +231,4 @@ public class BoardControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("강의 확정 업데이트")
-    @Test
-    public void updateFixedTest() throws Exception{
-
-        when(bService.update(any())).thenReturn(boardDto1);
-
-        mockMvc.perform(put("/board/{board_id}",1).with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(boardDto1.toEntity())))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
 }

@@ -26,9 +26,6 @@ public class Lecture {
     @Column(name="member_cnt", nullable = false)
     private int userCnt;
 
-    @Column(length = 100, nullable = true)
-    private String link;
-
     @Column(name="is_deleted", columnDefinition = "TINYINT", length=1)
     private int isDeleted;
 
@@ -58,7 +55,7 @@ public class Lecture {
 
     public LectureDto toDto(){
         return LectureDto.builder()
-                .id(id).bid(board.getId()).userCnt(userCnt).link(link).isDeleted(isDeleted).createdTime(createdDate)
+                .id(id).bid(board.getId()).userCnt(userCnt).isDeleted(isDeleted).createdTime(createdDate)
                 .startRealTime(startRealTime).endRealTime(endRealTime).build();
     }
 }
