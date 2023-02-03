@@ -1,7 +1,8 @@
 import axios from "axios";
+import { baseURL } from "./baseURL";
 
-const BOARD_URL = "http://localhost:8080/board";
-const PROFILE_URL = "http://localhost:8080/user";
+const BOARD_URL = `${baseURL}/board`;
+const PROFILE_URL = `${baseURL}/user`;
 
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {
