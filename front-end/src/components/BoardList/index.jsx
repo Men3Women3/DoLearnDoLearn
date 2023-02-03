@@ -6,6 +6,7 @@ import UniBoard from "../UniBoard";
 import { boardListAPI } from "../../utils/api/boardAPI";
 // export const Flag = createContext();
 
+// 소영
 const BoardList = ({ list, setList }) => {
   const [flag, setFlag] = useState(false);
 
