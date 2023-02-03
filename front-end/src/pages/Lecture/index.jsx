@@ -46,7 +46,6 @@ const Lecture = () => {
   const [helpOnOff, setHelpOnOff] = useState(false);
 
   const ws = new WebSocket("wss://localhost:8443/groupcall");
-  console.log(ws);
 
   var participants = {};
   var name = username;
@@ -129,14 +128,11 @@ const Lecture = () => {
 
     this.offerToReceiveVideo = function (error, offerSdp, wp) {
       if (error) return console.error("sdp offer error");
-      console.log("Invoking SDP offer callback function");
       var msg = { id: "receiveVideoFrom", sender: name, sdpOffer: offerSdp };
       sendMessage(msg);
     };
 
     this.onIceCandidate = function (candidate, wp) {
-      console.log("Local candidate" + JSON.stringify(candidate));
-
       var message = {
         id: "onIceCandidate",
         candidate: candidate,
@@ -148,7 +144,6 @@ const Lecture = () => {
     Object.defineProperty(this, "rtcPeer", { writable: true });
 
     this.dispose = function () {
-      console.log("Disposing participant " + this.name);
       this.rtcPeer.dispose();
       container.parentNode.removeChild(container);
     };
@@ -160,11 +155,13 @@ const Lecture = () => {
 
   ws.onmessage = function (message) {
     var parsedMessage = JSON.parse(message.data);
-    console.info("Received message: " + message.data);
 
     switch (parsedMessage.id) {
       case "joinRoom":
         onJoinRoom(parsedMessage);
+        break;
+      case "leaveRoom":
+        onLeaveRoom(parsedMessage);
         break;
       case "helpUser":
         handleHelpRequest(parsedMessage);
@@ -270,9 +267,12 @@ const Lecture = () => {
   }
 
   function leaveRoom() {
-    sendMessage({
+    var message = {
       id: "leaveRoom",
-    });
+      name: name,
+    };
+
+    sendMessage(message);
 
     for (var key in participants) {
       participants[key].dispose();
@@ -305,7 +305,6 @@ const Lecture = () => {
   }
 
   function onParticipantLeft(request) {
-    console.log("Participant " + request.name + " left");
     var participant = participants[request.name];
     participant.dispose();
     delete participants[request.name];
@@ -313,7 +312,6 @@ const Lecture = () => {
 
   function sendMessage(message) {
     var jsonMessage = JSON.stringify(message);
-    console.log("Sending message: " + jsonMessage);
     ws.send(jsonMessage);
   }
 
@@ -374,6 +372,15 @@ const Lecture = () => {
     chattingContentContainer.appendChild(entranceContent);
   };
 
+  const onLeaveRoom = (request) => {
+    const chattingContentContainer =
+      document.getElementById("chatting-Content");
+    const entranceContent = document.createElement("p");
+    entranceContent.className = "entrance";
+    entranceContent.innerText = `${request.name} 님이 종료했습니다.`;
+    chattingContentContainer.appendChild(entranceContent);
+  };
+
   return (
     <>
       <SMainContainer>
@@ -402,7 +409,10 @@ const Lecture = () => {
           />
         </SLeftItemContainer>
         <SRightItemContainer>
-          <LectureChattingContainer></LectureChattingContainer>
+          <LectureChattingContainer
+            roomId={roomId}
+            username={username}
+          ></LectureChattingContainer>
         </SRightItemContainer>
       </SMainContainer>
     </>
