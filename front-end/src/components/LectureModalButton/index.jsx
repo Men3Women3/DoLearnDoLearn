@@ -12,10 +12,9 @@ import {
   stuListAPI,
   deleteClassAPI,
 } from "../../utils/api/boardAPI";
-import { sendMessageAPI } from "../../utils/api/messageAPI";
+// import { sendMessageAPI } from "../../utils/api/messageAPI";
 
-// 확인주석
-const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
+const LectureModalButton = ({ data, setOpen, flag, setFlag, Luid }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
   // const { flag, setFlag } = useContext(Flag);
 
@@ -48,14 +47,14 @@ const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
     setOpen(false);
   };
 
-  // 강의 확정
+  // 모집 완료
   const fixClass = async () => {
-    await fixClassAPI(data.id, data);
+    await fixClassAPI(data.id, Luid);
     setFlag(!flag);
     setOpen(false);
     // 확정되었다는 메시지 보내기
-    await console.log("보내질 데이터", data.title, data.id, data.isFixed);
-    await sendMessageAPI(data.id, "", "confirm");
+    // await console.log("보내질 데이터", data.title, data.id, data.isFixed);
+    // await sendMessageAPI(data.id, "", "confirm");
   };
 
   // 강사 목록 호출
@@ -78,7 +77,11 @@ const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
         <>
           {/* 신청 강사 목록이 비어있지 않은 경우에는 목록을 보여주고 그 외에는 공백 */}
           <SButtonBox>
-            <SButton onClick={fixClass}>모집완료</SButton>
+            {Luid === "none" ? (
+              ""
+            ) : (
+              <SButton onClick={fixClass}>모집완료</SButton>
+            )}
             <SButton onClick={deleteClass}>강의삭제</SButton>
           </SButtonBox>
         </>

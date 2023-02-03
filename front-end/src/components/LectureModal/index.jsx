@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as S from "./styles";
@@ -24,6 +24,7 @@ const style = {
 // Uniboard에서 데이터 받아올 것
 const LectureModal = ({ data, open, setOpen, handleClose, flag, setFlag }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
+  const [Luid, setLuid] = useState("none"); // 확정 강사 id 저장
   const createdTime = data.createdTime.substring(0, 10).replaceAll("-", "."); // 모집시작
   const deadline = data.deadline.substring(0, 10).replaceAll("-", "."); // 모집마감
   const startTime = data.startTime.substring(0, 16).replaceAll("-", "."); // 강의시작
@@ -77,12 +78,13 @@ const LectureModal = ({ data, open, setOpen, handleClose, flag, setFlag }) => {
           </S.SContentBox>
           {/* 8. 여기는 각 경우에 따른 추가 컴포넌트 띄우는 곳 */}
           {data.uid === userInfo.id && data.isFixed === 0 ? (
-            <LecturerList data={data} />
+            <LecturerList data={data} setLuid={setLuid} />
           ) : (
             ""
           )}
         </S.SNoBtnBox>
         <LectureModalButton
+          Luid={Luid}
           data={data}
           setOpen={setOpen}
           flag={flag}
