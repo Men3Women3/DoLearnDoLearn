@@ -275,7 +275,6 @@ export const duplicatedEmailCheckAPI = (
       .post(`${axiosDefaultURL}/user/check-email/${email}`)
       .then((response) => {
         console.log("이메일 중복 확인 성공!");
-        setIsNext(true);
       })
       .catch((error) => {
         if (error.response.data.response === "이미 존재하는 이메일입니다.") {
@@ -339,8 +338,8 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
         // const month = new Date().getMonth() + 1;
         // const day = new Date().getDate();
         // 테스트용
-        const month = 1;
-        const day = 12;
+        const month = 2;
+        const day = 3;
         if (
           year === +startTime.slice(0, 4) &&
           month === +startTime.slice(5, 7) &&

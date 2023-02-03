@@ -132,8 +132,11 @@ const SignUp = () => {
 
   // 필수입력사항을 모두 입력했으면 이메일 중복 검사를 실행시키는 트리거 함수(useEffect를 실행시킴)
   const handleNextForm = () => {
-    if (!username || !email || !password || !passwordCheck) {
+    if (username && email && password && passwordCheck) {
+      setIsNext(true);
+    } else {
       setOpen(true);
+      setIsNext(false);
     }
     setIsDuplicatedEmail(true);
   };
