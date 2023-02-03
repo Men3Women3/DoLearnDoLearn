@@ -338,8 +338,8 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
         // const month = new Date().getMonth() + 1;
         // const day = new Date().getDate();
         // 테스트용
-        const month = 1;
-        const day = 12;
+        const month = 2;
+        const day = 3;
         if (
           year === +startTime.slice(0, 4) &&
           month === +startTime.slice(5, 7) &&

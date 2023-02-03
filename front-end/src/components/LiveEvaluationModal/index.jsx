@@ -29,7 +29,12 @@ const style = {
   padding: "20px 30px",
 };
 
-const LiveEvaluationModal = ({ open, handleClose }) => {
+const LiveEvaluationModal = ({
+  open,
+  handleClose,
+  setCheckEvalState,
+  exitRoom,
+}) => {
   const [gradeSelect, setGradeSelect] = useState(0);
   const toggleSelect = (e, grade) => {
     setGradeSelect(grade);
@@ -38,7 +43,9 @@ const LiveEvaluationModal = ({ open, handleClose }) => {
   // 제출 버튼 눌렀을 때
   const handleSubmit = () => {
     console.log("제출 확인", gradeSelect, "포인트");
+    setCheckEvalState(true);
     handleClose();
+    exitRoom();
   };
   return (
     <div>

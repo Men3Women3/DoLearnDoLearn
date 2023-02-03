@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SOptionContainer } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,13 +13,28 @@ import CastIcon from "@mui/icons-material/Cast";
 import CastConnectedIcon from "@mui/icons-material/CastConnected";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useNavigate } from "react-router";
+import LiveEvaluationModal from "../LiveEvaluationModal";
 
 const LiveOptionContainer = (props) => {
   const navigate = useNavigate();
+  const [checkEvalState, setCheckEvalState] = useState(false); // 평가했는지 판단 (useContext써야할듯?!)
+  const [open, setOpen] = useState(false); // 평가 모달 열기
+  const handleClose = () => setOpen(false); // 평가 모달 닫기
 
-  const handleMoveToHome = () => {
+  const exitRoom = () => {
     props.leaveRoom();
     navigate("/");
+  };
+
+  const handleMoveToHome = () => {
+    // 평가 안했으면 평가 모달 열기
+    if (!checkEvalState) {
+      setOpen(true);
+    }
+    // 평가 했으면 방 나가기 (현재 작동 안됨..!)
+    else {
+      exitRoom();
+    }
   };
 
   return (
@@ -63,6 +78,14 @@ const LiveOptionContainer = (props) => {
       <button className="exit-button" onClick={handleMoveToHome}>
         <ExitToAppIcon className="icon big-icon exit-icon" />
       </button>
+      {open ? (
+        <LiveEvaluationModal
+          open={open}
+          handleClose={handleClose}
+          setCheckEvalState={setCheckEvalState}
+          exitRoom={exitRoom}
+        />
+      ) : null}
     </SOptionContainer>
   );
 };
