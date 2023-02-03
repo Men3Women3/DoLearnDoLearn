@@ -199,7 +199,7 @@ const Login = () => {
               onClick={(e) =>
                 (window.location.href =
                   // 주소 수정해야 됨
-                  "http://localhost:8080/oauth2/authorization/google")
+                  "http://localhost:8080/oauth2/authorization/naver")
               }
             >
               <img src={naverLogoImg} alt="naver_logo" />
