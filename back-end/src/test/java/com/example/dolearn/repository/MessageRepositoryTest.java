@@ -73,17 +73,18 @@ public class MessageRepositoryTest {
 
         User user = User
                 .builder()
-                .id(1L)
                 .email("cksgnlcjswo@naver.com")
                 .password("1234")
                 .name("test user")
                 .build();
 
+        User newUser = userRepository.save(user);
+
         Message message1 = Message
                 .builder()
                 .id(1L)
                 .content("test")
-                .user(user)
+                .user(newUser)
                 .isChecked(0)
                 .build();
 
@@ -91,7 +92,7 @@ public class MessageRepositoryTest {
                 .builder()
                 .id(2L)
                 .content("test 2")
-                .user(user)
+                .user(newUser)
                 .isChecked(0)
                 .build();
 
@@ -99,11 +100,10 @@ public class MessageRepositoryTest {
                 .builder()
                 .id(3L)
                 .content("test")
-                .user(user)
+                .user(newUser)
                 .isChecked(0)
                 .build();
 
-        userRepository.save(user);
 
         messageRepository.save(message1);
         messageRepository.save(message2);
