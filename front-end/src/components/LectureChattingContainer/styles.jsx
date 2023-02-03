@@ -44,6 +44,18 @@ export const SChattingContainer = styled.div`
   border-radius: 12px;
   box-shadow: 5px 5px 5px #3737372d;
   overflow: auto;
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.deepYellow};
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+  }
 `;
 
 export const SChattingContent = styled.div`
@@ -65,6 +77,7 @@ export const SChattingContent = styled.div`
     font-size: calc(0.5vw + 5px);
   }
   .entrance {
+    color: #ed6c02;
     margin: calc(0.5vw + 1px) 0px;
   }
   .content-container {
