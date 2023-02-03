@@ -95,6 +95,7 @@ const NewBoard = () => {
     outline: "none",
   };
 
+  // 확인주석
   const handleOpen = () => {
     if (
       !imgSelect ||

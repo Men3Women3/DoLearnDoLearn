@@ -14,6 +14,7 @@ import {
 } from "../../utils/api/boardAPI";
 import { sendMessageAPI } from "../../utils/api/messageAPI";
 
+// 확인주석
 const LectureModalButton = ({ data, setOpen, flag, setFlag }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext);
   // const { flag, setFlag } = useContext(Flag);

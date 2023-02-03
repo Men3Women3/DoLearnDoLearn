@@ -8,6 +8,7 @@ import SmallSchedule from "../../components/SmallSchedule";
 import { SOutterBox, SInnerBox } from "./styles";
 import { LoginStateContext } from "../../App";
 
+// 확인주석
 const Board = () => {
   const [list, setList] = useState([]); // 강의 정보 List
   const { isLogined, userInfo } = useContext(LoginStateContext);
