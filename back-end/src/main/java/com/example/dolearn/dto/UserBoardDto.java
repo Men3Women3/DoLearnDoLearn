@@ -23,13 +23,16 @@ public class UserBoardDto {
 
     private Board board;
 
-    private String user_type;
+    private String userType;
 
     public UserBoard toEntity(){
         return UserBoard.builder()
+                .id(id)
+                .bid(bid)
+                .uid(uid)
                 .user(user)
                 .board(board)
-                .user_type(user_type)
+                .userType(userType)
                 .build();
     }
 }

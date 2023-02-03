@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-@Entity(name = "user_board")
+@Entity(name = "member_board")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -29,14 +31,15 @@ public class UserBoard {
     private User user;
 
     @ManyToOne(targetEntity = Board.class)
+    @OnDelete(action= OnDeleteAction.CASCADE)
     @JoinColumn(name = "bid", insertable = false, updatable = false)
     private Board board;
 
-    @Column(name = "user_type")
-    private String user_type;
+    @Column(name = "member_type")
+    private String userType;
 
     public UserBoardDto toDto(){
         return UserBoardDto.builder()
-                .id(id).uid(user.getId()).bid(board.getId()).board(board).user(user).user_type(user_type).build();
+                .id(id).uid(user.getId()).bid(board.getId()).board(board).user(user).userType(userType).build();
     }
 }

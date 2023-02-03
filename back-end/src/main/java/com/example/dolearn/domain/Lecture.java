@@ -1,7 +1,7 @@
 package com.example.dolearn.domain;
 
+import com.example.dolearn.dto.LectureDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class Lecture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="user_cnt", nullable = false)
+    @Column(name="member_cnt", nullable = false)
     private int userCnt;
 
     @Column(length = 100, nullable = true)
@@ -47,4 +47,18 @@ public class Lecture {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endRealTime;
+
+    @JoinColumn(name="bid")
+    @OneToOne
+    private Board board;
+
+    public LectureDto toMessageDto() {
+        return null;
+    }
+
+    public LectureDto toDto(){
+        return LectureDto.builder()
+                .id(id).bid(board.getId()).userCnt(userCnt).link(link).isDeleted(isDeleted).createdTime(createdDate)
+                .startRealTime(startRealTime).endRealTime(endRealTime).build();
+    }
 }

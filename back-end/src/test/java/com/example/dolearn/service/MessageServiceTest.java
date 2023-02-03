@@ -68,7 +68,7 @@ public class MessageServiceTest {
 
         //when
         when(boardRepository.findById(anyLong())).thenReturn(Optional.of(board));
-        when(lectureRepository.findById(anyLong())).thenReturn(lecture);
+        when(lectureRepository.findByBoardId(anyLong())).thenReturn(lecture.get());
         when(userLectureRepository.findByLectureId(anyLong())).thenReturn(result);
 
         //then

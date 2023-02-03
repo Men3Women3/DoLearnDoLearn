@@ -1,5 +1,6 @@
 package com.example.dolearn.repository;
 
+import com.example.dolearn.config.TestConfig;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.dto.UserDto;
 import org.hibernate.exception.ConstraintViolationException;
@@ -9,10 +10,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -21,7 +23,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@DataJpaTest
+@Import(TestConfig.class)
+@TestPropertySource("classpath:application-test.properties")
 public class UserRepositoryTest {
 
     @Autowired
@@ -32,33 +36,47 @@ public class UserRepositoryTest {
     private String email;
     private String password;
     private  String info;
-    private  String gender;
     private  Integer point;
     private  String instagram;
     private  String facebook;
     private  String blog;
-    private String imgSrc;
+    private String youtube;
+    private String imgPath;
+    private String imgUrl;
     private String refreshToken;
     private String accessToken;
+
     Date joinDate;
+
+    UserDto userDto;
 
     @BeforeEach
     void setup(){
-        // DB에 없는 데이터로 초기화
-        id = 400L;
+        id = 1L;
         name = "가입자명";
         email = "abcd@daum.net";
         password = "abcdpassord";
+        info = "안녕하세요";
+        point = 50;
+        instagram = "insta__";
+        facebook = "";
+        blog = "https://blog";
+        youtube = "https://youtube";
+        imgPath = "C://dolearn";
+        imgUrl = "https://localhost:8080/resources/profile-img/1234543121";
+        refreshToken = null;
+        accessToken = null;
+        joinDate = new Date();
+        userDto = UserDto.builder().name(name).email(email).password(password).info(info).
+                instagram(instagram).facebook(facebook).blog(blog).youtube(youtube).
+                imgPath(imgPath).imgUrl(imgUrl).build();
     }
 
     @Nested
-    @Transactional
     class Save {
         @Test
         @DisplayName("사용자 추가 성공")
         public void success() {
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
-
             User user = userRepository.save(userDto.toEntity());
 
             assertThat(user.getName()).isEqualTo(name);
@@ -68,10 +86,7 @@ public class UserRepositoryTest {
         @Test
         @DisplayName("사용자 추가 실패 - 이메일 중복")
         public void fail() {
-            email = "ssafy@naver.com";
-
-            UserDto userDto = UserDto.builder().name(name).email(email).password(password).build();
-
+            userRepository.save(userDto.toEntity());
             Exception exception = assertThrows(DataIntegrityViolationException.class, ()->{
                 userRepository.save(userDto.toEntity());
             });
@@ -86,9 +101,11 @@ public class UserRepositoryTest {
         @Test
         @DisplayName("이메일로 사용자 찾기 성공")
         public void success() {
-            email = "ssafy@naver.com";
-            name = "민싸피";
+            UserDto userDto = UserDto.builder().name(name).email(email).password(password).info(info).
+                    instagram(instagram).facebook(facebook).blog(blog).youtube(youtube).
+                    imgPath(imgPath).imgUrl(imgUrl).build();
 
+            userRepository.save(userDto.toEntity());
             User user = userRepository.findOneByEmail(email).get();
 
             assertThat(user.getName()).isEqualTo(name);
@@ -111,10 +128,8 @@ public class UserRepositoryTest {
         @Test
         @DisplayName("ID로 사용자 찾기 성공")
         public void success() {
-            id = 1L;
-            name = "민싸피";
-
-            User user = userRepository.findOneById(id).get();
+            User newUser = userRepository.save(userDto.toEntity());
+            User user = userRepository.findOneById(newUser.getId()).get();
 
             assertThat(user.getName()).isEqualTo(name);
         }
@@ -132,16 +147,11 @@ public class UserRepositoryTest {
     }
 
     @Nested
-    @Transactional
     class delete {
         @Test
         @DisplayName("사용자 삭제 성공")
         public void success() {
-            id = 1L;
-            name = "민싸피";
-
-            UserDto userDto = UserDto.builder().id(id).name(name).build();
-
+            userRepository.save(userDto.toEntity());
             userRepository.delete(userDto.toEntity());
         }
 

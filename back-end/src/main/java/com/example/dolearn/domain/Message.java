@@ -7,10 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -78,9 +76,10 @@ public class Message {
         return MessageDto.builder()
                 .id(this.id)
                 .rid(user.getId())
-                .start_time(board.getStart_time())
-                .end_time(board.getEnd_time())
+                .start_time(board.getStartTime())
+                .end_time(board.getEndTime())
                 .title(board.getTitle())
+                .type(this.type)
                 .content(this.content)
                 .isChecked(this.isChecked)
                 .createdTime(this.createdTime)

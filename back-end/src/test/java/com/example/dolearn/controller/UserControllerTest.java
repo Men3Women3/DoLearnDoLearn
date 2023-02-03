@@ -16,7 +16,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -150,15 +153,21 @@ public class UserControllerTest {
         @Test
         @DisplayName("사용자 정보 수정 성공")
         void success() throws Exception {
+            MockMultipartFile imgSrc = new MockMultipartFile("data", "other-file-name.data", "text/plain", "some other type".getBytes());
             UserDto userDto = UserDto.builder().build();
 
+            when(userService.getInfo(any(Long.class))).thenReturn(userDto);
             when(userService.updateInfo(any(UserDto.class))).thenReturn(userDto);
 
-            mockMvc.perform(put("/user")
+            MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart("/user");
+            builder.with(request -> {
+                request.setMethod("PUT");
+                return request;
+            });
+            mockMvc.perform(builder.file(imgSrc)
+                            .content(toJson(userDto))
                             .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .content(toJson(userDto)))
+                            .with(csrf()))
                     .andExpect(status().isOk());
         }
 
@@ -170,9 +179,8 @@ public class UserControllerTest {
             when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
 
             mockMvc.perform(put("/user")
-                            .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .contentType(MediaType.APPLICATION_JSON)
                             .content(toJson(userDto)))
                     .andExpect(status().isMethodNotAllowed());
         }
@@ -185,9 +193,8 @@ public class UserControllerTest {
             when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
 
             mockMvc.perform(put("/user")
-                            .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .contentType(MediaType.APPLICATION_JSON)
                             .content(toJson(userDto)))
                     .andExpect(status().isBadRequest());
         }

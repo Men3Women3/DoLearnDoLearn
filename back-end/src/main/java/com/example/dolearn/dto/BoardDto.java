@@ -2,6 +2,8 @@ package com.example.dolearn.dto;
 
 import com.example.dolearn.domain.Board;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +15,7 @@ import java.util.Date;
 @Setter
 @ToString
 @Builder
+@Slf4j
 public class BoardDto {
     private Long id;
 
@@ -22,21 +25,51 @@ public class BoardDto {
 
     private String title;
 
-    private int max_cnt;
+    private int maxCnt;
 
     private String content;
 
     private String summary;
 
-    private String start_time;
+    private String startTime;
 
-    private String end_time;
+    private String endTime;
 
     private String deadline;
 
-    private int is_fixed;
+    private int isFixed;
 
-    private Date created_time;
+    private Date createdTime;
+
+    private int instructors;
+
+    private int students;
+
+    public void setCounts(int instructors, int students){
+        this.instructors= instructors;
+        this.students= students;
+
+        log.info("강사 수: {} 학생 수: {}",instructors,students);
+    }
+
+    public void setTimes(){
+        String[] temp = startTime.split(" ");
+        int hour = Integer.parseInt(temp[1])+Integer.parseInt(endTime);
+
+        startTime = this.startTime.concat(":00:00");
+        endTime = temp[0].concat(String.format(" %d:00:00",hour));
+        deadline = deadline.concat(" 23:59:59");
+
+        log.info("startTime: {} endTime:{}",startTime, endTime);
+    }
+
+    public int checkDeadline() throws Exception{
+        Date today = new Date();
+        Date deadline = dateConverter(this.deadline);
+        int result = today.compareTo(deadline);
+
+        return result;
+    }
 
     public Board toEntity() throws ParseException {
         return Board.builder()
@@ -44,18 +77,18 @@ public class BoardDto {
                 .uid(uid)
                 .tid(tid)
                 .title(title)
-                .max_cnt(max_cnt)
+                .maxCnt(maxCnt)
                 .content(content)
                 .summary(summary)
-                .start_time(dateConverter(start_time))
-                .end_time(dateConverter(end_time))
+                .startTime(dateConverter(startTime))
+                .endTime(dateConverter(endTime))
                 .deadline(dateConverter(deadline))
-                .is_fixed(is_fixed)
-                .created_time(created_time).build();
+                .isFixed(isFixed)
+                .createdTime(createdTime).build();
     }
 
-    public void setFixed(int is_fixed){
-        this.is_fixed= is_fixed;
+    public void setFixed(int isFixed){
+        this.isFixed = isFixed;
     }
 
     public Date dateConverter(String input) throws ParseException {
