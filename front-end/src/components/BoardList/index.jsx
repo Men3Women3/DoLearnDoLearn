@@ -6,7 +6,6 @@ import UniBoard from "../UniBoard";
 import { boardListAPI } from "../../utils/api/boardAPI";
 // export const Flag = createContext();
 
-// 확인주석
 const BoardList = ({ list, setList }) => {
   const [flag, setFlag] = useState(false);
 
@@ -19,6 +18,11 @@ const BoardList = ({ list, setList }) => {
   useEffect(() => {
     // 게시판의 데이터를 받아오는 작업을 하는 부분(boardList)
     boardListAPI(setList);
+    // 이 아래 주석은 에러 잡는다고 작성한 주석
+    // if (list.length !== 0) {
+    // }
+    // }, [flag, list]);
+    // ======================================
   }, [flag]);
 
   return (
@@ -35,6 +39,7 @@ const BoardList = ({ list, setList }) => {
                     data={data}
                     flag={flag}
                     setFlag={setFlag}
+                    setList={setList}
                   />
                 </SUniDiv>
               );

@@ -97,7 +97,7 @@ public class BoardServiceTest {
 
     @DisplayName("글 삭제")
     @Test
-    public void deleteBoardTest() throws Exception{
+    public void deleteBoardTest(){
         when(boardRepository.deleteBoard(any())).thenReturn(1);
 
         int result = boardService.deleteBoard(boardDto1.getId());
@@ -165,22 +165,6 @@ public class BoardServiceTest {
         List<BoardDto> result = boardService.searchResult(boardList,boardList,boardList);
 
         assertEquals(boardList.size(),result.size());
-    }
-
-    @DisplayName("강의 확정 업데이트")
-    @Test
-    public void updateTest() throws Exception{
-        Optional<Board> result = Optional.ofNullable(boardDto1.toEntity());
-        BoardDto boardDto = result.get().toDto();
-        boardDto.setFixed(1);
-
-        when(boardRepository.findById(any())).thenReturn(result);
-
-        when(boardRepository.save(any())).thenReturn(boardDto.toEntity());
-
-        boardService.update(boardDto.getId());
-
-        assertEquals(boardDto.getIsFixed(),1);
     }
 
     @DisplayName("강사 목록 조회")

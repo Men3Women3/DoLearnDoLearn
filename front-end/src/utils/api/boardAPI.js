@@ -107,8 +107,8 @@ export const cancelEnrollAPI = async (user, lecture) => {
 export const fixClassAPI = async (lecture, uid) => {
   try {
     await axios.post(`${LECTURE_URL}/fix`, {
-      lecture,
-      uid,
+      bid: lecture,
+      Luid: uid,
     });
     console.log("강의 확정 성공");
   } catch (err) {
@@ -159,7 +159,6 @@ export const lecListAPI = async (board, setLecList) => {
         list.push(item.uid);
       });
       setLecList(list);
-      console.log("강사 성공");
     }
   } catch (err) {
     console.log(err);
@@ -179,7 +178,6 @@ export const stuListAPI = async (board, setStuList) => {
         list.push(item.uid);
       });
       setStuList(list);
-      console.log("수강생 성공");
     }
   } catch (err) {
     console.log(err);
