@@ -12,7 +12,7 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
     // ####################################################
     // 수정 필요!!!!!!!!!!!
     // ####################################################
-    .get(`${axiosDefaultURL}/message/uncheck/user/1`, {
+    .get(`${axiosDefaultURL}/message/uncheck/user/${id}`, {
       headers: {
         Authentication: accessToken,
       },
@@ -51,7 +51,7 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
               // ####################################################
               // 수정 필요!!!!!!!!!!!
               // ####################################################
-              .get(`${axiosDefaultURL}/message/uncheck/user/1`, {
+              .get(`${axiosDefaultURL}/message/uncheck/user/${id}`, {
                 headers: {
                   Authentication: accessToken,
                 },
@@ -76,7 +76,7 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
 // 받은 메시지 모두 불러오는 요청
 // =======================================
 export const getMessageListAPI = async (userId, setMessageData) => {
-  const res = await axios.get(`${axiosDefaultURL}/message/user/1`);
+  const res = await axios.get(`${axiosDefaultURL}/message/user/${userId}`);
   setMessageData(res.data.response);
 };
 
