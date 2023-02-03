@@ -2,7 +2,6 @@ package com.example.dolearn.domain;
 
 import com.example.dolearn.dto.LectureDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,5 +54,11 @@ public class Lecture {
 
     public LectureDto toMessageDto() {
         return null;
+    }
+
+    public LectureDto toDto(){
+        return LectureDto.builder()
+                .id(id).bid(board.getId()).userCnt(userCnt).link(link).isDeleted(isDeleted).createdTime(createdDate)
+                .startRealTime(startRealTime).endRealTime(endRealTime).build();
     }
 }

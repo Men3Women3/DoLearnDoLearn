@@ -8,6 +8,7 @@ import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.response.ErrorResponse;
 import com.example.dolearn.response.SuccessResponse;
 import com.example.dolearn.service.BoardService;
+import com.example.dolearn.service.LectureService;
 import com.example.dolearn.service.UserBoardService;
 import com.example.dolearn.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,9 @@ public class BoardController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LectureService lectureService;
 
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody BoardDto boardDto){
@@ -203,6 +207,11 @@ public class BoardController {
         try{
             BoardDto updateBoard = boardService.update(id);
             log.info("강의 업데이트 완료: {}",updateBoard);
+
+//            Lecture lecture = Lecture.builder()
+//                    .userCnt(0).isDeleted(0).board(updateBoard.toEntity()).build();
+//
+//            lectureService.save(lecture);
             return new ResponseEntity<>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();

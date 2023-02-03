@@ -1,7 +1,6 @@
 package com.example.dolearn.service;
 
 import com.example.dolearn.domain.Lecture;
-import com.example.dolearn.domain.Message;
 import com.example.dolearn.dto.LectureDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
@@ -27,5 +26,9 @@ public class LectureService {
         }
 
         throw new CustomException(ErrorCode.NO_MESSSAGE);
+    }
+
+    public LectureDto save(Lecture lecture){
+        return lectureRepository.save(lecture).toDto();
     }
 }
