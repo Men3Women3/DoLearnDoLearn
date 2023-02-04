@@ -13,7 +13,6 @@ import {
 import { LoginStateContext } from "../../App"
 import { Scontainer, SPagination, SSCard } from "./styles"
 import Pagination from "../Pagination"
-import CardBox from "../CardBox"
 
 const UnScheduleLecture = () => {
   const getUserInfo = useContext(LoginStateContext) // 유저정보

@@ -1,21 +1,20 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SSidebarContainer = styled.section`
   width: 100%;
   height: 100vh;
   position: relative;
   padding-top: calc(0.9vw + 0.2px);
-  /* border-right: 6px solid #e6e6e6; */
   border-right: 10px solid;
   border-image-slice: 1;
-  border-width: 6px;
+  border-width: 12px;
   border-image-source: linear-gradient(
     to left top,
     #e67732,
     #ffe89e,
     #ffc507
   ); ;
-`;
+`
 
 export const SButtonContainer = styled.div`
   position: relative;
@@ -39,20 +38,15 @@ export const SButtonContainer = styled.div`
   div {
     z-index: 1;
     position: absolute;
-    /* top: calc(1vw + 4.5px);
-    left: calc(1vw + 3px); */
     top: calc(1vw + 5px);
     left: calc(1vw + 5px);
   }
   .page__background {
     font-size: calc(1vw + 6px);
-
-    /* font-size: 10px; */
     background-color: ${(props) => props.theme.deeperYellow};
-    /* transform: skew(-30deg); */
     border-radius: 3px;
   }
-`;
+`
 
 export const SUserDeleteButtonContainer = styled.div`
   position: absolute;
@@ -70,4 +64,4 @@ export const SUserDeleteButtonContainer = styled.div`
     outline: none;
     cursor: pointer;
   }
-`;
+`
