@@ -1,9 +1,5 @@
 import React, { useContext } from "react"
 import UnScheduleLectureItem from "../UnScheduleLectureItem"
-import profileImg from "../../assets/images/thumbnail.png"
-import { Menu, Typography } from "@mui/material"
-import { Modal } from "@mui/material"
-import { Box } from "@mui/material"
 import { Select } from "@mui/material"
 import { MenuItem } from "@mui/material"
 import { FormControl } from "@mui/material"
@@ -15,8 +11,9 @@ import {
   getUnScheduledLectureStudentAPI,
 } from "../../utils/api/userAPI"
 import { LoginStateContext } from "../../App"
-import { Scontainer } from "./styles"
+import { Scontainer, SPagination, SSCard } from "./styles"
 import Pagination from "../Pagination"
+import CardBox from "../CardBox"
 
 const UnScheduleLecture = () => {
   const getUserInfo = useContext(LoginStateContext) // 유저정보
@@ -69,7 +66,7 @@ const UnScheduleLecture = () => {
   }, [filterValue])
 
   return (
-    <>
+    <SSCard>
       <div
         style={{
           display: "flex",
@@ -89,7 +86,7 @@ const UnScheduleLecture = () => {
       </div>
       <Scontainer>
         {unScheduledLectureList.length === 0 ? (
-          <p>조건에 부합하는 강의 스케줄이 존재하지 않습니다</p>
+          <p>조건에 부합하는 강의 스케줄이 존재하지 않습니다.</p>
         ) : (
           unScheduledLectureList.slice(offset, offset + limit).map((item) => {
             return (
@@ -100,15 +97,15 @@ const UnScheduleLecture = () => {
           })
         )}
       </Scontainer>
-      {/* {unScheduledLectureList.length < 7 ? null : ( */}
-      <Pagination
-        total={unScheduledLectureList.length}
-        limit={limit}
-        page={page}
-        setPage={setPage}
-      />
-      {/* )} */}
-    </>
+      <div className="pagination__section">
+        <Pagination
+          total={unScheduledLectureList.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
+      </div>
+    </SSCard>
   )
 }
 
