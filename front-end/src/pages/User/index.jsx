@@ -104,11 +104,7 @@ const User = () => {
               isProfileEditActive={isProfileEditActive}
             />
           )}
-          {isScheduleTabActive && (
-            <CardBox>
-              <Calendar />
-            </CardBox>
-          )}
+          {isScheduleTabActive && <Calendar />}
           {isUnScheduleTabActive && <UnScheduleLecture />}
           {isMessageTabActive && <Message />}
         </Grid>

@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react";
-import FullCalendar from "@fullcalendar/react"; // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-import timeGridPlugin from "@fullcalendar/timegrid";
-import { SCalendar } from "./styles";
-import { getScheduledLectureAPI } from "../../utils/api/userAPI";
-import LectureModal from "../LectureModal";
+import React, { useEffect, useState } from "react"
+import FullCalendar from "@fullcalendar/react" // must go before plugins
+import dayGridPlugin from "@fullcalendar/daygrid" // a plugin!
+import timeGridPlugin from "@fullcalendar/timegrid"
+import { SCalendar } from "./styles"
+import { getScheduledLectureAPI } from "../../utils/api/userAPI"
+import LectureModal from "../LectureModal"
+import CardBox from "../CardBox"
 
 const Calendar = () => {
   // Modal 파트 ========================
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [data, setData] = useState({}); //모달에 전달할 데이터
-  const [checkModalState, setCheckModalState] = useState(false); // 모달에 전달할 데이터 상태 체크 변수
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+  const [data, setData] = useState({}) //모달에 전달할 데이터
+  const [checkModalState, setCheckModalState] = useState(false) // 모달에 전달할 데이터 상태 체크 변수
   // ===================================
-  const [scheduledLecture, setScheduledLecture] = useState({});
+  const [scheduledLecture, setScheduledLecture] = useState({})
 
   useEffect(() => {
-    getScheduledLectureAPI(localStorage.getItem("id"), setScheduledLecture);
-  }, []);
+    getScheduledLectureAPI(localStorage.getItem("id"), setScheduledLecture)
+  }, [])
 
   // 달력에 일정 클릭했을 때 LectureModal띄울 수 있도록 데이터 정제하기
   const handleEventClick = (arg) => {
     const dataForm = {
-      id: Number(arg.event.id),
+      id: arg.event._def.extendedProps.bid,
       uid: arg.event._def.extendedProps.uid,
       createdTime: arg.event._def.extendedProps.createdTime,
       deadline: arg.event._def.extendedProps.deadline,
@@ -36,19 +37,18 @@ const Calendar = () => {
       students: arg.event._def.extendedProps.students,
       maxCnt: arg.event._def.extendedProps.maxCnt,
       isFixed: arg.event._def.extendedProps.isFixed,
-    };
-    setData(dataForm);
-    console.log("lecturemodal확인", dataForm);
-    setCheckModalState(true);
-  };
+    }
+    setData(dataForm)
+    setCheckModalState(true)
+  }
 
   // 모달에 보낼 데이터 상태 바뀌면 LectureModal 띄움
   useEffect(() => {
     if (checkModalState) {
-      handleOpen();
-      setCheckModalState(false);
+      handleOpen()
+      setCheckModalState(false)
     }
-  }, [checkModalState]);
+  }, [checkModalState])
 
   const eventContent = (eventInfo) => {
     return (
@@ -58,51 +58,60 @@ const Calendar = () => {
         }}
       >
         <b>
-          <p style={{ margin: 0, color: "orange" }}>{eventInfo.timeText}</p>
+          <p style={{ margin: 0, color: "orange", fontSize: "0.8vw" }}>
+            {eventInfo.timeText}
+          </p>
         </b>
-        <p style={{ margin: 0, whiteSpace: "normal", color: "white" }}>
+        <p
+          style={{
+            margin: 0,
+            whiteSpace: "normal",
+            color: "white",
+            fontSize: "0.9vw",
+          }}
+        >
           {eventInfo.event.title}
         </p>
       </div>
-    );
-  };
+    )
+  }
 
   return (
-    <SCalendar>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin]}
-        initialView="dayGridMonth"
-        events={scheduledLecture}
-        eventClick={handleEventClick}
-        headerToolbar={{
-          left: "title",
-          right: "prev,next today",
-          center: "dayGridMonth,timeGridWeek,timeGridDay",
-        }}
-        contentHeight="80vh"
-        eventTimeFormat={{
-          hour: "2-digit",
-          minute: "2-digit",
-          meridiem: false,
-          hour12: false,
-        }}
-        nowIndicator="true"
-        handleWindowResize="true"
-        // defaultAllDay="false"
-        displayEventEnd="true"
-        // firstDay={1}
-        eventContent={eventContent}
-      />
-      {open ? (
-        <LectureModal
-          data={data}
-          open={open}
-          setOpen={setOpen}
-          handleClose={handleClose}
+    <CardBox>
+      <SCalendar>
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin]}
+          initialView="dayGridMonth"
+          events={scheduledLecture}
+          eventClick={handleEventClick}
+          headerToolbar={{
+            left: "title",
+            right: "prev,next today",
+            center: "dayGridMonth,timeGridWeek,timeGridDay",
+          }}
+          contentHeight="75vh"
+          eventTimeFormat={{
+            hour: "2-digit",
+            minute: "2-digit",
+            meridiem: false,
+            hour12: false,
+          }}
+          nowIndicator="true"
+          handleWindowResize="true"
+          displayEventEnd="true"
+          eventContent={eventContent}
         />
-      ) : null}
-    </SCalendar>
-  );
-};
+        {open ? (
+          <LectureModal
+            data={data}
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose}
+          />
+        ) : null}
+      </SCalendar>
+    </CardBox>
+  )
+}
 
-export default Calendar;
+export default Calendar
