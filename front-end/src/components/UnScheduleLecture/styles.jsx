@@ -11,7 +11,7 @@ export const Scontainer = styled.div`
 `
 export const SSCard = styled(SCard)`
   position: relative;
-  height: 80%;
+  height: 80vh;
   .pagination__section {
     position: absolute;
     bottom: 30px;

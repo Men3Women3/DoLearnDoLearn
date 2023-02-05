@@ -96,14 +96,16 @@ const UnScheduleLecture = () => {
           })
         )}
       </Scontainer>
-      <div className="pagination__section">
-        <Pagination
-          total={unScheduledLectureList.length}
-          limit={limit}
-          page={page}
-          setPage={setPage}
-        />
-      </div>
+      {unScheduledLectureList.length ? (
+        <div className="pagination__section">
+          <Pagination
+            total={unScheduledLectureList.length}
+            limit={limit}
+            page={page}
+            setPage={setPage}
+          />
+        </div>
+      ) : null}
     </SSCard>
   )
 }

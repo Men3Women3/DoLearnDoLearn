@@ -2,10 +2,10 @@ import styled from "styled-components"
 
 export const SSidebarContainer = styled.section`
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   position: relative;
   padding-top: calc(0.9vw + 0.2px);
-  border-right: 10px solid;
+  /* border-right: 10px solid;
   border-image-slice: 1;
   border-width: 12px;
   border-image-source: linear-gradient(
@@ -13,7 +13,7 @@ export const SSidebarContainer = styled.section`
     #e67732,
     #ffe89e,
     #ffc507
-  ); ;
+  ); ; */
 `
 
 export const SButtonContainer = styled.div`
@@ -49,11 +49,11 @@ export const SButtonContainer = styled.div`
 `
 
 export const SUserDeleteButtonContainer = styled.div`
-  position: absolute;
+  /* position: absolute; */
   display: flex;
   align-items: center;
-  bottom: 10px;
-  left: 20px;
+  /* bottom: 10px; */
+  /* left: 20px; */
 
   button {
     color: rgb(190, 190, 190);

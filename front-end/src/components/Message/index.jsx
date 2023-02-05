@@ -62,14 +62,16 @@ const Message = () => {
             })}
           </div>
         )}
-        <div className="pagination__section">
-          <Pagination
-            total={messageData.length}
-            limit={limit}
-            page={page}
-            setPage={setPage}
-          />
-        </div>
+        {messageData.length ? (
+          <div className="pagination__section">
+            <Pagination
+              total={messageData.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          </div>
+        ) : null}
       </SSCard>
     </>
   )
