@@ -198,3 +198,17 @@ export const lecProfileAPI = async (id, setData) => {
     console.log("프로필 정보 반환 실패")
   }
 }
+
+// 확정 강의(일정 상세보기) 강사/수강생 정보 확인 API
+export const getFixedLectureInfo = async (
+  lid,
+  setInstructorInfo,
+  setStudentsInfo,
+  setCheckModalState
+) => {
+  const res = await axios.get(`${LECTURE_URL}/list/${lid}`)
+  console.log("정보 받아오기 성공", res.data.response)
+  setStudentsInfo(res.data.response[0]) // 수강생(들) 정보
+  setInstructorInfo(res.data.response[1]) // 강사 정보
+  setCheckModalState(true)
+}

@@ -38,21 +38,6 @@ export const SContent = styled.div`
       color: #ff8282;
       font-size: ${(props) => props.theme.fontSize.p};
     }
-
-    /* div {
-      display: flex;
-      margin-bottom: 15px;
-      span {
-        margin-left: 10px;
-        .custom-content {
-          display: block;
-          width: 100%;
-          background-color: ${(props) => props.theme.lightYellow};
-          border-radius: 5px;
-          padding: 10px;
-        }
-      }
-    } */
   }
 `
 

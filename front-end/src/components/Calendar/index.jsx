@@ -6,6 +6,8 @@ import { SCalendar } from "./styles"
 import { getScheduledLectureAPI } from "../../utils/api/userAPI"
 import LectureModal from "../LectureModal"
 import CardBox from "../CardBox"
+import LectureFixedModal from "../LectureFixedModal"
+import { getFixedLectureInfo } from "../../utils/api/boardAPI"
 
 const Calendar = () => {
   // Modal 파트 ========================
@@ -17,6 +19,11 @@ const Calendar = () => {
   // ===================================
   const [scheduledLecture, setScheduledLecture] = useState({})
 
+  // 일정 상세 api 통해 받아올 변수
+  const [instructorInfo, setInstructorInfo] = useState([])
+  const [studentsInfo, setStudentsInfo] = useState([])
+
+  // 렌더링 됐을 때, 일정 정보 불러오기
   useEffect(() => {
     getScheduledLectureAPI(localStorage.getItem("id"), setScheduledLecture)
   }, [])
@@ -38,8 +45,15 @@ const Calendar = () => {
       maxCnt: arg.event._def.extendedProps.maxCnt,
       isFixed: arg.event._def.extendedProps.isFixed,
     }
-    setData(dataForm)
-    setCheckModalState(true)
+    getFixedLectureInfo(
+      arg.event._def.extendedProps.bid,
+      setInstructorInfo,
+      setStudentsInfo,
+      setCheckModalState
+    )
+    console.log("들어가는 값", dataForm)
+    // setData(dataForm)
+    // setCheckModalState(true)
   }
 
   // 모달에 보낼 데이터 상태 바뀌면 LectureModal 띄움
@@ -102,11 +116,12 @@ const Calendar = () => {
           eventContent={eventContent}
         />
         {open ? (
-          <LectureModal
-            data={data}
+          <LectureFixedModal
             open={open}
-            setOpen={setOpen}
             handleClose={handleClose}
+            instructorInfo={instructorInfo}
+            studentsInfo={studentsInfo}
+            setCheckModalState={setCheckModalState}
           />
         ) : null}
       </SCalendar>
