@@ -1,48 +1,65 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SBox = styled.div`
-  background-color: ${(props) => props.theme.lighterYellow};
+  border: 5px solid ${(props) => props.theme.deeperYellow};
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 10rem;
-  height: 15rem;
-  border: 1px;
-  border-radius: 8px;
-  margin: auto;
+  width: 14vw;
+  height: 23vw;
+  border-radius: 20px;
   margin-left: 1rem;
-  text-align: center;
   .title {
-    font-family: ${(props) => props.theme.fontFamily.Regular};
-    font-size: ${(props) => props.theme.fontSize.h3};
-    margin-top: 2.5rem;
+    font-family: ${(props) => props.theme.fontFamily.Bold};
+    font-size: ${(props) => props.theme.fontSize.h4};
+    margin-top: 1rem;
   }
+`
+
+export const SContent = styled.div`
+  margin-top: 20px;
+  width: 10vw;
+  height: 17vw;
   .full-list {
     font-family: ${(props) => props.theme.fontFamily.Medium};
     font-size: ${(props) => props.theme.fontSize.p};
-    margin: auto;
+    background-color: ${(props) => props.theme.lightYellow};
+    /* box-shadow: 2px 3px 2px #ffc067; */
+    box-shadow: 0px 3px 1px #d88005;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+    padding: 7px 7px;
+    border-radius: 10px;
   }
   .empty-list {
-    font-family: ${(props) => props.theme.fontFamily.Bold};
-    font-size: ${(props) => props.theme.fontSize.h3};
-    margin: auto;
+    font-family: ${(props) => props.theme.fontFamily.Medium};
+    font-size: ${(props) => props.theme.fontSize.p};
+    text-align: center;
+    background-color: ${(props) => props.theme.lighterYellow};
+    /* background-color: #fff1de; */
+    box-shadow: 0px 3px 1px #d88005;
+    padding: 15px 0px;
+    border-radius: 10px;
+    cursor: default;
   }
-`;
+`
 
 export const SListBox = styled.div`
+  height: 100%;
+  text-align: left;
   color: black;
-  padding: 0.5vw 1vw 0.2vw 1vw;
-  border-radius: 12px;
-  width: 6rem;
-  height: 6.5rem;
   word-wrap: break-word;
   white-space: -moz-pre-wrap;
   white-space: pre-wrap;
   overflow-y: auto;
+  overflow-x: hidden;
   cursor: pointer;
 
   ::-webkit-scrollbar {
-    width: 12px;
+    width: 0;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
@@ -52,24 +69,16 @@ export const SListBox = styled.div`
     border-radius: 12px;
     border: 1px solid #f0f0f0;
   }
-`;
+`
 
 export const SList = styled.fieldset`
   border: none;
   display: flex;
-  justify-content: center;
-  margin: auto 0;
-
-  input {
-    margin: 0;
-    margin-right: 3px;
+  .instructor {
+    font-weight: bold;
   }
-  div {
-    font-family: ${(props) => props.theme.fontFamily.Bold};
-    font-size: ${(props) => props.theme.fontSize.p};
+  &:hover {
+    color: #ff6905;
+    transform: scale(1.03);
   }
-  span {
-    margin: 0;
-    margin-right: 3px;
-  }
-`;
+`
