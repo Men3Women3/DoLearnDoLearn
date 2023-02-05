@@ -70,9 +70,12 @@ export const SMainContainer = styled.main`
   .sub {
     width: calc(1vw + 150px);
   }
-  .screen {
+  .mainScreen {
     width: 90%;
     height: 100%;
+  }
+  .subScreen {
+    width: calc(1vw + 220px);
   }
 `;
 

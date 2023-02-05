@@ -86,7 +86,9 @@ const LectureChattingContainer = (props) => {
     contentContainer.className = "content-container";
 
     const userNameTag = document.createElement("p");
-    userNameTag.innerText = `${meesage.sender} (수강생)`;
+    userNameTag.innerText = `${meesage.sender} ${
+      props.lecturerInfo.name === meesage.sender ? "(강사)" : "(수강생)"
+    }`;
 
     const contentTag = document.createElement("div");
     contentTag.innerText = meesage.content;
@@ -133,7 +135,7 @@ const LectureChattingContainer = (props) => {
           rows="1"
           value={inputData}
           onChange={(e) => setInputData(e.target.value)}
-          onKeyPress={(e) => handleMeesageSendKeyEvent(e)}
+          onKeyDown={(e) => handleMeesageSendKeyEvent(e)}
         />
         {/* 메시지 전송 버튼 */}
         <button onClick={(e) => handleMessageSend(e)}>
