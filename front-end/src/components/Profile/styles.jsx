@@ -4,6 +4,7 @@ import { SCard } from "../ProfileCardBox/styles"
 
 export const SSCard = styled(SCard)`
   height: 33vw;
+  box-shadow: 5px 5px 30px #c4c4c454;
 `
 
 export const SProfileContainer = styled.div`
