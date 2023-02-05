@@ -33,7 +33,7 @@ export const SProfileContainer = styled.div`
     /* 스클롤러 변경 */
     overflow-y: auto;
     &::-webkit-scrollbar {
-      width: calc(0.5vw + 1px);
+      width: 7px;
     }
     &::-webkit-scrollbar-track {
       background: transparent;

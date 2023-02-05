@@ -95,14 +95,14 @@ const LectureModal = ({ data, open, setOpen, handleClose, flag, setFlag }) => {
                 {/* 5. 강사 신청 현황 */}
                 <S.SLecturer icon={f.faPersonChalkboard}></S.SLecturer>
                 <S.SSpan>
-                  <b>강사 신청 현황</b> | {data.instructors}명
+                  <b>강사 신청 현황</b> | {data.instructors} 명
                 </S.SSpan>
               </S.SInfoItem>
               <S.SInfoItem>
                 {/* 6. 수강생 신청 현황 */}
                 <S.SStudent icon={f.faUsers}></S.SStudent>
                 <S.SSpan>
-                  <b>수강생 신청 현황</b> | {data.students} / {data.maxCnt}명
+                  <b>수강생 신청 현황</b> | {data.students} / {data.maxCnt} 명
                 </S.SSpan>
               </S.SInfoItem>
               <S.SInfoItem>

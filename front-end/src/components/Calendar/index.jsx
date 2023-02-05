@@ -89,7 +89,7 @@ const Calendar = () => {
             right: "prev,next today",
             center: "dayGridMonth,timeGridWeek,timeGridDay",
           }}
-          contentHeight="75vh"
+          contentHeight="80vh"
           eventTimeFormat={{
             hour: "2-digit",
             minute: "2-digit",

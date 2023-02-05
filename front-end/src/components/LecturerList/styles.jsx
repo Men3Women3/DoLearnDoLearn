@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const SBox = styled.div`
-  border: 5px solid ${(props) => props.theme.deeperYellow};
+  border: 2.5px dashed gray;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -18,14 +18,14 @@ export const SBox = styled.div`
 
 export const SContent = styled.div`
   margin-top: 20px;
-  width: 10vw;
+  width: 12vw;
   height: 17vw;
   .full-list {
     font-family: ${(props) => props.theme.fontFamily.Medium};
     font-size: ${(props) => props.theme.fontSize.p};
     background-color: ${(props) => props.theme.lightYellow};
     /* box-shadow: 2px 3px 2px #ffc067; */
-    box-shadow: 0px 3px 1px #d88005;
+    /* box-shadow: 0px 3px 1px #ff9500; */
     width: 100%;
     display: flex;
     align-items: center;
@@ -40,8 +40,8 @@ export const SContent = styled.div`
     text-align: center;
     background-color: ${(props) => props.theme.lighterYellow};
     /* background-color: #fff1de; */
-    box-shadow: 0px 3px 1px #d88005;
-    padding: 15px 0px;
+    /* box-shadow: 1px 1px 2px #ff9500; */
+    padding: 15px 10px;
     border-radius: 10px;
     cursor: default;
   }

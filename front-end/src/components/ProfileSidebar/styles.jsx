@@ -3,9 +3,9 @@ import styled from "styled-components"
 export const SSidebarContainer = styled.section`
   margin-top: calc(1vw + 0.5px);
   position: fixed;
-  width: 12.5vw;
+  width: 14vw;
   height: 70vh;
-  border-radius: 20px;
+  border-radius: 15px;
   padding-top: 2vw;
   background-color: #ff9d00;
 `
