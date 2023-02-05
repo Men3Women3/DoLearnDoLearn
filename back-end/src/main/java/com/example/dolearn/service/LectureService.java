@@ -103,4 +103,8 @@ public class LectureService {
 
         return updatedLecture.toDto();//확정된 강의 반환
     }
+
+    public List<UserLecture> getList(Long lid){
+        return userLectureRepository.searchLecture(lid);
+    }
 }
