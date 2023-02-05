@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { LoginStateContext } from "../../App"
+import { LoginStateContext, UnreadMessageContext } from "../../App"
 // import { Flag } from "../BoardList";
 import { SButton, SButtonBox } from "./styles"
 import {
@@ -16,6 +16,8 @@ import {
 
 const LectureModalButton = ({ data, setOpen, flag, setFlag, Luid }) => {
   const { isLogined, userInfo } = useContext(LoginStateContext)
+  const { unreadMessageCnt, setStateMessageUpdate } =
+    useContext(UnreadMessageContext)
   // const { flag, setFlag } = useContext(Flag);
 
   // api 요청 내용 ===================================
@@ -52,6 +54,7 @@ const LectureModalButton = ({ data, setOpen, flag, setFlag, Luid }) => {
     await fixClassAPI(data.id, Luid)
     setFlag(!flag)
     setOpen(false)
+    setStateMessageUpdate(true)
     // 확정되었다는 메시지 보내기
     // await console.log("보내질 데이터", data.title, data.id, data.isFixed);
     // await sendMessageAPI(data.id, "", "confirm");
