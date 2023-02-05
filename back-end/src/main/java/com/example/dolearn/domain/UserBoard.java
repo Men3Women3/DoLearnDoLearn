@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -31,7 +29,6 @@ public class UserBoard {
     private User user;
 
     @ManyToOne(targetEntity = Board.class)
-    @OnDelete(action= OnDeleteAction.CASCADE)
     @JoinColumn(name = "bid", insertable = false, updatable = false)
     private Board board;
 
