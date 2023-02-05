@@ -52,25 +52,29 @@ const LectureChattingContainer = (props) => {
 
   const handleMeesageSendKeyEvent = (e) => {
     // e.preventDefault();
-    if (e.nativeEvent.isComposing) {
-      return;
-    }
+    // if (e.nativeEvent.isComposing) {
+    // return;
+    // }
 
-    if (inputData && e.key === "Enter" && e.shiftKey) {
-      return;
-    } else if (e.key === "Enter") {
-      client.send(
-        `/pub/normal/${props.roomId}`,
-        {
-          Authentication: accessToken,
-        },
-        JSON.stringify({
-          roomId: props.roomId,
-          sender: props.username,
-          content: inputData,
-        })
-      );
-      setInputData("");
+    // if (inputData && e.key === "Enter" && !e.shiftKey) {
+    // return;
+    // }
+    if (e.key === "Enter") {
+      if (!e.shiftKey) {
+        client.send(
+          `/pub/normal/${props.roomId}`,
+          {
+            Authentication: accessToken,
+          },
+          JSON.stringify({
+            roomId: props.roomId,
+            sender: props.username,
+            content: inputData,
+          })
+        );
+        setInputData("");
+        console.log();
+      }
     }
   };
 
@@ -129,33 +133,13 @@ const LectureChattingContainer = (props) => {
           rows="1"
           value={inputData}
           onChange={(e) => setInputData(e.target.value)}
-          onKeyUp={(e) => handleMeesageSendKeyEvent(e)}
+          onKeyPress={(e) => handleMeesageSendKeyEvent(e)}
         />
         {/* 메시지 전송 버튼 */}
         <button onClick={(e) => handleMessageSend(e)}>
           <FontAwesomeIcon className="send-icon" icon={faPaperPlane} />
         </button>
       </SMessageContainer>
-      <SUsersContainer>
-        <span>
-          <img className="lecturer" src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-      </SUsersContainer>
     </SContainer>
   );
 };

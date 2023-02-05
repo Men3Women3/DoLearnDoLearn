@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import LectureCameraContainer from "../../components/LectureCameraContainer";
 import LectureChattingContainer from "../../components/LectureChattingContainer";
 import LiveOptionContainer from "../../components/LiveOptionContainer";
@@ -19,6 +19,7 @@ import { useLocation } from "react-router";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { LoginStateContext } from "../../App";
+import { getLecturerId } from "../../utils/api/lectureAPI";
 
 /*
  * (C) Copyright 2014 Kurento (http://kurento.org/)
@@ -44,11 +45,14 @@ const Lecture = () => {
   const [username, setUsername] = useState(userInfo.name);
   const [roomId, setRoomId] = useState(location.state.roomId);
   const [helpOnOff, setHelpOnOff] = useState(false);
+  const lecturerId = location.state.lecturerId;
+  const lecturerInfo = location.state.lecturerInfo;
 
   const ws = new WebSocket("wss://localhost:8443/groupcall");
 
   var participants = {};
   var name = username;
+  let shareFlag = false;
 
   useEffect(() => {
     ws.onopen = () => {
@@ -56,7 +60,7 @@ const Lecture = () => {
     };
   }, []);
 
-  const PARTICIPANT_MAIN_CLASS = "participant main";
+  const PARTICIPANT_MAIN_CLASS = "participant";
   const PARTICIPANT_CLASS = "participant";
 
   /**
@@ -83,19 +87,50 @@ const Lecture = () => {
     span.className = "username_span";
     let video = document.createElement("video");
     this.rtcPeer = rtcPeer;
+    video.addEventListener("click", handleMainStage);
 
     container.appendChild(video);
     container.appendChild(span);
-    container.onclick = switchContainerClass;
-    document.getElementById("participants").appendChild(container);
+    // container.onclick = switchContainerClass;
+    if (name.includes("screen")) {
+      span.appendChild(document.createTextNode(`${name.slice(6)} 님의 화면`));
+    } else {
+      span.appendChild(document.createTextNode(name));
+    }
 
-    span.appendChild(document.createTextNode(name));
+    if (name === lecturerInfo.name || name.includes("screen")) {
+      document.getElementById("lectuerer").appendChild(container);
 
-    video.id = "video-" + name;
-    video.autoplay = true;
-    video.controls = false;
-    video.style.width = "calc(1vw + 150px)";
-    // video.style.height = "120px";
+      video.id = "video-" + name;
+      video.className = name.includes("screen") ? "screen" : "main";
+      video.autoplay = true;
+      video.controls = false;
+      // video.style.width = "calc(1vw + 600px)";
+    } else {
+      document.getElementById("participants").appendChild(container);
+
+      video.id = "video-" + name;
+      video.className = "sub";
+      video.autoplay = true;
+      video.controls = false;
+      // video.style.width = "calc(1vw + 150px)";
+    }
+
+    console.log("제발.... 좀 되자");
+    const lecturerContainer = document.querySelector("#lectuerer");
+    console.log(lecturerContainer);
+    console.log(lecturerContainer?.childNodes);
+    if (lecturerContainer.childNodes.length === 2) {
+      for (const item of lecturerContainer?.childNodes) {
+        if (item.firstChild.classList[0] === "main") {
+          item.style.display = "none";
+        }
+        console.log(item.firstChild.classList);
+      }
+    } else if (lecturerContainer.childNodes.length === 1) {
+      // console.log(lecturerContainer?.childNodes, 88888);
+      lecturerContainer.childNodes[0].style.display = "";
+    }
 
     this.getElement = function () {
       return container;
@@ -195,6 +230,7 @@ const Lecture = () => {
   };
 
   function register(name, roomId) {
+    console.log(name, 99999);
     document.getElementById("room-header").innerText = "ROOM " + roomId;
     document.getElementById("room").style.display = "block";
 
@@ -243,27 +279,62 @@ const Lecture = () => {
         },
       },
     };
-    console.log(name + " registered in room " + msg.room);
-    var participant = new Participant(name);
-    participants[name] = participant;
-    var video = participant.getVideoElement();
-
-    var options = {
-      localVideo: video,
-      mediaConstraints: constraints,
-      onicecandidate: participant.onIceCandidate.bind(participant),
-    };
-    participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(
-      options,
-      function (error) {
-        if (error) {
-          return console.error(error);
+    if (name.includes("screen")) {
+      console.log("#########" + name);
+      var participant = new Participant(name);
+      participants[name] = participant;
+      var video = participant.getVideoElement();
+      if (navigator.getDisplayMedia || navigator.mediaDevices.getDisplayMedia) {
+        if (navigator.mediaDevices.getDisplayMedia) {
+          navigator.mediaDevices
+            .getDisplayMedia({ video: true, audio: true })
+            .then((stream) => {
+              video.srcObject = stream;
+              options = {
+                videoStream: stream,
+                mediaConstraints: constraints,
+                sendSource: "screen",
+                onicecandidate: participant.onIceCandidate.bind(participant),
+              };
+              participant.rtcPeer =
+                new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(
+                  options,
+                  function (error) {
+                    if (error) {
+                      return console.error(error);
+                    }
+                    this.generateOffer(
+                      participant.offerToReceiveVideo.bind(participant)
+                    );
+                  }
+                );
+              msg.data.forEach(receiveVideo);
+            });
         }
-        this.generateOffer(participant.offerToReceiveVideo.bind(participant));
       }
-    );
+    } else {
+      console.log(name + " registered in room " + msg.room);
+      var participant = new Participant(name);
+      participants[name] = participant;
+      var video = participant.getVideoElement();
 
-    msg.data.forEach(receiveVideo);
+      var options = {
+        localVideo: video,
+        mediaConstraints: constraints,
+        onicecandidate: participant.onIceCandidate.bind(participant),
+      };
+      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(
+        options,
+        function (error) {
+          if (error) {
+            return console.error(error);
+          }
+          this.generateOffer(participant.offerToReceiveVideo.bind(participant));
+        }
+      );
+
+      msg.data.forEach(receiveVideo);
+    }
   }
 
   function leaveRoom() {
@@ -364,12 +435,16 @@ const Lecture = () => {
   };
 
   const onJoinRoom = (request) => {
-    const chattingContentContainer =
-      document.getElementById("chatting-Content");
-    const entranceContent = document.createElement("p");
-    entranceContent.className = "entrance";
-    entranceContent.innerText = `${request.name} 님이 접속했습니다.`;
-    chattingContentContainer.appendChild(entranceContent);
+    // console.log(request, 99999);
+    if (!shareFlag) {
+      const chattingContentContainer =
+        document.getElementById("chatting-Content");
+      const entranceContent = document.createElement("p");
+      entranceContent.className = "entrance";
+      entranceContent.innerText = `${request.name} 님이 접속했습니다.`;
+      chattingContentContainer.appendChild(entranceContent);
+      shareFlag = true;
+    }
   };
 
   const onLeaveRoom = (request) => {
@@ -379,6 +454,148 @@ const Lecture = () => {
     entranceContent.className = "entrance";
     entranceContent.innerText = `${request.name} 님이 종료했습니다.`;
     chattingContentContainer.appendChild(entranceContent);
+  };
+
+  const handleMainStage = (e) => {
+    // 메인 스테이지의 아이템이 아니라면
+    if (
+      e.target.className !== "main" &&
+      e.target.className !== "screen" &&
+      !document.querySelector(".screen")
+    ) {
+      // 비디오 클릭시 참가자들에서 해당 타겟 제거
+      const participants = document.querySelector("#participants");
+      const userVideoContainer = e.target.parentNode;
+      const userVideo = userVideoContainer.firstChild;
+      // 비디오 화면 크기 조정
+      userVideo.classList.remove("sub");
+      userVideo.classList.add("main");
+      participants.removeChild(userVideoContainer);
+
+      // 강사 화면을 타겟 화면으로 대체
+      const mainStage = document.querySelector("#lectuerer");
+      // mainStage에 비디오가 있으면 대체
+      // 없으면 target화면만 이동
+      if (mainStage.firstChild) {
+        const mainVideoContainer = mainStage.firstChild;
+        const mainVideo = mainVideoContainer.firstChild;
+
+        // 비디오 화면 크기 조정
+        mainVideo.classList.remove("main");
+        mainVideo.classList.add("sub");
+
+        // mainStage에서 화면 제거
+        mainStage.removeChild(mainVideoContainer);
+        // subStage에 mainStage에 있던 화면 추가
+        participants.appendChild(mainVideoContainer);
+      }
+      // mainStage에 tatget 화면 추가
+      mainStage.appendChild(userVideoContainer);
+    } else {
+      // lecturer에 스크린이 없으면....
+      if (Object.keys(participants).length === 1) {
+        const mainStage = document.querySelector("#lectuerer");
+
+        const mainVideoContainer = mainStage.firstChild;
+        const mainVideo = mainVideoContainer.firstChild;
+
+        // 비디오 화면 크기 조정
+        mainVideo.classList.remove("main");
+        mainVideo.classList.add("sub");
+
+        const participants = document.querySelector("#participants");
+
+        // mainStage에서 화면 제거
+        mainStage.removeChild(mainVideoContainer);
+        // subStage에 mainStage에 있던 화면 추가
+        participants.appendChild(mainVideoContainer);
+      }
+    }
+  };
+
+  // 화면 공유
+  const shareScreen = (e) => {
+    // const lecturerContainer = document.querySelector("#lectuerer");
+    // console.log(lecturerContainer, 3333);
+    // const mainStage = lecturerContainer.childNodes;
+    // console.log(mainStage, 4444);
+
+    // if (mainStage) {
+    //   mainStage.style.display = "none";
+    // }
+    if (name === username) {
+      if (!document.querySelector(".screen")) {
+        // console.log(lecturerContainer.lastChild);
+        console.log(name, 88);
+        console.log(username, 99);
+        sendMessage({
+          id: "leaveRoomToShareScreen",
+        });
+        for (let key in participants) {
+          if (participants[key].name !== name) {
+            let partVideoContainer = document.getElementById(
+              participants[key].name
+            );
+
+            console.log(partVideoContainer, 3333333333);
+            console.log(participants[key].name);
+            document
+              .getElementById(participants[key].name)
+              .parentNode.removeChild(partVideoContainer);
+          } else if (participants[key].name === name) {
+            let partVideoContainer = document.getElementById(
+              participants[key].name
+            );
+
+            console.log(partVideoContainer, 3333333333);
+            console.log(participants[key].name);
+            document
+              .getElementById(participants[key].name)
+              .parentNode.removeChild(partVideoContainer);
+          }
+        }
+        delete participants[name];
+        // document.getElementById("video-" + name).remove();
+
+        const message = {
+          id: "shareScreen",
+          name: username,
+          room: roomId,
+        };
+        ws.send(JSON.stringify(message));
+        name = "screen" + name;
+        document.getElementById("shareScreenOn").style.display = "none";
+        document.getElementById("shareScreenOff").style.display = "";
+      }
+    } else {
+      sendMessage({
+        id: "leaveRoomToShareScreen",
+      });
+      for (var key in participants) {
+        participants[key].dispose();
+        if (participants[key].name !== name) {
+          var partVideoContainer = document.getElementById(
+            participants[key].name
+          );
+          console.log(partVideoContainer, 3333333333);
+          console.log(participants[key].name);
+          // document
+          //   .getElementById("participants")
+          //   .removeChild(partVideoContainer);
+        }
+      }
+      delete participants[name];
+      // document.getElementById("video-" + name).remove();
+      const message = {
+        id: "joinRoom",
+        name: username,
+        room: roomId,
+      };
+      ws.send(JSON.stringify(message));
+      name = username;
+      document.getElementById("shareScreenOn").style.display = "";
+      document.getElementById("shareScreenOff").style.display = "none";
+    }
   };
 
   return (
@@ -397,7 +614,9 @@ const Lecture = () => {
               </div>
             </SStudentsContainer>
             <SLecturerCameraContainer>
-              <SLecturerCamera></SLecturerCamera>
+              <SLecturerCamera>
+                <div id="lectuerer"></div>
+              </SLecturerCamera>
             </SLecturerCameraContainer>
           </SContainer>
           <LiveOptionContainer
@@ -406,6 +625,7 @@ const Lecture = () => {
             audOnOff={audOnOff}
             // handleHelpRequest={handleHelpRequest}
             handleOnClickHelpRequest={handleOnClickHelpRequest}
+            shareScreen={shareScreen}
           />
         </SLeftItemContainer>
         <SRightItemContainer>

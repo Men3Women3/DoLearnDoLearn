@@ -530,3 +530,21 @@ export const updateProfileImgAPI = (data, img_file, handleUserInfo) => {
       updateUserInfoAPI(data, handleUserInfo);
     });
 };
+
+// 확정된 강의의 강사 정보를 가져오는 함수
+export const getUserInfo = (lecturerId, setLecturerInfo) => {
+  const accessToken = localStorage.getItem("accessToken");
+  axios
+    .get(`${axiosDefaultURL}/user/${lecturerId}`, {
+      headers: {
+        Authentication: accessToken,
+      },
+    })
+    .then((response) => {
+      const userData = response.data.response;
+      setLecturerInfo(userData);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
