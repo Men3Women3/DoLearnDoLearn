@@ -7,5 +7,5 @@ export const SCard = styled.div`
   margin: calc(1vw + 0.5px) calc(1vw + 30px);
   padding: calc(1vw + 25px) calc(1vw + 70px);
   background-color: white;
-  height: 33vw;
+  /* height: 33vw; */
 `

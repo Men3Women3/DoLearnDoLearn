@@ -5,7 +5,9 @@ import { SCard } from "../CardBox/styles"
 export const Scontainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  column-gap: 15px;
+  row-gap: 22px;
+  margin-top: 15px;
 `
 export const SSCard = styled(SCard)`
   position: relative;

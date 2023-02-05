@@ -11,7 +11,7 @@ import {
   getUnScheduledLectureStudentAPI,
 } from "../../utils/api/userAPI"
 import { LoginStateContext } from "../../App"
-import { Scontainer, SPagination, SSCard } from "./styles"
+import { Scontainer, SSCard } from "./styles"
 import Pagination from "../Pagination"
 
 const UnScheduleLecture = () => {
@@ -73,7 +73,7 @@ const UnScheduleLecture = () => {
           alignItems: "center",
         }}
       >
-        <h2>매칭되기 전 강의 목록입니다</h2>
+        <h3>매칭되기 전 강의 신청 내역입니다</h3>
         <FormControl sx={{ minWidth: 180 }} size="small">
           <Select value={filterValue} onChange={handleChange}>
             <MenuItem value="all">모두 보기</MenuItem>

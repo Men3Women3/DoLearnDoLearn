@@ -1,25 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from "react"
 import {
   SProfileContainer,
   SSubContainerUp,
   SSubContainerDown,
   SBlackButton,
   SSnsContainer,
-} from "./styles";
-import { Tooltip } from "@mui/material";
+  SSCard,
+} from "./styles"
+import { Tooltip } from "@mui/material"
 
-import defaultProfile from "../../assets/images/defaultProfile.png";
+import defaultProfile from "../../assets/images/defaultProfile.png"
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
-import blogImg from "../../assets/images/sns/blog.png";
-import youtubeImg from "../../assets/images/sns/youtube.png";
-import instagramImg from "../../assets/images/sns/instagram.png";
-import facebookImg from "../../assets/images/sns/facebook.png";
+import blogImg from "../../assets/images/sns/blog.png"
+import youtubeImg from "../../assets/images/sns/youtube.png"
+import instagramImg from "../../assets/images/sns/instagram.png"
+import facebookImg from "../../assets/images/sns/facebook.png"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import ProfileCardBox from "../ProfileCardBox";
-import { baseURL } from "../../utils/api/baseURL";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
+import ProfileCardBox from "../ProfileCardBox"
+import { baseURL } from "../../utils/api/baseURL"
 
 const Profile = ({
   handleProfileEditBtn,
@@ -28,16 +29,16 @@ const Profile = ({
   userState,
 }) => {
   // console.log("유저정보", user)
-  const blog = user.blog;
-  const youtube = user.youtube;
-  const instagram = user.instagram;
-  const facebook = user.facebook;
+  const blog = user.blog
+  const youtube = user.youtube
+  const instagram = user.instagram
+  const facebook = user.facebook
 
   // 받은 유저정보가 본인인지 확인하는 변수
-  const isMe = userState === "me" ? true : false;
+  const isMe = userState === "me" ? true : false
 
   return (
-    <ProfileCardBox>
+    <SSCard>
       <SProfileContainer>
         <SSubContainerUp>
           {/* 프로필 이미지 */}
@@ -170,8 +171,8 @@ const Profile = ({
           ) : null}
         </SSubContainerDown>
       </SProfileContainer>
-    </ProfileCardBox>
-  );
-};
+    </SSCard>
+  )
+}
 
-export default Profile;
+export default Profile

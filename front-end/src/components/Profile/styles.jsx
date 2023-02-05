@@ -1,6 +1,11 @@
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Tooltip } from "@mui/material"
+import { SCard } from "../ProfileCardBox/styles"
+
+export const SSCard = styled(SCard)`
+  height: 33vw;
+`
 
 export const SProfileContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
