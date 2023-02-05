@@ -110,11 +110,7 @@ const User = () => {
             </CardBox>
           )}
           {isUnScheduleTabActive && <UnScheduleLecture />}
-          {isMessageTabActive && (
-            <CardBox>
-              <Message />
-            </CardBox>
-          )}
+          {isMessageTabActive && <Message />}
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>
