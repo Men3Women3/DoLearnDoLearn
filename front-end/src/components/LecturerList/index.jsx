@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { lecturerNameAPI } from '../../utils/api/boardAPI';
-import { SBox, SList, SListBox } from './styles';
+import React, { useEffect, useState } from "react";
+import { lecturerNameAPI } from "../../utils/api/boardAPI";
+import { SBox, SList, SListBox } from "./styles";
 
+// 확인주석
 const LecturerList = ({ data }) => {
   const [nameList, setNameList] = useState([]);
   // ============= lid받아둬야함 =============
@@ -20,16 +21,16 @@ const LecturerList = ({ data }) => {
   if (nameList.length > 0) {
     return (
       <SBox>
-        <h4 className='title'>신청 강사</h4>
+        <h4 className="title">신청 강사</h4>
 
         <SListBox>
           {nameList.map((item) => {
             return (
               <>
                 <SList key={item}>
-                  <div className='full-list'>
+                  <div className="full-list">
                     {/* 신청한 강사의 uid를 value로 지정해 나중에 api로 서버에 확정 전송 시 이 value를 담아서 보냄 */}
-                    <input type='radio' name='lecturer' value={item.uid} />
+                    <input type="radio" name="lecturer" value={item.uid} />
                     {/* 강사의 이름(user.name)을 순서대로 출력 */}
                     <span onClick={(e) => handleProfile(item.uid)}>
                       {item.user.name}
@@ -45,7 +46,7 @@ const LecturerList = ({ data }) => {
   } else {
     return (
       <SBox>
-        <div className='empty-list'>강사 대기중</div>
+        <div className="empty-list">강사 대기중</div>
       </SBox>
     );
   }

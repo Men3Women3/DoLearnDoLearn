@@ -6,6 +6,7 @@ import UniBoard from "../UniBoard";
 import { boardListAPI } from "../../utils/api/boardAPI";
 // export const Flag = createContext();
 
+// 확인주석
 const BoardList = ({ list, setList }) => {
   const [flag, setFlag] = useState(false);
 
@@ -25,18 +26,20 @@ const BoardList = ({ list, setList }) => {
       {/* <Flag.Provider value={{ flag, setFlag }}> */}
       <SContainer className="container">
         {/* // offset으로 slicing해서 limit 만큼만 한 화면에 표시 */}
-        {list.slice(offset, offset + limit).map((data) => {
-          return (
-            <SUniDiv key={data.id}>
-              <UniBoard
-                className="uni-board"
-                data={data}
-                flag={flag}
-                setFlag={setFlag}
-              />
-            </SUniDiv>
-          );
-        })}
+        {list.length > 0
+          ? list.slice(offset, offset + limit).map((data) => {
+              return (
+                <SUniDiv key={data.id}>
+                  <UniBoard
+                    className="uni-board"
+                    data={data}
+                    flag={flag}
+                    setFlag={setFlag}
+                  />
+                </SUniDiv>
+              );
+            })
+          : ""}
       </SContainer>
       {list.length < 7 ? null : (
         <Pagination

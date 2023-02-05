@@ -13,6 +13,7 @@ import { getUserInfoAndUpdate, logoutAPI } from "./utils/api/userAPI";
 import { getUnreadMessageCnt } from "./utils/api/messageAPI";
 import OauthRedirect from "./pages/OauthRedirect";
 
+// 확인주석
 // 코드 스플리팅 (Code Splitting)
 const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
 const Login = React.lazy(() => pMinDelay(import("./pages/Login/index"), 1000));
