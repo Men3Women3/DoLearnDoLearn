@@ -94,10 +94,11 @@ export const deleteClassAPI = async (board) => {
 };
 
 // 신청 취소 API
-export const cancelEnrollAPI = async (user, lecture) => {
+export const cancelEnrollAPI = async (user, lecture, setCheck) => {
   try {
     await axios.delete(`${BOARD_URL}/apply/${user}/${lecture}`);
     console.log("신청 취소 성공");
+    setCheck(false);
   } catch (err) {
     console.log(err);
     console.log("신청 취소 실패");
@@ -150,7 +151,7 @@ export const lecturerNameAPI = async (board, setNameList) => {
 };
 
 // 강사 목록 확인 API
-export const lecListAPI = async (board, setLecList) => {
+export const lecListAPI = async (board, setLecList, setCheck) => {
   try {
     const list = [];
     const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
@@ -163,6 +164,7 @@ export const lecListAPI = async (board, setLecList) => {
       });
       setLecList(list);
     }
+    setCheck(true);
   } catch (err) {
     console.log(err);
     console.log("강사 목록 가져오기 실패");
