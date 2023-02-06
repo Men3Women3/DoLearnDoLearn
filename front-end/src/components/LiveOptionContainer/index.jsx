@@ -69,10 +69,14 @@ const LiveOptionContainer = (props) => {
       <button id="audOn" onClick={(e) => props.audOnOff(e)}>
         <FontAwesomeIcon className="icon mike-icon" icon={faMicrophoneSlash} />
       </button>
-      <button style={{ display: "none" }}>
+      <button
+        id="shareScreenOff"
+        onClick={(e) => props.shareScreen(e)}
+        style={{ display: "none" }}
+      >
         <CastIcon className="icon big-icon" />
       </button>
-      <button>
+      <button id="shareScreenOn" onClick={(e) => props.shareScreen(e)}>
         <CastConnectedIcon className="icon big-icon" />
       </button>
       <button className="exit-button" onClick={handleMoveToHome}>
