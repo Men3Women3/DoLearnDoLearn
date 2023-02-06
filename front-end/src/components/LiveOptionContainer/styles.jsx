@@ -9,7 +9,7 @@ export const SOptionContainer = styled.div`
   justify-content: center;
   align-items: center;
   /* background-color: #242424; */
-  background-color: #fffbe6;
+  background-color: #dedede;
   text-align: center;
   margin: auto;
   width: 65%;

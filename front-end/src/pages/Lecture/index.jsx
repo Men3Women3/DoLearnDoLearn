@@ -4,6 +4,7 @@ import LectureChattingContainer from "../../components/LectureChattingContainer"
 import LiveOptionContainer from "../../components/LiveOptionContainer";
 import kurentoUtils from "kurento-utils";
 // import "./sss.css";
+import logoImg from "../../assets/images/logo.png";
 
 import {
   SMainContainer,
@@ -13,6 +14,7 @@ import {
   SLecturerCameraContainer,
   SLecturerCamera,
   SLeftItemContainer,
+  SHeader,
   SOptionContainer,
 } from "./styles";
 import { useLocation } from "react-router";
@@ -105,6 +107,10 @@ const Lecture = () => {
     if (name === lecturerInfo.name || name.includes("screen")) {
       document.getElementById("lectuerer").appendChild(container);
 
+      if (name.includes("screen")) {
+        console.log("왜??? 제발 제발 제발");
+      }
+
       video.id = "video-" + name;
       video.className = name.includes("screen") ? "mainScreen" : "main";
       // video.className = "main";
@@ -144,8 +150,18 @@ const Lecture = () => {
             item.firstChild.className = "sub";
             lecturerContainer.removeChild(item);
             document.getElementById("participants").appendChild(item);
+          } else {
+            // console.log("제발 한번에 가자");
           }
         }
+      }
+    }
+
+    const participantsContainer = document.getElementById("participants");
+    for (const item of participantsContainer.childNodes) {
+      if (item.id.includes("screen")) {
+        item.firstChild.className = "subScreen";
+        console.log("제발 한번에 가자");
       }
     }
 
@@ -788,9 +804,17 @@ const Lecture = () => {
 
   return (
     <>
+      <SHeader>
+        <img className="logo" src={logoImg} alt="" />
+      </SHeader>
       <SMainContainer>
         <SLeftItemContainer>
           <SContainer>
+            <SLecturerCameraContainer>
+              <SLecturerCamera>
+                <div id="lectuerer"></div>
+              </SLecturerCamera>
+            </SLecturerCameraContainer>
             <SStudentsContainer>
               <div id="container">
                 <div id="wrapper">
@@ -801,20 +825,7 @@ const Lecture = () => {
                 </div>
               </div>
             </SStudentsContainer>
-            <SLecturerCameraContainer>
-              <SLecturerCamera>
-                <div id="lectuerer"></div>
-              </SLecturerCamera>
-            </SLecturerCameraContainer>
           </SContainer>
-          <LiveOptionContainer
-            leaveRoom={leaveRoom}
-            vidOnOff={vidOnOff}
-            audOnOff={audOnOff}
-            // handleHelpRequest={handleHelpRequest}
-            handleOnClickHelpRequest={handleOnClickHelpRequest}
-            shareScreen={shareScreen}
-          />
         </SLeftItemContainer>
         <SRightItemContainer>
           <LectureChattingContainer
@@ -823,6 +834,14 @@ const Lecture = () => {
             lecturerInfo={lecturerInfo}
           ></LectureChattingContainer>
         </SRightItemContainer>
+        <LiveOptionContainer
+          leaveRoom={leaveRoom}
+          vidOnOff={vidOnOff}
+          audOnOff={audOnOff}
+          // handleHelpRequest={handleHelpRequest}
+          handleOnClickHelpRequest={handleOnClickHelpRequest}
+          shareScreen={shareScreen}
+        />
       </SMainContainer>
     </>
   );

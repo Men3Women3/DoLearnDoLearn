@@ -3,31 +3,49 @@ import styled from "styled-components";
 export const SMainContainer = styled.main`
   display: flex;
   width: 100%;
-  height: 100%;
-  /* background-color: black; */
-  background: rgb(255, 232, 154);
+  /* height: 100%; */
+  background-color: white;
+  /* background: rgb(255, 232, 154);
   background: linear-gradient(
     90deg,
     rgba(255, 232, 154, 1) 25%,
     rgba(255, 153, 98, 1) 100%
-  );
+  ); */
   .participant {
     text-align: center;
     position: relative;
-    margin: 0px calc(1vw + 20px);
-    height: 90%;
+    margin: 0px calc(1vw);
+    margin-bottom: 1vw;
     display: flex;
     align-items: center;
     justify-content: center;
+    /* transform: translateX(-3vw); */
   }
   #participants {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+    height: 37.5vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: ${(props) => props.theme.deepYellow};
+      border-radius: 12px;
+      border: 1px solid #f0f0f0;
+    }
   }
   video {
     border-radius: 12px;
     border: 5px solid transparent;
     cursor: pointer;
+    /* object-fit: fill; */
   }
   .username_span {
     position: absolute;
@@ -56,26 +74,36 @@ export const SMainContainer = styled.main`
 
   #container {
     height: calc(1vw + 130px);
-    margin-bottom: calc(0.5vw + 1px);
+    margin-bottom: calc(0.5vw + 2px);
   }
   #lectuerer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    /* height: 100%; */
   }
   .main {
-    width: calc(1vw + 540px);
+    width: 45rem;
+    /* width: 1000px;
+    height: 450px; */
   }
   .sub {
-    width: calc(1vw + 150px);
+    width: 12rem;
   }
   .mainScreen {
     width: 90%;
     height: 100%;
   }
   .subScreen {
-    width: calc(1vw + 220px);
+    width: calc(1vw + 185px);
+  }
+`;
+
+export const SHeader = styled.div`
+  .logo {
+    width: 8vw;
+    margin-left: 1vw;
+    margin-top: 1vw;
   }
 `;
 
@@ -85,19 +113,25 @@ export const SLeftItemContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SRightItemContainer = styled.div`
   position: relative;
   width: 25%;
   height: 100%;
+  margin: 0 2vw;
 `;
 
 export const SContainer = styled.section`
   /* height: 85%; */
   height: calc(9vw + 490px);
   width: 100%;
-  margin-top: calc(1vw + 8px);
+  /* margin-top: calc(1vw + 8px); */
+  display: flex;
+  /* flex-direction: row-reverse; */
+
   /* margin: calc(1vw + 8px) 0px; */
 `;
 
@@ -110,19 +144,21 @@ export const SStudentsContainer = styled.div`
     margin-top: 0px;
     border-radius: 12px;
   } */
+  transform: translateX(-3vw);
+  margin-top: 1vw;
 `;
 
 export const SLecturerCameraContainer = styled.div`
   width: 100%;
-  height: 80%;
+  /* height: 80%; */
   display: flex;
   justify-content: center;
 `;
 
 export const SLecturerCamera = styled.div`
   width: 100%;
-  height: 97%;
-  background-color: white;
+  /* height: 97%; */
+  /* background-color: white; */
   border-radius: 12px;
   margin: 0px calc(0.5vw + 2px);
   display: flex;
