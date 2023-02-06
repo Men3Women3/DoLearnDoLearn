@@ -1,7 +1,5 @@
 package com.example.dolearn.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
