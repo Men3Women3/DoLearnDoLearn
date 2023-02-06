@@ -485,6 +485,7 @@ export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
     )
     .then((res) => {
       const result = res.data.response;
+      console.log("달력 받아온 데이터", result);
       // 받아온 데이터를 전처리해서 반환
       preprocessingData(result);
       setScheduledLecture(result);
