@@ -227,12 +227,14 @@ public class BoardServiceTest {
 
     @DisplayName("수강 취소")
     @Test
-    public void applyCancelTest(){
+    public void applyCancelTest() throws Exception{
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
 
         when(userBoardRepository.delete(any(),any())).thenReturn(1);
+        when(boardRepository.findById(any())).thenReturn(Optional.ofNullable(boardDto1.toEntity()));
+        when(userRepository.findOneById(any())).thenReturn(Optional.ofNullable(userDto.toEntity()));
 
-        int result = userBoardService.userBoardRepository.delete(userDto.getId(),boardDto1.getId());
+        int result = userBoardService.cancelApply(userDto.getId(),boardDto1.getId());
 
         assertEquals(1,result);
     }

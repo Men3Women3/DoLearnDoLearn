@@ -3,7 +3,6 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.dto.LectureDto;
-import com.example.dolearn.dto.MessageDto;
 import com.example.dolearn.dto.UserLectureDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
@@ -13,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +69,7 @@ public class LectureService {
     }
 
     @Transactional
-    public LectureDto update(Long bid, Long Luid) throws Exception{
+    public LectureDto updateFix(Long bid, Long Luid) throws Exception{
         Optional<Board> result = boardRepository.findById(bid); //수정할 글 읽어오기
 
         if(result.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);//수정할 글이 없는 경우 오류 발생
@@ -86,7 +84,7 @@ public class LectureService {
         Board updatedBoard = boardRepository.save(board.toEntity());//수정한 정보 저장
 
         Lecture lecture = Lecture.builder()
-                .userCnt(0).isDeleted(0).board(updatedBoard).build(); //Lecture 생성
+                .memberCnt(0).isDeleted(0).board(updatedBoard).build(); //Lecture 생성
 
         Lecture updatedLecture = lectureRepository.save(lecture);//생성되었던 lecture 저장
 
@@ -106,31 +104,26 @@ public class LectureService {
 
             userLectureRepository.save(userLecture);//member_board table에 저장
         }
-
-        //board id로 lecture가져오기
-        Long lectureId = updatedLecture.getId();
-
-        //강의 아이디로 정보 가져오기
-        List<UserLecture> userLectureList = userLectureRepository.searchLecture(lectureId);
-
-        log.info("개수 : {}",userLectureList.size());
-        //강의 확정 메세지
-        for(UserLecture userLecture : userLectureList) {
-            Message message = Message.builder().content("")
-                    .type("confirm")
-                    .isChecked(0)
-                    .build();
-
-            message.setBoard(result.get());
-            message.setUser(userLecture.getUser());
-
-            messageRepository.save(message);
-        }
-
         return updatedLecture.toDto();//확정된 강의 반환
+    }
+
+    public LectureDto updateLecture(LectureDto lectureDto){
+        Optional<Lecture> lecture = lectureRepository.findById(lectureDto.getId());
+
+        if(lecture.isEmpty()) throw new CustomException(ErrorCode.NO_LECTURE);
+
+        Lecture updateLecture = lecture.get();
+
+        updateLecture.setIsDeleted(lectureDto.getIsDeleted());
+        updateLecture.setMemberCnt(lectureDto.getMemberCnt());
+        updateLecture.setStartRealTime(lectureDto.getStartRealTime());
+        updateLecture.setEndRealTime(lectureDto.getEndRealTime());
+
+        return lectureRepository.save(updateLecture).toDto();
     }
 
     public List<UserLecture> getList(Long lid){
         return userLectureRepository.searchLecture(lid);
     }
+
 }

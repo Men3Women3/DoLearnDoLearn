@@ -55,7 +55,7 @@ public class LectureServiceTest {
 
         User user = User.builder().id(1L).name("test").build();
         Lecture lecture = Lecture.builder()
-                .board(board.toEntity()).isDeleted(0).userCnt(0).build();
+                .board(board.toEntity()).isDeleted(0).memberCnt(0).build();
         Board updatedBoard = Board.builder().id(1L).title("좋은 강의입니다.").isFixed(1).build();
 
         List<UserLecture> uList = new ArrayList<>();
@@ -66,9 +66,9 @@ public class LectureServiceTest {
         when(boardRepository.save(any())).thenReturn(updatedBoard);
         when(userLectureRepository.searchLecture(anyLong())).thenReturn(uList);
 
-        LectureDto result = lectureService.update(1L,1L);
+        LectureDto result = lectureService.updateFix(1L,1L);
 
-        assertEquals(result.getUserCnt(),lecture.getUserCnt());
+        assertEquals(result.getMemberCnt(),lecture.getMemberCnt());
     }
 
     @DisplayName("강사 id 가져오기 테스트")
@@ -77,7 +77,7 @@ public class LectureServiceTest {
         List<UserLecture> userLectureList = new ArrayList<>();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).userCnt(0).build();
+                .id(1L).isDeleted(0).memberCnt(0).build();
 
         User user = User.builder().id(1L).name("test").build();
 
@@ -99,7 +99,7 @@ public class LectureServiceTest {
         List<UserLecture> userLectureList = new ArrayList<>();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).userCnt(0).build();
+                .id(1L).isDeleted(0).memberCnt(0).build();
 
         UserLecture userLecture1 = UserLecture.builder()
                 .lecture(lecture).memberType("학생").build();
@@ -115,5 +115,25 @@ public class LectureServiceTest {
         List<UserLecture> result = lectureService.getList(lecture.getId());
 
         assertEquals(userLectureList.size(),result.size());
+    }
+
+    @DisplayName("강의 업데이트 테스트")
+    @Test
+    public void updateLectureTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        Board savedBoard = boardRepository.save(board.toEntity());
+
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(savedBoard).isDeleted(0).memberCnt(0).createdDate(savedBoard.getCreatedTime()).build();
+
+        when(lectureRepository.findById(any())).thenReturn(Optional.ofNullable(lecture));
+        when(lectureRepository.save(any())).thenReturn(lecture.toDto());
+
+        LectureDto savedLecture = lectureService.updateLecture(lecture.toDto());
+
+        assertEquals(lecture.getId(),savedLecture.getId());
     }
 }
