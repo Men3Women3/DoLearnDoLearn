@@ -1,86 +1,85 @@
-import React from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import pMinDelay from "p-min-delay";
-import { Suspense } from "react";
-import { ThemeProvider } from "styled-components";
-import theme from "./theme";
-import Loading from "./pages/Loading";
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
-import { getUserInfoAndUpdate, logoutAPI } from "./utils/api/userAPI";
-import { getUnreadMessageCnt } from "./utils/api/messageAPI";
-import OauthRedirect from "./pages/OauthRedirect";
+import React from "react"
+import "./App.css"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import pMinDelay from "p-min-delay"
+import { Suspense } from "react"
+import { ThemeProvider } from "styled-components"
+import theme from "./theme"
+import Loading from "./pages/Loading"
+import { useState } from "react"
+import { useEffect } from "react"
+import axios from "axios"
+import { getUserInfoAndUpdate, logoutAPI } from "./utils/api/userAPI"
+import { getUnreadMessageCnt } from "./utils/api/messageAPI"
+import OauthRedirect from "./pages/OauthRedirect"
 
 // 확인주석
 // 코드 스플리팅 (Code Splitting)
-const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
-const Login = React.lazy(() => pMinDelay(import("./pages/Login/index"), 1000));
-const SingUp = React.lazy(() =>
-  pMinDelay(import("./pages/SignUp/index"), 1000)
-);
-const User = React.lazy(() => pMinDelay(import("./pages/User/index")));
+const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000))
+const Login = React.lazy(() => pMinDelay(import("./pages/Login/index"), 1000))
+const SingUp = React.lazy(() => pMinDelay(import("./pages/SignUp/index"), 1000))
+const User = React.lazy(() => pMinDelay(import("./pages/User/index")))
 const NotFound = React.lazy(() =>
   pMinDelay(import("./pages/NotFound/index"), 1000)
-);
-const Board = React.lazy(() => pMinDelay(import("./pages/Board"), 0)); // delay 0
-const WriteBoard = React.lazy(() => pMinDelay(import("./pages/WriteBoard"), 0)); // 요 친구도 delay 0
+)
+const Board = React.lazy(() => pMinDelay(import("./pages/Board"), 0)) // delay 0
+const WriteBoard = React.lazy(() => pMinDelay(import("./pages/WriteBoard"), 0)) // 요 친구도 delay 0
 const LecturerProfile = React.lazy(() =>
   pMinDelay(import("./pages/LecturerProfile"), 0)
-); // 요 친구도 delay 0
-const Lecture = React.lazy(() => pMinDelay(import("./pages/Lecture"), 0)); // 나도 delay 0 할래
+) // 요 친구도 delay 0
+const Lecture = React.lazy(() => pMinDelay(import("./pages/Lecture"), 0)) // 나도 delay 0 할래
 
 // 로그인 상태가 담긴 context API
-export const LoginStateContext = React.createContext();
+export const LoginStateContext = React.createContext()
 // 로그인 상태를 관리하는 함수가 담긴 context API
-export const LoginStateHandlerContext = React.createContext();
+export const LoginStateHandlerContext = React.createContext()
 // 안읽은 메시지 상태를 관리하는 함수가 담긴 context API
-export const UnreadMessageContext = React.createContext();
-
-// 기본 도메인 주소
-const axiosDefaultURL = "http://localhost:8080";
+export const UnreadMessageContext = React.createContext()
 
 function App() {
-  const [isLogined, setIsLogined] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
-  const [unreadMessageCnt, setUnreadMessageCnt] = useState(0);
-  const [stateMessageUpdate, setStateMessageUpdate] = useState(false);
+  const [isLogined, setIsLogined] = useState(false)
+  const [userInfo, setUserInfo] = useState({})
+  const [unreadMessageCnt, setUnreadMessageCnt] = useState(0)
+  const [stateMessageUpdate, setStateMessageUpdate] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") !== null) {
-      setIsLogined(true);
+      setIsLogined(true)
+      getUnreadMessageCnt(setUnreadMessageCnt)
     } else {
-      setIsLogined(false);
+      setIsLogined(false)
     }
 
     // 로컬 스토리지에 유저 id가 있으면
     if (localStorage.getItem("id") !== null) {
       // 유저 정보 최신화시키기
-      getUserInfoAndUpdate(setUserInfo);
+      getUserInfoAndUpdate(setUserInfo)
     }
-  }, []);
+  }, [])
 
   // // 안 읽은 메시지 정보 최신화시키기
   useEffect(() => {
-    setStateMessageUpdate(false);
-    getUnreadMessageCnt(setUnreadMessageCnt);
-  }, [stateMessageUpdate]);
+    // 로그인 했을 경우 보냄
+    if (isLogined && stateMessageUpdate) {
+      setStateMessageUpdate(false)
+      getUnreadMessageCnt(setUnreadMessageCnt)
+    }
+  }, [stateMessageUpdate])
 
   // 로그인 상태 관리 함수
   const handleIsLogined = () => {
-    setIsLogined(!isLogined);
-  };
+    setIsLogined(!isLogined)
+  }
 
   // 유저 로그아웃 함수
   const handleLogout = () => {
-    logoutAPI(setIsLogined);
-  };
+    logoutAPI(setIsLogined)
+  }
 
   // 유저의 정보를 저장하는 함수
   const handleUserInfo = (info) => {
-    setUserInfo(info);
-  };
+    setUserInfo(info)
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -126,7 +125,7 @@ function App() {
         </LoginStateHandlerContext.Provider>
       </LoginStateContext.Provider>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

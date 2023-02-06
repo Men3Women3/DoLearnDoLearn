@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SCalendar = styled.div`
   /* 현재 날짜 셀 */
@@ -102,7 +102,7 @@ export const SCalendar = styled.div`
     /* 스크롤바 */
     /* Chrome, Edge, and Safari */
     ::-webkit-scrollbar {
-      width: 12px;
+      width: 10px;
     }
     ::-webkit-scrollbar-track {
       background: #ffffff;
@@ -216,4 +216,4 @@ export const SCalendar = styled.div`
       }
     }
   }
-`;
+`

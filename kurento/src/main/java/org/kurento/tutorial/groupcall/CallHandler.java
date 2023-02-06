@@ -77,6 +77,14 @@ public class CallHandler extends TextWebSocketHandler {
         user.receiveVideoFrom(sender, sdpOffer);
         break;
       case "leaveRoom":
+        userSession = registry.getBySession(session);
+        room = roomManager.getRoom(userSession.getRoomName());
+        for (UserSession participant : room.getParticipants()) {
+          participant.sendMessage(jsonMessage);
+        }
+        leaveRoom(user);
+        break;
+      case "leaveRoomToShareScreen":
         leaveRoom(user);
         break;
       case "helpUser":
@@ -85,6 +93,9 @@ public class CallHandler extends TextWebSocketHandler {
         for (UserSession participant : room.getParticipants()) {
           participant.sendMessage(jsonMessage);
         }
+        break;
+      case "shareScreen":
+        shareScreen(jsonMessage, session);
         break;
       case "onIceCandidate":
         JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
@@ -123,4 +134,14 @@ public class CallHandler extends TextWebSocketHandler {
       roomManager.removeRoom(room);
     }
   }
+
+	private void shareScreen (JsonObject params, WebSocketSession session) throws IOException {
+		final String roomName = params.get("room").getAsString();
+		final String name = params.get("name").getAsString();
+		log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
+
+		Room room = roomManager.getRoom(roomName);
+		final UserSession user = room.join("screen"+name, session);
+		registry.register(user);
+	}
 }

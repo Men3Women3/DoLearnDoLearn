@@ -1,12 +1,12 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SNav = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 4px;
-  margin: 16px;
-`;
+  /* margin: 16px; */
+`
 
 export const SButton = styled.button`
   border: none;
@@ -38,4 +38,4 @@ export const SButton = styled.button`
     transform: revert;
     border: none;
   }
-`;
+`

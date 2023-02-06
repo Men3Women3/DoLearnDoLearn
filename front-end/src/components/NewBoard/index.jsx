@@ -15,9 +15,9 @@ import scrumImg from "../../assets/images/thumbnail/scrum.svg";
 import studyImg from "../../assets/images/thumbnail/study.svg";
 import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
 import * as S from "./styles.jsx";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { LoginStateContext } from "../../App";
-import { newBoardAPI } from "../../utils/api/boardAPI";
+import { boardListAPI, newBoardAPI } from "../../utils/api/boardAPI";
 
 const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -50,6 +50,8 @@ const SamplePrevArrow = (props) => {
 };
 
 const NewBoard = () => {
+  // const location = useLocation();
+  // console.log(location);
   const { isLogined, userInfo } = useContext(LoginStateContext);
 
   const today = new Date().toISOString().substring(0, 10);
@@ -95,7 +97,6 @@ const NewBoard = () => {
     outline: "none",
   };
 
-  // 확인주석
   const handleOpen = () => {
     if (
       !imgSelect ||
@@ -129,7 +130,12 @@ const NewBoard = () => {
       deadline,
       0
     );
-    navigate("/board");
+    // boardListAPI(setList);
+    navigate("/board", {
+      state: {
+        isWritten: "true",
+      },
+    });
   };
 
   // 이미지 캐러쉘 세팅 옵션
@@ -152,7 +158,7 @@ const NewBoard = () => {
       <S.SContainer>
         {/* 1. 제목 */}
         <S.STitle>
-          <h1>공부방을 만들어요</h1>
+          <h1>✏️ 원하는 강의를 만들어 보세요!</h1>
         </S.STitle>
 
         {/* 2. 구분선 */}
@@ -163,7 +169,7 @@ const NewBoard = () => {
           <h3>강의 제목</h3>
           <S.STitleInput
             value={title}
-            placeholder="제목을 입력하세요"
+            placeholder="강의 제목을 입력해주세요."
             onChange={(e) => setTitle(e.target.value)}
           ></S.STitleInput>
         </S.SBoardTitle>
@@ -221,7 +227,7 @@ const NewBoard = () => {
           <h3>강의 일시</h3>
           <S.SLectureInput
             type="date"
-            min={today}
+            min={deadline}
             onChange={(e) => setLectureDay(e.target.value)}
           ></S.SLectureInput>
           {/* <h3>-</h3> */}
@@ -254,7 +260,7 @@ const NewBoard = () => {
             defaultValue={summary}
             maxLength={20}
             rows={3}
-            placeholder="원하는 강의에 대해 요약해서 작성해주세요. 작성하신 내용은 공부방 목록에 표시됩니다"
+            placeholder="원하는 강의에 대해 요약해서 작성해주세요. 작성하신 내용은 공부방 목록에 표시됩니다."
             onChange={(e) => setSummary(e.target.value)}
           ></S.SSummaryText>
           <S.SLimit>{summary.length}/20</S.SLimit>
@@ -267,7 +273,7 @@ const NewBoard = () => {
             defaultValue={detail}
             maxLength={300}
             rows={10}
-            placeholder="강의에 대해 바라는 점을 자유롭게 작성해주세요"
+            placeholder="강의에 대해 바라는 점을 자유롭게 작성해주세요."
             onChange={(e) => setDetail(e.target.value)}
           ></S.SDetailText>
           <S.SLimit>{detail.length}/300</S.SLimit>

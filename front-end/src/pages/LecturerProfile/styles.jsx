@@ -1,13 +1,16 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SContainer = styled.div`
-  background: linear-gradient(
-    140deg,
-    rgba(255, 247, 205, 1) 32%,
-    rgba(255, 191, 103, 1) 100%
-  );
   height: 100%;
-  padding-top: 5rem;
-`;
-
-export const SDiv = styled.div``;
+  padding-top: 1.5rem;
+  background-image: linear-gradient(147deg, #ff5825 0%, #ffe53b 74%);
+  .headline {
+    border-bottom: 6px solid #ffc29f;
+    font-family: "GmarketSansBold";
+    color: black;
+    margin-bottom: 30px;
+    /* background-image: linear-gradient(147deg, #ff5825 0%, #ffe53b 74%);
+    color: transparent;
+    -webkit-background-clip: text; */
+  }
+`

@@ -58,13 +58,10 @@ public class LectureServiceTest {
                 .board(board.toEntity()).isDeleted(0).memberCnt(0).build();
         Board updatedBoard = Board.builder().id(1L).title("좋은 강의입니다.").isFixed(1).build();
 
-        List<UserLecture> uList = new ArrayList<>();
-
         when(userRepository.findOneById(any())).thenReturn(Optional.ofNullable(user));
         when(boardRepository.findById(any())).thenReturn(Optional.ofNullable(board.toEntity()));
         when(lectureRepository.save(any())).thenReturn(lecture);
         when(boardRepository.save(any())).thenReturn(updatedBoard);
-        when(userLectureRepository.searchLecture(anyLong())).thenReturn(uList);
 
         LectureDto result = lectureService.updateFix(1L,1L);
 

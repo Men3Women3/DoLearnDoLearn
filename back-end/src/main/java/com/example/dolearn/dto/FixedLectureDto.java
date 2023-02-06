@@ -5,11 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
 @NoArgsConstructor
-@Builder
 public class FixedLectureDto {
 
     Long id;
@@ -32,17 +32,13 @@ public class FixedLectureDto {
 
     private int isFixed;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date startTime;
+    private String startTime;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date endTime;
+    private String endTime;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date deadline;
+    private String deadline;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date createdTime;
+    private String createdTime;
 
     public FixedLectureDto(Long id, Long bid, Long uid, String title, String content, String summary,
                            int maxCnt, long instructors, long students, int isFixed,
@@ -57,9 +53,14 @@ public class FixedLectureDto {
         this.instructors = (int)instructors;
         this.students = (int)students;
         this.isFixed = isFixed;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.deadline = deadline;
-        this.createdTime = createdTime;
+        this.startTime = castToString(startTime);
+        this.endTime = castToString(endTime);
+        this.deadline = castToString(deadline);
+        this.createdTime = castToString(createdTime);
+    }
+
+    public String castToString(Date time){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(time);
     }
 }
