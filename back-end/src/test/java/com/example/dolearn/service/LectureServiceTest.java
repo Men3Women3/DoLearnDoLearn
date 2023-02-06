@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -42,6 +43,9 @@ public class LectureServiceTest {
     @Mock
     UserLectureRepository userLectureRepository;
 
+    @Mock
+    MessageRepository messageRepository;
+
     @DisplayName("강의 확정 테스트")
     @Test
     public void FixUpdateTest() throws Exception{
@@ -54,11 +58,13 @@ public class LectureServiceTest {
                 .board(board.toEntity()).isDeleted(0).userCnt(0).build();
         Board updatedBoard = Board.builder().id(1L).title("좋은 강의입니다.").isFixed(1).build();
 
+        List<UserLecture> uList = new ArrayList<>();
 
         when(userRepository.findOneById(any())).thenReturn(Optional.ofNullable(user));
         when(boardRepository.findById(any())).thenReturn(Optional.ofNullable(board.toEntity()));
         when(lectureRepository.save(any())).thenReturn(lecture);
         when(boardRepository.save(any())).thenReturn(updatedBoard);
+        when(userLectureRepository.searchLecture(anyLong())).thenReturn(uList);
 
         LectureDto result = lectureService.update(1L,1L);
 

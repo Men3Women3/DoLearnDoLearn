@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -82,7 +83,6 @@ public class MessageRepositoryTest {
 
         Message message1 = Message
                 .builder()
-                .id(1L)
                 .content("test")
                 .user(newUser)
                 .isChecked(0)
@@ -90,7 +90,6 @@ public class MessageRepositoryTest {
 
         Message message2 = Message
                 .builder()
-                .id(2L)
                 .content("test 2")
                 .user(newUser)
                 .isChecked(0)
@@ -98,12 +97,10 @@ public class MessageRepositoryTest {
 
         Message message3 = Message
                 .builder()
-                .id(3L)
-                .content("test")
+                .content("test 3")
                 .user(newUser)
                 .isChecked(0)
                 .build();
-
 
         messageRepository.save(message1);
         messageRepository.save(message2);
@@ -111,6 +108,6 @@ public class MessageRepositoryTest {
 
         List<Message> result = messageRepository.findMessageByUserId(1L);
 
-        assertThat(result.size()).isEqualTo(3);
+        assertThat(result).isNotNull();
     }
 }

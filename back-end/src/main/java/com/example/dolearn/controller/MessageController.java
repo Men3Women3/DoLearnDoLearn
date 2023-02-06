@@ -31,7 +31,7 @@ public class MessageController {
     @PostMapping
     public ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto) {
 
-        log.info("create confirm message 호출");
+        log.info("create message 호출");
         log.info("content : {}",messageDto.getContent());
         log.info("bid : {}", messageDto.getBid());
 

@@ -3,6 +3,7 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.dto.LectureDto;
+import com.example.dolearn.dto.MessageDto;
 import com.example.dolearn.dto.UserLectureDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,8 @@ public class LectureService {
     private final UserBoardRepository userBoardRepository;
 
     private final UserRepository userRepository;
+
+    private final MessageRepository messageRepository;
 
     public LectureDto getDetail(Long lecture_id) {
         Optional<Lecture> lecture = lectureRepository.findById(lecture_id);
@@ -74,6 +78,8 @@ public class LectureService {
 
         if(result.get().getIsFixed()==1) throw new CustomException(ErrorCode.FIXED_LECTURE); //이미 확정된 강의의 경우 오류 발생
 
+        //bid에 해당하는 학생 알림 보내기
+
         BoardDto board = result.get().toDto();//수정할 글 dto로 변환
         board.setFixed(1);//is_fixed 1로 변환
 
@@ -99,6 +105,26 @@ public class LectureService {
                     .user(userBoard.getUser()).lecture(updatedLecture).memberType(userBoard.getUserType()).build();//member_board table에 저장하기 위해 UserLecture로 재구성
 
             userLectureRepository.save(userLecture);//member_board table에 저장
+        }
+
+        //board id로 lecture가져오기
+        Long lectureId = updatedLecture.getId();
+
+        //강의 아이디로 정보 가져오기
+        List<UserLecture> userLectureList = userLectureRepository.searchLecture(lectureId);
+
+        log.info("개수 : {}",userLectureList.size());
+        //강의 확정 메세지
+        for(UserLecture userLecture : userLectureList) {
+            Message message = Message.builder().content("")
+                    .type("confirm")
+                    .isChecked(0)
+                    .build();
+
+            message.setBoard(result.get());
+            message.setUser(userLecture.getUser());
+
+            messageRepository.save(message);
         }
 
         return updatedLecture.toDto();//확정된 강의 반환
