@@ -53,7 +53,6 @@ const customLecTime = (start, end) => {
 
 // Uniboard에서 데이터 받아올 것
 const LectureModal = ({ data, open, setOpen, handleClose }) => {
-  const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
   const [Luid, setLuid] = useState("none"); // 확정 강사 id 저장
   const postingTime = customPostingTime(data.createdTime, data.deadline);

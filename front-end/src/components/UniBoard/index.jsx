@@ -1,6 +1,6 @@
+import { useContext, useState } from "react";
 import LectureModal from "../LectureModal";
 import { SImg, SUniBoard } from "./styles";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as F from "@fortawesome/free-solid-svg-icons";
 import scrum from "../../assets/images/thumbnail/scrum.svg";
@@ -11,9 +11,12 @@ import meeting from "../../assets/images/thumbnail/meeting.svg";
 import conference from "../../assets/images/thumbnail/conference.svg";
 import study from "../../assets/images/thumbnail/study.svg";
 import teamwork from "../../assets/images/thumbnail/teamwork.svg";
+import { BoardDataContext } from "../../App";
 
 // 개별 게시물 component
-const UniBoard = ({ data, flag, setFlag }) => {
+const UniBoard = ({ data }) => {
+  const { flag, setFlag } = useContext(BoardDataContext);
+
   // Modal 파트 ========================
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -66,8 +69,6 @@ const UniBoard = ({ data, flag, setFlag }) => {
           open={open}
           setOpen={setOpen}
           handleClose={handleClose}
-          flag={flag}
-          setFlag={setFlag}
         />
       ) : null}
     </SUniBoard>
