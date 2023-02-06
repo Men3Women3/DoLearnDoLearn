@@ -1,7 +1,5 @@
-import styled from "styled-components"
-import Slider from "react-slick"
-
-// import SCard from "../CardBox";
+import styled from "styled-components";
+import Slider from "react-slick";
 
 export const SCardBox = styled.div`
   border-radius: 10px;
@@ -9,7 +7,7 @@ export const SCardBox = styled.div`
   padding: 1vw;
   margin: 2vw;
   background-color: transparent;
-`
+`;
 
 // 모든 내용물을 담은 div!
 export const SContainer = styled.div`
@@ -58,13 +56,13 @@ export const SContainer = styled.div`
       }
     }
   }
-`
+`;
 
 // 1. 페이지 제목
 export const STitle = styled.div`
   border-bottom: 3px solid black;
   margin-bottom: 1vw;
-`
+`;
 
 // 3. 사용자 지정 제목 - custom-title
 export const SBoardTitle = styled.div`
@@ -72,7 +70,7 @@ export const SBoardTitle = styled.div`
   h3 {
     margin-right: 1vw;
   }
-`
+`;
 
 export const STitleInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -84,7 +82,7 @@ export const STitleInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 // 4. 참여 인원 - people-number
 export const SParticipant = styled.div`
@@ -103,7 +101,7 @@ export const SParticipant = styled.div`
     font-family: ${(props) => props.theme.fontFamily.Regular};
     font-size: ${(props) => props.theme.fontFamily.Regular};
   }
-`
+`;
 
 export const SPartCnt = styled.select`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -113,13 +111,13 @@ export const SPartCnt = styled.select`
   border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
-`
+`;
 
 export const SGuide = styled.span`
   font-family: ${(props) => props.theme.fontFamily.Light};
   font-size: ${(props) => props.theme.fontSize.p};
   color: #cdcdcd;
-`
+`;
 
 // 5. 모집 기간 - recruit-period
 export const SRecruit = styled.div`
@@ -127,7 +125,7 @@ export const SRecruit = styled.div`
   h3 {
     margin-right: 1vw;
   }
-`
+`;
 
 export const SRecruitInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -138,7 +136,7 @@ export const SRecruitInput = styled.input`
   padding-left: 1vw;
   padding-right: 30px;
   margin-right: 1vw;
-`
+`;
 
 // 6. 강의 일시
 export const SLecture = styled.div`
@@ -146,7 +144,7 @@ export const SLecture = styled.div`
   h3 {
     margin-right: 1vw;
   }
-`
+`;
 
 export const SLectureInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -157,16 +155,26 @@ export const SLectureInput = styled.input`
   padding-left: 1vw;
   padding-right: 30px;
   margin-right: 1vw;
-`
+`;
 
-export const STimeInput = styled.input`
+// export const STimeInput = styled.input`
+//   font-family: ${(props) => props.theme.fontFamily.Regular};
+//   width: 3vw;
+//   height: calc(3.5vh + 15px);
+//   border: 2px solid #cdcdcd;
+//   border-radius: 8px;
+//   padding-left: 1vw;
+// `;
+
+export const STimeInput = styled.select`
   font-family: ${(props) => props.theme.fontFamily.Regular};
-  width: 3vw;
-  height: calc(3.5vh + 15px);
+  font-size: ${(props) => props.theme.fontSize.p};
+  width: 5vw;
+  height: calc(3.5vh + 9px);
   border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
-`
+`;
 
 export const SRadio = styled.fieldset`
   border: none;
@@ -189,7 +197,7 @@ export const SRadio = styled.fieldset`
     margin: 0;
     margin-right: 5px;
   }
-`
+`;
 
 // 글자수 제한 p태그
 export const SLimit = styled.p`
@@ -197,13 +205,13 @@ export const SLimit = styled.p`
   margin: 0;
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.p};
-`
+`;
 
 // 요청내용 요약 - request-summary
 export const SSummary = styled.div`
   font-size: ${(props) => props.theme.fontSize.p};
   resize: none;
-`
+`;
 
 export const SSummaryText = styled.textarea`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -220,13 +228,13 @@ export const SSummaryText = styled.textarea`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 // 요청내용 상세 - request-detail
 export const SDetail = styled.div`
   font-size: ${(props) => props.theme.fontSize.p};
   resize: none;
-`
+`;
 
 export const SDetailText = styled.textarea`
   font-family: ${(props) => props.theme.fontFamily.Regular};
@@ -243,12 +251,12 @@ export const SDetailText = styled.textarea`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 // 마지막 등록 버튼
 export const SButton = styled.div`
   display: grid;
-`
+`;
 
 export const SRegistButton = styled.button`
   border: none;
@@ -269,12 +277,12 @@ export const SRegistButton = styled.button`
     transform: translateY(-1px);
     color: ${(props) => props.theme.deeperYellow};
   }
-`
+`;
 
 export const SModal = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.h2};
-`
+`;
 
 export const SCancelButton = styled.button`
   margin-top: 40px;
@@ -288,4 +296,4 @@ export const SCancelButton = styled.button`
   outline: none;
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.h3};
-`
+`;
