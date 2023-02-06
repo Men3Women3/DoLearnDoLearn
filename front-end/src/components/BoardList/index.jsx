@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 // import createContext from "react";
-import { SContainer, SUniDiv } from './styles';
-import Pagination from '../Pagination';
-import UniBoard from '../UniBoard';
-import { boardListAPI } from '../../utils/api/boardAPI';
-import { useLocation } from 'react-router';
-import Timer from '../Timer';
+import { SContainer, SUniDiv } from "./styles";
+import Pagination from "../Pagination";
+import UniBoard from "../UniBoard";
+import { boardListAPI } from "../../utils/api/boardAPI";
+import { useLocation } from "react-router";
+import Timer from "../Timer";
 // export const Flag = createContext();
 
 const BoardList = ({ list, setList }) => {
@@ -29,22 +29,23 @@ const BoardList = ({ list, setList }) => {
   // }, [flag]);
 
   useEffect(() => {
-    if (list.length === 0) return;
+    // if (list.length === 0) return;
     boardListAPI(setList);
   }, [flag]);
 
   return (
     <>
       {/* <Flag.Provider value={{ flag, setFlag }}> */}
-      <Timer />
-      <SContainer className='container'>
+      {/* // 아래 타이머는 나중에 실시간 강의 화면에 추가될 것 */}
+      {/* <Timer /> */}
+      <SContainer className="container">
         {/* // offset으로 slicing해서 limit 만큼만 한 화면에 표시 */}
         {list.length > 0
           ? list.slice(offset, offset + limit).map((data) => {
               return (
                 <SUniDiv key={data.id}>
                   <UniBoard
-                    className='uni-board'
+                    className="uni-board"
                     data={data}
                     flag={flag}
                     setFlag={setFlag}
@@ -53,7 +54,7 @@ const BoardList = ({ list, setList }) => {
                 </SUniDiv>
               );
             })
-          : ''}
+          : ""}
       </SContainer>
       {list.length < 7 ? null : (
         <Pagination

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { SAlert, STimer } from './styles';
-import useInterval from '../../hooks/useInterval';
+import React, { useEffect, useState } from "react";
+import { SAlert, STimer } from "./styles";
+import useInterval from "../../hooks/useInterval";
 
 const useResultOfIntervalCalculator = (calculator, delay) => {
   const [result, setResult] = useState(calculator());
@@ -13,7 +13,7 @@ const useResultOfIntervalCalculator = (calculator, delay) => {
 };
 
 const Timer = () => {
-  const classTime = '2023-02-06 01:12:00';
+  const classTime = "2023-02-06 09:37:00";
   const isNotYet = useResultOfIntervalCalculator(
     () => new Date(classTime) - new Date() > 0,
     10
