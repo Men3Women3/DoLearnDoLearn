@@ -69,7 +69,7 @@ public class User {
 
     @Builder.Default
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Message> messageList = new ArrayList<>();
 
     @Builder.Default

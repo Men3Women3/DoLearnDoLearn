@@ -2,16 +2,13 @@ package com.example.dolearn.service;
 
 import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.User;
-import com.example.dolearn.dto.BoardDto;
-import com.example.dolearn.dto.FixedLectureDto;
-import com.example.dolearn.dto.SummaryUserDto;
-import com.example.dolearn.dto.UserDto;
+import com.example.dolearn.domain.UserBoard;
+import com.example.dolearn.domain.UserLecture;
+import com.example.dolearn.dto.*;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.*;
-import com.querydsl.core.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +26,12 @@ public class UserService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private UserBoardRepository userBoardRepository;
+
+    @Autowired
+    private UserLectureRepository userLectureRepository;
 
     @Autowired
     FixedLectureRepository fixedLectureRepository;
@@ -74,6 +77,7 @@ public class UserService {
     }
 
     public UserDto updateInfo(UserDto reqUserDto){
+        System.out.println(reqUserDto);
         if(reqUserDto.getId() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null || reqUserDto.getYoutube() == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
@@ -138,10 +142,33 @@ public class UserService {
         }
     }
 
-    public void delete(Long id){
+    public void delete(Long id) throws ParseException {
         Optional<User> user = userRepository.findOneById(id);
         if(!user.isPresent()){
             throw new CustomException(ErrorCode.NO_USER);
+        }
+        List<UserBoard> userBoards = userBoardRepository.findByUid(id);
+        UserBoardDto userBoardDto;
+        for(UserBoard userBoard : userBoards){
+            userBoardDto = userBoard.toDto();
+            userBoardDto.setUid(null);
+            userBoardDto.setUser(null);
+            userBoardRepository.save(userBoardDto.toEntity());
+        }
+        List<UserLecture> userLectures = userLectureRepository.findByUser(user.get());
+        UserLectureDto userLectureDto;
+        for(UserLecture userLecture : userLectures){
+            userLectureDto = userLecture.toDto();
+            userLectureDto.setUid(null);
+            userLectureDto.setUser(null);
+            userLectureRepository.save(userLectureDto.toEntity());
+        }
+        List<Board> boards = boardRepository.findByUid(id);
+        BoardDto boardDto;
+        for(Board board : boards){
+            boardDto = board.toDto();
+            boardDto.setUid(null);
+            boardRepository.save(boardDto.toEntity());
         }
         userRepository.delete(user.get());
     }
@@ -161,7 +188,7 @@ public class UserService {
         return userRepository.save(userDto.toEntity()).toDto();
     }
 
-    public List<BoardDto> getRequestLecture(Long id) throws ParseException {
+    public List<BoardDto> getRequestLecture(Long id) {
         if(id == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
@@ -171,8 +198,12 @@ public class UserService {
         }
         List<Board> reqBoardEntity = boardRepository.findRequestLecture(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
+        BoardDto boardDto;
         for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
+            boardDto = bEntity.toDto();
+            boardDto.setInstructors(userBoardRepository.findInstructors(bEntity.getId()).size());
+            boardDto.setStudents(userBoardRepository.findStudents(bEntity.getId()).size());
+            reqBoardDto.add(boardDto);
         }
         return reqBoardDto;
     }
@@ -187,8 +218,12 @@ public class UserService {
         }
         List<Board> reqBoardEntity = boardRepository.findRequestLectureByHost(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
+        BoardDto boardDto;
         for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
+            boardDto = bEntity.toDto();
+            boardDto.setInstructors(userBoardRepository.findInstructors(bEntity.getId()).size());
+            boardDto.setStudents(userBoardRepository.findStudents(bEntity.getId()).size());
+            reqBoardDto.add(boardDto);
         }
         return reqBoardDto;
     }
@@ -203,8 +238,12 @@ public class UserService {
         }
         List<Board> reqBoardEntity = boardRepository.findRequestLectureByInst(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
+        BoardDto boardDto;
         for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
+            boardDto = bEntity.toDto();
+            boardDto.setInstructors(userBoardRepository.findInstructors(bEntity.getId()).size());
+            boardDto.setStudents(userBoardRepository.findStudents(bEntity.getId()).size());
+            reqBoardDto.add(boardDto);
         }
         return reqBoardDto;
     }
@@ -219,8 +258,12 @@ public class UserService {
         }
         List<Board> reqBoardEntity = boardRepository.findRequestLectureByStud(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
+        BoardDto boardDto;
         for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
+            boardDto = bEntity.toDto();
+            boardDto.setInstructors(userBoardRepository.findInstructors(bEntity.getId()).size());
+            boardDto.setStudents(userBoardRepository.findStudents(bEntity.getId()).size());
+            reqBoardDto.add(boardDto);
         }
         return reqBoardDto;
     }
