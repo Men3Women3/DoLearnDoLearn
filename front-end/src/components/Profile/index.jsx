@@ -5,7 +5,7 @@ import {
   SSubContainerDown,
   SBlackButton,
   SSnsContainer,
-  SCustomToolTip,
+  SSCard,
 } from "./styles"
 import { Tooltip } from "@mui/material"
 
@@ -19,120 +19,115 @@ import facebookImg from "../../assets/images/sns/facebook.png"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
-import { LoginStateContext } from "../../App"
+import ProfileCardBox from "../ProfileCardBox"
+import { baseURL } from "../../utils/api/baseURL"
 
-const checkIsBlank = (target) => {
-  console.log(target)
-  if (target !== "") return true
-  return false
-}
+const Profile = ({
+  handleProfileEditBtn,
+  // isProfileEditActive,
+  user,
+  userState,
+}) => {
+  // console.log("유저정보", user)
+  const blog = user.blog
+  const youtube = user.youtube
+  const instagram = user.instagram
+  const facebook = user.facebook
 
-const Profile = (props) => {
-  // context API에서 유저 정보 가져오기
-  const getUserInfo = useContext(LoginStateContext)
-  console.log("유저정보", getUserInfo.userInfo)
-  // SMS 링크 존재하는지 확인
-  const checkBlog = checkIsBlank(getUserInfo.userInfo.blog)
-  const checkYoutube = checkIsBlank(getUserInfo.userInfo.youtube)
-  const checkInsta = checkIsBlank(getUserInfo.userInfo.instagram)
-  const checkFacebook = checkIsBlank(getUserInfo.userInfo.facebook)
+  // 받은 유저정보가 본인인지 확인하는 변수
+  const isMe = userState === "me" ? true : false
 
   return (
-    <SProfileContainer>
-      <SSubContainerUp>
-        {/* 프로필 이미지 */}
-        <img
-          className="profile-img"
-          src={
-            getUserInfo.userInfo.imgSrc
-              ? getUserInfo.userInfo.imgSrc
-              : defaultProfile
-          }
-          alt="defaultProfile"
-        />
-        <section>
-          <div className="info__container">
-            <div>
-              {/* 이름 */}
-              <span>{getUserInfo.userInfo.name}</span>
-              {/* 이메일 */}
-              <p>{getUserInfo.userInfo.email}</p>
-            </div>
-            {/* SNS 아이콘 */}
-            <SSnsContainer>
-              {checkBlog && (
-                <Tooltip
-                  title={`${getUserInfo.userInfo.name}님의 블로그 바로가기`}
-                  // placement="top"
-                  followCursor
-                >
-                  <a href={`${getUserInfo.userInfo.blog}`} target="_blank">
-                    <img src={blogImg} />
-                  </a>
-                </Tooltip>
-              )}
-              {checkYoutube && (
-                <Tooltip
-                  title={`${getUserInfo.userInfo.name}님의 유튜브 채널 바로가기`}
-                  // placement="top"
-                  // arrow
-                  followCursor
-                >
-                  <a
-                    // className="tooltip"
-                    href={`${getUserInfo.userInfo.youtube}`}
-                    target="_blank"
-                  >
-                    <img src={youtubeImg} />
-                  </a>
-                </Tooltip>
-              )}
-              {checkInsta && (
-                <Tooltip
-                  title={`${getUserInfo.userInfo.name}님의 인스타그램 바로가기`}
-                  // placement="top"
-                  // arrow
-                  followCursor
-                >
-                  <a
-                    // className="tooltip"
-                    href={`https://www.instagram.com/${getUserInfo.userInfo.instagram}/`}
-                    target="_blank"
-                  >
-                    <img src={instagramImg} />
-                  </a>
-                </Tooltip>
-              )}
-              {checkFacebook && (
-                <Tooltip
-                  title={`${getUserInfo.userInfo.name}님의 페이스북 바로가기`}
-                  // placement="top"
-                  // arrow
-                  followCursor
-                >
-                  <a
-                    // className="tooltip"
-                    href={`https://facebook.com/${getUserInfo.userInfo.facebook}/`}
-                    target="_blank"
-                  >
-                    <img src={facebookImg} />
-                  </a>
-                </Tooltip>
-              )}
-            </SSnsContainer>
-          </div>
-          {/* 마일리지 바 */}
-          <div>
-            <FontAwesomeIcon
-              icon={faLocationPin}
-              style={{
-                color: "black",
-                height: "calc(1vw + 1px)",
-                marginTop: "10px",
-              }}
+    <>
+      {/* <div style={{ width: "100%", height: "100px", backgroundColor: "aqua" }}> */}
+      {/* <Lottie options={defaultOptions} width={500} /> */}
+      {/* </div> */}
+      <SSCard>
+        <SProfileContainer>
+          <SSubContainerUp>
+            {/* 프로필 이미지 */}
+            <img
+              className="profile-img"
+              src={user.imgUrl ? `${baseURL}${user.imgUrl}` : defaultProfile}
+              alt="defaultProfile"
             />
-            <div className="wrapper">
-              {/* <div
+            <section>
+              <div className="info__container">
+                <div>
+                  {/* 이름 */}
+                  <span>{user.name}</span>
+                  {/* 이메일 */}
+                  <p>{user.email}</p>
+                </div>
+                {/* SNS 아이콘 */}
+                <SSnsContainer>
+                  {blog && (
+                    <Tooltip
+                      title={`${user.name}님의 블로그 바로가기`}
+                      // placement="top"
+                      followCursor
+                    >
+                      <a href={`${blog}`} target="_blank">
+                        <img src={blogImg} />
+                      </a>
+                    </Tooltip>
+                  )}
+                  {youtube && (
+                    <Tooltip
+                      title={`${user.name}님의 유튜브 채널 바로가기`}
+                      // placement="top"
+                      // arrow
+                      followCursor
+                    >
+                      <a href={`${user.youtube}`} target="_blank">
+                        <img src={youtubeImg} />
+                      </a>
+                    </Tooltip>
+                  )}
+                  {instagram && (
+                    <Tooltip
+                      title={`${user.name}님의 인스타그램 바로가기`}
+                      // placement="top"
+                      // arrow
+                      followCursor
+                    >
+                      <a
+                        href={`https://www.instagram.com/${user.instagram}/`}
+                        target="_blank"
+                      >
+                        <img src={instagramImg} />
+                      </a>
+                    </Tooltip>
+                  )}
+                  {facebook && (
+                    <Tooltip
+                      title={`${user.name}님의 페이스북 바로가기`}
+                      // placement="top"
+                      // arrow
+                      followCursor
+                    >
+                      <a
+                        href={`https://facebook.com/${user.facebook}/`}
+                        target="_blank"
+                      >
+                        <img src={facebookImg} />
+                      </a>
+                    </Tooltip>
+                  )}
+                </SSnsContainer>
+              </div>
+              {/* 마일리지 바 */}
+              <div>
+                <FontAwesomeIcon
+                  icon={faLocationPin}
+                  style={{
+                    color: "black",
+                    height: "calc(1vw + 1px)",
+                    marginTop: "10px",
+                  }}
+                />
+                <div className="wrapper">
+                  {/* <div
                   style={{
                     backgroundColor: "#24E843",
                     borderTopLeftRadius: "50px",
@@ -161,21 +156,27 @@ const Profile = (props) => {
                     borderBottomRightRadius: "50px",
                   }}
                 ></div> */}
-            </div>
-          </div>
-        </section>
-      </SSubContainerUp>
+                </div>
+              </div>
+            </section>
+          </SSubContainerUp>
 
-      <SSubContainerDown>
-        <div className="cd1tip">
-          {/* <SFontAwesomeIconAtProfile icon={faIdCard} /> */}
-          <div className="tip">{getUserInfo.userInfo.info}</div>
-        </div>
-        <SBlackButton onClick={props.handleProfileEditBtn}>
-          프로필 수정
-        </SBlackButton>
-      </SSubContainerDown>
-    </SProfileContainer>
+          <SSubContainerDown>
+            <div className="cd1tip">
+              <div className="tip">
+                {user.info ? user.info : `반가워요:D \n${user.name}입니다~!!`}
+              </div>
+            </div>
+            {/* 본인일 경우에만 프로필 수정 버튼 보이도록 */}
+            {isMe ? (
+              <SBlackButton onClick={handleProfileEditBtn}>
+                프로필 수정
+              </SBlackButton>
+            ) : null}
+          </SSubContainerDown>
+        </SProfileContainer>
+      </SSCard>
+    </>
   )
 }
 

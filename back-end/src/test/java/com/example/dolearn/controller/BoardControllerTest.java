@@ -69,7 +69,7 @@ public class BoardControllerTest {
 
         when(bService.insert(any())).thenReturn(boardDto);
 
-        mockMvc.perform(post("/board").with(csrf())
+        mockMvc.perform(post("/api/board").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(boardDto.toEntity())))
                 .andExpect(status().isCreated())
@@ -87,18 +87,18 @@ public class BoardControllerTest {
 
         when(bService.selectAll()).thenReturn(boardList);
 
-        mockMvc.perform(get("/board/list"))
+        mockMvc.perform(get("/api/board/list"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @DisplayName("글 상세보기")
     @Test
-    public void boadDetilTest() throws Exception{
+    public void boardDetailTest() throws Exception{
 
         when(bService.selectDetail(any())).thenReturn(boardDto1);
 
-        mockMvc.perform(get("/board/{board_id}",1))
+        mockMvc.perform(get("/api/board/{board_id}",1))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -108,7 +108,7 @@ public class BoardControllerTest {
     public void boardDeleteTest() throws Exception{
         when(bService.deleteBoard(any())).thenReturn(1);
 
-        mockMvc.perform(delete("/board/{board_id}",2).with(csrf()))
+        mockMvc.perform(delete("/api/board/{board_id}",2).with(csrf()))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -121,13 +121,13 @@ public class BoardControllerTest {
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("강사").build();
 
         result.add(userBoardDto.toEntity());
 
         when(ubService.getInstructors(any())).thenReturn(result);
 
-        mockMvc.perform(get("/board/instructor-list/{board_id}",1))
+        mockMvc.perform(get("/api/board/instructor-list/{board_id}",1))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -140,13 +140,13 @@ public class BoardControllerTest {
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("학생").build();
 
         result.add(userBoardDto.toEntity());
 
         when(ubService.getStudents(any())).thenReturn(result);
 
-        mockMvc.perform(get("/board/student-list/{board_id}",1))
+        mockMvc.perform(get("/api/board/student-list/{board_id}",1))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -162,7 +162,7 @@ public class BoardControllerTest {
         when(bService.searchBoardContent(any())).thenReturn(result);
         when(bService.searchBoardTitle(any())).thenReturn(result);
 
-        mockMvc.perform(get("/board/search/{keyword}","title"))
+        mockMvc.perform(get("/api/board/search/{keyword}","title"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -175,7 +175,7 @@ public class BoardControllerTest {
         UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+                .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("학생").build();
 
         when(userService.signup(any())).thenReturn(userDto);
         when(bService.insert(any())).thenReturn(boardDto1);
@@ -185,7 +185,7 @@ public class BoardControllerTest {
         data.put("uid",1L);
         data.put("bid",1L);
 
-        mockMvc.perform(post("/board/student").with(csrf())
+        mockMvc.perform(post("/api/board/student").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(data)))
                 .andExpect(status().isOk())
@@ -200,7 +200,7 @@ public class BoardControllerTest {
         UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(1L).uid(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("강사").build();
 
         when(userService.signup(any())).thenReturn(userDto);
         when(bService.insert(any())).thenReturn(boardDto1);
@@ -209,7 +209,7 @@ public class BoardControllerTest {
 
         data.put("uid",1L);
         data.put("bid",1L);
-        mockMvc.perform(post("/board/instructor").with(csrf())
+        mockMvc.perform(post("/api/board/instructor").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(data)))
                 .andExpect(status().isOk())
@@ -226,20 +226,7 @@ public class BoardControllerTest {
 
         when(ubService.cancelApply(any(),any())).thenReturn(1);
 
-        mockMvc.perform(delete("/board/apply/{uid}/{bid}",data.get("uid"),data.get("bid")).with(csrf()))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
-
-    @DisplayName("강의 확정 업데이트")
-    @Test
-    public void updateFixedTest() throws Exception{
-
-        when(bService.update(any())).thenReturn(boardDto1);
-
-        mockMvc.perform(put("/board/{board_id}",1).with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(boardDto1.toEntity())))
+        mockMvc.perform(delete("/api/board/apply/{uid}/{bid}",data.get("uid"),data.get("bid")).with(csrf()))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

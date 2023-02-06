@@ -16,7 +16,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -70,7 +73,7 @@ public class UserControllerTest {
 
             when(userService.signup(any(UserDto.class))).thenReturn(userDto);
 
-            mockMvc.perform(post("/user")
+            mockMvc.perform(post("/api/user")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .content(toJson(userDto)))
@@ -84,7 +87,7 @@ public class UserControllerTest {
 
             when(userService.signup(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION));
 
-            mockMvc.perform(post("/user")
+            mockMvc.perform(post("/api/user")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -106,7 +109,7 @@ public class UserControllerTest {
             when(jwtTokenProvider.createAccessToken(any(String.class))).thenReturn("access-token");
             when(userService.updateToken(any(UserDto.class), any(String.class), any(String.class))).thenReturn(userDto);
 
-            mockMvc.perform(post("/user/login")
+            mockMvc.perform(post("/api/user/login")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .content(toJson(userDto)))
@@ -120,7 +123,7 @@ public class UserControllerTest {
 
             when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
 
-            mockMvc.perform(post("/user/login")
+            mockMvc.perform(post("/api/user/login")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -135,7 +138,7 @@ public class UserControllerTest {
 
             when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_PASSWORD));
 
-            mockMvc.perform(post("/user/login")
+            mockMvc.perform(post("/api/user/login")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -150,15 +153,21 @@ public class UserControllerTest {
         @Test
         @DisplayName("사용자 정보 수정 성공")
         void success() throws Exception {
+            MockMultipartFile imgSrc = new MockMultipartFile("data", "other-file-name.data", "text/plain", "some other type".getBytes());
             UserDto userDto = UserDto.builder().build();
 
+            when(userService.getInfo(any(Long.class))).thenReturn(userDto);
             when(userService.updateInfo(any(UserDto.class))).thenReturn(userDto);
 
-            mockMvc.perform(put("/user")
+            MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart("/api/user");
+            builder.with(request -> {
+                request.setMethod("PUT");
+                return request;
+            });
+            mockMvc.perform(builder.file(imgSrc)
+                            .content(toJson(userDto))
                             .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .content(toJson(userDto)))
+                            .with(csrf()))
                     .andExpect(status().isOk());
         }
 
@@ -169,10 +178,9 @@ public class UserControllerTest {
 
             when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
 
-            mockMvc.perform(put("/user")
-                            .contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(put("/api/user")
                             .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .contentType(MediaType.APPLICATION_JSON)
                             .content(toJson(userDto)))
                     .andExpect(status().isMethodNotAllowed());
         }
@@ -184,10 +192,9 @@ public class UserControllerTest {
 
             when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
 
-            mockMvc.perform(put("/user")
-                            .contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(put("/api/user")
                             .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .contentType(MediaType.APPLICATION_JSON)
                             .content(toJson(userDto)))
                     .andExpect(status().isBadRequest());
         }
@@ -199,7 +206,7 @@ public class UserControllerTest {
         @Test
         @DisplayName("중복되지 않은 이메일")
         void success() throws Exception {
-            mockMvc.perform(post("/user/check-email/ssafy@naver.com")
+            mockMvc.perform(post("/api/user/check-email/ssafy@naver.com")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -211,7 +218,7 @@ public class UserControllerTest {
         void failByEmail() throws Exception {
             doThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION)).when(userService).checkEmail(any(String.class));
 
-            mockMvc.perform(post("/user/check-email/ssafy@naver.com")
+            mockMvc.perform(post("/api/user/check-email/ssafy@naver.com")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -225,7 +232,7 @@ public class UserControllerTest {
         @Test
         @DisplayName("사용작 삭제 성공")
         void success() throws Exception {
-            mockMvc.perform(delete("/user/1")
+            mockMvc.perform(delete("/api/user/1")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -237,7 +244,7 @@ public class UserControllerTest {
         void failByNoUser() throws Exception {
             doThrow(new CustomException(ErrorCode.NO_USER)).when(userService).delete(any(Long.class));
 
-            mockMvc.perform(delete("/user/1")
+            mockMvc.perform(delete("/api/user/1")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -255,7 +262,7 @@ public class UserControllerTest {
 
             when(userService.updatePoint(params)).thenReturn(any(UserDto.class));
 
-            mockMvc.perform(put("/user/point")
+            mockMvc.perform(put("/api/user/point")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -270,7 +277,7 @@ public class UserControllerTest {
 
             when(userService.updatePoint(params)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
 
-            mockMvc.perform(put("/user/point")
+            mockMvc.perform(put("/api/user/point")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)

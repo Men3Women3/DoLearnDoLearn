@@ -66,6 +66,32 @@ export const SImgSection = styled.section`
     width: calc(2vw + 400px);
     cursor: pointer;
   }
+  img:hover {
+    animation: swing 5000ms infinite;
+    /* transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px; */
+  }
+
+  @keyframes swing {
+    0%,
+    10% {
+      transform: rotate(0deg);
+    }
+    5%,
+    15%,
+    25%,
+    35%,
+    45% {
+      transform: rotate(5deg);
+    }
+    10%,
+    20%,
+    30%,
+    40% {
+      transform: rotate(-5deg);
+    }
+  }
 `;
 
 export const SForm = styled.form`

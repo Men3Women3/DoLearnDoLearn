@@ -42,12 +42,13 @@ import {
   SBackToLoginButton,
   SSubmitButton,
 } from "./styles";
-import useInput from "../../hoocks/useInput"; // 커스텀 훅
+import useInput from "../../hooks/useInput"; // 커스텀 훅
 import axios from "axios";
 import Lottie from "react-lottie";
 import animationData from "../../assets/images/SIGNUP";
 import { useEffect } from "react";
 import { signupAPI } from "../../utils/api/userAPI";
+import { duplicatedEmailCheckAPI } from "../../utils/api/userAPI";
 
 const style = {
   position: "absolute",
@@ -69,8 +70,6 @@ const defaultOptions = {
     preserveAspectRatio: "xMidYMid slice",
   },
 };
-
-const axiosDefaultURL = "http://localhost:8080";
 
 const SignUp = () => {
   const [username, onChangeUsername] = useInput("");
@@ -122,27 +121,22 @@ const SignUp = () => {
   // 이메일이 중복되지 않으면 setIsNext(true)를 통해 추가 입력사항 폼을 보여준다.
   // 이메일이 중복되면 모달을 통해 알림을 준다.
   useEffect(() => {
-    if (isDuplicatedEmail) {
-      axios
-        .post(`${axiosDefaultURL}/user/check-email/${email}`)
-        .then((response) => {
-          console.log("이메일 중복 확인 성공!");
-          setIsNext(true);
-        })
-        .catch((error) => {
-          if (error.response.data.response === "이미 존재하는 이메일입니다.") {
-            setIsDuplicatedEmail(false);
-            setOpen(true);
-            setIsNext(false);
-          }
-        });
-    }
+    duplicatedEmailCheckAPI(
+      isDuplicatedEmail,
+      email,
+      setIsNext,
+      setIsDuplicatedEmail,
+      setOpen
+    );
   }, [isDuplicatedEmail]);
 
   // 필수입력사항을 모두 입력했으면 이메일 중복 검사를 실행시키는 트리거 함수(useEffect를 실행시킴)
   const handleNextForm = () => {
-    if (!username || !email || !password || !passwordCheck) {
+    if (username && email && password && passwordCheck) {
+      setIsNext(true);
+    } else {
       setOpen(true);
+      setIsNext(false);
     }
     setIsDuplicatedEmail(true);
   };

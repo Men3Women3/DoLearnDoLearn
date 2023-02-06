@@ -38,9 +38,6 @@ public class User {
     @Column(length = 3000)
     private String info;
 
-    @Column(length = 4)
-    private String gender;
-
     @Column
     private Integer point;
 
@@ -56,8 +53,11 @@ public class User {
     @Column(length = 200)
     private String blog;
 
-    @Column(name="img_src", length = 200)
-    private String imgSrc;
+    @Column(name="img_path", length = 200)
+    private String imgPath;
+
+    @Column(name="img_url", length = 200)
+    private String imgUrl;
 
     @Column(name="refresh_token", length = 500)
     private String refreshToken;
@@ -85,7 +85,8 @@ public class User {
         this.instagram = (this.instagram == null) ? "" : this.instagram;
         this.facebook = (this.facebook == null) ? "" : this.facebook;
         this.blog = (this.blog == null) ? "" : this.blog;
-        this.imgSrc = (this.imgSrc == null) ? "" : this.imgSrc;
+        this.imgPath = (this.imgPath == null) ? "" : this.imgPath;
+        this.imgUrl = (this.imgUrl == null) ? "" : this.imgUrl;
     }
 
     public User update(String name,String email) {
@@ -110,13 +111,13 @@ public class User {
                 .email(email)
                 .password(password)
                 .info(info)
-                .gender(gender)
                 .point(point)
                 .youtube(youtube)
                 .instagram(instagram)
                 .facebook(facebook)
                 .blog(blog)
-                .imgSrc(imgSrc)
+                .imgPath(imgPath)
+                .imgUrl(imgUrl)
                 .refreshToken(refreshToken)
                 .joinDate(joinDate)
                 .build();

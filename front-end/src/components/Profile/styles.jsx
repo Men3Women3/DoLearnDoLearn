@@ -1,6 +1,11 @@
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Tooltip } from "@mui/material";
+import styled from "styled-components"
+import { Tooltip } from "@mui/material"
+import { SCard } from "../ProfileCardBox/styles"
+
+export const SSCard = styled(SCard)`
+  height: 33vw;
+  box-shadow: 5px 5px 30px #c4c4c454;
+`
 
 export const SProfileContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -12,13 +17,14 @@ export const SProfileContainer = styled.div`
 
   .tip {
     width: 100%;
-    max-height: 200px;
+    height: 15vw;
+    /* max-height: 200px; */
     /* overflow: auto; */
     word-wrap: break-word;
     white-space: -moz-pre-wrap;
     white-space: pre-wrap;
     /* background-color: #fdf7d8; */
-    border: 3px dashed ${(props) => props.theme.lightGray};
+    border: 4px dashed ${(props) => props.theme.lightGray};
     color: black;
     padding: calc(1vw + 5px);
     border-radius: 10px;
@@ -27,7 +33,7 @@ export const SProfileContainer = styled.div`
     /* 스클롤러 변경 */
     overflow-y: auto;
     &::-webkit-scrollbar {
-      width: calc(0.5vw + 1px);
+      width: 7px;
     }
     &::-webkit-scrollbar-track {
       background: transparent;
@@ -37,7 +43,7 @@ export const SProfileContainer = styled.div`
       border-radius: 10px;
     }
   }
-`;
+`
 
 export const SSubContainerUp = styled.div`
   display: flex;
@@ -47,7 +53,7 @@ export const SSubContainerUp = styled.div`
     height: calc(3vw + 70px);
     width: calc(3vw + 70px);
     border-radius: 50%;
-    /* border: calc(0.1vw + 1px) solid black; */
+    border: calc(0.1vw + 1px) solid #6e6e6eec;
     object-fit: cover;
     text-align: center;
   }
@@ -89,7 +95,7 @@ export const SSubContainerUp = styled.div`
       flex: 1;
     }
   }
-`;
+`
 
 export const SSnsContainer = styled.div`
   display: flex;
@@ -130,7 +136,7 @@ export const SSnsContainer = styled.div`
     /* margin-left: 8px; */
     cursor: pointer;
   }
-`;
+`
 
 export const SSubContainerDown = styled.div`
   width: 100%;
@@ -139,7 +145,7 @@ export const SSubContainerDown = styled.div`
   line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
-`;
+`
 
 export const SBlackButton = styled.button`
   width: calc(2vw + 80px);
@@ -156,11 +162,11 @@ export const SBlackButton = styled.button`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bolder;
   }
-`;
+`
 
 export const SCustomToolTip = styled(Tooltip)`
   background-color: yellow;
-`;
+`
 
 // const BootstrapTooltip = styled(
 //   ({ className, ...props }) => (

@@ -1,14 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { SCalendar } from "./styles";
+import { getScheduledLectureAPI } from "../../utils/api/userAPI";
+import LectureModal from "../LectureModal";
+import CardBox from "../CardBox";
+import LectureFixedModal from "../LectureFixedModal";
+import { getFixedLectureInfo } from "../../utils/api/boardAPI";
 
 const Calendar = () => {
+  // Modal 파트 ========================
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [data, setData] = useState({}); //모달에 전달할 데이터
+  const [checkModalState, setCheckModalState] = useState(false); // 모달에 전달할 데이터 상태 체크 변수
+  // ===================================
+  const [scheduledLecture, setScheduledLecture] = useState({});
+
+  // 일정 상세 api 통해 받아올 변수
+  const [instructorInfo, setInstructorInfo] = useState([]);
+  const [studentsInfo, setStudentsInfo] = useState([]);
+
+  // 렌더링 됐을 때, 일정 정보 불러오기
+  useEffect(() => {
+    getScheduledLectureAPI(localStorage.getItem("id"), setScheduledLecture);
+  }, []);
+
+  // 달력에 일정 클릭했을 때 LectureModal띄울 수 있도록 데이터 정제하기
   const handleEventClick = (arg) => {
-    alert(arg.event.title);
-    console.log(arg);
+    const dataForm = {
+      id: arg.event._def.extendedProps.bid,
+      uid: arg.event._def.extendedProps.uid,
+      createdTime: arg.event._def.extendedProps.createdTime,
+      deadline: arg.event._def.extendedProps.deadline,
+      startTime: arg.event.startStr,
+      endTime: arg.event.endStr,
+      title: arg.event.title,
+      content: arg.event._def.extendedProps.content,
+      summary: arg.event._def.extendedProps.summary,
+      instructors: arg.event._def.extendedProps.instructors,
+      students: arg.event._def.extendedProps.students,
+      maxCnt: arg.event._def.extendedProps.maxCnt,
+      isFixed: arg.event._def.extendedProps.isFixed,
+    };
+    // getFixedLectureInfo(
+    //   arg.event._def.extendedProps.bid,
+    //   setInstructorInfo,
+    //   setStudentsInfo,
+    //   setCheckModalState
+    // )
+    console.log("들어가는 값", dataForm);
+    // setData(dataForm)
+    // setCheckModalState(true)
   };
+
+  // 모달에 보낼 데이터 상태 바뀌면 LectureModal 띄움
+  useEffect(() => {
+    if (checkModalState) {
+      handleOpen();
+      setCheckModalState(false);
+    }
+  }, [checkModalState]);
+
   const eventContent = (eventInfo) => {
     return (
       <div
@@ -17,9 +72,18 @@ const Calendar = () => {
         }}
       >
         <b>
-          <p style={{ margin: 0, color: "orange" }}>{eventInfo.timeText}</p>
+          <p style={{ margin: 0, color: "orange", fontSize: "0.8vw" }}>
+            {eventInfo.timeText}
+          </p>
         </b>
-        <p style={{ margin: 0, whiteSpace: "normal", color: "white" }}>
+        <p
+          style={{
+            margin: 0,
+            whiteSpace: "normal",
+            color: "white",
+            fontSize: "0.9vw",
+          }}
+        >
           {eventInfo.event.title}
         </p>
       </div>
@@ -27,100 +91,41 @@ const Calendar = () => {
   };
 
   return (
-    <SCalendar>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin]}
-        initialView="dayGridMonth"
-        events={[
-          {
-            title: "살려주세요!!!",
-            start: "2023-01-01 23:30:00",
-            end: "2023-01-02 02:30:00",
-            color: "black",
-            backgroundColor: "black",
-            display: "list-item",
-          },
-          {
-            title: "두런두런은 중소기ㅇ...dsfsdafads",
-            start: "2023-01-02 14:30:00",
-            end: "2023-01-02 16:30:00",
-            color: "black",
-            backgroundColor: "black",
-            display: "list-item",
-            // display: "list-item",
-            // allDay: "false",
-          },
-          {
-            title: "스타트업1",
-            start: "2023-01-21 10:00:00",
-            end: "2023-01-21 12:00:00",
-            color: "black",
-            backgroundColor: "black",
-            display: "list-item",
-          },
-          {
-            title: "스타트업3",
-            start: "2023-01-21 12:00:00",
-            end: "2023-01-21 14:00:00",
-            color: "black",
-            backgroundColor: "black",
-            display: "list-item",
-          },
-          {
-            title: "스타트업4",
-            start: "2023-01-10 3:00:00",
-            end: "2023-01-10 4:00:00",
-            color: "black",
-            backgroundColor: "black",
-            display: "list-item",
-          },
-          {
-            title: "스타트업5",
-            start: "2023-01-10 16:00:00",
-            end: "2023-01-10 17:00:00",
-            color: "black",
-            backgroundColor: "black",
-            display: "list-item",
-          },
-          {
-            title: "스타트업6",
-            start: "2023-01-10 12:00:00",
-            end: "2023-01-10 14:00:00",
-            color: "black",
-            backgroundColor: "black",
-            display: "list-item",
-          },
-          {
-            title: "스타트업ffff",
-            start: "2023-01-09 23:00:00",
-            end: "2023-01-10 01:00:00",
-            display: "list-item",
-            color: "black",
-            backgroundColor: "black",
-            display: "list-item",
-          },
-        ]}
-        eventClick={handleEventClick}
-        headerToolbar={{
-          left: "title",
-          right: "prev,next today",
-          center: "dayGridMonth,timeGridWeek,timeGridDay",
-        }}
-        contentHeight="80vh"
-        eventTimeFormat={{
-          hour: "2-digit",
-          minute: "2-digit",
-          meridiem: false,
-          hour12: false,
-        }}
-        nowIndicator="true"
-        handleWindowResize="true"
-        // defaultAllDay="false"
-        displayEventEnd="true"
-        // firstDay={1}
-        eventContent={eventContent}
-      />
-    </SCalendar>
+    <CardBox>
+      <SCalendar>
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin]}
+          initialView="dayGridMonth"
+          events={scheduledLecture}
+          eventClick={handleEventClick}
+          headerToolbar={{
+            left: "title",
+            right: "prev,next today",
+            center: "dayGridMonth,timeGridWeek,timeGridDay",
+          }}
+          contentHeight="80vh"
+          eventTimeFormat={{
+            hour: "2-digit",
+            minute: "2-digit",
+            meridiem: false,
+            hour12: false,
+          }}
+          nowIndicator="true"
+          handleWindowResize="true"
+          displayEventEnd="true"
+          eventContent={eventContent}
+        />
+        {open ? (
+          <LectureFixedModal
+            open={open}
+            handleClose={handleClose}
+            instructorInfo={instructorInfo}
+            studentsInfo={studentsInfo}
+            setCheckModalState={setCheckModalState}
+          />
+        ) : null}
+      </SCalendar>
+    </CardBox>
   );
 };
 

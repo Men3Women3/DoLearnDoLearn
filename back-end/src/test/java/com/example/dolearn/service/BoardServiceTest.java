@@ -55,24 +55,19 @@ public class BoardServiceTest {
     @DisplayName("글 생성 테스트")
     @Test
     public void BoardCreateTest() throws Exception {
+        UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
-        BoardDto boardDto = BoardDto.builder()
+        BoardDto boardDto3 = BoardDto.builder()
                 .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18")
-                .startTime("2023-01-18 4").endTime("2")
+                .startTime("2023-01-18 14").endTime("2")
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
-        BoardDto bDto = BoardDto.builder()
-                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18")
-                .startTime("2023-01-18 4").endTime("2")
-                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+        when(boardRepository.save(any(Board.class))).thenReturn(boardDto1.toEntity());
+        when(userRepository.findOneById(any())).thenReturn(Optional.ofNullable(userDto.toEntity()));
 
-        boardDto.setTimes();
+        Board result = boardService.insert(boardDto3).toEntity();
 
-        when(boardRepository.save(any(Board.class))).thenReturn(boardDto.toEntity());
-
-        Board result = boardService.insert(bDto).toEntity();
-
-        assertEquals(boardDto.getContent(),result.getContent());
+        assertEquals(boardDto1.getContent(),result.getContent());
     }
 
     @DisplayName("글 목록 전체 조회")
@@ -102,7 +97,7 @@ public class BoardServiceTest {
 
     @DisplayName("글 삭제")
     @Test
-    public void deleteBoardTest() throws Exception{
+    public void deleteBoardTest(){
         when(boardRepository.deleteBoard(any())).thenReturn(1);
 
         int result = boardService.deleteBoard(boardDto1.getId());
@@ -140,20 +135,36 @@ public class BoardServiceTest {
         assertEquals(boardList.size(),result.size());
     }
 
-    @DisplayName("강의 확정 업데이트")
+    @DisplayName("요약으로 검색")
     @Test
-    public void updateTest() throws Exception{
-        Optional<Board> result = Optional.ofNullable(boardDto1.toEntity());
-        BoardDto boardDto = result.get().toDto();
-        boardDto.setFixed(1);
+    public void searchBoardSummaryTest() throws Exception{
+        List<Board> boardList = new ArrayList<>();
 
-        when(boardRepository.findById(any())).thenReturn(result);
+        boardList.add(boardDto1.toEntity());
+        boardList.add(boardDto2.toEntity());
 
-        when(boardRepository.save(any())).thenReturn(boardDto.toEntity());
+        when(boardRepository.findBySummaryContaining(any())).thenReturn(boardList);
 
-        boardService.update(boardDto.getId());
+        List<Board> result = boardService.searchBoardSummary(any());
 
-        assertEquals(boardDto.getIsFixed(),1);
+        assertEquals(boardList.size(),result.size());
+    }
+
+    @DisplayName("검색 결과 종합")
+    @Test
+    public void searchResultTest() throws Exception{
+        List<Board> boardList = new ArrayList<>();
+
+        boardList.add(boardDto1.toEntity());
+        boardList.add(boardDto2.toEntity());
+
+        when(boardRepository.findByContentContaining(any())).thenReturn(boardList);
+        when(boardRepository.findByTitleContaining(any())).thenReturn(boardList);
+        when(boardRepository.findBySummaryContaining(any())).thenReturn(boardList);
+
+        List<BoardDto> result = boardService.searchResult(boardList,boardList,boardList);
+
+        assertEquals(boardList.size(),result.size());
     }
 
     @DisplayName("강사 목록 조회")
@@ -164,7 +175,7 @@ public class BoardServiceTest {
         UserDto userDto = UserDto.builder().id(1L).name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("강사").build();
 
         userBoardList.add(userBoardDto.toEntity());
 
@@ -183,7 +194,7 @@ public class BoardServiceTest {
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
 
         UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("학생").build();
+                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("학생").build();
 
         userBoardList.add(userBoardDto.toEntity());
 
@@ -202,7 +213,7 @@ public class BoardServiceTest {
         Optional<Board> board = Optional.of(boardDto1.toEntity());
 
         UserBoard userBoard= UserBoard.builder()
-                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
+                .id(1L).bid(boardDto1.getId()).uid(userDto.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("강사").build();
 
         when(userRepository.findOneById(any())).thenReturn(user);
         when(boardRepository.findById(any())).thenReturn(board);
@@ -210,22 +221,21 @@ public class BoardServiceTest {
 
         UserBoardDto result = userBoardService.applyClass(userBoard);
 
-        assertEquals(userBoard.getUser_type(),result.getUser_type());
+        assertEquals(userBoard.getUserType(),result.getUserType());
 
     }
 
     @DisplayName("수강 취소")
     @Test
-    public void applyCancelTest() throws Exception{
+    public void applyCancelTest(){
         UserDto userDto = UserDto.builder().name("name").email("email").password("password").build();
-
-        UserBoardDto userBoardDto = UserBoardDto.builder()
-                .id(1L).board(boardDto1.toEntity()).user(userDto.toEntity()).user_type("강사").build();
 
         when(userBoardRepository.delete(any(),any())).thenReturn(1);
 
-        int result = userBoardService.ubRepo.delete(userDto.getId(),boardDto1.getId());
+        int result = userBoardService.userBoardRepository.delete(userDto.getId(),boardDto1.getId());
 
         assertEquals(1,result);
     }
+
+
 }
