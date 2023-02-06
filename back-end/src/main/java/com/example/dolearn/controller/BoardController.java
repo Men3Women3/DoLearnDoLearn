@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/api/board")
 @Slf4j
 public class BoardController {
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/lecture")
+@RequestMapping("/api/lecture")
 @RestController
 public class LectureController {
 
