@@ -1,13 +1,12 @@
-import React, { useContext, useState } from "react"
-import Box from "@mui/material/Box"
-import Modal from "@mui/material/Modal"
-import * as S from "./styles"
-import * as f from "@fortawesome/free-solid-svg-icons"
-import LecturerList from "../LecturerList"
-import LectureModalButton from "../LectureModalButton"
-import { LoginStateContext } from "../../App"
+import React, { useContext, useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import * as S from "./styles";
+import * as f from "@fortawesome/free-solid-svg-icons";
+import LecturerList from "../LecturerList";
+import LectureModalButton from "../LectureModalButton";
+import { BoardDataContext, LoginStateContext } from "../../App";
 
-// 확인주석
 const style = {
   position: "absolute",
   top: "50%",
@@ -19,45 +18,46 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "3vw",
-}
+};
 
 const customPostingTime = (start, end) => {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  const startYear = startDate.getFullYear().toString().slice(-2)
-  const startMonth = (startDate.getMonth() + 1).toString().padStart(2, "0")
-  const startDay = startDate.getDate().toString().padStart(2, "0")
-  const endYear = endDate.getFullYear().toString().slice(-2)
-  const endMonth = (endDate.getMonth() + 1).toString().padStart(2, "0")
-  const endDay = endDate.getDate().toString().padStart(2, "0")
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const startYear = startDate.getFullYear().toString().slice(-2);
+  const startMonth = (startDate.getMonth() + 1).toString().padStart(2, "0");
+  const startDay = startDate.getDate().toString().padStart(2, "0");
+  const endYear = endDate.getFullYear().toString().slice(-2);
+  const endMonth = (endDate.getMonth() + 1).toString().padStart(2, "0");
+  const endDay = endDate.getDate().toString().padStart(2, "0");
 
-  const custom = `${startYear}.${startMonth}.${startDay} ~ ${endYear}.${endMonth}.${endDay}`
-  return custom
-}
+  const custom = `${startYear}.${startMonth}.${startDay} ~ ${endYear}.${endMonth}.${endDay}`;
+  return custom;
+};
 
 const customLecTime = (start, end) => {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  const year = startDate.getFullYear().toString().slice(-2)
-  const month = (startDate.getMonth() + 1).toString().padStart(2, "0")
-  const day = startDate.getDate().toString().padStart(2, "0")
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const year = startDate.getFullYear().toString().slice(-2);
+  const month = (startDate.getMonth() + 1).toString().padStart(2, "0");
+  const day = startDate.getDate().toString().padStart(2, "0");
   const time = startDate.toLocaleTimeString("ko-KR", {
     hour: "numeric",
     minute: "numeric",
     hour12: false,
-  })
-  let remain = endDate.getHours() - startDate.getHours()
-  if (remain < 0) remain += 24
-  const custom = `${year}.${month}.${day} ${time} (${remain}시간)`
-  return custom
-}
+  });
+  let remain = endDate.getHours() - startDate.getHours();
+  if (remain < 0) remain += 24;
+  const custom = `${year}.${month}.${day} ${time} (${remain}시간)`;
+  return custom;
+};
 
 // Uniboard에서 데이터 받아올 것
-const LectureModal = ({ data, open, setOpen, handleClose, flag, setFlag }) => {
-  const { isLogined, userInfo } = useContext(LoginStateContext)
-  const [Luid, setLuid] = useState("none") // 확정 강사 id 저장
-  const postingTime = customPostingTime(data.createdTime, data.deadline)
-  const lecTime = customLecTime(data.startTime, data.endTime)
+const LectureModal = ({ data, open, setOpen, handleClose }) => {
+  const { flag, setFlag } = useContext(BoardDataContext);
+  const { userInfo } = useContext(LoginStateContext);
+  const [Luid, setLuid] = useState("none"); // 확정 강사 id 저장
+  const postingTime = customPostingTime(data.createdTime, data.deadline);
+  const lecTime = customLecTime(data.startTime, data.endTime);
 
   // const createdTime = data.createdTime.substring(0, 10).replaceAll("-", "."); // 모집시작
   // const deadline = data.deadline.substring(0, 10).replaceAll("-", "."); // 모집마감
@@ -124,16 +124,10 @@ const LectureModal = ({ data, open, setOpen, handleClose, flag, setFlag }) => {
             )}
           </div>
         </S.SNoBtnBox>
-        <LectureModalButton
-          Luid={Luid}
-          data={data}
-          setOpen={setOpen}
-          flag={flag}
-          setFlag={setFlag}
-        />
+        <LectureModalButton Luid={Luid} data={data} setOpen={setOpen} />
       </Box>
     </Modal>
-  )
-}
+  );
+};
 
-export default LectureModal
+export default LectureModal;
