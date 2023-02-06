@@ -1,79 +1,82 @@
-import React from "react";
+import React from "react"
 import {
   SSidebarContainer,
   SButtonContainer,
   SUserDeleteButtonContainer,
-} from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faUserSlash } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons";
-import { faCalendarXmark } from "@fortawesome/free-regular-svg-icons";
-import WarningModal from "../WarningModal";
-import axios from "axios";
-import { useNavigate } from "react-router";
-import { deleteUserAPI } from "../../utils/api/userAPI";
+} from "./styles"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
+import { faUser } from "@fortawesome/free-solid-svg-icons"
+import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons"
+import { faCalendarXmark } from "@fortawesome/free-regular-svg-icons"
+import WarningModal from "../WarningModal"
+import { useNavigate } from "react-router"
+import { deleteUserAPI } from "../../utils/api/userAPI"
 
 const ProfileSidebar = (props) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleDeleteUser = () => {
-    deleteUserAPI();
-  };
+    deleteUserAPI()
+  }
 
   return (
     <SSidebarContainer>
       {/* 프로필 탭 */}
       <SButtonContainer>
-        <button className="profile-page" onClick={props.handleTabValue}>
+        <div
+          className={
+            props.isProfileTabActive
+              ? "active tab__section profile-page"
+              : "tab__section tab-content profile-page"
+          }
+          onClick={props.handleTabValue}
+        >
           <FontAwesomeIcon icon={faUser} />
-          &nbsp;프로필
-        </button>
-        {props.isProfileTabActive && (
-          <div className="page__background">
-            &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-          </div>
-        )}
+          &emsp;프로필
+        </div>
       </SButtonContainer>
       {/* 일정 탭 */}
       <SButtonContainer>
-        <button className="schedule-page" onClick={props.handleTabValue}>
+        <div
+          className={
+            props.isScheduleTabActive
+              ? "active tab__section schedule-page"
+              : "tab__section tab-content schedule-page"
+          }
+          onClick={props.handleTabValue}
+        >
           <FontAwesomeIcon icon={faCalendarCheck} />
-          &nbsp;일정
-        </button>
-        {props.isScheduleTabActive && (
-          <div className="page__background">
-            &emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </div>
-        )}
+          &emsp;일정
+        </div>
       </SButtonContainer>
       {/* 미확정 강의 탭 */}
       <SButtonContainer>
-        <button
-          className="undecided-lecture-page"
+        <div
+          className={
+            props.isUnScheduleTabActive
+              ? "active tab__section undecided-lecture-page"
+              : "tab__section tab-content undecided-lecture-page"
+          }
           onClick={props.handleTabValue}
         >
           <FontAwesomeIcon icon={faCalendarXmark} />
-          &nbsp;미확정 강의
-        </button>
-        {props.isUnScheduleTabActive && (
-          <div className="page__background">
-            &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;
-          </div>
-        )}
+          &emsp;미확정 강의
+        </div>
       </SButtonContainer>
       {/* 메시지함 탭 */}
       <SButtonContainer>
-        <button className="message-page" onClick={props.handleTabValue}>
+        <div
+          className={
+            props.isMessageTabActive
+              ? "active tab__section message-page"
+              : "tab__section tab-content message-page"
+          }
+          onClick={props.handleTabValue}
+        >
           <FontAwesomeIcon icon={faEnvelope} />
-          &nbsp;메시지함
-        </button>
-        {props.isMessageTabActive && (
-          <div className="page__background">
-            &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
-          </div>
-        )}
+          &emsp;메시지함
+        </div>
       </SButtonContainer>
       {/* 회원탈퇴 버튼 */}
       <SUserDeleteButtonContainer>
@@ -87,7 +90,7 @@ const ProfileSidebar = (props) => {
         />
 
         {/* 강사가 강의 취소 시 (아직 넣을 컴포넌트가 없어서 여기서 임시로 테스트) */}
-        <WarningModal
+        {/* <WarningModal
           title="강의 취소 확인"
           warningContent="강의를 취소하면 점수 패널티를 받게 됩니다."
           content="강의 취소를 원하시면 확인을 눌러주세요."
@@ -105,10 +108,10 @@ const ProfileSidebar = (props) => {
             cols="52"
             rows="6"
           ></textarea>
-        </WarningModal>
+        </WarningModal> */}
       </SUserDeleteButtonContainer>
     </SSidebarContainer>
-  );
-};
+  )
+}
 
-export default ProfileSidebar;
+export default ProfileSidebar
