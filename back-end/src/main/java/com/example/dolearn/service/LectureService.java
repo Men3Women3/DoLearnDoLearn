@@ -107,26 +107,6 @@ public class LectureService {
             userLectureRepository.save(userLecture);//member_board table에 저장
         }
 
-        //board id로 lecture가져오기
-        Long lectureId = updatedLecture.getId();
-
-        //강의 아이디로 정보 가져오기
-        List<UserLecture> userLectureList = userLectureRepository.searchLecture(lectureId);
-
-        log.info("개수 : {}",userLectureList.size());
-        //강의 확정 메세지
-        for(UserLecture userLecture : userLectureList) {
-            Message message = Message.builder().content("")
-                    .type("confirm")
-                    .isChecked(0)
-                    .build();
-
-            message.setBoard(result.get());
-            message.setUser(userLecture.getUser());
-
-            messageRepository.save(message);
-        }
-
         return updatedLecture.toDto();//확정된 강의 반환
     }
 
