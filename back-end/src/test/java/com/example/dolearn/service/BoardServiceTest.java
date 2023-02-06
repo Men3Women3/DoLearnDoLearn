@@ -232,7 +232,7 @@ public class BoardServiceTest {
 
         when(userBoardRepository.delete(any(),any())).thenReturn(1);
 
-        int result = userBoardService.ubRepo.delete(userDto.getId(),boardDto1.getId());
+        int result = userBoardService.userBoardRepository.delete(userDto.getId(),boardDto1.getId());
 
         assertEquals(1,result);
     }

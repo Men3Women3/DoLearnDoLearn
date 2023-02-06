@@ -18,7 +18,7 @@ import java.util.Optional;
 public class UserBoardService {
 
     @Autowired
-    UserBoardRepository ubRepo;
+    UserBoardRepository userBoardRepository;
 
     @Autowired
     BoardRepository boardRepository;
@@ -27,12 +27,12 @@ public class UserBoardService {
     UserRepository userRepository;
 
     public List<UserBoard> getInstructors(Long bid){
-        List<UserBoard> instructorList = ubRepo.findInstructors(bid); //강사 리스트 받아오기
+        List<UserBoard> instructorList = userBoardRepository.findInstructors(bid); //강사 리스트 받아오기
 
         return instructorList;
     }
     public List<UserBoard> getStudents(Long bid){
-        List<UserBoard> studentList = ubRepo.findStudents(bid);//학생 리스트 받아오기
+        List<UserBoard> studentList = userBoardRepository.findStudents(bid);//학생 리스트 받아오기
 
         return studentList;
     }
@@ -51,11 +51,11 @@ public class UserBoardService {
                 .user(user.get()).userType(userBoard.getUserType()).build(); //UserBoard data 생성
 
         if(result.getUserType().equals("강사")){ //강사로 신청한 경우
-            return ubRepo.save(result).toDto(); //강사로 신청 적용
+            return userBoardRepository.save(result).toDto(); //강사로 신청 적용
         }
         else{ //학생으로 신청한 경우
-            if(result.getBoard().getMaxCnt()>ubRepo.findStudents(userBoard.getBid()).size()){ //신청할 강의의 최대 학생수를 넘지 않았다면
-                return ubRepo.save(result).toDto(); //수강 신청 적용
+            if(result.getBoard().getMaxCnt()> userBoardRepository.findStudents(userBoard.getBid()).size()){ //신청할 강의의 최대 학생수를 넘지 않았다면
+                return userBoardRepository.save(result).toDto(); //수강 신청 적용
             }
             else{ //넘었다면
                 throw new CustomException(ErrorCode.EXEED_STUDENTS); //오류 발생
@@ -71,6 +71,6 @@ public class UserBoardService {
 
         if(userRepository.findOneById(uid).isEmpty()) throw new CustomException(ErrorCode.NO_USER); //user가 없는 경우 오류 발생
 
-        return ubRepo.delete(uid, bid); //삭제 적용
+        return userBoardRepository.delete(uid, bid); //삭제 적용
     }
 }

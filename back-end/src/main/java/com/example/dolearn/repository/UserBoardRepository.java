@@ -16,9 +16,6 @@ public interface UserBoardRepository extends JpaRepository <UserBoard, Long> {
     @Query(value = "select * from member_board where bid=:bid and member_type='학생'", nativeQuery = true)
     List<UserBoard> findStudents(@Param("bid") Long bid);
 
-    @Query(value = "select * from member_board where uid=:uid",nativeQuery = true)
-    List<UserBoard> checkApply(@Param("uid") Long uid);
-
     @Modifying
     @Query(value = "delete from member_board where uid=:uid and bid=:bid")
     int delete(@Param("uid") Long uid, @Param("bid") Long bid);
