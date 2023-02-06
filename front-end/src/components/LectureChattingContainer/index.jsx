@@ -52,25 +52,29 @@ const LectureChattingContainer = (props) => {
 
   const handleMeesageSendKeyEvent = (e) => {
     // e.preventDefault();
-    if (e.nativeEvent.isComposing) {
-      return;
-    }
+    // if (e.nativeEvent.isComposing) {
+    // return;
+    // }
 
-    if (inputData && e.key === "Enter" && e.shiftKey) {
-      return;
-    } else if (e.key === "Enter") {
-      client.send(
-        `/pub/normal/${props.roomId}`,
-        {
-          Authentication: accessToken,
-        },
-        JSON.stringify({
-          roomId: props.roomId,
-          sender: props.username,
-          content: inputData,
-        })
-      );
-      setInputData("");
+    // if (inputData && e.key === "Enter" && !e.shiftKey) {
+    // return;
+    // }
+    if (e.key === "Enter") {
+      if (!e.shiftKey) {
+        client.send(
+          `/pub/normal/${props.roomId}`,
+          {
+            Authentication: accessToken,
+          },
+          JSON.stringify({
+            roomId: props.roomId,
+            sender: props.username,
+            content: inputData,
+          })
+        );
+        setInputData("");
+        console.log();
+      }
     }
   };
 
@@ -82,7 +86,9 @@ const LectureChattingContainer = (props) => {
     contentContainer.className = "content-container";
 
     const userNameTag = document.createElement("p");
-    userNameTag.innerText = `${meesage.sender} (수강생)`;
+    userNameTag.innerText = `${meesage.sender} ${
+      props.lecturerInfo.name === meesage.sender ? "(강사)" : "(수강생)"
+    }`;
 
     const contentTag = document.createElement("div");
     contentTag.innerText = meesage.content;
@@ -129,33 +135,13 @@ const LectureChattingContainer = (props) => {
           rows="1"
           value={inputData}
           onChange={(e) => setInputData(e.target.value)}
-          onKeyUp={(e) => handleMeesageSendKeyEvent(e)}
+          onKeyDown={(e) => handleMeesageSendKeyEvent(e)}
         />
         {/* 메시지 전송 버튼 */}
         <button onClick={(e) => handleMessageSend(e)}>
           <FontAwesomeIcon className="send-icon" icon={faPaperPlane} />
         </button>
       </SMessageContainer>
-      <SUsersContainer>
-        <span>
-          <img className="lecturer" src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-        <span>
-          <img src={thumbnailImg} alt="" />
-        </span>
-      </SUsersContainer>
     </SContainer>
   );
 };
