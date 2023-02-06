@@ -57,7 +57,7 @@ public class LectureControllerTest {
 
         when(lectureService.update(any(),any())).thenReturn(lecture.toDto());
 
-        mockMvc.perform(post("/lecture/fix",board.getId()).with(csrf())
+        mockMvc.perform(post("/api/lecture/fix",board.getId()).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(data)))
                 .andExpect(status().isOk())
@@ -78,7 +78,7 @@ public class LectureControllerTest {
 
         when(lectureService.getInstructor(any())).thenReturn(user.getId());
 
-        mockMvc.perform(get("/lecture/instructor/{Luid}",user.getId()))
+        mockMvc.perform(get("/api/lecture/instructor/{Luid}",user.getId()))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -102,7 +102,7 @@ public class LectureControllerTest {
 
         when(lectureService.getList(any())).thenReturn(userLectureList);
 
-        mockMvc.perform(get("/lecture/list/{lecture_id}",lecture.getId()))
+        mockMvc.perform(get("/api/lecture/list/{lecture_id}",lecture.getId()))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
