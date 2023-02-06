@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const SContainer = styled.section`
   margin: calc(1vw + 8px) 0px;
   margin-right: 10px;
-  height: 90%;
+  height: calc(6vw + 550px);
 `;
 
 // 유저 프로필 사진을 감싸는 div
@@ -39,11 +39,23 @@ export const SChattingContainer = styled.div`
   margin: auto; */
   margin: 0px;
   width: calc(1vw + 360px);
-  height: 86%;
+  height: calc(6vw + 495px);
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 5px 5px 5px #3737372d;
   overflow: auto;
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.deepYellow};
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+  }
 `;
 
 export const SChattingContent = styled.div`
@@ -63,8 +75,13 @@ export const SChattingContent = styled.div`
     margin-top: calc(0.3vw + 1px);
     margin-bottom: calc(0.5vw + 1px);
     font-size: calc(0.5vw + 5px);
+    max-width: calc(1vw + 150px);
+    word-wrap: break-word;
+    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
   }
   .entrance {
+    color: #ed6c02;
     margin: calc(0.5vw + 1px) 0px;
   }
   .content-container {
@@ -79,6 +96,7 @@ export const SMessageContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 10%;
+  width: calc(1vw + 360px);
   textarea {
     border-radius: 12px;
     border: none;
@@ -90,7 +108,6 @@ export const SMessageContainer = styled.div`
     padding: calc(0.3vw + 8px);
     padding-right: calc(0.3vw + 45px);
     overflow: hidden;
-
     /* Chrome, Edge, and Safari */
     /* ::-webkit-scrollbar {
       width: calc(0.9vw + 1px);

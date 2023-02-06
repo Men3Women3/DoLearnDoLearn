@@ -5,7 +5,7 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginStateContext } from "../../App";
 
-const WriteButton = () => {
+const WriteButton = ({ setList }) => {
   // context api를 통해 로그인 상태 받아오기
   const { isLogined, userInfo } = useContext(LoginStateContext);
 

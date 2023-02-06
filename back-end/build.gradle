@@ -61,6 +61,11 @@ dependencies {
 	// websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
+	// https://mvnrepository.com/artifact/org.webjars/sockjs-client
+	implementation group: 'org.webjars', name: 'sockjs-client', version: '1.0.2'
+	// https://mvnrepository.com/artifact/org.webjars/stomp-websocket
+	implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3'
+
 	// file upload
 	implementation 'commons-io:commons-io:2.6'
 	implementation 'commons-fileupload:commons-fileupload:1.4'
