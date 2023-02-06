@@ -1,9 +1,11 @@
 import axios from "axios";
 import { baseURL } from "./baseURL";
+// import { sendMessageAPI } from "./messageAPI";
 
 const BOARD_URL = `${baseURL}/board`;
 const PROFILE_URL = `${baseURL}/user`;
 
+// 확인주석
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {
   try {

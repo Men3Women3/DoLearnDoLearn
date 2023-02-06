@@ -9,16 +9,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends JpaRepository <Board, Long>, QBoardRepository{
-    Board save(Board board);
-
-    List<Board> findAll();
-
-    Optional<Board> findById(Long id);
-
     @Modifying
     @Query(value = "delete from board where id=:bid")
     int deleteBoard(@Param("bid") Long board_id);

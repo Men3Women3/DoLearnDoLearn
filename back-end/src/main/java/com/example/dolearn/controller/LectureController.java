@@ -1,5 +1,7 @@
 package com.example.dolearn.controller;
 
+import com.example.dolearn.dto.LectureDto;
+import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.response.ErrorResponse;
 import com.example.dolearn.response.SuccessResponse;
@@ -8,10 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,6 +34,51 @@ public class LectureController {
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                     HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/instructor/{lid}")
+    public ResponseEntity<?> getInstructor(@PathVariable Long lid){
+        log.info("강사 찾기 요청: {}",lid);
+
+        try{
+            return new ResponseEntity<>(new SuccessResponse(lectureService.getInstructor(lid)), HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/fix")
+    public ResponseEntity<?> updateFixed(@RequestBody Map<String,Long> idMap){
+        try{
+            log.info("업데이트 요청: {} {}",idMap.get("bid"),idMap.get("Luid"));
+            LectureDto updateBoard = lectureService.update(idMap.get("bid"),idMap.get("Luid"));
+            log.info("강의 업데이트 완료: {}",updateBoard);
+
+            return new ResponseEntity<>(new SuccessResponse(updateBoard), HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/list/{lid}")
+    public ResponseEntity<?> getList(@PathVariable Long lid){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(lectureService.getList(lid)), HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

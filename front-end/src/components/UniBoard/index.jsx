@@ -12,6 +12,7 @@ import conference from "../../assets/images/thumbnail/conference.svg";
 import study from "../../assets/images/thumbnail/study.svg";
 import teamwork from "../../assets/images/thumbnail/teamwork.svg";
 
+// 확인주석
 // 개별 게시물 component
 const UniBoard = ({ data, flag, setFlag }) => {
   // Modal 파트 ========================

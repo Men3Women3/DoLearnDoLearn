@@ -8,7 +8,6 @@ import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.response.ErrorResponse;
 import com.example.dolearn.response.SuccessResponse;
 import com.example.dolearn.service.BoardService;
-import com.example.dolearn.service.LectureService;
 import com.example.dolearn.service.UserBoardService;
 import com.example.dolearn.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +39,9 @@ public class BoardController {
             log.info("글 등록: {}",boardDto);
 
             return new ResponseEntity<>(new SuccessResponse(board), HttpStatus.CREATED);
-        } catch (Exception e){
+        }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("글 등록 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -58,9 +57,9 @@ public class BoardController {
             return new ResponseEntity<>(new SuccessResponse(boardDtoList),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
-        } catch (Exception e){
+        }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("조회 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -74,9 +73,9 @@ public class BoardController {
             return new ResponseEntity<>(new SuccessResponse(boardDto),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
-        } catch (Exception e){
+        }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("해당 글을 조회하는 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -92,7 +91,7 @@ public class BoardController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("삭제하는 과정에서 오류가 발생했습니다");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -107,7 +106,7 @@ public class BoardController {
             return new ResponseEntity<>(new SuccessResponse(applicants),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_INSTRUCTORS), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -121,7 +120,7 @@ public class BoardController {
             return new ResponseEntity<>(new SuccessResponse(applicants),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_STUDENTS), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -139,7 +138,7 @@ public class BoardController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("검색 결과를 가져오는 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -160,7 +159,7 @@ public class BoardController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.EXEED_STUDENTS), HttpStatus.CONFLICT);
         }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("강의 신청 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -180,7 +179,7 @@ public class BoardController {
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("강사 신청 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -195,31 +194,7 @@ public class BoardController {
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
-            return ExceptionHandling("강의 신청 취소 과정에서 오류가 발생했습니다!!");
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateFixed(@PathVariable Long id){
-        try{
-            BoardDto updateBoard = boardService.update(id);
-            log.info("강의 업데이트 완료: {}",updateBoard);
-
-//            Lecture lecture = Lecture.builder()
-//                    .userCnt(0).isDeleted(0).board(updateBoard.toEntity()).build();
-//
-//            lectureService.save(lecture);
-            return new ResponseEntity<>(new SuccessResponse("강의 확정이 완료되었습니다!!"), HttpStatus.OK);
-        }catch (CustomException e){
-            e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.FIXED_LECTURE), HttpStatus.CONFLICT);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ExceptionHandling("강의 확정을 하는 과정에서 오류가 발생했습니다!!");
-        }
-    }
-
-    public ResponseEntity<String> ExceptionHandling(String errorMessage){
-        return new ResponseEntity<>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

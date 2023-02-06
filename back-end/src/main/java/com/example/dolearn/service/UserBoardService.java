@@ -1,14 +1,10 @@
 package com.example.dolearn.service;
 
-import com.example.dolearn.domain.Board;
-import com.example.dolearn.domain.User;
-import com.example.dolearn.domain.UserBoard;
+import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.UserBoardDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
-import com.example.dolearn.repository.BoardRepository;
-import com.example.dolearn.repository.UserBoardRepository;
-import com.example.dolearn.repository.UserRepository;
+import com.example.dolearn.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +18,7 @@ import java.util.Optional;
 public class UserBoardService {
 
     @Autowired
-    UserBoardRepository ubRepo;
+    UserBoardRepository userBoardRepository;
 
     @Autowired
     BoardRepository boardRepository;
@@ -31,20 +27,14 @@ public class UserBoardService {
     UserRepository userRepository;
 
     public List<UserBoard> getInstructors(Long bid){
-        List<UserBoard> instructorList = ubRepo.findInstructors(bid); //강사 리스트 받아오기
+        List<UserBoard> instructorList = userBoardRepository.findInstructors(bid); //강사 리스트 받아오기
 
         return instructorList;
     }
     public List<UserBoard> getStudents(Long bid){
-        List<UserBoard> studentList = ubRepo.findStudents(bid);//학생 리스트 받아오기
+        List<UserBoard> studentList = userBoardRepository.findStudents(bid);//학생 리스트 받아오기
 
         return studentList;
-    }
-
-    public List<UserBoard> getApplicationList(Long uid){
-        List<UserBoard> applicationList = ubRepo.checkApply(uid);//해당 유저가 신청한 목록 받아오기
-
-        return applicationList;
     }
 
     @Transactional
@@ -61,11 +51,11 @@ public class UserBoardService {
                 .user(user.get()).userType(userBoard.getUserType()).build(); //UserBoard data 생성
 
         if(result.getUserType().equals("강사")){ //강사로 신청한 경우
-            return ubRepo.save(result).toDto(); //강사로 신청 적용
+            return userBoardRepository.save(result).toDto(); //강사로 신청 적용
         }
         else{ //학생으로 신청한 경우
-            if(result.getBoard().getMaxCnt()>ubRepo.findStudents(userBoard.getBid()).size()){ //신청할 강의의 최대 학생수를 넘지 않았다면
-                return ubRepo.save(result).toDto(); //수강 신청 적용
+            if(result.getBoard().getMaxCnt()> userBoardRepository.findStudents(userBoard.getBid()).size()){ //신청할 강의의 최대 학생수를 넘지 않았다면
+                return userBoardRepository.save(result).toDto(); //수강 신청 적용
             }
             else{ //넘었다면
                 throw new CustomException(ErrorCode.EXEED_STUDENTS); //오류 발생
@@ -81,6 +71,6 @@ public class UserBoardService {
 
         if(userRepository.findOneById(uid).isEmpty()) throw new CustomException(ErrorCode.NO_USER); //user가 없는 경우 오류 발생
 
-        return ubRepo.delete(uid, bid); //삭제 적용
+        return userBoardRepository.delete(uid, bid); //삭제 적용
     }
 }

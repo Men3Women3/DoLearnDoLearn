@@ -29,21 +29,21 @@ public class BoardRepositoryTest {
     private BoardRepository boardRepository;
 
     private final BoardDto boardDto1 = BoardDto.builder()
-            .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+            .uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
             .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
             .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     private final BoardDto boardDto2 = BoardDto.builder()
-            .id(2L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+            .uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
             .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
             .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
     @DisplayName("상세 정보보기 테스트")
     @Test
     public void boardRepositoryFindByIdTest() throws Exception{
-        boardRepository.save(boardDto2.toEntity());
+        Board savedBoard = boardRepository.save(boardDto2.toEntity());
 
-        Optional<Board> result = boardRepository.findById(boardDto2.getId());
+        Optional<Board> result = boardRepository.findById(savedBoard.getId());
 
         Board board=result.get();
 
@@ -78,9 +78,9 @@ public class BoardRepositoryTest {
     @DisplayName("삭제 테스트")
     @Test
     public void boardRepositoryDeleteTest() throws Exception{
-        boardRepository.save(boardDto1.toEntity());
+        Board savedBoard = boardRepository.save(boardDto1.toEntity());
 
-        int result = boardRepository.deleteBoard(1L);
+        int result = boardRepository.deleteBoard(savedBoard.getId());
 
         assertEquals(result, 1);
     }
