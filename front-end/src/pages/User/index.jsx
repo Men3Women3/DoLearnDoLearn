@@ -1,66 +1,68 @@
-import React, { useContext } from "react";
-import { useState } from "react";
+import React, { useContext } from "react"
+import { useState } from "react"
 
-import Navbar from "../../components/Navbar";
-import CardBox from "../../components/CardBox";
-import ProfileCardBox from "../../components/ProfileCardBox";
-import Profile from "../../components/Profile/index";
-import ProfileSidebar from "../../components/ProfileSidebar";
-import ProfileEdit from "../../components/ProfileEdit";
-import Calendar from "../../components/Calendar";
-import UnScheduleLecture from "../../components/UnScheduleLecture";
+import Navbar from "../../components/Navbar"
+import CardBox from "../../components/CardBox"
+import ProfileCardBox from "../../components/ProfileCardBox"
+import Profile from "../../components/Profile/index"
+import ProfileSidebar from "../../components/ProfileSidebar"
+import ProfileEdit from "../../components/ProfileEdit"
+import Calendar from "../../components/Calendar"
+import UnScheduleLecture from "../../components/UnScheduleLecture"
 
-import Grid from "@mui/material/Grid";
-import { useEffect } from "react";
-import Message from "../../components/Message";
-import { useNavigate } from "react-router";
-import { LoginStateContext } from "../../App";
+import Grid from "@mui/material/Grid"
+import { useEffect } from "react"
+import Message from "../../components/Message"
+import { useNavigate } from "react-router"
+import { LoginStateContext } from "../../App"
 
 const User = () => {
-  const getUserInfo = useContext(LoginStateContext);
+  const getUserInfo = useContext(LoginStateContext)
 
-  const [isProfileTabActive, setIsProfileTabActive] = useState(true);
-  const [isScheduleTabActive, setIsScheduleTabActive] = useState(false);
-  const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(false);
-  const [isMessageTabActive, setIsMessageTabActive] = useState(false);
-  const [isProfileEditActive, setIsProfileEditActive] = useState(false);
+  const [isProfileTabActive, setIsProfileTabActive] = useState(true)
+  const [isScheduleTabActive, setIsScheduleTabActive] = useState(false)
+  const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(false)
+  const [isMessageTabActive, setIsMessageTabActive] = useState(false)
+  const [isProfileEditActive, setIsProfileEditActive] = useState(false)
 
   // ProfileSidebar에 내려줄 함수
   // ProfileSidebar에 있는 4개의 탭 중 하나를 클릭하면 그 탭의 클래스네임을 매칭해서
   // state를 변경하는 함수
   // 이 함수를 내려주면 ProfileSidebar에 state들만 내려주면 된다. 상태관리는 이 함수가 맡는다.
   const handleTabValue = (e) => {
-    if (e.target.className === "profile-page") {
-      setIsProfileTabActive(true);
-      setIsScheduleTabActive(false);
-      setIsUnScheduleTabActive(false);
-      setIsMessageTabActive(false);
-      setIsProfileEditActive(false);
-    } else if (e.target.className === "schedule-page") {
-      setIsProfileTabActive(false);
-      setIsScheduleTabActive(true);
-      setIsUnScheduleTabActive(false);
-      setIsMessageTabActive(false);
-      setIsProfileEditActive(false);
-    } else if (e.target.className === "undecided-lecture-page") {
-      setIsProfileTabActive(false);
-      setIsScheduleTabActive(false);
-      setIsUnScheduleTabActive(true);
-      setIsMessageTabActive(false);
-      setIsProfileEditActive(false);
-    } else if (e.target.className === "message-page") {
-      setIsProfileTabActive(false);
-      setIsScheduleTabActive(false);
-      setIsUnScheduleTabActive(false);
-      setIsMessageTabActive(true);
-      setIsProfileEditActive(false);
+    console.log(e.target)
+    if (e.target.className.includes("profile-page")) {
+      console.log("프로필로 들어옴?")
+      setIsProfileTabActive(true)
+      setIsScheduleTabActive(false)
+      setIsUnScheduleTabActive(false)
+      setIsMessageTabActive(false)
+      setIsProfileEditActive(false)
+    } else if (e.target.className.includes("schedule-page")) {
+      setIsProfileTabActive(false)
+      setIsScheduleTabActive(true)
+      setIsUnScheduleTabActive(false)
+      setIsMessageTabActive(false)
+      setIsProfileEditActive(false)
+    } else if (e.target.className.includes("undecided-lecture-page")) {
+      setIsProfileTabActive(false)
+      setIsScheduleTabActive(false)
+      setIsUnScheduleTabActive(true)
+      setIsMessageTabActive(false)
+      setIsProfileEditActive(false)
+    } else if (e.target.className.includes("message-page")) {
+      setIsProfileTabActive(false)
+      setIsScheduleTabActive(false)
+      setIsUnScheduleTabActive(false)
+      setIsMessageTabActive(true)
+      setIsProfileEditActive(false)
     }
-  };
+  }
 
   // 프로필 변경 / 완료 버튼 클릭시 상태 변경 함수
   const handleProfileEditBtn = (e) => {
-    setIsProfileEditActive(!isProfileEditActive);
-  };
+    setIsProfileEditActive(!isProfileEditActive)
+  }
 
   // useEffect(() => {
   //   console.log("바뀜!");
@@ -104,26 +106,14 @@ const User = () => {
               isProfileEditActive={isProfileEditActive}
             />
           )}
-          {isScheduleTabActive && (
-            <CardBox>
-              <Calendar />
-            </CardBox>
-          )}
-          {isUnScheduleTabActive && (
-            <CardBox>
-              <UnScheduleLecture />
-            </CardBox>
-          )}
-          {isMessageTabActive && (
-            <CardBox>
-              <Message />
-            </CardBox>
-          )}
+          {isScheduleTabActive && <Calendar />}
+          {isUnScheduleTabActive && <UnScheduleLecture />}
+          {isMessageTabActive && <Message />}
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-export default User;
+export default User

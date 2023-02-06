@@ -12,4 +12,7 @@ public interface UserLectureRepository extends JpaRepository<UserLecture,Long> {
 
     @Query(value = "select * from member_lecture where lid=:lid and member_type='학생'", nativeQuery = true)
     List<UserLecture> findByLectureId(@Param("lid") Long lid);
+
+    @Query(value = "select * from member_lecture where lid=:lid", nativeQuery = true)
+    List<UserLecture> searchLecture(@Param("lid") Long lid);
 }
