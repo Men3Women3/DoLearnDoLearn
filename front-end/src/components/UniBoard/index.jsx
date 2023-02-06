@@ -1,29 +1,29 @@
-import LectureModal from "../LectureModal";
-import { SImg, SUniBoard } from "./styles";
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as F from "@fortawesome/free-solid-svg-icons";
-import scrum from "../../assets/images/thumbnail/scrum.svg";
-import cooking from "../../assets/images/thumbnail/cooking.svg";
-import exercise from "../../assets/images/thumbnail/exercise.svg";
-import drawing from "../../assets/images/thumbnail/drawing.svg";
-import meeting from "../../assets/images/thumbnail/meeting.svg";
-import conference from "../../assets/images/thumbnail/conference.svg";
-import study from "../../assets/images/thumbnail/study.svg";
-import teamwork from "../../assets/images/thumbnail/teamwork.svg";
+import LectureModal from "../LectureModal"
+import { SImg, SUniBoard } from "./styles"
+import { useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import * as F from "@fortawesome/free-solid-svg-icons"
+import scrum from "../../assets/images/thumbnail/scrum.svg"
+import cooking from "../../assets/images/thumbnail/cooking.svg"
+import exercise from "../../assets/images/thumbnail/exercise.svg"
+import drawing from "../../assets/images/thumbnail/drawing.svg"
+import meeting from "../../assets/images/thumbnail/meeting.svg"
+import conference from "../../assets/images/thumbnail/conference.svg"
+import study from "../../assets/images/thumbnail/study.svg"
+import teamwork from "../../assets/images/thumbnail/teamwork.svg"
 
 // 확인주석
 // 개별 게시물 component
 const UniBoard = ({ data, flag, setFlag }) => {
   // Modal 파트 ========================
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
   // ===================================
 
-  const startTime = data.createdTime.substring(5, 10).replaceAll("-", ".");
-  const deadline = data.endTime.substring(5, 13).replaceAll("-", ".");
-  const endTime = data.deadline.substring(5, 10).replaceAll("-", ".");
+  const startTime = data.createdTime.substring(5, 10).replaceAll("-", ".")
+  const deadline = data.endTime.substring(5, 13).replaceAll("-", ".")
+  const endTime = data.deadline.substring(5, 10).replaceAll("-", ".")
 
   const thumbnails = [
     scrum,
@@ -34,7 +34,7 @@ const UniBoard = ({ data, flag, setFlag }) => {
     conference,
     study,
     teamwork,
-  ];
+  ]
 
   return (
     <SUniBoard>
@@ -72,7 +72,7 @@ const UniBoard = ({ data, flag, setFlag }) => {
         />
       ) : null}
     </SUniBoard>
-  );
-};
+  )
+}
 
-export default UniBoard;
+export default UniBoard

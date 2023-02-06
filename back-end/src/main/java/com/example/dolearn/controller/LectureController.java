@@ -68,4 +68,17 @@ public class LectureController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/list/{lid}")
+    public ResponseEntity<?> getList(@PathVariable Long lid){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(lectureService.getList(lid)), HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

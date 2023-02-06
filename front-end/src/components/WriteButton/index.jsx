@@ -14,11 +14,7 @@ const WriteButton = ({ setList }) => {
   function handleWriteBoard() {
     // 로그인이 되어있으면 글쓰러 가고, 아니면 로그인창
     if (isLogined) {
-      navigate("/write", {
-        state: {
-          setList: setList(),
-        },
-      });
+      navigate("/write");
     } else {
       navigate("/login");
     }
