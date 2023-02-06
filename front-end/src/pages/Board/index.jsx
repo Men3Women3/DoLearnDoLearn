@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { useContext } from "react";
 import Navbar from "../../components/Navbar";
 import SearchBar from "../../components/SearchBar";
 import WriteButton from "../../components/WriteButton";
@@ -8,11 +8,8 @@ import SmallSchedule from "../../components/SmallSchedule";
 import { SOutterBox, SInnerBox } from "./styles";
 import { LoginStateContext } from "../../App";
 
-// const ListUpdateContext = createContext();
-
 const Board = () => {
-  const [list, setList] = useState([]); // 강의 정보 List
-  const { isLogined, userInfo } = useContext(LoginStateContext);
+  const { isLogined } = useContext(LoginStateContext);
 
   return (
     <Grid container>
@@ -29,12 +26,10 @@ const Board = () => {
           <Grid item xs={12} md={9}>
             <SOutterBox>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <SearchBar setList={setList} />
+                <SearchBar />
                 <SInnerBox>
-                  {/* <ListUpdateContext.Provider value={{ list, setList }}> */}
-                  <WriteButton setList={setList} />
-                  <BoardList list={list} setList={setList} />
-                  {/* </ListUpdateContext.Provider> */}
+                  <WriteButton />
+                  <BoardList />
                 </SInnerBox>
               </div>
               <SmallSchedule />
@@ -48,10 +43,10 @@ const Board = () => {
           <Grid item xs={12} md={6}>
             <SOutterBox>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <SearchBar setList={setList} />
+                <SearchBar />
                 <SInnerBox>
                   <WriteButton />
-                  <BoardList list={list} setList={setList} />
+                  <BoardList />
                 </SInnerBox>
               </div>
             </SOutterBox>

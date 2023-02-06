@@ -203,7 +203,6 @@ const NewBoard = () => {
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
-            <option value="6">6</option>
           </S.SPartCnt>
           <h3>&nbsp;명</h3>
           <S.SGuide>* 본인을 포함해서 설정해주세요</S.SGuide>
