@@ -198,8 +198,12 @@ public class UserService {
         }
         List<Board> reqBoardEntity = boardRepository.findRequestLecture(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
+        BoardDto boardDto;
         for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
+            boardDto = bEntity.toDto();
+            boardDto.setInstructors(userBoardRepository.findInstructors(bEntity.getId()).size());
+            boardDto.setStudents(userBoardRepository.findStudents(bEntity.getId()).size());
+            reqBoardDto.add(boardDto);
         }
         return reqBoardDto;
     }
@@ -214,8 +218,12 @@ public class UserService {
         }
         List<Board> reqBoardEntity = boardRepository.findRequestLectureByHost(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
+        BoardDto boardDto;
         for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
+            boardDto = bEntity.toDto();
+            boardDto.setInstructors(userBoardRepository.findInstructors(bEntity.getId()).size());
+            boardDto.setStudents(userBoardRepository.findStudents(bEntity.getId()).size());
+            reqBoardDto.add(boardDto);
         }
         return reqBoardDto;
     }
@@ -230,8 +238,12 @@ public class UserService {
         }
         List<Board> reqBoardEntity = boardRepository.findRequestLectureByInst(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
+        BoardDto boardDto;
         for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
+            boardDto = bEntity.toDto();
+            boardDto.setInstructors(userBoardRepository.findInstructors(bEntity.getId()).size());
+            boardDto.setStudents(userBoardRepository.findStudents(bEntity.getId()).size());
+            reqBoardDto.add(boardDto);
         }
         return reqBoardDto;
     }
@@ -246,8 +258,12 @@ public class UserService {
         }
         List<Board> reqBoardEntity = boardRepository.findRequestLectureByStud(id);
         List<BoardDto> reqBoardDto = new ArrayList<>();
+        BoardDto boardDto;
         for(Board bEntity: reqBoardEntity){
-            reqBoardDto.add(bEntity.toDto());
+            boardDto = bEntity.toDto();
+            boardDto.setInstructors(userBoardRepository.findInstructors(bEntity.getId()).size());
+            boardDto.setStudents(userBoardRepository.findStudents(bEntity.getId()).size());
+            reqBoardDto.add(boardDto);
         }
         return reqBoardDto;
     }
