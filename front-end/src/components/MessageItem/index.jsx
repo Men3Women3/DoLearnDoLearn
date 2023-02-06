@@ -55,6 +55,7 @@ const customTime = (target) => {
 const MessageItem = ({ data, setCheckState, setCheckDeleteState }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
+
   // 메시지 읽음 여부 상태 변수
   const checkMessage = checkRead(data.isChecked);
   const type = checkType(data.type);

@@ -1,19 +1,22 @@
 import axios from "axios";
 import { baseURL } from "./baseURL";
+import { sendMessageAPI } from "./messageAPI";
 // import { sendMessageAPI } from "./messageAPI";
 
 const BOARD_URL = `${baseURL}/board`;
 const PROFILE_URL = `${baseURL}/user`;
+const LECTURE_URL = `${baseURL}/lecture`;
 
-// 확인주석
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {
   try {
     const res = await axios.get(`${BOARD_URL}/list`);
+    console.log(res.data.response);
     setList(res.data.response);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     console.log("강의 목록 출력 실패");
+    setList([]);
   }
 };
 
@@ -101,11 +104,16 @@ export const cancelEnrollAPI = async (user, lecture) => {
   }
 };
 
-// 강의 확정 API
-export const fixClassAPI = async (lecture) => {
+// 모집 완료 API
+export const fixClassAPI = async (lecture, uid) => {
   try {
-    await axios.put(`${BOARD_URL}/${lecture}`);
+    const res = await axios.post(`${LECTURE_URL}/fix`, {
+      bid: lecture,
+      Luid: uid,
+    });
     console.log("강의 확정 성공");
+    // 강의 확정 성공하면 확정 메시지 보내기
+    sendMessageAPI(res.data.response.bid, "", "confirm");
   } catch (err) {
     console.log(err);
     console.log("강의 확정 실패");
@@ -154,7 +162,6 @@ export const lecListAPI = async (board, setLecList) => {
         list.push(item.uid);
       });
       setLecList(list);
-      console.log("강사 성공");
     }
   } catch (err) {
     console.log(err);
@@ -174,7 +181,6 @@ export const stuListAPI = async (board, setStuList) => {
         list.push(item.uid);
       });
       setStuList(list);
-      console.log("수강생 성공");
     }
   } catch (err) {
     console.log(err);
@@ -191,4 +197,18 @@ export const lecProfileAPI = async (id, setData) => {
     console.log(err);
     console.log("프로필 정보 반환 실패");
   }
+};
+
+// 확정 강의(일정 상세보기) 강사/수강생 정보 확인 API
+export const getFixedLectureInfo = async (
+  lid,
+  setInstructorInfo,
+  setStudentsInfo,
+  setCheckModalState
+) => {
+  const res = await axios.get(`${LECTURE_URL}/list/${lid}`);
+  console.log("정보 받아오기 성공", res.data.response);
+  setStudentsInfo(res.data.response[0]); // 수강생(들) 정보
+  setInstructorInfo(res.data.response[1]); // 강사 정보
+  setCheckModalState(true);
 };

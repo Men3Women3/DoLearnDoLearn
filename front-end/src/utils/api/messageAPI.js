@@ -72,9 +72,7 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
     });
 };
 
-// ===========userId 수정필요==============
 // 받은 메시지 모두 불러오는 요청
-// =======================================
 export const getMessageListAPI = async (userId, setMessageData) => {
   const res = await axios.get(`${axiosDefaultURL}/message/user/${userId}`);
   setMessageData(res.data.response);
@@ -83,7 +81,7 @@ export const getMessageListAPI = async (userId, setMessageData) => {
 // 메시지 삭제 요청
 export const deleteMessageAPI = async (messageId) => {
   const accessToken = localStorage.getItem("accessToken");
-  const res = await axios.delete(
+  axios.delete(
     `${axiosDefaultURL}/message/${messageId}`,
     {},
     {

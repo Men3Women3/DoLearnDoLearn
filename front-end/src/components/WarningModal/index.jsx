@@ -1,11 +1,11 @@
-import React, { Children, useState } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { SSection, SSpan, SUl, SButtonContainer } from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
+import React, { Children, useState } from "react"
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import Modal from "@mui/material/Modal"
+import { SSection, SSpan, SUl, SButtonContainer } from "./styles"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUserSlash } from "@fortawesome/free-solid-svg-icons"
 
 const style = {
   position: "absolute",
@@ -18,19 +18,19 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "20px 30px",
-};
+}
 
 const WarningModal = (props) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   return (
     <SSection>
       {props.profileSidebar && (
         <Button className="modal-button" onClick={handleOpen}>
           <FontAwesomeIcon className="user-delete" icon={faUserSlash} />
-          회원탈퇴
+          &nbsp;회원탈퇴
         </Button>
       )}
       {props.lectureCancel && (
@@ -75,7 +75,7 @@ const WarningModal = (props) => {
         </Box>
       </Modal>
     </SSection>
-  );
-};
+  )
+}
 
-export default WarningModal;
+export default WarningModal

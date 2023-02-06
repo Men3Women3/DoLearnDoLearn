@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SButtonBox = styled.div`
+  margin-top: 20px;
   display: flex;
   padding: 0 5vw;
   justify-content: center;
-`;
+`
 
 export const SButton = styled.button`
   border: none;
@@ -25,4 +26,4 @@ export const SButton = styled.button`
     transform: translateY(-1px);
     color: ${(props) => props.theme.deeperYellow};
   }
-`;
+`

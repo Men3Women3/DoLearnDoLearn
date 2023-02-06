@@ -275,6 +275,7 @@ export const duplicatedEmailCheckAPI = (
       .post(`${axiosDefaultURL}/user/check-email/${email}`)
       .then((response) => {
         console.log("이메일 중복 확인 성공!");
+        // setIsNext(true);
       })
       .catch((error) => {
         if (error.response.data.response === "이미 존재하는 이메일입니다.") {
@@ -325,21 +326,21 @@ export const signupAPI = (
 export const getFixedLecture = (userInfo, setTodayScedule) => {
   let totalFixedLectures = [];
   axios
-    // .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
+    .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
     // 테스트용
-    .get(`http://localhost:8080/user/fixed-lecture/${userInfo.id}`)
+    // .get(`http://localhost:8080/user/fixed-lecture/1`)
     .then((response) => {
       const responseData = response.data.response;
-      console.log(responseData);
+      // console.log(responseData);
       totalFixedLectures = [...responseData];
       const todayLectures = totalFixedLectures.filter((item) => {
         const startTime = item.startTime;
         const year = new Date().getFullYear();
-        // const month = new Date().getMonth() + 1;
-        // const day = new Date().getDate();
+        const month = new Date().getMonth() + 1;
+        const day = new Date().getDate();
         // 테스트용
-        const month = 1;
-        const day = 12;
+        // const month = 2;
+        // const day = 6;
         if (
           year === +startTime.slice(0, 4) &&
           month === +startTime.slice(5, 7) &&
@@ -484,6 +485,7 @@ export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
     )
     .then((res) => {
       const result = res.data.response;
+      console.log("달력 받아온 데이터", result);
       // 받아온 데이터를 전처리해서 반환
       preprocessingData(result);
       setScheduledLecture(result);
@@ -527,5 +529,23 @@ export const updateProfileImgAPI = (data, img_file, handleUserInfo) => {
     })
     .then(() => {
       updateUserInfoAPI(data, handleUserInfo);
+    });
+};
+
+// 확정된 강의의 강사 정보를 가져오는 함수
+export const getUserInfo = (lecturerId, setLecturerInfo) => {
+  const accessToken = localStorage.getItem("accessToken");
+  axios
+    .get(`${axiosDefaultURL}/user/${lecturerId}`, {
+      headers: {
+        Authentication: accessToken,
+      },
+    })
+    .then((response) => {
+      const userData = response.data.response;
+      setLecturerInfo(userData);
+    })
+    .catch((error) => {
+      console.log(error.response);
     });
 };

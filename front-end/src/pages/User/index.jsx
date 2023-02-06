@@ -30,25 +30,26 @@ const User = () => {
   // state를 변경하는 함수
   // 이 함수를 내려주면 ProfileSidebar에 state들만 내려주면 된다. 상태관리는 이 함수가 맡는다.
   const handleTabValue = (e) => {
-    if (e.target.className === "profile-page") {
+    console.log(e.target);
+    if (e.target.className.includes("profile-page")) {
       setIsProfileTabActive(true);
       setIsScheduleTabActive(false);
       setIsUnScheduleTabActive(false);
       setIsMessageTabActive(false);
       setIsProfileEditActive(false);
-    } else if (e.target.className === "schedule-page") {
+    } else if (e.target.className.includes("schedule-page")) {
       setIsProfileTabActive(false);
       setIsScheduleTabActive(true);
       setIsUnScheduleTabActive(false);
       setIsMessageTabActive(false);
       setIsProfileEditActive(false);
-    } else if (e.target.className === "undecided-lecture-page") {
+    } else if (e.target.className.includes("undecided-lecture-page")) {
       setIsProfileTabActive(false);
       setIsScheduleTabActive(false);
       setIsUnScheduleTabActive(true);
       setIsMessageTabActive(false);
       setIsProfileEditActive(false);
-    } else if (e.target.className === "message-page") {
+    } else if (e.target.className.includes("message-page")) {
       setIsProfileTabActive(false);
       setIsScheduleTabActive(false);
       setIsUnScheduleTabActive(false);
@@ -104,21 +105,9 @@ const User = () => {
               isProfileEditActive={isProfileEditActive}
             />
           )}
-          {isScheduleTabActive && (
-            <CardBox>
-              <Calendar />
-            </CardBox>
-          )}
-          {isUnScheduleTabActive && (
-            <CardBox>
-              <UnScheduleLecture />
-            </CardBox>
-          )}
-          {isMessageTabActive && (
-            <CardBox>
-              <Message />
-            </CardBox>
-          )}
+          {isScheduleTabActive && <Calendar />}
+          {isUnScheduleTabActive && <UnScheduleLecture />}
+          {isMessageTabActive && <Message />}
         </Grid>
         <Grid item xs={0} md={1.5} />
       </Grid>
