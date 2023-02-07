@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/lecture")
+@RequestMapping("/api/lecture")
 @RestController
 public class LectureController {
 
@@ -34,6 +34,22 @@ public class LectureController {
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                     HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateLecture(@RequestBody LectureDto lectureDto){
+        try{
+            log.info("강의 업데이트 요청: {}",lectureDto);
+
+            LectureDto result = lectureService.updateLecture(lectureDto);
+            return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -56,7 +72,7 @@ public class LectureController {
     public ResponseEntity<?> updateFixed(@RequestBody Map<String,Long> idMap){
         try{
             log.info("업데이트 요청: {} {}",idMap.get("bid"),idMap.get("Luid"));
-            LectureDto updateBoard = lectureService.update(idMap.get("bid"),idMap.get("Luid"));
+            LectureDto updateBoard = lectureService.updateFix(idMap.get("bid"),idMap.get("Luid"));
             log.info("강의 업데이트 완료: {}",updateBoard);
 
             return new ResponseEntity<>(new SuccessResponse(updateBoard), HttpStatus.OK);

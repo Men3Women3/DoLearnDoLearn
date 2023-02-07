@@ -413,7 +413,7 @@ class UserServiceTest {
 
         @Test
         @DisplayName("사용자 정보 조회 성공")
-        void success() {
+        void success() throws ParseException {
             UserDto reqUserDto = UserDto.builder().id(id).build();
 
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));

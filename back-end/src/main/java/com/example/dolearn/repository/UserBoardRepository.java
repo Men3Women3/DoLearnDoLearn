@@ -10,16 +10,13 @@ import java.util.List;
 
 public interface UserBoardRepository extends JpaRepository <UserBoard, Long> {
 
+    List<UserBoard> findByUid(Long uid);
+
     @Query(value = "select * from member_board where bid=:bid and member_type='강사'", nativeQuery = true)
     List<UserBoard> findInstructors(@Param("bid") Long bid);
 
     @Query(value = "select * from member_board where bid=:bid and member_type='학생'", nativeQuery = true)
     List<UserBoard> findStudents(@Param("bid") Long bid);
-
-    @Query(value = "select * from member_board where uid=:uid",nativeQuery = true)
-    List<UserBoard> checkApply(@Param("uid") Long uid);
-
-    UserBoard save(UserBoard userBoard);
 
     @Modifying
     @Query(value = "delete from member_board where uid=:uid and bid=:bid")

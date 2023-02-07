@@ -69,7 +69,7 @@ public class BoardControllerTest {
 
         when(bService.insert(any())).thenReturn(boardDto);
 
-        mockMvc.perform(post("/board").with(csrf())
+        mockMvc.perform(post("/api/board").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(boardDto.toEntity())))
                 .andExpect(status().isCreated())
@@ -87,7 +87,7 @@ public class BoardControllerTest {
 
         when(bService.selectAll()).thenReturn(boardList);
 
-        mockMvc.perform(get("/board/list"))
+        mockMvc.perform(get("/api/board/list"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -98,7 +98,7 @@ public class BoardControllerTest {
 
         when(bService.selectDetail(any())).thenReturn(boardDto1);
 
-        mockMvc.perform(get("/board/{board_id}",1))
+        mockMvc.perform(get("/api/board/{board_id}",1))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -108,7 +108,7 @@ public class BoardControllerTest {
     public void boardDeleteTest() throws Exception{
         when(bService.deleteBoard(any())).thenReturn(1);
 
-        mockMvc.perform(delete("/board/{board_id}",2).with(csrf()))
+        mockMvc.perform(delete("/api/board/{board_id}",2).with(csrf()))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -127,7 +127,7 @@ public class BoardControllerTest {
 
         when(ubService.getInstructors(any())).thenReturn(result);
 
-        mockMvc.perform(get("/board/instructor-list/{board_id}",1))
+        mockMvc.perform(get("/api/board/instructor-list/{board_id}",1))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -146,7 +146,7 @@ public class BoardControllerTest {
 
         when(ubService.getStudents(any())).thenReturn(result);
 
-        mockMvc.perform(get("/board/student-list/{board_id}",1))
+        mockMvc.perform(get("/api/board/student-list/{board_id}",1))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -162,7 +162,7 @@ public class BoardControllerTest {
         when(bService.searchBoardContent(any())).thenReturn(result);
         when(bService.searchBoardTitle(any())).thenReturn(result);
 
-        mockMvc.perform(get("/board/search/{keyword}","title"))
+        mockMvc.perform(get("/api/board/search/{keyword}","title"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -185,7 +185,7 @@ public class BoardControllerTest {
         data.put("uid",1L);
         data.put("bid",1L);
 
-        mockMvc.perform(post("/board/student").with(csrf())
+        mockMvc.perform(post("/api/board/student").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(data)))
                 .andExpect(status().isOk())
@@ -209,7 +209,7 @@ public class BoardControllerTest {
 
         data.put("uid",1L);
         data.put("bid",1L);
-        mockMvc.perform(post("/board/instructor").with(csrf())
+        mockMvc.perform(post("/api/board/instructor").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(data)))
                 .andExpect(status().isOk())
@@ -226,9 +226,8 @@ public class BoardControllerTest {
 
         when(ubService.cancelApply(any(),any())).thenReturn(1);
 
-        mockMvc.perform(delete("/board/apply/{uid}/{bid}",data.get("uid"),data.get("bid")).with(csrf()))
+        mockMvc.perform(delete("/api/board/apply/{uid}/{bid}",data.get("uid"),data.get("bid")).with(csrf()))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-
 }

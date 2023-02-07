@@ -117,7 +117,12 @@ export const changeMessageReadStateAPI = async (id) => {
 };
 
 // 메시지 보내기
-export const sendMessageAPI = async (bid, content, type) => {
+export const sendMessageAPI = async (
+  bid,
+  content,
+  type,
+  setStateMessageUpdate
+) => {
   const accessToken = localStorage.getItem("accessToken");
   await axios.post(
     `${axiosDefaultURL}/message`,
@@ -133,5 +138,6 @@ export const sendMessageAPI = async (bid, content, type) => {
       },
     }
   );
+  setStateMessageUpdate(true);
   console.log("메시지 보내기 성공");
 };

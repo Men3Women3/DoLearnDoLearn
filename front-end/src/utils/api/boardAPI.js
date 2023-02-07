@@ -106,7 +106,7 @@ export const cancelEnrollAPI = async (user, lecture, setCheck) => {
 };
 
 // 모집 완료 API
-export const fixClassAPI = async (lecture, uid) => {
+export const fixClassAPI = async (lecture, uid, setStateMessageUpdate) => {
   try {
     const res = await axios.post(`${LECTURE_URL}/fix`, {
       bid: lecture,
@@ -114,7 +114,7 @@ export const fixClassAPI = async (lecture, uid) => {
     });
     console.log("강의 확정 성공");
     // 강의 확정 성공하면 확정 메시지 보내기
-    sendMessageAPI(res.data.response.bid, "", "confirm");
+    sendMessageAPI(res.data.response.bid, "", "confirm", setStateMessageUpdate);
   } catch (err) {
     console.log(err);
     console.log("강의 확정 실패");

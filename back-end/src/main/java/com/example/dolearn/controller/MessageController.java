@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/api/message")
 @Slf4j
 public class MessageController {
 
@@ -31,7 +31,7 @@ public class MessageController {
     @PostMapping
     public ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto) {
 
-        log.info("create confirm message 호출");
+        log.info("create message 호출");
         log.info("content : {}",messageDto.getContent());
         log.info("bid : {}", messageDto.getBid());
 

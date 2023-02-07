@@ -23,7 +23,7 @@ public class UserLecture {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="uid", nullable = false)
+    @JoinColumn(name="uid")
     private User user;
 
     @ManyToOne
