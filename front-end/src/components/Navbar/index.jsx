@@ -39,7 +39,7 @@ const Navbar = () => {
           <img src={logoImg} alt="logo" />
         </NavLink>
         <NavLink to={"/board"} className="link link__board">
-          공부방
+          강의장
         </NavLink>
         <NavLink className="link link__board">이용안내</NavLink>
       </div>

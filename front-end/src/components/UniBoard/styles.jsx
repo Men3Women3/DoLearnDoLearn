@@ -1,5 +1,4 @@
 import styled from "styled-components";
-// import Paging from "../Paging";
 
 export const SImg = styled.img`
   display: flex;
@@ -12,7 +11,6 @@ export const SImg = styled.img`
 // UniBoard에 스타일 입히기
 export const SUniBoard = styled.div`
   transition: all 300ms ease;
-  /* width: calc(1vw + 140px); */
   width: calc(1vw + 180px);
   cursor: pointer;
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -22,10 +20,16 @@ export const SUniBoard = styled.div`
   border: 0.1px solid #f4e3b4;
   box-shadow: 5px 5px 5px #3737372d;
   border-radius: 5px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   :hover {
     transform: scale(1.05);
+  }
+
+  p {
+    // 넘치는 내용 ... 처리
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
   }
 `;
