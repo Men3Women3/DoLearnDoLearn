@@ -1,8 +1,16 @@
-import React from "react"
-import { Box, Modal, Typography } from "@mui/material"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
-import { SContent } from "../MessageDetailModal/styles"
+import React from "react";
+import { Box, Modal, Typography } from "@mui/material";
+import {
+  faClock,
+  faFileLines,
+  faPersonChalkboard,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
+import { SContent } from "../MessageDetailModal/styles";
+import { SButtonBox, SButton } from "../LectureModalButton/styles";
+import defaultProfile from "../../assets/images/defaultProfile.png";
+import { SCustomFontAwesomeIcon, SSpan, SInfoItem } from "./styles";
+import { imageURL } from "../../utils/api/baseURL";
 
 const style = {
   position: "absolute",
@@ -15,7 +23,7 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "20px 30px",
-}
+};
 
 const LectureFixedModal = ({
   open,
@@ -23,6 +31,8 @@ const LectureFixedModal = ({
   instructorInfo,
   studentsInfo,
 }) => {
+  console.log(instructorInfo);
+  console.log(studentsInfo);
   return (
     <>
       <Modal open={open} onClose={handleClose}>
@@ -30,37 +40,75 @@ const LectureFixedModal = ({
           <Typography sx={{ mt: 1 }}>
             {instructorInfo.lecture.board.title}
           </Typography>
+          <hr />
           <SContent>
-            <div className="upper__container">
-              <span>
-                <b>하이하이요</b>
-              </span>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <SInfoItem>
+                <SCustomFontAwesomeIcon icon={faPersonChalkboard} />
+                <SSpan>
+                  <b>강사 정보</b>
+                </SSpan>
+              </SInfoItem>
+              <div style={{ display: "flex" }}>
+                <div>
+                  <img
+                    src={
+                      instructorInfo.user.imgUrl
+                        ? `${imageURL}${instructorInfo.user.imgUrl}`
+                        : defaultProfile
+                    }
+                    style={{ width: "50px" }}
+                  />
+                </div>
+                <div>
+                  <div>{instructorInfo.user.name}</div>
+                  <div>{instructorInfo.user.email}</div>
+                </div>
+              </div>
             </div>
 
-            <div className="down__container">
-              <div className="lecture-info">
-                <FontAwesomeIcon
-                  icon={faPenToSquare}
-                  style={{ height: "calc(1vw + 4px)" }}
-                />
+            <br />
+            {/* <div className="down__container"> */}
+            <div>
+              <SInfoItem>
+                <SCustomFontAwesomeIcon icon={faUsers} />
+                <SSpan>
+                  <b>수강 인원</b> | 3명
+                </SSpan>
+              </SInfoItem>
+              <SInfoItem>
+                <SCustomFontAwesomeIcon icon={faClock} />
+                <SSpan>
+                  <b>강의 시간</b> | 23.02.15 01:00 (1시간)
+                </SSpan>
+              </SInfoItem>
+              <div>
+                <SInfoItem>
+                  <SCustomFontAwesomeIcon
+                    icon={faFileLines}
+                    style={{ height: "calc(1vw + 4px)" }}
+                  />
+                  <SSpan>
+                    <b>강의 상세 내용</b>
+                  </SSpan>
+                </SInfoItem>
                 <div className="custom-content">
-                  <b>강의명</b> :
-                  <br />
-                  <b>강의 시간</b> :
+                  <div>
+                    dkajflkdajflkajl;fjkafld;sanvmxz.nvmncakljfkldafkladln어러러어ㅇㅇㅇㅇㅇㅇ
+                  </div>
                 </div>
               </div>
               <div></div>
             </div>
           </SContent>
-          {/* <SButton> */}
-          {/* <button className="delete-button" onClick={handleClose}>
-          확인
-        </button> */}
-          {/* </SButton> */}
+          <SButtonBox>
+            <SButton>신청취소</SButton>
+            <SButton>Live 입장</SButton>
+          </SButtonBox>
         </Box>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default LectureFixedModal
+export default LectureFixedModal;
