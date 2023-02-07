@@ -6,32 +6,48 @@ const useResultOfIntervalCalculator = (calculator, delay) => {
   const [result, setResult] = useState(calculator());
   useInterval(() => {
     const newResult = calculator();
-    if (newResult !== result) setResult(newResult);
+    console.log({ result, newResult });
+    if (newResult !== result) {
+      setResult(newResult);
+    } else {
+      setResult(result);
+    }
   }, delay);
 
   return result;
 };
 
 const Timer = (props) => {
-  // const classTime = "2023-02-06 09:37:00";
-  const classTime = props.startTime;
+  // 테스트용
+  const classTime = "2023-02-07 16:28:00";
+  // const classTime = props.startTime;
+
+  let durationTime;
+  if (
+    Number(props.startTime.slice(11, 13)) < Number(props.endTime.slice(11, 13))
+  ) {
+    durationTime =
+      Number(props.endTime.slice(11, 13)) -
+      Number(props.startTime.slice(11, 13));
+  } else {
+    durationTime =
+      24 -
+      Number(props.startTime.slice(11, 13)) +
+      Number(props.endTime.slice(11, 13));
+  }
+
+  const [time, setTime] = useState(durationTime * 60 * 60); // 여기서 타이머 시간 설정(1시간 or 2시간)
+  const [targetTime, setTargetTime] = useState(0); // 마지막 시간(0시 0분 0초)
+
   const isNotYet = useResultOfIntervalCalculator(
     () => new Date(classTime) - new Date() > 0,
     10
   );
 
-  const durationTime =
-    Number(props.endTime.slice(11, 13)) - Number(props.startTime.slice(11, 13));
-  console.log(durationTime, "맞게 했나???");
-
-  // const currentTimeCheck = () => {
-
-  // }
-
-  const [time, setTime] = useState(durationTime * 60 * 60); // 여기서 타이머 시간 설정(1시간 or 2시간)
-  const [targetTime, setTargetTime] = useState(0); // 마지막 시간(0시 0분 0초)
-
   useEffect(() => {
+    if (isNotYet) {
+      setTime(durationTime * 60 * 60);
+    }
     const id = setInterval(() => {
       if (time === targetTime) {
         // alert('강의가 종료되었습니다. 수고하셨습니다.');
