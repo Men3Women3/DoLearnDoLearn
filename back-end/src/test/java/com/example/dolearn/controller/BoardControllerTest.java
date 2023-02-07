@@ -117,7 +117,7 @@ public class BoardControllerTest {
         when(boardService.selectAll()).thenThrow(new CustomException(ErrorCode.NO_BOARD));
 
         mockMvc.perform(get("/api/board/list"))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 

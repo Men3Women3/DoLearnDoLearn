@@ -56,8 +56,6 @@ public class BoardController {
             }
 
             return new ResponseEntity<>(new SuccessResponse(boardDtoList),HttpStatus.OK);
-        }catch (CustomException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
