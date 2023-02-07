@@ -13,7 +13,6 @@ const Board = () => {
 
   return (
     <Grid container>
-      {/* navbar 부분 그리드 */}
       <Grid item xs={0} md={1.5} />
       <Grid item xs={12} md={9}>
         <Navbar />
