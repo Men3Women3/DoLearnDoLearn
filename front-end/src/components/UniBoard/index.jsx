@@ -11,12 +11,9 @@ import meeting from "../../assets/images/thumbnail/meeting.svg";
 import conference from "../../assets/images/thumbnail/conference.svg";
 import study from "../../assets/images/thumbnail/study.svg";
 import teamwork from "../../assets/images/thumbnail/teamwork.svg";
-import { BoardDataContext } from "../../App";
 
 // 개별 게시물 component
 const UniBoard = ({ data }) => {
-  const { flag, setFlag } = useContext(BoardDataContext);
-
   // Modal 파트 ========================
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -24,8 +21,10 @@ const UniBoard = ({ data }) => {
   // ===================================
 
   const startTime = data.createdTime.substring(5, 10).replaceAll("-", ".");
-  const deadline = data.endTime.substring(5, 13).replaceAll("-", ".");
-  const endTime = data.deadline.substring(5, 10).replaceAll("-", ".");
+  const endTime = data.endTime.substring(5, 13).replaceAll("-", ".");
+  const deadline = data.deadline.substring(5, 10).replaceAll("-", ".");
+
+  console.log(data);
 
   const thumbnails = [
     scrum,
@@ -47,11 +46,11 @@ const UniBoard = ({ data }) => {
         <div style={{ textAlign: "left" }}>
           <p>
             <FontAwesomeIcon icon={F.faClock} />
-            &nbsp;모집기간 | {startTime} ~ {endTime}
+            &nbsp;모집기간 | {startTime} ~ {deadline}
           </p>
           <p>
             <FontAwesomeIcon icon={F.faCalendarDays} />
-            &nbsp;강의시간 | {deadline}시
+            &nbsp;강의시간 | {endTime}시
           </p>
           <p>
             <FontAwesomeIcon icon={F.faPersonChalkboard} />

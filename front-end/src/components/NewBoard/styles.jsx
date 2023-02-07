@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Slider from "react-slick";
 
 export const SCardBox = styled.div`
   border-radius: 10px;
@@ -50,7 +49,6 @@ export const SContainer = styled.div`
       border-radius: 10px;
       padding: 15px;
       cursor: pointer;
-      /* background-color: yellow; */
       &.active {
         border: solid calc(0.15vw + 2px) ${(props) => props.theme.deeperYellow};
       }
@@ -157,15 +155,6 @@ export const SLectureInput = styled.input`
   margin-right: 1vw;
 `;
 
-// export const STimeInput = styled.input`
-//   font-family: ${(props) => props.theme.fontFamily.Regular};
-//   width: 3vw;
-//   height: calc(3.5vh + 15px);
-//   border: 2px solid #cdcdcd;
-//   border-radius: 8px;
-//   padding-left: 1vw;
-// `;
-
 export const STimeInput = styled.select`
   font-family: ${(props) => props.theme.fontFamily.Regular};
   font-size: ${(props) => props.theme.fontSize.p};
@@ -174,7 +163,23 @@ export const STimeInput = styled.select`
   border: 2px solid #cdcdcd;
   border-radius: 8px;
   padding-left: 1vw;
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 `;
+
+/*
+  height: 100%;
+  text-align: left;
+  color: black;
+  word-wrap: break-word;
+  white-space: -moz-pre-wrap;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  overflow-x: hidden;
+  cursor: pointer;
+*/
 
 export const SRadio = styled.fieldset`
   border: none;
