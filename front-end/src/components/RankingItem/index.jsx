@@ -13,12 +13,18 @@ import { imageURL } from "../../utils/api/baseURL";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const RankingItem = (props) => {
-  const handleMoveToProfile = (userId) => {
-    window.open(`/board/profile/${userId}`);
+  const handleMoveToProfile = (e) => {
+    console.log(e.target);
+    if (
+      !e.target.className.includes("link") ||
+      !e.target.className.includes("icon")
+    ) {
+      window.open(`/board/profile/${props.item.id}`);
+    }
   };
 
   return (
-    <SContainer onClick={(e) => handleMoveToProfile(props.item.id)}>
+    <SContainer onClick={(e) => handleMoveToProfile(e)}>
       {/* 프로필 사진, 이름, 점수 표시 */}
       <div className="profile-container">
         <img
@@ -37,22 +43,30 @@ const RankingItem = (props) => {
       {/* SNS */}
       <SSNSContainer>
         {props.item.blog && (
-          <a href={props.item.blog} target={"_blank"}>
+          <a className="link" href={props.item.blog} target={"_blank"}>
             <FontAwesomeIcon className="icon" icon={faLink} />
           </a>
         )}
         {props.item.youtube && (
-          <a href={props.item.youtube} target={"_blank"}>
+          <a className="link" href={props.item.youtube} target={"_blank"}>
             <FontAwesomeIcon className="icon" icon={faYoutube} />
           </a>
         )}
         {props.item.instagram && (
-          <a href={props.item.instagram} target={"_blank"}>
+          <a
+            className="link"
+            href={`https://www.instagram.com/${props.item.instagram}/`}
+            target={"_blank"}
+          >
             <FontAwesomeIcon className="icon" icon={faInstagram} />
           </a>
         )}
         {props.item.facebook && (
-          <a href={props.item.facebook} target={"_blank"}>
+          <a
+            className="link"
+            href={`https://facebook.com/${props.item.facebook}/`}
+            target={"_blank"}
+          >
             <FontAwesomeIcon className="icon" icon={faFacebook} />
           </a>
         )}

@@ -556,8 +556,12 @@ export const getSortedUserByPoint = (setRankingList) => {
   axios
     .get(`${axiosDefaultURL}/user/sort-point`)
     .then((response) => {
-      const responseData = response.data.response.slice(0, 8);
-      setRankingList(responseData);
+      const responseData = response.data.response;
+      if (responseData.length <= 8) {
+        setRankingList(responseData.slice(0));
+      } else {
+        setRankingList(responseData.slice(0, 8));
+      }
     })
     .catch((error) => error.response);
 };
