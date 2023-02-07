@@ -51,10 +51,10 @@ const MessageDeleteModal = ({
   };
 
   const handleDeleteMessage = () => {
-    deleteMessageAPI(messageId);
+    deleteMessageAPI(messageId, setStateMessageUpdate);
     handleClose();
     setCheckDeleteState(true);
-    setStateMessageUpdate(true);
+    // setStateMessageUpdate(true);
     handleSnackbarOpen();
   };
 

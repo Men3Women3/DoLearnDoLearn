@@ -79,7 +79,7 @@ export const getMessageListAPI = async (userId, setMessageData) => {
 };
 
 // 메시지 삭제 요청
-export const deleteMessageAPI = async (messageId) => {
+export const deleteMessageAPI = async (messageId, setStateMessageUpdate) => {
   const accessToken = localStorage.getItem("accessToken");
   axios.delete(
     `${axiosDefaultURL}/message/${messageId}`,
@@ -95,10 +95,11 @@ export const deleteMessageAPI = async (messageId) => {
       },
     }
   );
+  setStateMessageUpdate(true);
 };
 
 // 메시지 읽음 상태로 상태 변경
-export const changeMessageReadStateAPI = async (id) => {
+export const changeMessageReadStateAPI = async (id, setStateMessageUpdate) => {
   const accessToken = localStorage.getItem("accessToken");
   await axios.put(
     `${axiosDefaultURL}/message`,
@@ -114,6 +115,7 @@ export const changeMessageReadStateAPI = async (id) => {
       },
     }
   );
+  setStateMessageUpdate(true);
 };
 
 // 메시지 보내기
