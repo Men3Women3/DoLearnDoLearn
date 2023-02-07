@@ -5,6 +5,7 @@ import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserLecture;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.dto.LectureDto;
+import com.example.dolearn.dto.UserLectureDto;
 import com.example.dolearn.jwt.JwtTokenProvider;
 import com.example.dolearn.service.LectureService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -118,6 +119,26 @@ public class LectureControllerTest {
         mockMvc.perform(put("/api/lecture").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(lectureDto)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 평가 여부 업데이트 테스트")
+    @Test
+    public void updateMemberLectureTest() throws Exception{
+        Map<String,Long> info = new HashMap<>();
+
+        info.put("lid",1L);
+        info.put("uid",1L);
+
+        UserLectureDto userLectureDto = UserLectureDto.builder()
+                .evaluateStatus(0).memberType("학생").build();
+
+        when(lectureService.updateLectureMember(any(),any())).thenReturn(userLectureDto);
+
+        mockMvc.perform(put("/api/lecture").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(info)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
