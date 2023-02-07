@@ -80,7 +80,7 @@ public class User {
     @PrePersist
     public void setDefaultValue(){
         this.info = (this.info == null) ? "" : this.info;
-        this.point = (this.point == null) ? 0 : this.point;
+        this.point = (this.point == null) ? 100 : this.point;
         this.youtube = (this.youtube == null) ? "" : this.youtube;
         this.instagram = (this.instagram == null) ? "" : this.instagram;
         this.facebook = (this.facebook == null) ? "" : this.facebook;
