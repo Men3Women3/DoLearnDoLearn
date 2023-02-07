@@ -56,10 +56,10 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
 
   // 모집 완료
   const fixClass = async () => {
-    await fixClassAPI(data.id, Luid);
+    await fixClassAPI(data.id, Luid, setStateMessageUpdate);
     setFlag(!flag);
     setOpen(false);
-    setStateMessageUpdate(true);
+    // setStateMessageUpdate(true);
   };
 
   // 강사 목록 호출
