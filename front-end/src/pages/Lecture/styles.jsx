@@ -2,27 +2,33 @@ import styled from "styled-components";
 
 export const SMainContainer = styled.main`
   display: flex;
+  justify-content: center;
   width: 100%;
-  height: 100%;
-  /* background-color: black; */
-  background: rgb(255, 232, 154);
-  background: linear-gradient(
-    90deg,
-    rgba(255, 232, 154, 1) 25%,
-    rgba(255, 153, 98, 1) 100%
-  );
+  height: 35.5rem;
+  background-color: white;
   .participant {
+    margin-bottom: 1vw;
     text-align: center;
     position: relative;
-    margin: 0px calc(1vw + 20px);
-    height: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
   #participants {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    height: 34vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+      width: 0.8vw;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: white;
+      border-radius: 12px;
+      border: 1px solid white;
+    }
+    box-sizing: content-box;
   }
   video {
     border-radius: 12px;
@@ -30,12 +36,26 @@ export const SMainContainer = styled.main`
     cursor: pointer;
   }
   .username_span {
+    user-select: none;
+    font-size: 8rem;
+    cursor: pointer;
     position: absolute;
-    bottom: -2px;
-    right: -7px;
-    background-color: white;
-    padding: 3px;
-    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 98%;
+    background-color: black;
+    color: white;
+    opacity: 0;
+    transition: all 300ms ease;
+    border-radius: 12px;
+    border: 5px solid transparent;
+  }
+  .participant:hover .username_span {
+    opacity: 0.8;
   }
   .help {
     animation: help 500ms infinite;
@@ -55,86 +75,100 @@ export const SMainContainer = styled.main`
   }
 
   #container {
-    height: calc(1vw + 130px);
-    margin-bottom: calc(0.5vw + 1px);
+    width: 13.5rem;
   }
   #lectuerer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
   }
   .main {
-    width: calc(1vw + 540px);
+    width: 100%;
+  }
+  .main + span {
+    cursor: default;
   }
   .sub {
-    width: calc(1vw + 150px);
+    width: 11rem;
+  }
+  .sub + span {
+    font-size: 2rem;
+    width: 12rem;
+    height: 8.3rem;
   }
   .mainScreen {
-    width: 90%;
-    height: 100%;
+    width: 45rem;
+    height: 30rem;
+  }
+  .mainScreen + span {
+    cursor: default;
+    font-size: 5rem;
   }
   .subScreen {
-    width: calc(1vw + 220px);
+    width: 11rem;
+  }
+  .subScreen + span {
+    font-size: 1.5rem;
+    width: 12rem;
+  }
+`;
+
+export const SHeader = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  .logo {
+    width: 8vw;
+    margin: 1vw;
+  }
+  .timer {
+    position: absolute;
+    left: 50%;
   }
 `;
 
 export const SLeftItemContainer = styled.div`
   position: relative;
-  width: 75%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SRightItemContainer = styled.div`
   position: relative;
-  width: 25%;
-  height: 100%;
+  margin-left: 2vw;
+  height: 36.8vw;
 `;
 
 export const SContainer = styled.section`
-  /* height: 85%; */
-  height: calc(9vw + 490px);
+  box-sizing: content-box;
+  border-radius: 12px;
+  background-color: #dedede;
+  /* height: calc(9vw + 490px); */
+  height: 100%;
   width: 100%;
-  margin-top: calc(1vw + 8px);
-  /* margin: calc(1vw + 8px) 0px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.3vw;
+  padding-top: 1vw;
 `;
 
 export const SStudentsContainer = styled.div`
-  /* height: 20%; */
-  /* div {
-    background-color: white;
-    width: 20%;
-    margin: calc(1vh + 12px) calc(0.5vw + 2px);
-    margin-top: 0px;
-    border-radius: 12px;
-  } */
+  margin-left: 1vw;
 `;
 
 export const SLecturerCameraContainer = styled.div`
-  width: 100%;
-  height: 80%;
-  display: flex;
-  justify-content: center;
+  width: 45rem;
 `;
 
 export const SLecturerCamera = styled.div`
   width: 100%;
-  height: 97%;
-  background-color: white;
   border-radius: 12px;
-  margin: 0px calc(0.5vw + 2px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 export const SOptionContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #242424; */
   background-color: #fffbe6;
   text-align: center;
   margin: auto;
@@ -162,26 +196,11 @@ export const SOptionContainer = styled.div`
       color: white;
     }
   }
-  /* select {
-    border: none;
-    background-color: transparent;
-    outline: none;
-  } */
   .icon {
     width: calc(1vw + 12px);
     height: calc(1vh + 12px);
     color: #7e7e7e;
   }
-  /* .big-icon {
-    width: calc(1vw + 12px);
-    height: calc(1vh + 12px);
-  } */
-  /* .camera-icon {
-    transform: translateX(32px);
-  }
-  .mike-icon {
-    transform: translateX(32px);
-  } */
   .exit-button:hover {
     background-color: #e53e3e;
     opacity: 1;
