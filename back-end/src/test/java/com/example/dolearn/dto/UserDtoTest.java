@@ -66,7 +66,7 @@ public class UserDtoTest {
 
             when(userService.signup(any(UserDto.class))).thenReturn(userDto);
 
-            mockMvc.perform(post("/user")
+            mockMvc.perform(post("/api/user")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .content(toJson(userDto)))
@@ -78,7 +78,7 @@ public class UserDtoTest {
         public void failByEmail() throws Exception {
             UserDto userDto = UserDto.builder().email("이상한 이메일").name("민싸피").password("abcd!1234").build();
 
-            mockMvc.perform(post("/user")
+            mockMvc.perform(post("/api/user")
                             .contentType(MediaType.APPLICATION_JSON)
                             .with(csrf())
                             .content(toJson(userDto)))

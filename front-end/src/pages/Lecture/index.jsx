@@ -5,7 +5,7 @@ import LiveOptionContainer from "../../components/LiveOptionContainer";
 import kurentoUtils from "kurento-utils";
 // import "./sss.css";
 import logoImg from "../../assets/images/logo.png";
-
+import Grid from "@mui/material/Grid";
 import {
   SMainContainer,
   SRightItemContainer,
@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { LoginStateContext } from "../../App";
 import { getLecturerId } from "../../utils/api/lectureAPI";
+import Timer from "../../components/Timer";
 
 /*
  * (C) Copyright 2014 Kurento (http://kurento.org/)
@@ -42,6 +43,9 @@ import { getLecturerId } from "../../utils/api/lectureAPI";
 
 const Lecture = () => {
   const location = useLocation();
+  const startTime = location.state.time.startTime;
+  const endTime = location.state.time.endTime;
+
   const { userInfo } = useContext(LoginStateContext);
 
   const [username, setUsername] = useState(userInfo.name);
@@ -485,7 +489,7 @@ const Lecture = () => {
   };
 
   const handleMainStage = (e) => {
-    if (e.target.previousSibling.className === "sub") {
+    if (e.target.previousSibling.className.includes("sub")) {
       // 비디오 클릭시 참가자들에서 해당 타겟 제거
       const participants = document.querySelector("#participants");
       const userVideoContainer = e.target.parentNode;
@@ -503,7 +507,7 @@ const Lecture = () => {
         const mainVideoContainer = mainStage.firstChild;
         const mainVideo = mainVideoContainer.firstChild;
 
-        if (mainVideo.className === "main") {
+        if (mainVideo.className.includes("main")) {
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("main");
           mainVideo.classList.add("sub");
@@ -512,7 +516,7 @@ const Lecture = () => {
           mainStage.removeChild(mainVideoContainer);
           // subStage에 mainStage에 있던 화면 추가
           participants.appendChild(mainVideoContainer);
-        } else if (mainVideo.className === "mainScreen") {
+        } else if (mainVideo.className.includes("mainScreen")) {
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("mainScreen");
           mainVideo.classList.add("subScreen");
@@ -525,7 +529,7 @@ const Lecture = () => {
       }
       // mainStage에 tatget 화면 추가
       mainStage.appendChild(userVideoContainer);
-    } else if (e.target.previousSibling.className === "subScreen") {
+    } else if (e.target.previousSibling.className.includes("subScreen")) {
       // 비디오 클릭시 참가자들에서 해당 타겟 제거
       const participants = document.querySelector("#participants");
       const userVideoContainer = e.target.parentNode;
@@ -543,7 +547,7 @@ const Lecture = () => {
         const mainVideoContainer = mainStage.firstChild;
         const mainVideo = mainVideoContainer.firstChild;
 
-        if (mainVideo.className === "main") {
+        if (mainVideo.className.includes("main")) {
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("main");
           mainVideo.classList.add("sub");
@@ -552,7 +556,7 @@ const Lecture = () => {
           mainStage.removeChild(mainVideoContainer);
           // subStage에 mainStage에 있던 화면 추가
           participants.appendChild(mainVideoContainer);
-        } else if (mainVideo.className === "mainScreen") {
+        } else if (mainVideo.className.includes("mainScreen")) {
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("mainScreen");
           mainVideo.classList.add("subScreen");
@@ -573,7 +577,7 @@ const Lecture = () => {
         const mainVideoContainer = mainStage.firstChild;
         const mainVideo = mainVideoContainer.firstChild;
 
-        if (mainVideo.className === "main") {
+        if (mainVideo.className.includes("main")) {
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("main");
           mainVideo.classList.add("sub");
@@ -584,7 +588,7 @@ const Lecture = () => {
           mainStage.removeChild(mainVideoContainer);
           // subStage에 mainStage에 있던 화면 추가
           participants.appendChild(mainVideoContainer);
-        } else if (mainVideo.className === "mainScreen") {
+        } else if (mainVideo.className.includes("mainScreen")) {
           mainVideo.classList.remove("mainScreen");
           mainVideo.classList.add("subScreen");
 
@@ -666,9 +670,16 @@ const Lecture = () => {
 
   return (
     <>
-      <SHeader>
-        <img className="logo" src={logoImg} alt="" />
-      </SHeader>
+      <Grid container>
+        <Grid item xs={0} md={0.5} />
+        <Grid item xs={12} md={11}>
+          <SHeader>
+            <img className="logo" src={logoImg} alt="" />
+            <Timer startTime={startTime} endTime={endTime} />
+          </SHeader>
+        </Grid>
+        <Grid item xs={0} md={0.5} />
+      </Grid>
       <SMainContainer>
         <SLeftItemContainer>
           <SContainer>

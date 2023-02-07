@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 // import createContext from "react";
-import { SContainer, SUniDiv } from "./styles";
+import { SContainer, SNoBoard, SUniDiv } from "./styles";
 import Pagination from "../Pagination";
 import UniBoard from "../UniBoard";
 import { boardListAPI } from "../../utils/api/boardAPI";
@@ -36,20 +36,23 @@ const BoardList = () => {
 
   return (
     <>
-      {/* // 아래 타이머는 나중에 실시간 강의 화면에 추가될 것 */}
-      {/* <Timer /> */}
-      <SContainer className="container">
-        {/* // offset으로 slicing해서 limit 만큼만 한 화면에 표시 */}
-        {list.length > 0
-          ? list.slice(offset, offset + limit).map((data) => {
+      {list.length === 0 ? (
+        <SNoBoard>
+          🐣 아직 등록된 강의가 없습니다. 첫 강의를 생성해주세요!
+        </SNoBoard>
+      ) : (
+        <SContainer className="container">
+          {/* // offset으로 slicing해서 limit 만큼만 한 화면에 표시 */}
+          {list.length > 0 &&
+            list.slice(offset, offset + limit).map((data) => {
               return (
                 <SUniDiv key={data.id}>
                   <UniBoard className="uni-board" data={data} />
                 </SUniDiv>
               );
-            })
-          : ""}
-      </SContainer>
+            })}
+        </SContainer>
+      )}
       {list.length < 7 ? null : (
         <Pagination
           total={list.length}

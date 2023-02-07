@@ -16,7 +16,7 @@ import {
 } from "../../App";
 import { Badge } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
-import { baseURL } from "../../utils/api/baseURL";
+import { baseURL, imageURL } from "../../utils/api/baseURL";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
@@ -39,7 +39,7 @@ const Navbar = () => {
           <img src={logoImg} alt="logo" />
         </NavLink>
         <NavLink to={"/board"} className="link link__board">
-          공부방
+          강의장
         </NavLink>
         <NavLink className="link link__board">이용안내</NavLink>
       </div>
@@ -49,7 +49,7 @@ const Navbar = () => {
             <img
               src={
                 getUserInfo.userInfo.imgUrl
-                  ? `${baseURL}${getUserInfo.userInfo.imgUrl}`
+                  ? `${imageURL}${getUserInfo.userInfo.imgUrl}`
                   : defaultProfile
               }
               alt="profileImg"

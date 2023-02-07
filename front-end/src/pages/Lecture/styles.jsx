@@ -4,15 +4,17 @@ export const SMainContainer = styled.main`
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 35.5rem;
   background-color: white;
   .participant {
+    margin-bottom: 1vw;
     text-align: center;
     position: relative;
   }
   #participants {
     display: flex;
     flex-direction: column;
-    height: 36vw;
+    height: 34vw;
     overflow-y: auto;
     overflow-x: hidden;
     ::-webkit-scrollbar {
@@ -22,10 +24,11 @@ export const SMainContainer = styled.main`
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background-color: #dedede;
+      background-color: white;
       border-radius: 12px;
-      border: 1px solid #f0f0f0;
+      border: 1px solid white;
     }
+    box-sizing: content-box;
   }
   video {
     border-radius: 12px;
@@ -33,6 +36,7 @@ export const SMainContainer = styled.main`
     cursor: pointer;
   }
   .username_span {
+    user-select: none;
     font-size: 8rem;
     cursor: pointer;
     position: absolute;
@@ -71,7 +75,7 @@ export const SMainContainer = styled.main`
   }
 
   #container {
-    width: 12rem;
+    width: 13.5rem;
   }
   #lectuerer {
   }
@@ -86,7 +90,7 @@ export const SMainContainer = styled.main`
   }
   .sub + span {
     font-size: 2rem;
-    width: 11.3rem;
+    width: 12rem;
     height: 8.3rem;
   }
   .mainScreen {
@@ -102,14 +106,21 @@ export const SMainContainer = styled.main`
   }
   .subScreen + span {
     font-size: 1.5rem;
-    width: 11.3rem;
+    width: 12rem;
   }
 `;
 
 export const SHeader = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
   .logo {
     width: 8vw;
     margin: 1vw;
+  }
+  .timer {
+    position: absolute;
+    left: 50%;
   }
 `;
 
@@ -124,18 +135,25 @@ export const SLeftItemContainer = styled.div`
 export const SRightItemContainer = styled.div`
   position: relative;
   margin-left: 2vw;
-  height: 35vw;
+  height: 36.8vw;
 `;
 
 export const SContainer = styled.section`
-  height: calc(9vw + 490px);
+  box-sizing: content-box;
+  border-radius: 12px;
+  background-color: #dedede;
+  /* height: calc(9vw + 490px); */
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 0 0.3vw;
+  padding-top: 1vw;
 `;
 
 export const SStudentsContainer = styled.div`
-  margin-left: 2vw;
+  margin-left: 1vw;
 `;
 
 export const SLecturerCameraContainer = styled.div`

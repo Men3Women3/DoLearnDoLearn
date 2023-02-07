@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { LoginStateContext, UnreadMessageContext } from "../../App";
-// import { Flag } from "../BoardList";
-import { SButton, SButtonBox } from "./styles";
+import {
+  BoardDataContext,
+  LoginStateContext,
+  UnreadMessageContext,
+} from "../../App";
+import { SButton, SButtonBox, SFullStudent } from "./styles";
 import {
   cancelEnrollAPI,
   enrollClassAPI,
@@ -51,10 +54,9 @@ const LectureModalButton = ({ data, setOpen, flag, setFlag, Luid }) => {
 
   // 모집 완료
   const fixClass = async () => {
-    await fixClassAPI(data.id, Luid);
+    await fixClassAPI(data.id, Luid, setStateMessageUpdate);
     setFlag(!flag);
     setOpen(false);
-    setStateMessageUpdate(true);
   };
 
   // 강사 목록 호출
@@ -90,8 +92,12 @@ const LectureModalButton = ({ data, setOpen, flag, setFlag, Luid }) => {
     } else {
       return (
         <SButtonBox>
-          <SButton onClick={cancelClass}>신청취소</SButton>
-          <SButton>Live 입장</SButton>
+          <SButton onClick={enrollLecturer}>강사 신청</SButton>
+          {stuList.length === data.maxCnt ? (
+            <SFullStudent disabled>마감</SFullStudent>
+          ) : (
+            <SButton onClick={enrollClass}>수강생 신청</SButton>
+          )}
         </SButtonBox>
       );
     }

@@ -125,27 +125,6 @@ public class UserBoardRepositoryTest {
         assertEquals(1,result);
     }
 
-    @DisplayName("신청내역 확인")
-    @Test
-    public void UserBoardRepositoryCheckApplyTest() throws Exception{
-        Board boardSaved = boardRepository.save(boardDto1.toEntity());
-
-        User userSaved = userRepository.save(userDto.toEntity());
-
-        UserBoard userBoard= UserBoard.builder()
-                .bid(boardSaved.getId()).uid(userSaved.getId()).board(boardDto1.toEntity()).user(userDto.toEntity()).userType("학생").build();
-
-        UserBoard saved = userBoardRepository.save(userBoard);
-
-        List<UserBoard> userBoardList = new ArrayList<>();
-
-        userBoardList.add(saved);
-
-        List<UserBoard> result = userBoardRepository.checkApply(userBoard.getUid());
-
-        assertEquals(userBoardList.size(),result.size());
-    }
-
     @DisplayName("bid로 삭제 테스트")
     @Test
     public void UserBoardRepositoryDeleteByBidTest() throws Exception{

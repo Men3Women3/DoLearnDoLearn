@@ -78,7 +78,7 @@ public class MessageControllerTest {
 
         when(messageService.createMessage(messageDto)).thenReturn(result);
 
-        mockMvc.perform(post("/message").with(csrf())
+        mockMvc.perform(post("/api/message").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(messageDto)))
                 .andExpect(status().isCreated())
@@ -95,7 +95,7 @@ public class MessageControllerTest {
                 .content("test")
                 .isChecked(1).build();
 
-        mockMvc.perform(put("/message").with(csrf())
+        mockMvc.perform(put("/api/message").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(messageDto)))
                 .andExpect(status().isOk());
@@ -125,7 +125,7 @@ public class MessageControllerTest {
 
         when(messageService.getMessageList(anyLong())).thenReturn(messageDtoList);
 
-        mockMvc.perform(get("/message/{user_id}",1L))
+        mockMvc.perform(get("/api/message/{user_id}",1L))
                 .andExpect(status().isOk());
     }
 
@@ -141,7 +141,7 @@ public class MessageControllerTest {
 
         when(messageService.getMessage(anyLong())).thenReturn(messageDto);
 
-        mockMvc.perform(get("/message/{message_id}",1))
+        mockMvc.perform(get("/api/message/{message_id}",1))
                 .andExpect(status().isOk());
     }
 
@@ -149,7 +149,7 @@ public class MessageControllerTest {
     @Test
     public void messageDeleteTest() throws Exception {
 
-        mockMvc.perform(delete("/message/{message_id}",1).with(csrf()))
+        mockMvc.perform(delete("/api/message/{message_id}",1).with(csrf()))
                 .andExpect(status().isOk());
     }
 
@@ -168,7 +168,7 @@ public class MessageControllerTest {
 
         when(messageService.getMessageList(anyLong())).thenReturn(mList);
 
-        mockMvc.perform(get("/message/user/{user_id}",1L))
+        mockMvc.perform(get("/api/message/user/{user_id}",1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.response", hasSize(mList.size())));
     }
