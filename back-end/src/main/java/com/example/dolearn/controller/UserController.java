@@ -298,8 +298,13 @@ public class UserController {
         }
     }
 
-    @GetMapping("/token-test")
-    public String tokenTest(){
-        return "응답";
+    @GetMapping("/sort-point")
+    public ResponseEntity<?> getAllSortedByPoint(){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getAllSortByPoint()), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

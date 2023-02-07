@@ -9,6 +9,7 @@ import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -278,5 +279,14 @@ public class UserService {
         }
         List<FixedLectureDto> reqBoard = fixedLectureRepository.findFixedLecture(id);
         return reqBoard;
+    }
+
+    public List<UserDto> getAllSortByPoint(){
+        List<User> users = userRepository.findAll(Sort.by(Sort.DEFAULT_DIRECTION.DESC, "point", "joinDate"));
+        List<UserDto> userDtos = new ArrayList<>();
+        for(User user: users){
+            userDtos.add(user.toDto());
+        }
+        return userDtos;
     }
 }
