@@ -2,11 +2,13 @@ import styled from "styled-components";
 import rankItemImg from "../../assets/images/rankItem.png";
 
 export const SContainer = styled.div`
+  cursor: pointer;
   font-family: ${(props) => props.theme.fontFamily.Light};
   background-image: url(${rankItemImg});
   background-size: cover;
   position: relative;
   width: calc(1vw + 200px);
+  height: calc(1vw + 80px);
   border-radius: 12px;
   color: #000000;
   padding: calc(0.5vw + 3px) calc(0.5vw + 5px);
@@ -44,9 +46,9 @@ export const SSNSContainer = styled.div`
   display: flex;
   justify-content: start;
   .icon {
-    font-size: calc(1vw + 8px);
+    font-size: calc(1vw + 4px);
     color: #000000;
-    margin: calc(1vw + 4px) calc(0.5vw + 2px);
+    margin: calc(1vw + 4px) calc(0.4vw + 0.5px);
     margin-bottom: 0px;
     transition: all 300ms linear;
   }

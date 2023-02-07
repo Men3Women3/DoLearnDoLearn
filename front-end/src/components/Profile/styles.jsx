@@ -179,3 +179,17 @@ export const SCustomToolTip = styled(Tooltip)`
 //     backgroundColor: theme.palette.common.black,
 //   },
 // }))
+
+export const SPointContainer = styled.div`
+  padding-left: ${(props) => String((Number(props.point) / 5070) * 100) + "%"};
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  .point {
+    color: #9a9a9a;
+    font-size: calc(0.85vw + 1px);
+    margin-left: 0.5vw;
+  }
+`;

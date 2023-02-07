@@ -549,3 +549,15 @@ export const getUserInfo = (lecturerId, setLecturerInfo) => {
       console.log(error.response);
     });
 };
+
+// 상위 8명의 유저 데이터를 불러오는 함수
+export const getSortedUserByPoint = (setRankingList) => {
+  const accessToken = localStorage.getItem("accessToken");
+  axios
+    .get(`${axiosDefaultURL}/user/sort-point`)
+    .then((response) => {
+      const responseData = response.data.response.slice(0, 8);
+      setRankingList(responseData);
+    })
+    .catch((error) => error.response);
+};

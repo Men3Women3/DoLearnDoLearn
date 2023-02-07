@@ -15,7 +15,7 @@ export const SContainer = styled.div`
     left: 0;
     bottom: 0;
     width: 10vw;
-    animation: transX 5000ms infinite linear;
+    animation: transX 8000ms infinite linear;
     transform: translateX(-10vw);
   }
   @keyframes transX {
@@ -23,7 +23,7 @@ export const SContainer = styled.div`
       transform: translateX(-10vw);
     }
     to {
-      transform: translateX(calc(100vw));
+      transform: translateX(100vw);
     }
   }
 `;

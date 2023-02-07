@@ -11,6 +11,8 @@ const LecProfile = () => {
   const id = useParams().lid;
   const [data, setData] = useState([]);
 
+  console.log("렌더링 되나???");
+
   useEffect(() => {
     lecProfileAPI(id, setData);
   }, []);
