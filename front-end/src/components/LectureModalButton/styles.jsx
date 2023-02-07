@@ -28,7 +28,7 @@ export const SButton = styled.button`
   }
 `;
 
-export const SFullStudent = styled.button`
+export const SNone = styled.button`
   border: none;
   background-color: #bbbbbb;
   margin: 0 1rem;
