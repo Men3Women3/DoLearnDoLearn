@@ -4,7 +4,7 @@ import {
   LoginStateContext,
   UnreadMessageContext,
 } from "../../App";
-import { SButton, SButtonBox, SFullStudent } from "./styles";
+import { SButton, SButtonBox, SNone } from "./styles";
 import {
   cancelEnrollAPI,
   enrollClassAPI,
@@ -84,7 +84,7 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
             <SButtonBox>
               <SButton onClick={deleteClass}>강의삭제</SButton>
               {Luid === "none" ? (
-                ""
+                <SNone disabled>모집완료</SNone>
               ) : (
                 <SButton onClick={fixClass}>모집완료</SButton>
               )}
@@ -120,7 +120,7 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
         <SButtonBox>
           <SButton onClick={enrollLecturer}>강사 신청</SButton>
           {stuList.length === data.maxCnt ? (
-            <SFullStudent disabled>마감</SFullStudent>
+            <SNone disabled>마감</SNone>
           ) : (
             <SButton onClick={enrollClass}>수강생 신청</SButton>
           )}
