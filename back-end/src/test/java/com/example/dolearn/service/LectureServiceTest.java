@@ -134,7 +134,9 @@ public class LectureServiceTest {
         userLectureDto.setEvaluateStatus(1);
         when(userLectureRepository.save(any())).thenReturn(userLectureDto.toEntity());
 
-        assertEquals(1,userLectureDto.getEvaluateStatus());
+        UserLectureDto userLectureDto1 = lectureService.updateLectureMember(1L,1L);
+
+        assertEquals(userLectureDto1.getEvaluateStatus(),userLectureDto.getEvaluateStatus());
     }
 
     @DisplayName("강의 업데이트 테스트")
