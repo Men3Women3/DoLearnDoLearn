@@ -81,7 +81,7 @@ public class BoardService {
 
     @Transactional
     public int deleteBoard(Long id){
-//        if(bRepo.findById(id).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
+//        if(boardRepository.findById(id).isEmpty()) return 0;
         userBoardRepository.deleteByBid(id);
         return boardRepository.deleteBoard(id);
     }
