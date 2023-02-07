@@ -24,8 +24,10 @@ public class UserLectureDto {
 
     private String memberType;
 
+    private int evaluateStatus;
+
     public UserLecture toEntity(){
         return UserLecture.builder()
-                .id(id).lecture(lecture).user(user).memberType(memberType).build();
+                .id(id).lecture(lecture).user(user).evaluateStatus(evaluateStatus).memberType(memberType).build();
     }
 }
