@@ -7,10 +7,7 @@ import { SButtonContainer, SSpan, SScontent } from "./styles";
 import { Box, Modal, Slide, Typography } from "@mui/material";
 import axios from "axios";
 import { UnreadMessageContext } from "../../App";
-import {
-  deleteMessageAPI,
-  getUnreadMessageCnt,
-} from "../../utils/api/messageAPI";
+import { deleteMessageAPI } from "../../utils/api/messageAPI";
 
 const style = {
   position: "absolute",
@@ -54,10 +51,10 @@ const MessageDeleteModal = ({
   };
 
   const handleDeleteMessage = () => {
-    deleteMessageAPI(messageId);
+    deleteMessageAPI(messageId, setStateMessageUpdate);
     handleClose();
     setCheckDeleteState(true);
-    setStateMessageUpdate(true);
+    // setStateMessageUpdate(true);
     handleSnackbarOpen();
   };
 

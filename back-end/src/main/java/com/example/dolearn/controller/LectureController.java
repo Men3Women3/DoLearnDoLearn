@@ -1,6 +1,7 @@
 package com.example.dolearn.controller;
 
 import com.example.dolearn.dto.LectureDto;
+import com.example.dolearn.dto.UserLectureDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.response.ErrorResponse;
@@ -89,6 +90,21 @@ public class LectureController {
     public ResponseEntity<?> getList(@PathVariable Long lid){
         try{
             return new ResponseEntity<>(new SuccessResponse(lectureService.getList(lid)), HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/member-update")
+    public ResponseEntity<?> updateMember(@RequestBody Map<String,Long> info){
+        try{
+            UserLectureDto userLectureDto = lectureService.updateLectureMember(info.get("lid"),info.get("uid"));
+
+            return new ResponseEntity<>(new SuccessResponse(userLectureDto),HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);

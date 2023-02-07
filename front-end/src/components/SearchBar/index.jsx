@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/joy/Input";
 import { SSearchContainer, SWarning } from "./styles";
 import { searchAPI } from "../../utils/api/boardAPI";
+import { BoardDataContext } from "../../App";
 
-const SearchBar = ({ setList }) => {
+const SearchBar = () => {
+  const { setList } = useContext(BoardDataContext);
   const [isEmpty, setIsEmpty] = useState(false); // 검색 결과가 있는지 확인
 
   // 검색 수행
