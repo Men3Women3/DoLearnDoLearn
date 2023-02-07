@@ -1,7 +1,6 @@
 import axios from "axios";
 import { baseURL } from "./baseURL";
 import { sendMessageAPI } from "./messageAPI";
-// import { sendMessageAPI } from "./messageAPI";
 
 const BOARD_URL = `${baseURL}/board`;
 const PROFILE_URL = `${baseURL}/user`;
@@ -14,7 +13,6 @@ export const boardListAPI = async (setList) => {
     console.log(res.data.response);
     setList(res.data.response);
   } catch (err) {
-    // console.log(err);
     console.log("강의 목록 출력 실패");
     setList([]);
   }
