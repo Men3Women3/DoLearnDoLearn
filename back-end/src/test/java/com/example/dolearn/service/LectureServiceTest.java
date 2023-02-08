@@ -6,6 +6,7 @@ import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserLecture;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.dto.LectureDto;
+import com.example.dolearn.dto.UserLectureDto;
 import com.example.dolearn.repository.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -43,9 +43,6 @@ public class LectureServiceTest {
     @Mock
     UserLectureRepository userLectureRepository;
 
-    @Mock
-    MessageRepository messageRepository;
-
     @DisplayName("강의 확정 테스트")
     @Test
     public void FixUpdateTest() throws Exception{
@@ -55,20 +52,17 @@ public class LectureServiceTest {
 
         User user = User.builder().id(1L).name("test").build();
         Lecture lecture = Lecture.builder()
-                .board(board.toEntity()).isDeleted(0).userCnt(0).build();
+                .board(board.toEntity()).isDeleted(0).memberCnt(0).build();
         Board updatedBoard = Board.builder().id(1L).title("좋은 강의입니다.").isFixed(1).build();
-
-        List<UserLecture> uList = new ArrayList<>();
 
         when(userRepository.findOneById(any())).thenReturn(Optional.ofNullable(user));
         when(boardRepository.findById(any())).thenReturn(Optional.ofNullable(board.toEntity()));
         when(lectureRepository.save(any())).thenReturn(lecture);
         when(boardRepository.save(any())).thenReturn(updatedBoard);
-        when(userLectureRepository.searchLecture(anyLong())).thenReturn(uList);
 
-        LectureDto result = lectureService.update(1L,1L);
+        LectureDto result = lectureService.updateFix(1L,1L);
 
-        assertEquals(result.getUserCnt(),lecture.getUserCnt());
+        assertEquals(result.getMemberCnt(),lecture.getMemberCnt());
     }
 
     @DisplayName("강사 id 가져오기 테스트")
@@ -77,7 +71,7 @@ public class LectureServiceTest {
         List<UserLecture> userLectureList = new ArrayList<>();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).userCnt(0).build();
+                .id(1L).isDeleted(0).memberCnt(0).build();
 
         User user = User.builder().id(1L).name("test").build();
 
@@ -99,7 +93,7 @@ public class LectureServiceTest {
         List<UserLecture> userLectureList = new ArrayList<>();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).userCnt(0).build();
+                .id(1L).isDeleted(0).memberCnt(0).build();
 
         UserLecture userLecture1 = UserLecture.builder()
                 .lecture(lecture).memberType("학생").build();
@@ -116,4 +110,110 @@ public class LectureServiceTest {
 
         assertEquals(userLectureList.size(),result.size());
     }
+
+    @DisplayName("강의 평가여부 업데이트 테스트")
+    @Test
+    public void updateLectureMemberTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        User user = User.builder().id(1L).name("test").build();
+
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+
+        UserLectureDto userLectureDto = UserLectureDto.builder()
+                .id(1L).lid(1L).uid(1L).user(user).lecture(lecture).memberType("학생").evaluateStatus(0).build();
+
+        when(userLectureRepository.searchLectureMember(any(),any())).thenReturn(userLectureDto.toEntity());
+
+        userLectureDto.setEvaluateStatus(1);
+        when(userLectureRepository.save(any())).thenReturn(userLectureDto.toEntity());
+
+        UserLectureDto userLectureDto1 = lectureService.updateLectureMember(1L,1L);
+
+        assertEquals(userLectureDto1.getEvaluateStatus(),userLectureDto.getEvaluateStatus());
+    }
+
+    @DisplayName("강의 업데이트 테스트")
+    @Test
+    public void updateLectureTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+
+        when(lectureRepository.findById(any())).thenReturn(Optional.ofNullable(lecture));
+        when(lectureRepository.save(any())).thenReturn(lecture);
+
+        LectureDto savedLecture = lectureService.updateLecture(lecture.toDto());
+
+        assertEquals(lecture.getId(),savedLecture.getId());
+    }
+
+    @DisplayName("강의 저장 테스트")
+    @Test
+    public void lectureSaveTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+
+        when(lectureRepository.save(any())).thenReturn(lecture);
+
+        LectureDto savedLecture = lectureService.save(lecture);
+
+        assertEquals(lecture.getMemberCnt(),savedLecture.getMemberCnt());
+    }
+
+    @DisplayName("강의 참가 목록 저장 테스트")
+    @Test
+    public void MemberLectureSaveTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        User user = User.builder().id(1L).name("test").build();
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+
+        UserLecture userLecture = UserLecture.builder()
+                .id(1L).user(user).lecture(lecture).memberType("학생").evaluateStatus(0).build();
+
+        when(userLectureRepository.save(any())).thenReturn(userLecture);
+
+        UserLectureDto savedUserLecture = lectureService.save(userLecture);
+
+        assertEquals(userLecture.getId(),savedUserLecture.getId());
+    }
+
+    @DisplayName("강의 취소 테스트")
+    @Test
+    public void UserLectureCancelTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        User user = User.builder().id(1L).name("test").build();
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+
+        UserLecture userLecture = UserLecture.builder()
+                .id(1L).user(user).lecture(lecture).memberType("강사").evaluateStatus(0).build();
+
+        when(userLectureRepository.searchLectureMember(any(),any())).thenReturn(userLecture);
+        when(lectureRepository.findById(any())).thenReturn(Optional.ofNullable(lecture));
+        when(userLectureRepository.deleteLectureMember(any(),any())).thenReturn(1);
+        when(lectureRepository.save(any())).thenReturn(lecture);
+
+        int result = lectureService.cancelApply(lecture.getId(),user.getId());
+
+        assertEquals(result,1);
+    }
+
 }

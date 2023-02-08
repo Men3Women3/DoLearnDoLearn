@@ -2,10 +2,7 @@ package com.example.dolearn.domain;
 
 import com.example.dolearn.dto.LectureDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -15,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Setter
 @Entity(name="lecture")
 public class Lecture {
 
@@ -24,7 +22,7 @@ public class Lecture {
     private Long id;
 
     @Column(name="member_cnt", nullable = false)
-    private int userCnt;
+    private int memberCnt;
 
     @Column(name="is_deleted", columnDefinition = "TINYINT", length=1)
     private int isDeleted;
@@ -55,7 +53,7 @@ public class Lecture {
 
     public LectureDto toDto(){
         return LectureDto.builder()
-                .id(id).bid(board.getId()).userCnt(userCnt).isDeleted(isDeleted).createdTime(createdDate)
+                .id(id).bid(board.getId()).memberCnt(memberCnt).isDeleted(isDeleted).createdTime(createdDate)
                 .startRealTime(startRealTime).endRealTime(endRealTime).build();
     }
 }

@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SBox = styled.div`
   border: 2.5px dashed gray;
@@ -14,7 +14,7 @@ export const SBox = styled.div`
     font-size: ${(props) => props.theme.fontSize.h4};
     margin-top: 1rem;
   }
-`
+`;
 
 export const SContent = styled.div`
   margin-top: 20px;
@@ -45,7 +45,7 @@ export const SContent = styled.div`
     border-radius: 10px;
     cursor: default;
   }
-`
+`;
 
 export const SListBox = styled.div`
   height: 100%;
@@ -69,7 +69,7 @@ export const SListBox = styled.div`
     border-radius: 12px;
     border: 1px solid #f0f0f0;
   }
-`
+`;
 
 export const SList = styled.fieldset`
   border: none;
@@ -81,4 +81,4 @@ export const SList = styled.fieldset`
     color: #ff6905;
     transform: scale(1.03);
   }
-`
+`;
