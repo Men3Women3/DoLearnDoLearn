@@ -8,11 +8,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 public class UserDto {
     private Long id;
 
