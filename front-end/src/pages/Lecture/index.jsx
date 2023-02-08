@@ -716,6 +716,9 @@ const Lecture = () => {
           // handleHelpRequest={handleHelpRequest}
           handleOnClickHelpRequest={handleOnClickHelpRequest}
           shareScreen={shareScreen}
+          roomId={roomId}
+          lecturerId={lecturerId}
+          userId={userInfo.id}
         />
       </SMainContainer>
     </>
