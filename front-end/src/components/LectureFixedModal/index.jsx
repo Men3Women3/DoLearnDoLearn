@@ -175,12 +175,12 @@ const LectureFixedModal = ({
                     resize: "none",
                     borderRadius: "8px",
                     fontFamily: "Pretendard-Regular",
-                    fontSize: "calc(0.6vw + 5px)",
-                    padding: "calc(0.5vw + 2px)",
-                    width: "calc(1vw + 380px)",
+                    fontSize: "1vw",
+                    padding: "1vw",
+                    width: "95%",
                   }}
-                  cols="52"
                   rows="6"
+                  placeholder="수강생들에게 공유되는 정보이므로 취소 사유를 반드시 입력해주세요!"
                 ></textarea>
               </WarningModal>
             ) : (
