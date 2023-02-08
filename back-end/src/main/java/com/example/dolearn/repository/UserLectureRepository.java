@@ -3,6 +3,7 @@ package com.example.dolearn.repository;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserLecture;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,4 +22,8 @@ public interface UserLectureRepository extends JpaRepository<UserLecture,Long> {
 
     @Query(value = "select * from member_lecture where lid=:lid and uid=:uid", nativeQuery = true)
     UserLecture searchLectureMember(@Param("lid") Long lid, @Param("uid") Long uid);
+
+    @Modifying
+    @Query(value = "delete from member_lecture where lid=:lid and uid=:uid", nativeQuery = true)
+    int deleteLectureMember(@Param("lid") Long lid, @Param("uid") Long uid);
 }

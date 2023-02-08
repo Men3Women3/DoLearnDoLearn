@@ -46,6 +46,7 @@ public class LectureController {
             LectureDto result = lectureService.updateLecture(lectureDto);
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         }catch (CustomException e){
+
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
@@ -105,6 +106,21 @@ public class LectureController {
             UserLectureDto userLectureDto = lectureService.updateLectureMember(info.get("lid"),info.get("uid"));
 
             return new ResponseEntity<>(new SuccessResponse(userLectureDto),HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/apply")
+    public ResponseEntity<?> cancelApply(@RequestBody Map<String,Long> info){
+        try{
+            int result = lectureService.cancelApply(info.get("lid"),info.get("uid"));
+
+            return new ResponseEntity<>(new SuccessResponse("삭제가 완료되었습니다"),HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
