@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SContainer, SEmptyNotice } from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { Scrollbars } from "react-custom-scrollbars";
 import TodayScheduleItem from "../TodayScheduleItem";
 import TotalScheduleItem from "../TotalScheduleItem";
-import { LoginStateContext } from "../../App";
+import { BoardDataContext, LoginStateContext } from "../../App";
 import { getFixedLecture, getRequestLecture } from "../../utils/api/userAPI";
 
 const SmallSchedule = () => {
   const { userInfo } = useContext(LoginStateContext);
+  const { flag } = useContext(BoardDataContext);
 
   const [todaySchedule, setTodayScedule] = useState([]);
   const [totalSchedule, setTotalSchedule] = useState([]);
@@ -22,7 +20,7 @@ const SmallSchedule = () => {
 
     // 유저가 신청한 전체 목록 api를 요청하는 함수
     getRequestLecture(userInfo, setTotalSchedule);
-  }, []);
+  }, [flag]);
 
   useEffect(() => {
     if (todaySchedule.length === 0 && totalSchedule.length === 0) {
@@ -55,7 +53,6 @@ const SmallSchedule = () => {
           >
             {todaySchedule.length ? (
               <Scrollbars autoHide className="Scrollbars">
-                {/* key 수정해야 됨 */}
                 {todaySchedule.map((item, idx) => (
                   <TodayScheduleItem key={idx} item={item} />
                 ))}

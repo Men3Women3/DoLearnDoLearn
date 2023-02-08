@@ -25,7 +25,7 @@ export const SUniBoard = styled.div`
   }
 
   p {
-    // 넘치는 내용 ... 처리
+    // 초과 텍스트 ... 처리
     word-wrap: break-word;
     white-space: nowrap;
     overflow-y: auto;

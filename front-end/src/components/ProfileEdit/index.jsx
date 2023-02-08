@@ -25,14 +25,12 @@ import {
   faInstagram,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { baseURL, imageURL } from "../../utils/api/baseURL";
+import { imageURL } from "../../utils/api/baseURL";
 
 const ProfileEdit = (props) => {
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext);
-  const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
-    LoginStateHandlerContext
-  );
+  const { handleUserInfo } = useContext(LoginStateHandlerContext);
   // 받아오는 데이터 -> 수정될 데이터
   const [blogLink, setBlogLink] = useState(getUserInfo.userInfo.blog);
   const [youtubeLink, setYoutubeLink] = useState(getUserInfo.userInfo.youtube);
@@ -159,15 +157,6 @@ const ProfileEdit = (props) => {
                 >
                   기본 이미지로 되돌리기
                 </button>
-                {/* <FontAwesomeIcon
-                icon={faLocationPin}
-                style={{
-                  color: "black",
-                  height: "calc(1vw + 1px)",
-                  marginTop: "10px",
-                }}
-              />
-              <div className="wrapper" /> */}
               </div>
             </section>
           </SSubContainerUp>

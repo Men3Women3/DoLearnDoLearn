@@ -274,7 +274,6 @@ export const duplicatedEmailCheckAPI = (
     axios
       .post(`${axiosDefaultURL}/user/check-email/${email}`)
       .then((response) => {
-        console.log("이메일 중복 확인 성공!");
         // setIsNext(true);
       })
       .catch((error) => {
@@ -312,7 +311,6 @@ export const signupAPI = (
       facebook: facebookLink,
     })
     .then((response) => {
-      console.log("서버에 데이터 보내기 성공!");
       // 회원가입 성공했으면 메인 페이지로 이동
       navigate("/login");
     })
@@ -327,11 +325,8 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
   let totalFixedLectures = [];
   axios
     .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
-    // 테스트용
-    // .get(`http://localhost:8080/user/fixed-lecture/1`)
     .then((response) => {
       const responseData = response.data.response;
-      // console.log(responseData);
       totalFixedLectures = [...responseData];
       const todayLectures = totalFixedLectures.filter((item) => {
         const startTime = item.startTime;
@@ -388,7 +383,6 @@ export const getUnScheduledLectureAPI = (userId, setUnScheduledLectureList) => {
     )
     .then((res) => {
       setUnScheduledLectureList(res.data.response);
-      console.log("전체강의 불러오기 완료");
     });
 };
 
@@ -410,7 +404,6 @@ export const getUnScheduledLectureHostAPI = (
     )
     .then((res) => {
       setUnScheduledLectureList(res.data.response);
-      console.log("방장 글 불러오기 완료");
     });
 };
 
@@ -432,7 +425,6 @@ export const getUnScheduledLectureInstructorAPI = (
     )
     .then((res) => {
       setUnScheduledLectureList(res.data.response);
-      console.log("강사 글 불러오기 완료");
     });
 };
 
@@ -454,7 +446,6 @@ export const getUnScheduledLectureStudentAPI = (
     )
     .then((res) => {
       setUnScheduledLectureList(res.data.response);
-      console.log("수강생 글 불러오기 완료");
     });
 };
 
@@ -485,7 +476,7 @@ export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
     )
     .then((res) => {
       const result = res.data.response;
-      console.log("달력 받아온 데이터", result);
+      // console.log("달력 받아온 데이터", result);
       // 받아온 데이터를 전처리해서 반환
       preprocessingData(result);
       setScheduledLecture(result);
