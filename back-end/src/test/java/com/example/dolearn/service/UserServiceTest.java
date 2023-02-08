@@ -1,19 +1,15 @@
 package com.example.dolearn.service;
 
-import com.example.dolearn.domain.Board;
-import com.example.dolearn.domain.User;
-import com.example.dolearn.dto.BoardDto;
-import com.example.dolearn.dto.FixedLectureDto;
-import com.example.dolearn.dto.UserDto;
+import com.example.dolearn.domain.*;
+import com.example.dolearn.dto.*;
 import com.example.dolearn.exception.CustomException;
-import com.example.dolearn.repository.BoardRepository;
-import com.example.dolearn.repository.FixedLectureRepository;
-import com.example.dolearn.repository.UserRepository;
+import com.example.dolearn.repository.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +35,12 @@ class UserServiceTest {
 
     @Mock
     FixedLectureRepository fixedLectureRepository;
+
+    @Mock
+    UserBoardRepository userBoardRepository;
+
+    @Mock
+    UserLectureRepository userLectureRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -415,8 +417,32 @@ class UserServiceTest {
         @DisplayName("사용자 정보 조회 성공")
         void success() throws ParseException {
             UserDto reqUserDto = UserDto.builder().id(id).build();
+            Board board = BoardDto.builder()
+                    .id(1L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                    .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                    .isFixed(0).maxCnt(5).summary("summary").title("title").build().toEntity();
+            Lecture lecture = Lecture.builder()
+                    .id(1L).board(board).isDeleted(0).memberCnt(0).build();
+            UserBoard userBoard = UserBoardDto.builder()
+                    .id(1L).bid(board.getId()).uid(reqUserDto.getId()).board(board).user(reqUserDto.toEntity()).userType("강사").build().toEntity();
+            UserLecture userLecture = UserLectureDto.builder()
+                    .id(1L).lid(1L).uid(1L).user(reqUserDto.toEntity()).lecture(lecture).memberType("학생").evaluateStatus(0).build().toEntity();
+
+
+            List<UserBoard> userBoardList = new ArrayList<UserBoard>();
+            userBoardList.add(userBoard);
+            List<UserLecture> userLectureList = new ArrayList<UserLecture>();
+            userLectureList.add(userLecture);
+            List<Board> boardList = new ArrayList<Board>();
+            boardList.add(board);
 
             when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+            when(userBoardRepository.findByUid(id)).thenReturn(userBoardList);
+            when(userBoardRepository.save(any(UserBoard.class))).thenReturn(userBoard);
+            when(userLectureRepository.findByUser(any(User.class))).thenReturn(userLectureList);
+            when(userLectureRepository.save(any(UserLecture.class))).thenReturn(userLecture);
+            when(boardRepository.findByUid(id)).thenReturn(boardList);
+            when(boardRepository.save(any(Board.class))).thenReturn(board);
 
             userService.delete(id);
         }

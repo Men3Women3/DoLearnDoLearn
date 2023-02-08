@@ -78,7 +78,6 @@ public class UserService {
     }
 
     public UserDto updateInfo(UserDto reqUserDto){
-        System.out.println(reqUserDto);
         if(reqUserDto.getId() == null || reqUserDto.getInfo() == null || reqUserDto.getBlog() == null || reqUserDto.getFacebook() == null || reqUserDto.getInstagram() == null || reqUserDto.getYoutube() == null){
             throw new CustomException(ErrorCode.INVALID_INPUT);
         }
