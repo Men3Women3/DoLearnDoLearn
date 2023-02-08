@@ -24,8 +24,6 @@ export const SContent = styled.div`
     font-family: ${(props) => props.theme.fontFamily.Medium};
     font-size: ${(props) => props.theme.fontSize.p};
     background-color: ${(props) => props.theme.lightYellow};
-    /* box-shadow: 2px 3px 2px #ffc067; */
-    /* box-shadow: 0px 3px 1px #ff9500; */
     width: 100%;
     display: flex;
     align-items: center;
@@ -37,10 +35,8 @@ export const SContent = styled.div`
   .empty-list {
     font-family: ${(props) => props.theme.fontFamily.Medium};
     font-size: ${(props) => props.theme.fontSize.p};
-    text-align: center;
     background-color: ${(props) => props.theme.lighterYellow};
-    /* background-color: #fff1de; */
-    /* box-shadow: 1px 1px 2px #ff9500; */
+    text-align: center;
     padding: 15px 10px;
     border-radius: 10px;
     cursor: default;

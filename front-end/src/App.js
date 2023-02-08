@@ -48,11 +48,9 @@ function App() {
   const [stateMessageUpdate, setStateMessageUpdate] = useState(false);
 
   // flag의 true/false 여부가 바뀌면 목록 업데이트
-  // =============== 목록이 비었을 때 어떻게 해결...?? ㅠㅠㅠㅠ ===========================
   useEffect(() => {
     boardListAPI(setList);
   }, [flag]);
-  // ======================================================================================
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") !== null) {
@@ -72,7 +70,7 @@ function App() {
   // 안 읽은 메시지 정보 최신화시키기
   useEffect(() => {
     // 로그인 했을 경우 보냄
-    if (isLogined && stateMessageUpdate) {
+    if (isLogined) {
       setStateMessageUpdate(false);
       getUnreadMessageCnt(setUnreadMessageCnt);
     }

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { baseURL } from "./baseURL";
+// import { baseURL } from "./baseURL";
 
-const axiosDefaultURL = baseURL;
+const axiosDefaultURL = process.env.REACT_APP_BASE_URL;
 
 // 유저 정보를 최신화하는 함수 (유저 정보를 가져와서 갱신시키는 함수)
 export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
@@ -99,7 +99,11 @@ export const deleteMessageAPI = async (messageId, setStateMessageUpdate) => {
 };
 
 // 메시지 읽음 상태로 상태 변경
-export const changeMessageReadStateAPI = async (id, setStateMessageUpdate) => {
+export const changeMessageReadStateAPI = async (
+  id,
+  setStateMessageUpdate,
+  setCheckState
+) => {
   const accessToken = localStorage.getItem("accessToken");
   await axios.put(
     `${axiosDefaultURL}/message`,
@@ -115,6 +119,7 @@ export const changeMessageReadStateAPI = async (id, setStateMessageUpdate) => {
       },
     }
   );
+  setCheckState(true);
   setStateMessageUpdate(true);
 };
 

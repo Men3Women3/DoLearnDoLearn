@@ -8,32 +8,72 @@ import {
   faFacebook,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import defaultProfile from "../../assets/images/defaultProfile.png";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const RankingItem = (props) => {
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+
+  const handleMoveToProfile = (e) => {
+    console.log(e.target);
+    if (
+      !e.target.className.includes("link") ||
+      !e.target.className.includes("icon")
+    ) {
+      window.open(`/board/profile/${props.item.id}`);
+    }
+  };
+
   return (
-    <SContainer>
+    <SContainer onClick={(e) => handleMoveToProfile(e)}>
       {/* 프로필 사진, 이름, 점수 표시 */}
       <div className="profile-container">
-        <img src={profileImg} alt="profile-img" />
+        <img
+          src={
+            props.item.imgUrl
+              ? `${IMAGE_URL}${props.item.imgUrl}`
+              : defaultProfile
+          }
+          alt="profile-img"
+        />
         <div>
-          <h3>{props.item.name}</h3>
-          <p>{props.item.point}</p>
+          <div className="name">{props.item.name}</div>
+          <div className="point">{props.item.point}</div>
         </div>
       </div>
       {/* SNS */}
       <SSNSContainer>
-        <NavLink>
-          <FontAwesomeIcon className="icon" icon={faYoutube} />
-        </NavLink>
-        <NavLink>
-          <FontAwesomeIcon className="icon" icon={faInstagram} />
-        </NavLink>
-        <NavLink>
-          <FontAwesomeIcon className="icon" icon={faFacebook} />
-        </NavLink>
+        {props.item.blog && (
+          <a className="link" href={props.item.blog} target={"_blank"}>
+            <FontAwesomeIcon className="icon" icon={faLink} />
+          </a>
+        )}
+        {props.item.youtube && (
+          <a className="link" href={props.item.youtube} target={"_blank"}>
+            <FontAwesomeIcon className="icon" icon={faYoutube} />
+          </a>
+        )}
+        {props.item.instagram && (
+          <a
+            className="link"
+            href={`https://www.instagram.com/${props.item.instagram}/`}
+            target={"_blank"}
+          >
+            <FontAwesomeIcon className="icon" icon={faInstagram} />
+          </a>
+        )}
+        {props.item.facebook && (
+          <a
+            className="link"
+            href={`https://facebook.com/${props.item.facebook}/`}
+            target={"_blank"}
+          >
+            <FontAwesomeIcon className="icon" icon={faFacebook} />
+          </a>
+        )}
       </SSNSContainer>
       {/* 랭크를 표시하기 위한 div */}
-      <SRank className="rank">{props.item.id}</SRank>
+      <SRank className="rank">{props.index + 1}</SRank>
     </SContainer>
   );
 };

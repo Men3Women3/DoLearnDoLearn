@@ -9,27 +9,9 @@ export const SSearchContainer = styled.div`
     box-shadow: 5px 5px 30px #c4c4c454;
   }
   input {
-    /* outline: none;
-    border: none; */
     padding: calc(0.8vw + 1px);
   }
-  /* .JoyInput-variantOutlined {
-    outline: none;
-  } */
-  /* div {
-    outline: none;
-    border: none;
-  }
-  .JoyInput-input {
-    outline: none;
-    border: none;
-  } */
-  /* .search-bar {
-    border: none;
-    outline: none;
-  } */
 
-  /* 이거 찾기 너무너무너무 힘들었음 */
   /* input border 커스텀 */
   .css-c64t1i-JoyInput-root {
     --Input-focusedHighlight: white;

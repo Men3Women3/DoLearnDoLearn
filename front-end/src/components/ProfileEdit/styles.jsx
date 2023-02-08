@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const SProfileEditContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -22,7 +22,7 @@ export const SProfileEditContainer = styled.div`
     width: 100%;
     padding: 10px calc(1vw + 16px);
   }
-`
+`;
 
 export const SSubContainerUp = styled.div`
   display: flex;
@@ -94,7 +94,7 @@ export const SSubContainerUp = styled.div`
       flex: 1;
     }
   }
-`
+`;
 
 export const SSubContainerDown = styled.div`
   width: 100%;
@@ -109,7 +109,7 @@ export const SSubContainerDown = styled.div`
     margin-top: -5px;
     font-size: ${(props) => props.theme.fontSize.p};
   }
-`
+`;
 
 export const SInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Bold};
@@ -121,7 +121,7 @@ export const SInput = styled.input`
   &::placeholder {
     color: #cdcdcd;
   }
-`
+`;
 
 export const SSelfIntroduction = styled.textarea`
   height: calc(3vw + 80px);
@@ -148,24 +148,24 @@ export const SSelfIntroduction = styled.textarea`
     background-color: #d4d4d4;
     border-radius: 10px;
   }
-`
+`;
 
 export const SCustomFontAwesomeIcon = styled(FontAwesomeIcon)`
   font-size: ${(props) => props.theme.fontSize.p};
   color: #cdcdcd;
   position: absolute;
-`
+`;
 
 export const SInputIcon = styled(SCustomFontAwesomeIcon)`
   top: 0;
   bottom: 0;
   margin: auto 10px;
-`
+`;
 
 export const STextAreaIcon = styled(SCustomFontAwesomeIcon)`
   margin: 10px;
   top: calc(0.2vw + 1px);
-`
+`;
 
 export const SBlackButton = styled.button`
   width: calc(2vw + 80px);
@@ -181,4 +181,4 @@ export const SBlackButton = styled.button`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bolder;
   }
-`
+`;
