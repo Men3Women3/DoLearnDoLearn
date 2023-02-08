@@ -99,7 +99,11 @@ export const deleteMessageAPI = async (messageId, setStateMessageUpdate) => {
 };
 
 // 메시지 읽음 상태로 상태 변경
-export const changeMessageReadStateAPI = async (id, setStateMessageUpdate) => {
+export const changeMessageReadStateAPI = async (
+  id,
+  setStateMessageUpdate,
+  setCheckState
+) => {
   const accessToken = localStorage.getItem("accessToken");
   await axios.put(
     `${axiosDefaultURL}/message`,
@@ -115,6 +119,7 @@ export const changeMessageReadStateAPI = async (id, setStateMessageUpdate) => {
       },
     }
   );
+  setCheckState(true);
   setStateMessageUpdate(true);
 };
 
