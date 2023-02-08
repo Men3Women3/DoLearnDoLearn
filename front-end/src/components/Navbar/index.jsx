@@ -37,6 +37,7 @@ const Navbar = () => {
   const handleMoveToMessage = () => {
     navigate("/mypage", {
       state: "message",
+      replace: true,
     });
   };
 
