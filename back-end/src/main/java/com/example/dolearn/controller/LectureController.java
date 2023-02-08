@@ -47,7 +47,7 @@ public class LectureController {
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,7 +62,7 @@ public class LectureController {
             return new ResponseEntity<>(new SuccessResponse(lectureService.getInstructor(lid)), HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -79,7 +79,7 @@ public class LectureController {
             return new ResponseEntity<>(new SuccessResponse(updateBoard), HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -92,7 +92,7 @@ public class LectureController {
             return new ResponseEntity<>(new SuccessResponse(lectureService.getList(lid)), HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -107,7 +107,7 @@ public class LectureController {
             return new ResponseEntity<>(new SuccessResponse(userLectureDto),HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
