@@ -6,7 +6,7 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 // 확정된 강의의 강사 id를 가져오는 함수
 export const getLecturerId = (roomId, setLecturerId) => {
   axios
-    .get(`${axiosDefaultURL}/lecture/instructor/${roomId}`)
+    .get(`${baseURL}/lecture/instructor/${roomId}`)
     .then((response) => {
       setLecturerId(response.data.response);
     })
@@ -22,7 +22,7 @@ export const getLecturePacitipants = (
   exitRoom
 ) => {
   axios
-    .get(`${axiosDefaultURL}/lecture/list/${roomId}`)
+    .get(`${baseURL}/lecture/list/${roomId}`)
     .then((response) => {
       const responseData = response.data.response;
       let userInfo = responseData.filter((item) => {
@@ -50,7 +50,7 @@ export const getLecturePacitipants = (
 // 수강자의 강의 평가 여부를 업데이트하는 함수
 export const updateCheck = (roomId, userId, lecturerId, point, exitRoom) => {
   axios
-    .put(`${axiosDefaultURL}/lecture/member-update`, {
+    .put(`${baseURL}/lecture/member-update`, {
       lid: roomId,
       uid: userId,
     })
@@ -71,7 +71,7 @@ export const updatePoint = (lecturerId, point) => {
   const accessToken = localStorage.getItem("accessToken");
   axios
     .put(
-      `${axiosDefaultURL}/user/point`,
+      `${baseURL}/user/point`,
       {
         id: lecturerId,
         point: point,
