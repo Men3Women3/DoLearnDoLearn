@@ -134,4 +134,11 @@ public class LectureService {
         return userLectureRepository.searchLecture(lid);
     }
 
+    @Transactional
+    public int cancelApply(Long lid, Long uid){
+        if(userLectureRepository.searchLectureMember(lid, uid)==null) throw new CustomException(ErrorCode.NO_APPLICANT);
+
+        return userLectureRepository.deleteLectureMember(lid,uid);
+    }
+
 }
