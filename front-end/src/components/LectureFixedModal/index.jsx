@@ -19,6 +19,7 @@ import { cancelEnrollAPI } from "../../utils/api/boardAPI";
 import { BoardDataContext, LoginStateContext } from "../../App";
 import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
 import WarningModal from "../WarningModal";
+import { useNavigate } from "react-router";
 
 const customLecTime = (start, end) => {
   const startDate = new Date(start);
@@ -57,11 +58,13 @@ const LectureFixedModal = ({
   instructorInfo,
   studentsInfo,
   setScheduledLecture,
+  isLecturer,
 }) => {
   const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
   const [openCancleModal, setOpenCancleModal] = useState(false);
   const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   if (openCancleModal) {
@@ -76,35 +79,23 @@ const LectureFixedModal = ({
   // 신청 취소
   const cancelClass = async () => {
     // 강사의 경우 신청 취소
-    if (userInfo.id === instructorInfo.id) {
-      console.log("모달 띄우기");
-      // 취소 사유 받을 모달 띄우기
-      setOpenCancleModal(true);
-      // cancleFixedLectureAPI(lectureInfo.id, userInfo.id);
-    }
-    // 강사가 아닌 경우 신청 취소
-    else {
-      cancleFixedLectureAPI(lectureInfo.id, userInfo.id, setScheduledLecture);
-    }
+    cancleFixedLectureAPI(lectureInfo.id, userInfo.id, setScheduledLecture);
     handleClose();
-    //   await cancelEnrollAPI(userInfo.id, data.id, setCheck);
-    //   setFlag(!flag);
-    //   setOpen(false);
   };
 
   // 라이브 강의 입장
   const handleMoveToLecture = () => {
-    //   navigate("/lecture", {
-    //     state: {
-    //       roomId: props.item.id,
-    //       lecturerId: lecturerId,
-    //       lecturerInfo: lecturerInfo,
-    //       time: {
-    //         startTime: lectureInfo.board.startTime,
-    //         endTime: lectureInfo.board.endTime,
-    //       },
+    // navigate("/lecture", {
+    //   state: {
+    //     roomId: props.item.id,
+    //     lecturerId: lecturerId,
+    //     lecturerInfo: lecturerInfo,
+    //     time: {
+    //       startTime: lectureInfo.board.startTime,
+    //       endTime: lectureInfo.board.endTime,
     //     },
-    //   });
+    //   },
+    // });
   };
 
   console.log("유저", userInfo);
@@ -172,28 +163,31 @@ const LectureFixedModal = ({
 
           <SDetail>{lectureInfo.board.content}</SDetail>
           <SButtonBox>
-            <SButton onClick={(e) => cancelClass()}>신청취소</SButton>
+            {isLecturer ? (
+              <WarningModal
+                title="강의 취소 확인"
+                warningContent="강의를 취소하면 점수 패널티를 받게 됩니다."
+                content="강의 취소를 원하시면 확인을 눌러주세요."
+                lectureCancel
+              >
+                <textarea
+                  style={{
+                    resize: "none",
+                    borderRadius: "8px",
+                    fontFamily: "Pretendard-Regular",
+                    fontSize: "calc(0.6vw + 5px)",
+                    padding: "calc(0.5vw + 2px)",
+                    width: "calc(1vw + 380px)",
+                  }}
+                  cols="52"
+                  rows="6"
+                ></textarea>
+              </WarningModal>
+            ) : (
+              <SButton onClick={(e) => cancelClass()}>신청취소</SButton>
+            )}
             <SButton onClick={handleMoveToLecture}>Live 입장</SButton>
           </SButtonBox>
-          <WarningModal
-            title="강의 취소 확인"
-            warningContent="강의를 취소하면 점수 패널티를 받게 됩니다."
-            content="강의 취소를 원하시면 확인을 눌러주세요."
-            lectureCancel
-          >
-            <textarea
-              style={{
-                resize: "none",
-                borderRadius: "8px",
-                fontFamily: "Pretendard-Regular",
-                fontSize: "calc(0.6vw + 5px)",
-                padding: "calc(0.5vw + 2px)",
-                width: "calc(1vw + 380px)",
-              }}
-              cols="52"
-              rows="6"
-            ></textarea>
-          </WarningModal>
         </Box>
       </Modal>
     </>
