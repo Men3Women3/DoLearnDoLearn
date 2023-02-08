@@ -1,7 +1,7 @@
 import axios from "axios";
-import { baseURL } from "./baseURL";
+// import { baseURL } from "./baseURL";
 
-const axiosDefaultURL = baseURL;
+const axiosDefaultURL = process.env.REACT_APP_BASE_URL;
 
 // 유저 정보를 최신화하는 함수 (유저 정보를 가져와서 갱신시키는 함수)
 export const getUnreadMessageCnt = (setUnreadMessageCnt) => {

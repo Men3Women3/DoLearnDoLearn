@@ -54,7 +54,9 @@ const Lecture = () => {
   const lecturerId = location.state.lecturerId;
   const lecturerInfo = location.state.lecturerInfo;
 
-  const ws = new WebSocket("wss://localhost:8443/groupcall");
+  // .env.local에 URL 저장하고 사용
+  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+  const ws = new WebSocket({ SOCKET_URL });
 
   var participants = {};
   var name = username;
