@@ -19,7 +19,6 @@ import facebookImg from "../../assets/images/sns/facebook.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import { imageURL } from "../../utils/api/baseURL";
 import walkingChick from "../../assets/images/walkingChick.gif";
 
 const Profile = ({
@@ -29,6 +28,8 @@ const Profile = ({
   userState,
   chick,
 }) => {
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+
   const blog = user.blog;
   const youtube = user.youtube;
   const instagram = user.instagram;
@@ -53,7 +54,7 @@ const Profile = ({
             {/* 프로필 이미지 */}
             <img
               className="profile-img"
-              src={user.imgUrl ? `${imageURL}${user.imgUrl}` : defaultProfile}
+              src={user.imgUrl ? `${IMAGE_URL}${user.imgUrl}` : defaultProfile}
               alt="defaultProfile"
             />
             <section>

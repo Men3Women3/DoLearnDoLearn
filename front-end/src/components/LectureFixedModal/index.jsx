@@ -15,7 +15,7 @@ import {
   SContent,
   SDetail,
 } from "./styles";
-import { imageURL } from "../../utils/api/baseURL";
+import { cancelEnrollAPI } from "../../utils/api/boardAPI";
 import { BoardDataContext, LoginStateContext } from "../../App";
 import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
 import WarningModal from "../WarningModal";
@@ -61,11 +61,12 @@ const LectureFixedModal = ({
   const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
   const [openCancleModal, setOpenCancleModal] = useState(false);
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
 
-  useEffect(() => {
-    if (openCancleModal) {
-    }
-  }, [openCancleModal]);
+  // useEffect(() => {
+  //   if (openCancleModal) {
+  //   }
+  // }, [openCancleModal]);
 
   // 강사 프로필 섹션 눌렀을 때 프로필 상세보기 새 창으로 이동
   const handleOpenProfile = (uid) => {
@@ -134,7 +135,7 @@ const LectureFixedModal = ({
                   className="profile-img"
                   src={
                     instructorInfo.imgUrl
-                      ? `${imageURL}${instructorInfo.imgUrl}`
+                      ? `${IMAGE_URL}${instructorInfo.imgUrl}`
                       : defaultProfile
                   }
                   alt=""
