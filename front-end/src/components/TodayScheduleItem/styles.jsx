@@ -22,6 +22,7 @@ export const SContainer = styled.div`
       margin-bottom: 0px;
     }
     button {
+      cursor: pointer;
       font-size: calc(0.5vw + 1px);
       font-weight: bold;
       border: none;
@@ -29,5 +30,11 @@ export const SContainer = styled.div`
       background-color: #f3bd2a;
       padding: calc(0.3vw + 1px) calc(0.3vw + 8px);
     }
+  }
+  .inactive {
+    pointer-events: none;
+    user-select: none;
+    background-color: #d8d8d8;
+    color: #9a9a9a;
   }
 `;

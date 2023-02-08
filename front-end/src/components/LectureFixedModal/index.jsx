@@ -98,6 +98,22 @@ const LectureFixedModal = ({
     });
   };
 
+  // 강의 시작 10분 전 ~ 강의 끝날때까지 Live 입장 버튼 활성화
+  const handleActiveClassName = () => {
+    if (
+      Math.floor(
+        (new Date(lectureInfo.board.startTime) - new Date()) / (1000 * 60) <=
+          10 &&
+          // new Date() - new Date(props.item.endTime) <= 0
+          new Date() <= new Date(lectureInfo.board.endTime)
+      )
+    ) {
+      return "active";
+    } else {
+      return "inactive";
+    }
+  };
+
   console.log("유저", userInfo);
   console.log("강의", lectureInfo);
   console.log("강사", instructorInfo);
@@ -186,7 +202,12 @@ const LectureFixedModal = ({
             ) : (
               <SButton onClick={(e) => cancelClass()}>신청취소</SButton>
             )}
-            <SButton onClick={handleMoveToLecture}>Live 입장</SButton>
+            <SButton
+              className={handleActiveClassName()}
+              onClick={handleMoveToLecture}
+            >
+              Live 입장
+            </SButton>
           </SButtonBox>
         </Box>
       </Modal>

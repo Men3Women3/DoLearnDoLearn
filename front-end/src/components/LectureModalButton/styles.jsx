@@ -5,6 +5,12 @@ export const SButtonBox = styled.div`
   display: flex;
   padding: 0 5vw;
   justify-content: center;
+  .inactive {
+    pointer-events: none;
+    user-select: none;
+    background-color: #d8d8d8;
+    color: #9a9a9a;
+  }
 `;
 
 export const SButton = styled.button`
@@ -20,7 +26,6 @@ export const SButton = styled.button`
   cursor: pointer;
   place-items: center;
   text-align: center;
-
   :hover {
     font-family: ${(props) => props.theme.fontFamily.Bold};
     transform: translateY(-1px);
