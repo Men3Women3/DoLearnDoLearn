@@ -129,11 +129,8 @@ const Profile = ({
               <div>
                 <SPointContainer point={point}>
                   <FontAwesomeIcon
+                    className="point-icon"
                     icon={faPersonRunning}
-                    style={{
-                      color: "black",
-                      height: "1.5vw",
-                    }}
                     // beat
                   />
                   <span className="point">{point}</span>

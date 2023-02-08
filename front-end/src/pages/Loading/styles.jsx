@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SSection = styled.div`
   width: 100%;
@@ -17,4 +17,4 @@ export const SSection = styled.div`
     color: #ffd217;
     margin-bottom: 48px;
   }
-`;
+`
