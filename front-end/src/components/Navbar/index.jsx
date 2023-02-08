@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, Navigate, NavLink, useNavigate } from "react-router-dom";
 import { Box } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
@@ -31,6 +31,14 @@ const Navbar = () => {
   );
   const { unreadMessageCnt, setStateMessageUpdate } =
     useContext(UnreadMessageContext);
+  const navigate = useNavigate();
+
+  // 종(bell) 아이콘 눌렀을 때 메시지함으로 이동
+  const handleMoveToMessage = () => {
+    navigate("/mypage", {
+      state: "message",
+    });
+  };
 
   return (
     <Box>
@@ -75,7 +83,11 @@ const Navbar = () => {
                 horizontal: "right",
               }}
             >
-              <FontAwesomeIcon className="unread__notification" icon={faBell} />
+              <FontAwesomeIcon
+                className="unread__notification"
+                icon={faBell}
+                onClick={handleMoveToMessage}
+              />
             </Badge>
           </div>
         )}
