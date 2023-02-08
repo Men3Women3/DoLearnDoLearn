@@ -51,10 +51,9 @@ const SamplePrevArrow = (props) => {
 
 const NewBoard = () => {
   const { userInfo } = useContext(LoginStateContext);
-
+  const { flag, setFlag } = useContext(BoardDataContext);
   const today = new Date().toISOString().substring(0, 10);
   const navigate = useNavigate();
-  const { flag, setFlag } = useContext(BoardDataContext);
 
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(1); // 참가인원(5명까지만!)
@@ -65,6 +64,7 @@ const NewBoard = () => {
   const [summary, setSummary] = useState(""); // 강의 요약
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
+  const [check, setCheck] = useState(""); // 입력 안된 정보 저장
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -96,17 +96,27 @@ const NewBoard = () => {
   };
 
   const handleOpen = () => {
-    if (
-      !imgSelect ||
-      !title ||
-      !deadline ||
-      !lectureDay ||
-      !lectureTime ||
-      !classTime ||
-      !summary ||
-      !detail
-    ) {
-      setOpen(true); // 빈 내용이 있으면 경고 띄우기
+    if (!title) {
+      setCheck("제목을");
+      setOpen(true);
+    } else if (!imgSelect) {
+      setCheck("대표 이미지를");
+      setOpen(true);
+    } else if (!deadline) {
+      setCheck("모집 기간을");
+      setOpen(true);
+    } else if (!lectureDay) {
+      setCheck("강의 날짜를");
+      setOpen(true);
+    } else if (!classTime) {
+      setCheck("강의 시간을");
+      setOpen(true);
+    } else if (!summary) {
+      setCheck("내용 요약을");
+      setOpen(true);
+    } else if (!detail) {
+      setCheck("내용 상세를");
+      setOpen(true);
     } else {
       handleRegister(); // 모두 잘 작성됐으면 등록
       setFlag(!flag);
@@ -316,7 +326,7 @@ const NewBoard = () => {
               variant="h6"
               component="h2"
             >
-              <S.SModal>내용을 모두 입력해주세요</S.SModal>
+              <S.SModal>{check} 입력해주세요</S.SModal>
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               <S.SCancelButton onClick={(e) => setOpen(false)}>
