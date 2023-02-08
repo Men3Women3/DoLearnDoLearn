@@ -119,15 +119,15 @@ const NewBoard = () => {
       setOpen(true);
     } else {
       handleRegister(); // 모두 잘 작성됐으면 등록
-      setFlag(!flag);
+      // setFlag(!flag);
     }
   };
 
   const handleClose = () => setOpen(false);
 
   // 등록 버튼 클릭으로 작동
-  const handleRegister = () => {
-    newBoardAPI(
+  const handleRegister = async () => {
+    await newBoardAPI(
       userInfo.id,
       imgSelect,
       title,
@@ -139,6 +139,7 @@ const NewBoard = () => {
       deadline,
       0
     );
+    await setFlag(!flag);
     navigate("/board", {
       state: {
         isWritten: "true",

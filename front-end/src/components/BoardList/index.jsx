@@ -14,9 +14,9 @@ const BoardList = () => {
   const offset = (page - 1) * limit; // 첫 게시물의 위치
   // ======================================================
 
-  useEffect(() => {
-    boardListAPI(setList);
-  }, [flag]);
+  // useEffect(() => {
+  //   boardListAPI(setList);
+  // }, [flag]);
 
   return (
     <>
