@@ -1,6 +1,7 @@
 package com.example.dolearn.controller;
 
 import com.example.dolearn.dto.LectureDto;
+import com.example.dolearn.dto.UserLectureDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.response.ErrorResponse;
@@ -37,6 +38,22 @@ public class LectureController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateLecture(@RequestBody LectureDto lectureDto){
+        try{
+            log.info("강의 업데이트 요청: {}",lectureDto);
+
+            LectureDto result = lectureService.updateLecture(lectureDto);
+            return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/instructor/{lid}")
     public ResponseEntity<?> getInstructor(@PathVariable Long lid){
         log.info("강사 찾기 요청: {}",lid);
@@ -45,7 +62,7 @@ public class LectureController {
             return new ResponseEntity<>(new SuccessResponse(lectureService.getInstructor(lid)), HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,13 +73,13 @@ public class LectureController {
     public ResponseEntity<?> updateFixed(@RequestBody Map<String,Long> idMap){
         try{
             log.info("업데이트 요청: {} {}",idMap.get("bid"),idMap.get("Luid"));
-            LectureDto updateBoard = lectureService.update(idMap.get("bid"),idMap.get("Luid"));
+            LectureDto updateBoard = lectureService.updateFix(idMap.get("bid"),idMap.get("Luid"));
             log.info("강의 업데이트 완료: {}",updateBoard);
 
             return new ResponseEntity<>(new SuccessResponse(updateBoard), HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -75,7 +92,22 @@ public class LectureController {
             return new ResponseEntity<>(new SuccessResponse(lectureService.getList(lid)), HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/member-update")
+    public ResponseEntity<?> updateMember(@RequestBody Map<String,Long> info){
+        try{
+            UserLectureDto userLectureDto = lectureService.updateLectureMember(info.get("lid"),info.get("uid"));
+
+            return new ResponseEntity<>(new SuccessResponse(userLectureDto),HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);

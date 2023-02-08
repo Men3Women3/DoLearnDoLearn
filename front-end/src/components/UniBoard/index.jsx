@@ -1,6 +1,6 @@
+import { useContext, useState } from "react";
 import LectureModal from "../LectureModal";
 import { SImg, SUniBoard } from "./styles";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as F from "@fortawesome/free-solid-svg-icons";
 import scrum from "../../assets/images/thumbnail/scrum.svg";
@@ -13,16 +13,18 @@ import study from "../../assets/images/thumbnail/study.svg";
 import teamwork from "../../assets/images/thumbnail/teamwork.svg";
 
 // 개별 게시물 component
-const UniBoard = ({ data, flag, setFlag }) => {
+const UniBoard = ({ data }) => {
   // Modal 파트 ========================
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   // ===================================
 
-  const startTime = data.createdTime.substring(5, 10).replaceAll("-", ".");
-  const deadline = data.endTime.substring(5, 13).replaceAll("-", ".");
-  const endTime = data.deadline.substring(5, 10).replaceAll("-", ".");
+  const createdTime = data.createdTime.substring(5, 10).replaceAll("-", ".");
+  const deadline = data.deadline.substring(5, 10).replaceAll("-", ".");
+  const startTime = data.startTime.substring(5, 13).replaceAll("-", ".");
+
+  console.log(data);
 
   const thumbnails = [
     scrum,
@@ -44,11 +46,11 @@ const UniBoard = ({ data, flag, setFlag }) => {
         <div style={{ textAlign: "left" }}>
           <p>
             <FontAwesomeIcon icon={F.faClock} />
-            &nbsp;모집기간 | {startTime} ~ {endTime}
+            &nbsp;모집기간 | {createdTime} ~ {deadline}
           </p>
           <p>
             <FontAwesomeIcon icon={F.faCalendarDays} />
-            &nbsp;강의시간 | {deadline}시
+            &nbsp;강의시간 | {startTime}시
           </p>
           <p>
             <FontAwesomeIcon icon={F.faPersonChalkboard} />
@@ -66,8 +68,6 @@ const UniBoard = ({ data, flag, setFlag }) => {
           open={open}
           setOpen={setOpen}
           handleClose={handleClose}
-          flag={flag}
-          setFlag={setFlag}
         />
       ) : null}
     </SUniBoard>

@@ -3,6 +3,7 @@ package com.example.dolearn.controller;
 import com.example.dolearn.domain.Board;
 import com.example.dolearn.domain.UserBoard;
 import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.dto.UserBoardDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.response.ErrorResponse;
@@ -55,8 +56,6 @@ public class BoardController {
             }
 
             return new ResponseEntity<>(new SuccessResponse(boardDtoList),HttpStatus.OK);
-        }catch (CustomException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -82,13 +81,13 @@ public class BoardController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         try{
-            boardService.deleteBoard(id);
+            int result = boardService.deleteBoard(id);
 
             log.info("삭제할 id: {}",id);
 
             return new ResponseEntity<>(new SuccessResponse("삭제가 완료되었습니다!!"),HttpStatus.OK);
         }catch (CustomException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,7 +115,6 @@ public class BoardController {
             log.info("학생 목록 가져오기 요청: {}",bid);
             List<UserBoard> applicants = userBoardService.getStudents(bid);
 
-            if(applicants.isEmpty()) return new ResponseEntity<>(new SuccessResponse("신청한 학생이 없습니다."),HttpStatus.OK);
             return new ResponseEntity<>(new SuccessResponse(applicants),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -134,8 +132,6 @@ public class BoardController {
             List<BoardDto> result = boardService.searchResult(bListByTitle,bListByContent,bListBySummary);
 
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
-        }catch (CustomException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_BOARD), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -151,12 +147,14 @@ public class BoardController {
             log.info("수강신청: {}, {}",uid,bid);
 
             UserBoard userBoard = UserBoard.builder().bid(bid).uid(uid).userType("학생").build();
-            userBoardService.applyClass(userBoard);
+            UserBoardDto result = userBoardService.applyClass(userBoard);
+
+            if(result==null) throw new Exception();
 
             return new ResponseEntity<>(new SuccessResponse("강의 신청이 완료되었습니다!!"),HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.EXEED_STUDENTS), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.CONFLICT);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);

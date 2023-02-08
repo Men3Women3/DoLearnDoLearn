@@ -9,7 +9,7 @@ export const SOptionContainer = styled.div`
   justify-content: center;
   align-items: center;
   /* background-color: #242424; */
-  background-color: #fffbe6;
+  background-color: #dedede;
   text-align: center;
   margin: auto;
   width: 65%;
@@ -27,13 +27,18 @@ export const SOptionContainer = styled.div`
     border-radius: 8px;
     padding: calc(0.8vw + 2px) calc(1vh + 12px);
     border: none;
+    transition: all 300ms linear;
     outline: none;
   }
+  .icon {
+    transition: all 300ms linear;
+  }
   button:hover {
-    background-color: #ffc07d;
+    background-color: white;
     .icon {
-      /* color: ${(props) => props.theme.deeperYellow}; */
-      color: white;
+      transform: scale(1.2);
+      color: ${(props) => props.theme.deepYellow};
+      /* color: ; */
     }
   }
   /* select {

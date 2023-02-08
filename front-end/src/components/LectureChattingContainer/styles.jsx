@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 export const SContainer = styled.section`
-  margin: calc(1vw + 8px) 0px;
-  margin-right: 10px;
-  height: calc(6vw + 550px);
+  height: 100%;
+  width: 24vw;
 `;
 
 // 유저 프로필 사진을 감싸는 div
@@ -12,10 +11,8 @@ export const SUsersContainer = styled.div`
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  /* height: 10%; */
   display: flex;
   justify-content: space-evenly;
-  /* margin: calc(1vw + 8px); */
   span {
     display: flex;
     justify-content: center;
@@ -24,7 +21,6 @@ export const SUsersContainer = styled.div`
   }
   /* 강사 프로필 */
   .lecturer {
-    /* border: 3px solid ${(props) => props.theme.deeperYellow}; */
     border: 3px solid white;
   }
   img {
@@ -35,12 +31,10 @@ export const SUsersContainer = styled.div`
 `;
 
 export const SChattingContainer = styled.div`
-  /* text-align: center;
-  margin: auto; */
+  position: relative;
+  height: 100%;
   margin: 0px;
-  width: calc(1vw + 360px);
-  height: calc(6vw + 495px);
-  background-color: #ffffff;
+  background-color: #dedede;
   border-radius: 12px;
   box-shadow: 5px 5px 5px #3737372d;
   overflow: auto;
@@ -49,10 +43,11 @@ export const SChattingContainer = styled.div`
     width: 12px;
   }
   ::-webkit-scrollbar-track {
+    margin-bottom: 4vw;
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.deepYellow};
+    background-color: white;
     border-radius: 12px;
     border: 1px solid #f0f0f0;
   }
@@ -61,6 +56,7 @@ export const SChattingContainer = styled.div`
 export const SChattingContent = styled.div`
   text-align: left;
   padding: calc(0.5vw + 5px);
+  margin-bottom: 3vw;
   /* 채팅 작성자 표시 */
   p {
     margin: 0px;
@@ -68,7 +64,7 @@ export const SChattingContent = styled.div`
   }
   /* 채팅내용이 들어갈 div */
   .content {
-    background-color: #fffbe6;
+    background-color: white;
     display: inline-block;
     padding: calc(0.5vw + 4px);
     border-radius: 8px;
@@ -91,12 +87,10 @@ export const SChattingContent = styled.div`
 
 // 메시지를 작성할 textarea를 감싸는 div
 export const SMessageContainer = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10%;
-  width: calc(1vw + 360px);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   textarea {
     border-radius: 12px;
     border: none;
@@ -108,25 +102,12 @@ export const SMessageContainer = styled.div`
     padding: calc(0.3vw + 8px);
     padding-right: calc(0.3vw + 45px);
     overflow: hidden;
-    /* Chrome, Edge, and Safari */
-    /* ::-webkit-scrollbar {
-      width: calc(0.9vw + 1px);
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #ffffff;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: #c2c2c2;
-      border-radius: 10px;
-      border: 3px solid #ffffff;
-    } */
+    width: 19vw;
   }
   button {
     position: absolute;
-    right: calc(0.5vw + 0.5px);
-    bottom: calc(1vw + 1px);
+    right: 0.5vw;
+    bottom: 0.7vw;
     border: none;
     outline: none;
     background-color: #590f0f;
