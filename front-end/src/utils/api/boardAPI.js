@@ -14,7 +14,6 @@ export const boardListAPI = async (setList) => {
     console.log(res.data.response);
     setList(res.data.response);
   } catch (err) {
-    // console.log(err);
     console.log("강의 목록 출력 실패");
     setList([]);
   }
@@ -204,13 +203,26 @@ export const lecProfileAPI = async (id, setData) => {
 // 확정 강의(일정 상세보기) 강사/수강생 정보 확인 API
 export const getFixedLectureInfo = async (
   lid,
+  setLectureInfo,
   setInstructorInfo,
   setStudentsInfo,
   setCheckModalState
 ) => {
   const res = await axios.get(`${LECTURE_URL}/list/${lid}`);
   console.log("정보 받아오기 성공", res.data.response);
-  setStudentsInfo(res.data.response[0]); // 수강생(들) 정보
-  setInstructorInfo(res.data.response[1]); // 강사 정보
+  let lecture;
+  let instructor;
+  let students = [];
+  res.data.response.forEach((element) => {
+    if (element.memberType === "강사") {
+      instructor = element.user;
+      lecture = element.lecture;
+    } else {
+      students.push(element.user);
+    }
+  });
+  setLectureInfo(lecture); // 확정 강의 정보
+  setInstructorInfo(instructor); // 강사 정보
+  setStudentsInfo(students); // 수강생(들) 정보
   setCheckModalState(true);
 };

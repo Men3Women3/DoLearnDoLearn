@@ -11,7 +11,6 @@ import {
 import { Tooltip } from "@mui/material";
 
 import defaultProfile from "../../assets/images/defaultProfile.png";
-// import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 import blogImg from "../../assets/images/sns/blog.png";
 import youtubeImg from "../../assets/images/sns/youtube.png";
@@ -20,8 +19,8 @@ import facebookImg from "../../assets/images/sns/facebook.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import ProfileCardBox from "../ProfileCardBox";
-import { baseURL, imageURL } from "../../utils/api/baseURL";
+import { imageURL } from "../../utils/api/baseURL";
+import walkingChick from "../../assets/images/walkingChick.gif";
 
 const Profile = ({
   handleProfileEditBtn,
@@ -124,47 +123,14 @@ const Profile = ({
               </div>
               {/* 마일리지 바 */}
               <div>
-                <SPointContainer point={point}>
-                  <FontAwesomeIcon
-                    icon={faLocationPin}
-                    style={{
-                      color: "black",
-                      height: "calc(1vw + 1px)",
-                    }}
-                  />
-                  <span className="point">{point}</span>
-                </SPointContainer>
-                <div className="wrapper">
-                  {/* <div
+                <FontAwesomeIcon
+                  icon={faLocationPin}
                   style={{
-                    backgroundColor: "#24E843",
-                    borderTopLeftRadius: "50px",
-                    borderBottomLeftRadius: "50px",
+                    color: "black",
+                    height: "calc(1vw + 1px)",
+                    marginTop: "10px",
                   }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#9f551c",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#DCD7D4",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#FFD258",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#FF0C63",
-                    borderTopRightRadius: "50px",
-                    borderBottomRightRadius: "50px",
-                  }}
-                ></div> */}
-                </div>
+                />
               </div>
             </section>
           </SSubContainerUp>
@@ -177,9 +143,11 @@ const Profile = ({
             </div>
             {/* 본인일 경우에만 프로필 수정 버튼 보이도록 */}
             {isMe ? (
-              <SBlackButton onClick={handleProfileEditBtn}>
-                프로필 수정
-              </SBlackButton>
+              <div className="button__section">
+                <SBlackButton onClick={handleProfileEditBtn}>
+                  프로필 수정
+                </SBlackButton>
+              </div>
             ) : null}
           </SSubContainerDown>
         </SProfileContainer>

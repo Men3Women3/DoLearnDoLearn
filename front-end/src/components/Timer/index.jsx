@@ -17,9 +17,9 @@ const useResultOfIntervalCalculator = (calculator, delay) => {
 };
 
 const Timer = (props) => {
-  // const classTime = props.startTime;
   // 테스트용
-  const classTime = "2023-02-08 08:50:00";
+  // const classTime = "2023-02-07 16:28:00";
+  const classTime = props.startTime;
 
   let durationTime;
   if (

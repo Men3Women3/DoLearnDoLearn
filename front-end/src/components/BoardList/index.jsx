@@ -20,9 +20,9 @@ const BoardList = () => {
   // ======================================================
 
   // useEffect(() => {
-  //   if (list.length === 0) return;
+  //   // if (list.length === 0) return;
   //   // 게시판의 데이터를 받아오는 작업을 하는 부분(boardList)
-  //   if (location.state?.isWritten === 'true') {
+  //   if (location.state?.isWritten === "true") {
   //     console.log(location);
   //     boardListAPI(setList);
   //     // location.state.isWritten = "false";
