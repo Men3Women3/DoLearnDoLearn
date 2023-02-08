@@ -44,3 +44,7 @@ tasks {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootRun {
+	jvmArgs = ["-Dkms.url=ws://52.79.213.254:8888/kurento"]
+}
