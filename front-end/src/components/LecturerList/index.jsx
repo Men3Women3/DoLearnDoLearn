@@ -6,6 +6,7 @@ import { SBox, SContent, SList, SListBox } from "./styles";
 const LecturerList = ({ data, setLuid }) => {
   const { isLogined } = useContext(LoginStateContext);
   const [nameList, setNameList] = useState([]);
+  // 강사 ID를 parameter에 담아 새 창으로 이동
   const handleProfile = (lid) => {
     window.open(`/board/profile/${lid}`);
   };

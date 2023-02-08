@@ -5,14 +5,13 @@ import * as S from "./styles";
 import * as f from "@fortawesome/free-solid-svg-icons";
 import LecturerList from "../LecturerList";
 import LectureModalButton from "../LectureModalButton";
-import { BoardDataContext, LoginStateContext } from "../../App";
+import { LoginStateContext } from "../../App";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  // width: 400,
   bgcolor: "background.paper",
   borderRadius: "8px",
   boxShadow: 24,
@@ -58,11 +57,6 @@ const LectureModal = ({ data, open, setOpen, handleClose }) => {
   const postingTime = customPostingTime(data.createdTime, data.deadline);
   const lecTime = customLecTime(data.startTime, data.endTime);
 
-  // const createdTime = data.createdTime.substring(0, 10).replaceAll("-", "."); // 모집시작
-  // const deadline = data.deadline.substring(0, 10).replaceAll("-", "."); // 모집마감
-  // const startTime = data.startTime.substring(0, 16).replaceAll("-", "."); // 강의시작
-  // const endTime = data.endTime.substring(11, 16).replaceAll("-", "."); // 강의 종료
-
   return (
     <Modal
       open={open}
@@ -78,35 +72,35 @@ const LectureModal = ({ data, open, setOpen, handleClose }) => {
             <div id="modal-modal-description" sx={{ mt: 2 }}>
               <S.SInfoItem>
                 {/* 3. 모집 기간 */}
-                <S.SCalendar icon={f.faCalendarDays}></S.SCalendar>
+                <S.SCalendar icon={f.faCalendarDays} />
                 <S.SSpan>
                   <b>모집 기간</b> | {postingTime}
                 </S.SSpan>
               </S.SInfoItem>
               <S.SInfoItem>
                 {/* 4. 강의 시간 */}
-                <S.SClock icon={f.faClock}></S.SClock>
+                <S.SClock icon={f.faClock} />
                 <S.SSpan>
                   <b>강의 시간</b> | {lecTime}
                 </S.SSpan>
               </S.SInfoItem>
               <S.SInfoItem>
                 {/* 5. 강사 신청 현황 */}
-                <S.SLecturer icon={f.faPersonChalkboard}></S.SLecturer>
+                <S.SLecturer icon={f.faPersonChalkboard} />
                 <S.SSpan>
                   <b>강사 신청 현황</b> | {data.instructors} 명
                 </S.SSpan>
               </S.SInfoItem>
               <S.SInfoItem>
                 {/* 6. 수강생 신청 현황 */}
-                <S.SStudent icon={f.faUsers}></S.SStudent>
+                <S.SStudent icon={f.faUsers} />
                 <S.SSpan>
                   <b>수강생 신청 현황</b> | {data.students} / {data.maxCnt} 명
                 </S.SSpan>
               </S.SInfoItem>
               <S.SInfoItem>
                 {/* 7. 강의 디테일 */}
-                <S.SPencil icon={f.faFileLines}></S.SPencil>
+                <S.SPencil icon={f.faFileLines} />
                 <S.SSpan>
                   <b>강의 상세 내용</b>
                 </S.SSpan>
