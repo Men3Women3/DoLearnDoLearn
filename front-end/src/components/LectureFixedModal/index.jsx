@@ -15,7 +15,6 @@ import {
   SContent,
   SDetail,
 } from "./styles";
-import { imageURL } from "../../utils/api/baseURL";
 import { cancelEnrollAPI } from "../../utils/api/boardAPI";
 import { BoardDataContext, LoginStateContext } from "../../App";
 
@@ -58,6 +57,7 @@ const LectureFixedModal = ({
 }) => {
   const { flag, setFlag } = useContext(BoardDataContext);
   const { isLogined, userInfo } = useContext(LoginStateContext);
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
 
   // 강사 프로필 섹션 눌렀을 때 프로필 상세보기 새 창으로 이동
   const handleOpenProfile = (uid) => {
@@ -112,7 +112,7 @@ const LectureFixedModal = ({
                   className="profile-img"
                   src={
                     instructorInfo.imgUrl
-                      ? `${imageURL}${instructorInfo.imgUrl}`
+                      ? `${IMAGE_URL}${instructorInfo.imgUrl}`
                       : defaultProfile
                   }
                   alt=""
