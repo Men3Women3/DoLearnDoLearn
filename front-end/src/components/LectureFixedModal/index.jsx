@@ -85,17 +85,17 @@ const LectureFixedModal = ({
 
   // 라이브 강의 입장
   const handleMoveToLecture = () => {
-    // navigate("/lecture", {
-    //   state: {
-    //     roomId: props.item.id,
-    //     lecturerId: lecturerId,
-    //     lecturerInfo: lecturerInfo,
-    //     time: {
-    //       startTime: lectureInfo.board.startTime,
-    //       endTime: lectureInfo.board.endTime,
-    //     },
-    //   },
-    // });
+    navigate("/lecture", {
+      state: {
+        roomId: lectureInfo.board.id,
+        lecturerId: instructorInfo.id,
+        lecturerInfo: instructorInfo,
+        time: {
+          startTime: lectureInfo.board.startTime,
+          endTime: lectureInfo.board.endTime,
+        },
+      },
+    });
   };
 
   console.log("유저", userInfo);

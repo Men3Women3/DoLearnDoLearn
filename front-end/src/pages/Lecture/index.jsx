@@ -42,6 +42,7 @@ import Timer from "../../components/Timer";
 
 const Lecture = () => {
   const location = useLocation();
+  console.log(location, 92389238293823983928392839238);
   const startTime = location.state.time.startTime;
   const endTime = location.state.time.endTime;
 
