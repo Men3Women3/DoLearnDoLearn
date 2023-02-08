@@ -136,7 +136,18 @@ public class LectureService {
 
     @Transactional
     public int cancelApply(Long lid, Long uid){
-        if(userLectureRepository.searchLectureMember(lid, uid)==null) throw new CustomException(ErrorCode.NO_APPLICANT);
+        UserLecture userLecture = userLectureRepository.searchLectureMember(lid, uid);
+        Optional<Lecture> updateLecture = lectureRepository.findById(lid);
+
+        if(userLecture==null || updateLecture.isEmpty()) throw new CustomException(ErrorCode.NO_APPLICANT);
+
+        if(userLecture.getMemberType().equals("강사")){
+            LectureDto lectureDto = updateLecture.get().toDto();
+
+            lectureDto.setIsDeleted(1);
+
+            updateLecture(lectureDto);
+        }
 
         return userLectureRepository.deleteLectureMember(lid,uid);
     }
