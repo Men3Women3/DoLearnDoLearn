@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const SContainer = styled.div`
   .walkingChick_container {
-    /* position: relative; */
     position: absolute;
     bottom: 0;
     left: 0;

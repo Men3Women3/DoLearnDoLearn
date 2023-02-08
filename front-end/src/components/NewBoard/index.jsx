@@ -15,8 +15,8 @@ import scrumImg from "../../assets/images/thumbnail/scrum.svg";
 import studyImg from "../../assets/images/thumbnail/study.svg";
 import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
 import * as S from "./styles.jsx";
-import { useLocation, useNavigate } from "react-router";
-import { LoginStateContext } from "../../App";
+import { useNavigate } from "react-router";
+import { BoardDataContext, LoginStateContext } from "../../App";
 import { newBoardAPI } from "../../utils/api/boardAPI";
 
 const SampleNextArrow = (props) => {
@@ -54,6 +54,7 @@ const NewBoard = () => {
 
   const today = new Date().toISOString().substring(0, 10);
   const navigate = useNavigate();
+  const { flag, setFlag } = useContext(BoardDataContext);
 
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(1); // 참가인원(5명까지만!)
@@ -79,7 +80,6 @@ const NewBoard = () => {
   // 이미지 클릭했을 때 해당 인덱스 번호로 imgSelect 갱신
   const toggleSelect = (e) => {
     setImgSelect(e.target.className);
-    console.log(imgSelect);
   };
 
   // 모달 스타일
@@ -109,6 +109,7 @@ const NewBoard = () => {
       setOpen(true); // 빈 내용이 있으면 경고 띄우기
     } else {
       handleRegister(); // 모두 잘 작성됐으면 등록
+      setFlag(!flag);
     }
   };
 
@@ -128,7 +129,6 @@ const NewBoard = () => {
       deadline,
       0
     );
-    // boardListAPI(setList);
     navigate("/board", {
       state: {
         isWritten: "true",
@@ -192,7 +192,6 @@ const NewBoard = () => {
 
         {/* 4. 참여 인원 */}
         <S.SParticipant>
-          {/* 모집인원으로 수정함!!! */}
           <h3>모집 인원</h3>
           <S.SPartCnt onChange={(e) => setParticipant(e.target.value)}>
             {/* <option value="">0</option> */}
@@ -209,8 +208,6 @@ const NewBoard = () => {
         {/* 5. 모집 기간 */}
         <S.SRecruit>
           <h3>모집 기간</h3>
-          {/* 요거는 시작날짜 */}
-          {/* 요거는 마감날짜 */}
           <S.SRecruitInput
             type="date"
             min={today}

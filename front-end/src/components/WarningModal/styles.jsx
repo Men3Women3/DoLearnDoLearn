@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SSection = styled.section`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -15,7 +15,7 @@ export const SSection = styled.section`
     background-color: ${(props) => props.theme.deeperYellow};
     color: white;
   }
-`
+`;
 
 export const SSpan = styled.span`
   font-size: ${(props) => props.theme.fontSize.h1};
@@ -23,7 +23,7 @@ export const SSpan = styled.span`
   display: block;
   border-bottom: 2px solid #cbcbcb;
   /* font-family: ${(props) => props.theme.fontFamily.Regular}; */
-`
+`;
 
 export const SUl = styled.ul`
   margin-top: ${(props) => props.lectureCancel && "0px"};
@@ -33,7 +33,7 @@ export const SUl = styled.ul`
   .delete-warning {
     color: #ff0000;
   }
-`
+`;
 
 export const SButtonContainer = styled.div`
   margin-top: 50px;
@@ -56,4 +56,4 @@ export const SButtonContainer = styled.div`
   .cancel-button {
     background-color: #cbcbcb;
   }
-`
+`;
