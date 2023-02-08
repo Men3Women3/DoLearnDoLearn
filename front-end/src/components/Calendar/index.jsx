@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -8,6 +8,7 @@ import LectureModal from "../LectureModal";
 import CardBox from "../CardBox";
 import LectureFixedModal from "../LectureFixedModal";
 import { getFixedLectureInfo } from "../../utils/api/boardAPI";
+import { LoginStateContext } from "../../App";
 
 const Calendar = () => {
   // Modal 파트 ========================
@@ -20,10 +21,10 @@ const Calendar = () => {
   const [scheduledLecture, setScheduledLecture] = useState({});
 
   // 일정 상세 api 통해 받아올 변수
+  const { userInfo } = useContext(LoginStateContext);
   const [lectureInfo, setLectureInfo] = useState([]);
   const [instructorInfo, setInstructorInfo] = useState([]);
   const [studentsInfo, setStudentsInfo] = useState([]);
-
   // 렌더링 됐을 때, 일정 정보 불러오기
   useEffect(() => {
     getScheduledLectureAPI(localStorage.getItem("id"), setScheduledLecture);
@@ -123,6 +124,7 @@ const Calendar = () => {
             studentsInfo={studentsInfo}
             setCheckModalState={setCheckModalState}
             setScheduledLecture={setScheduledLecture}
+            isLecturer={userInfo.id === instructorInfo.id ? true : false}
           />
         ) : null}
       </SCalendar>
