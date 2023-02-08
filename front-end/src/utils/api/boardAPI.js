@@ -1,10 +1,10 @@
 import axios from "axios";
-import { baseURL } from "./baseURL";
+// import { baseURL } from "./baseURL";
 import { sendMessageAPI } from "./messageAPI";
 
-const BOARD_URL = `${baseURL}/board`;
-const PROFILE_URL = `${baseURL}/user`;
-const LECTURE_URL = `${baseURL}/lecture`;
+const BOARD_URL = `${process.env.REACT_APP_BASE_URL}/board`;
+const PROFILE_URL = `${process.env.REACT_APP_BASE_URL}/user`;
+const LECTURE_URL = `${process.env.REACT_APP_BASE_URL}/lecture`;
 
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {

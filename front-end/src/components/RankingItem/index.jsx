@@ -9,10 +9,11 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import defaultProfile from "../../assets/images/defaultProfile.png";
-import { imageURL } from "../../utils/api/baseURL";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const RankingItem = (props) => {
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+
   const handleMoveToProfile = (e) => {
     console.log(e.target);
     if (
@@ -30,7 +31,7 @@ const RankingItem = (props) => {
         <img
           src={
             props.item.imgUrl
-              ? `${imageURL}${props.item.imgUrl}`
+              ? `${IMAGE_URL}${props.item.imgUrl}`
               : defaultProfile
           }
           alt="profile-img"
