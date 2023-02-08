@@ -195,4 +195,28 @@ public class LectureServiceTest {
         assertEquals(userLecture.getId(),savedUserLecture.getId());
     }
 
+    @DisplayName("강의 취소 테스트")
+    @Test
+    public void UserLectureCanlcelTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        User user = User.builder().id(1L).name("test").build();
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+
+        UserLecture userLecture = UserLecture.builder()
+                .id(1L).user(user).lecture(lecture).memberType("강사").evaluateStatus(0).build();
+
+        when(userLectureRepository.searchLectureMember(any(),any())).thenReturn(userLecture);
+        when(lectureRepository.findById(any())).thenReturn(Optional.ofNullable(lecture));
+        when(userLectureRepository.deleteLectureMember(any(),any())).thenReturn(1);
+        when(lectureRepository.save(any())).thenReturn(lecture);
+
+        int result = lectureService.cancelApply(lecture.getId(),user.getId());
+
+        assertEquals(result,1);
+    }
+
 }
