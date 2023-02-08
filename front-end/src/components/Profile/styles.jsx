@@ -1,11 +1,18 @@
-import styled from "styled-components"
-import { Tooltip } from "@mui/material"
-import { SCard } from "../ProfileCardBox/styles"
+import styled from "styled-components";
+import { Tooltip } from "@mui/material";
+import { SCard } from "../ProfileCardBox/styles";
 
 export const SSCard = styled(SCard)`
-  height: 33vw;
+  position: relative;
+  height: ${(props) => (props.chick ? "29vw" : "33vw")};
   box-shadow: 5px 5px 30px #c4c4c454;
-`
+  .button__section {
+    position: absolute;
+    bottom: 2.5vw;
+    left: 50%;
+    transform: translate(-50%);
+  }
+`;
 
 export const SProfileContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -18,12 +25,9 @@ export const SProfileContainer = styled.div`
   .tip {
     width: 100%;
     height: 15vw;
-    /* max-height: 200px; */
-    /* overflow: auto; */
     word-wrap: break-word;
     white-space: -moz-pre-wrap;
     white-space: pre-wrap;
-    /* background-color: #fdf7d8; */
     border: 4px dashed ${(props) => props.theme.lightGray};
     color: black;
     padding: calc(1vw + 5px);
@@ -43,7 +47,7 @@ export const SProfileContainer = styled.div`
       border-radius: 10px;
     }
   }
-`
+`;
 
 export const SSubContainerUp = styled.div`
   display: flex;
@@ -95,48 +99,18 @@ export const SSubContainerUp = styled.div`
       flex: 1;
     }
   }
-`
+`;
 
 export const SSnsContainer = styled.div`
   display: flex;
   column-gap: 8px;
   justify-content: space-between;
   align-items: center;
-  /* .tooltip {
-    display: inline;
-    position: relative;
-  }
-  .tooltip:hover:before {
-    position: absolute;
-    content: "";
-    border: solid;
-    border-color: black transparent;
-    border-width: 6px 6px 0 6px;
-    top: calc(-0.3 * (1.2vw + 0.1px));
-    left: 50%;
-    z-index: 99;
-  }
-  .tooltip:hover:after {
-    position: absolute;
-    content: attr(info);
-    font-size: ${(props) => props.theme.fontSize.h5};
-    height: calc(1.5vw + 0.1px);
-    background: black;
-    border-radius: 5px;
-    top: calc(-1.2 * (1.5vw + 0.1px));
-    color: #ffbf00;
-    left: 20%;
-    width: calc(1.5vw + 170px);
-    text-align: center;
-    line-height: calc(1.5vw + 0.1px);
-    z-index: 98;
-  } */
   img {
     height: calc(1.5vw + 0.1px);
-    /* margin-left: 8px; */
     cursor: pointer;
   }
-`
+`;
 
 export const SSubContainerDown = styled.div`
   width: 100%;
@@ -145,7 +119,7 @@ export const SSubContainerDown = styled.div`
   line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const SBlackButton = styled.button`
   width: calc(2vw + 80px);
@@ -155,27 +129,27 @@ export const SBlackButton = styled.button`
   padding: 8px 10px;
   border-radius: 8px;
   color: white;
-  margin: 0 auto;
-  margin-top: 40px;
   cursor: pointer;
   :hover {
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bolder;
   }
-`
+`;
 
 export const SCustomToolTip = styled(Tooltip)`
   background-color: yellow;
-`
+`;
 
-// const BootstrapTooltip = styled(
-//   ({ className, ...props }) => (
-//   <Tooltip {...props} arrow classes={{ popper: className }} />)
-// )(({ theme }) => ({
-//   [`& .${tooltipClasses.arrow}`]: {
-//     color: theme.palette.common.black,
-//   },
-//   [`& .${tooltipClasses.tooltip}`]: {
-//     backgroundColor: theme.palette.common.black,
-//   },
-// }))
+export const SPointContainer = styled.div`
+  padding-left: ${(props) => String((Number(props.point) / 5070) * 100) + "%"};
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  .point {
+    color: #9a9a9a;
+    font-size: calc(0.85vw + 1px);
+    margin-left: 0.5vw;
+  }
+`;

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import LectureModal from "../LectureModal";
 import { SImg, SUniBoard } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,8 +23,6 @@ const UniBoard = ({ data }) => {
   const createdTime = data.createdTime.substring(5, 10).replaceAll("-", ".");
   const deadline = data.deadline.substring(5, 10).replaceAll("-", ".");
   const startTime = data.startTime.substring(5, 13).replaceAll("-", ".");
-
-  console.log(data);
 
   const thumbnails = [
     scrum,

@@ -15,8 +15,8 @@ import scrumImg from "../../assets/images/thumbnail/scrum.svg";
 import studyImg from "../../assets/images/thumbnail/study.svg";
 import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
 import * as S from "./styles.jsx";
-import { useLocation, useNavigate } from "react-router";
-import { LoginStateContext } from "../../App";
+import { useNavigate } from "react-router";
+import { BoardDataContext, LoginStateContext } from "../../App";
 import { newBoardAPI } from "../../utils/api/boardAPI";
 
 const SampleNextArrow = (props) => {
@@ -51,7 +51,7 @@ const SamplePrevArrow = (props) => {
 
 const NewBoard = () => {
   const { userInfo } = useContext(LoginStateContext);
-
+  const { flag, setFlag } = useContext(BoardDataContext);
   const today = new Date().toISOString().substring(0, 10);
   const navigate = useNavigate();
 
@@ -64,6 +64,7 @@ const NewBoard = () => {
   const [summary, setSummary] = useState(""); // 강의 요약
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
+  const [check, setCheck] = useState(""); // 입력 안된 정보 저장
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -79,7 +80,6 @@ const NewBoard = () => {
   // 이미지 클릭했을 때 해당 인덱스 번호로 imgSelect 갱신
   const toggleSelect = (e) => {
     setImgSelect(e.target.className);
-    console.log(imgSelect);
   };
 
   // 모달 스타일
@@ -96,27 +96,38 @@ const NewBoard = () => {
   };
 
   const handleOpen = () => {
-    if (
-      !imgSelect ||
-      !title ||
-      !deadline ||
-      !lectureDay ||
-      !lectureTime ||
-      !classTime ||
-      !summary ||
-      !detail
-    ) {
-      setOpen(true); // 빈 내용이 있으면 경고 띄우기
+    if (!title) {
+      setCheck("제목을");
+      setOpen(true);
+    } else if (!imgSelect) {
+      setCheck("대표 이미지를");
+      setOpen(true);
+    } else if (!deadline) {
+      setCheck("모집 기간을");
+      setOpen(true);
+    } else if (!lectureDay) {
+      setCheck("강의 날짜를");
+      setOpen(true);
+    } else if (!classTime) {
+      setCheck("강의 시간을");
+      setOpen(true);
+    } else if (!summary) {
+      setCheck("내용 요약을");
+      setOpen(true);
+    } else if (!detail) {
+      setCheck("내용 상세를");
+      setOpen(true);
     } else {
       handleRegister(); // 모두 잘 작성됐으면 등록
+      // setFlag(!flag);
     }
   };
 
   const handleClose = () => setOpen(false);
 
   // 등록 버튼 클릭으로 작동
-  const handleRegister = () => {
-    newBoardAPI(
+  const handleRegister = async () => {
+    await newBoardAPI(
       userInfo.id,
       imgSelect,
       title,
@@ -128,7 +139,7 @@ const NewBoard = () => {
       deadline,
       0
     );
-    // boardListAPI(setList);
+    await setFlag(!flag);
     navigate("/board", {
       state: {
         isWritten: "true",
@@ -192,7 +203,6 @@ const NewBoard = () => {
 
         {/* 4. 참여 인원 */}
         <S.SParticipant>
-          {/* 모집인원으로 수정함!!! */}
           <h3>모집 인원</h3>
           <S.SPartCnt onChange={(e) => setParticipant(e.target.value)}>
             {/* <option value="">0</option> */}
@@ -209,8 +219,6 @@ const NewBoard = () => {
         {/* 5. 모집 기간 */}
         <S.SRecruit>
           <h3>모집 기간</h3>
-          {/* 요거는 시작날짜 */}
-          {/* 요거는 마감날짜 */}
           <S.SRecruitInput
             type="date"
             min={today}
@@ -319,7 +327,7 @@ const NewBoard = () => {
               variant="h6"
               component="h2"
             >
-              <S.SModal>내용을 모두 입력해주세요</S.SModal>
+              <S.SModal>{check} 입력해주세요</S.SModal>
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               <S.SCancelButton onClick={(e) => setOpen(false)}>

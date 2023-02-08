@@ -1,20 +1,17 @@
 import axios from "axios";
-import { baseURL } from "./baseURL";
+// import { baseURL } from "./baseURL";
 import { sendMessageAPI } from "./messageAPI";
-// import { sendMessageAPI } from "./messageAPI";
 
-const BOARD_URL = `${baseURL}/board`;
-const PROFILE_URL = `${baseURL}/user`;
-const LECTURE_URL = `${baseURL}/lecture`;
+const BOARD_URL = `${process.env.REACT_APP_BASE_URL}/board`;
+const PROFILE_URL = `${process.env.REACT_APP_BASE_URL}/user`;
+const LECTURE_URL = `${process.env.REACT_APP_BASE_URL}/lecture`;
 
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {
   try {
     const res = await axios.get(`${BOARD_URL}/list`);
-    console.log(res.data.response);
     setList(res.data.response);
   } catch (err) {
-    // console.log(err);
     console.log("강의 목록 출력 실패");
     setList([]);
   }
@@ -59,7 +56,6 @@ export const enrollClassAPI = async (uid, bid) => {
       uid,
       bid,
     });
-    console.log("수강 신청 성공");
   } catch (err) {
     if (err.response.data.response === "신청 학생 수를 초과하였습니다") {
       console.log("신청 가능 인원 초과");
@@ -75,7 +71,6 @@ export const enrollLecturerAPI = async (uid, bid) => {
       uid,
       bid,
     });
-    console.log("강사 신청 성공");
   } catch (err) {
     console.log(err);
     console.log("강사 신청 실패");
@@ -86,7 +81,6 @@ export const enrollLecturerAPI = async (uid, bid) => {
 export const deleteClassAPI = async (board) => {
   try {
     await axios.delete(`${BOARD_URL}/${board}`);
-    console.log("폐강 성공");
   } catch (err) {
     console.log(err);
     console.log("폐강 실패");
@@ -97,7 +91,6 @@ export const deleteClassAPI = async (board) => {
 export const cancelEnrollAPI = async (user, lecture, setCheck) => {
   try {
     await axios.delete(`${BOARD_URL}/apply/${user}/${lecture}`);
-    console.log("신청 취소 성공");
     setCheck(false);
   } catch (err) {
     console.log(err);
@@ -112,7 +105,6 @@ export const fixClassAPI = async (lecture, uid, setStateMessageUpdate) => {
       bid: lecture,
       Luid: uid,
     });
-    console.log("강의 확정 성공");
     // 강의 확정 성공하면 확정 메시지 보내기
     sendMessageAPI(res.data.response.bid, "", "confirm", setStateMessageUpdate);
   } catch (err) {
@@ -155,7 +147,6 @@ export const lecListAPI = async (board, setLecList, setCheck) => {
   try {
     const list = [];
     const res = await axios.get(`${BOARD_URL}/instructor-list/${board}`);
-    console.log(res.data.response);
     if (res.data.response === "신청한 강사가 없습니다") {
       setLecList([]);
     } else {
@@ -204,13 +195,26 @@ export const lecProfileAPI = async (id, setData) => {
 // 확정 강의(일정 상세보기) 강사/수강생 정보 확인 API
 export const getFixedLectureInfo = async (
   lid,
+  setLectureInfo,
   setInstructorInfo,
   setStudentsInfo,
   setCheckModalState
 ) => {
   const res = await axios.get(`${LECTURE_URL}/list/${lid}`);
-  console.log("정보 받아오기 성공", res.data.response);
-  setStudentsInfo(res.data.response[0]); // 수강생(들) 정보
-  setInstructorInfo(res.data.response[1]); // 강사 정보
+  // console.log("정보 받아오기 성공", res.data.response);
+  let lecture;
+  let instructor;
+  let students = [];
+  res.data.response.forEach((element) => {
+    if (element.memberType === "강사") {
+      instructor = element.user;
+      lecture = element.lecture;
+    } else {
+      students.push(element.user);
+    }
+  });
+  setLectureInfo(lecture); // 확정 강의 정보
+  setInstructorInfo(instructor); // 강사 정보
+  setStudentsInfo(students); // 수강생(들) 정보
   setCheckModalState(true);
 };

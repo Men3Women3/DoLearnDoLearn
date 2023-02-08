@@ -169,18 +169,6 @@ export const STimeInput = styled.select`
   }
 `;
 
-/*
-  height: 100%;
-  text-align: left;
-  color: black;
-  word-wrap: break-word;
-  white-space: -moz-pre-wrap;
-  white-space: pre-wrap;
-  overflow-y: auto;
-  overflow-x: hidden;
-  cursor: pointer;
-*/
-
 export const SRadio = styled.fieldset`
   border: none;
   display: flex;

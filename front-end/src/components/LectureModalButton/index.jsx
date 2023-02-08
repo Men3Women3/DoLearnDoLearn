@@ -10,7 +10,6 @@ import {
   enrollClassAPI,
   enrollLecturerAPI,
   fixClassAPI,
-  lecturerNameAPI,
   lecListAPI,
   stuListAPI,
   deleteClassAPI,
@@ -20,10 +19,9 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
   const { flag, setFlag } = useContext(BoardDataContext);
   const [check, setCheck] = useState(false);
   const { isLogined, userInfo } = useContext(LoginStateContext);
-  const { unreadMessageCnt, setStateMessageUpdate } =
-    useContext(UnreadMessageContext);
+  const { setStateMessageUpdate } = useContext(UnreadMessageContext);
 
-  // api 요청 내용 ===================================
+  // API 요청 사항 정리 =================================
   // 수강 신청
   const enrollClass = async () => {
     await enrollClassAPI(userInfo.id, data.id);
@@ -61,16 +59,13 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
 
   // 강사 목록 호출
   // LectureModal 클릭시 즉시 확인
-  const [nameList, setNameList] = useState([]);
   const [stuList, setStuList] = useState([]);
   const [lecList, setLecList] = useState([]);
   useEffect(() => {
-    lecturerNameAPI(data.id, setNameList);
     stuListAPI(data.id, setStuList);
     lecListAPI(data.id, setLecList, setCheck);
   }, []);
-
-  // =================================================
+  // ================================================
 
   if (!isLogined) {
     return "";
