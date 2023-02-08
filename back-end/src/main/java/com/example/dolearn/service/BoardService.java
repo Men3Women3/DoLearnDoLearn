@@ -54,8 +54,6 @@ public class BoardService {
         List<Board> boardList = boardRepository.findAll(); //글 리스트 받아오기
         List<BoardDto> boardDtoList = new ArrayList<>(); //Dto list 생성
 
-        if(boardList.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD); //읽어올 글이 없는 경우 오류 발생
-
         for(int i=boardList.size()-1;i>=0;i--){ //id 높은 순으로 리스트 구성 (최근에 올린 글 순으로 정렬하기 위해)
             if(boardList.get(i).getIsFixed()==1) continue; //이미 확정된 강의의 경우 리스트에서 제외
             BoardDto boardDto = boardList.get(i).toDto();//dto로 변환
@@ -81,7 +79,7 @@ public class BoardService {
 
     @Transactional
     public int deleteBoard(Long id){
-//        if(bRepo.findById(id).isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
+//        if(boardRepository.findById(id).isEmpty()) return 0;
         userBoardRepository.deleteByBid(id);
         return boardRepository.deleteBoard(id);
     }
