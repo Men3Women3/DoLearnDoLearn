@@ -21,6 +21,7 @@ const style = {
 };
 
 const WarningModal = (props) => {
+  console.log(props);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

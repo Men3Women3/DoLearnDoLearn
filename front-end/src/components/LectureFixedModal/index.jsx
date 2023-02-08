@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Modal, Typography } from "@mui/material";
 import {
   faClock,
@@ -16,8 +16,9 @@ import {
   SDetail,
 } from "./styles";
 import { imageURL } from "../../utils/api/baseURL";
-import { cancelEnrollAPI } from "../../utils/api/boardAPI";
 import { BoardDataContext, LoginStateContext } from "../../App";
+import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
+import WarningModal from "../WarningModal";
 
 const customLecTime = (start, end) => {
   const startDate = new Date(start);
@@ -55,9 +56,16 @@ const LectureFixedModal = ({
   lectureInfo,
   instructorInfo,
   studentsInfo,
+  setScheduledLecture,
 }) => {
   const { flag, setFlag } = useContext(BoardDataContext);
-  const { isLogined, userInfo } = useContext(LoginStateContext);
+  const { userInfo } = useContext(LoginStateContext);
+  const [openCancleModal, setOpenCancleModal] = useState(false);
+
+  useEffect(() => {
+    if (openCancleModal) {
+    }
+  }, [openCancleModal]);
 
   // 강사 프로필 섹션 눌렀을 때 프로필 상세보기 새 창으로 이동
   const handleOpenProfile = (uid) => {
@@ -66,6 +74,18 @@ const LectureFixedModal = ({
 
   // 신청 취소
   const cancelClass = async () => {
+    // 강사의 경우 신청 취소
+    if (userInfo.id === instructorInfo.id) {
+      console.log("모달 띄우기");
+      // 취소 사유 받을 모달 띄우기
+      setOpenCancleModal(true);
+      // cancleFixedLectureAPI(lectureInfo.id, userInfo.id);
+    }
+    // 강사가 아닌 경우 신청 취소
+    else {
+      cancleFixedLectureAPI(lectureInfo.id, userInfo.id, setScheduledLecture);
+    }
+    handleClose();
     //   await cancelEnrollAPI(userInfo.id, data.id, setCheck);
     //   setFlag(!flag);
     //   setOpen(false);
@@ -86,8 +106,10 @@ const LectureFixedModal = ({
     //   });
   };
 
-  console.log(instructorInfo);
-  console.log(studentsInfo);
+  console.log("유저", userInfo);
+  console.log("강의", lectureInfo);
+  console.log("강사", instructorInfo);
+  console.log("학생", studentsInfo);
   return (
     <>
       <Modal open={open} onClose={handleClose}>
@@ -149,9 +171,28 @@ const LectureFixedModal = ({
 
           <SDetail>{lectureInfo.board.content}</SDetail>
           <SButtonBox>
-            <SButton onClick={cancelClass}>신청취소</SButton>
+            <SButton onClick={(e) => cancelClass()}>신청취소</SButton>
             <SButton onClick={handleMoveToLecture}>Live 입장</SButton>
           </SButtonBox>
+          <WarningModal
+            title="강의 취소 확인"
+            warningContent="강의를 취소하면 점수 패널티를 받게 됩니다."
+            content="강의 취소를 원하시면 확인을 눌러주세요."
+            lectureCancel
+          >
+            <textarea
+              style={{
+                resize: "none",
+                borderRadius: "8px",
+                fontFamily: "Pretendard-Regular",
+                fontSize: "calc(0.6vw + 5px)",
+                padding: "calc(0.5vw + 2px)",
+                width: "calc(1vw + 380px)",
+              }}
+              cols="52"
+              rows="6"
+            ></textarea>
+          </WarningModal>
         </Box>
       </Modal>
     </>
