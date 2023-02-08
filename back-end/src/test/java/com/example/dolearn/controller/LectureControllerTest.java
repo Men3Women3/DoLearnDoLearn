@@ -211,4 +211,21 @@ public class LectureControllerTest {
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
+
+    @DisplayName("강의 취소 테스트")
+    @Test
+    public void cancelApplyTest() throws Exception{
+        Map<String,Long> info = new HashMap<>();
+
+        info.put("lid",1L);
+        info.put("uid",1L);
+
+        when(lectureService.cancelApply(info.get("lid"),info.get("uid"))).thenReturn(1);
+
+        mockMvc.perform(delete("/api/lecture/apply").with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(info)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }
