@@ -73,7 +73,7 @@ const Profile = ({
                       followCursor
                     >
                       <a href={`${blog}`} target="_blank">
-                        <img src={blogImg} />
+                        <img src={blogImg} alt="" />
                       </a>
                     </Tooltip>
                   )}
@@ -85,7 +85,7 @@ const Profile = ({
                       followCursor
                     >
                       <a href={`${user.youtube}`} target="_blank">
-                        <img src={youtubeImg} />
+                        <img src={youtubeImg} alt="" />
                       </a>
                     </Tooltip>
                   )}
@@ -100,7 +100,7 @@ const Profile = ({
                         href={`https://www.instagram.com/${user.instagram}/`}
                         target="_blank"
                       >
-                        <img src={instagramImg} />
+                        <img src={instagramImg} alt="" />
                       </a>
                     </Tooltip>
                   )}
@@ -115,7 +115,7 @@ const Profile = ({
                         href={`https://facebook.com/${user.facebook}/`}
                         target="_blank"
                       >
-                        <img src={facebookImg} />
+                        <img src={facebookImg} alt="" />
                       </a>
                     </Tooltip>
                   )}
@@ -123,14 +123,18 @@ const Profile = ({
               </div>
               {/* 마일리지 바 */}
               <div>
-                <FontAwesomeIcon
-                  icon={faLocationPin}
-                  style={{
-                    color: "black",
-                    height: "calc(1vw + 1px)",
-                    marginTop: "10px",
-                  }}
-                />
+                <SPointContainer point={point}>
+                  <FontAwesomeIcon
+                    icon={faLocationPin}
+                    style={{
+                      color: "black",
+                      height: "calc(1vw + 1px)",
+                    }}
+                  />
+                  <span className="point">{point}</span>
+                </SPointContainer>
+
+                <div className="wrapper"></div>
               </div>
             </section>
           </SSubContainerUp>

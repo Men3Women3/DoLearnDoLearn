@@ -36,8 +36,8 @@ const RankingItem = (props) => {
           alt="profile-img"
         />
         <div>
-          <h3>{props.item.name}</h3>
-          <p>{props.item.point}</p>
+          <div className="name">{props.item.name}</div>
+          <div className="point">{props.item.point}</div>
         </div>
       </div>
       {/* SNS */}
