@@ -3,17 +3,14 @@ import rankItemImg from "../../assets/images/rankItem.png";
 
 export const SContainer = styled.div`
   cursor: pointer;
+  position: relative;
   font-family: ${(props) => props.theme.fontFamily.Light};
   background-image: url(${rankItemImg});
   background-size: cover;
-  position: relative;
-  width: calc(1vw + 200px);
-  height: calc(1vw + 80px);
   border-radius: 12px;
   color: #000000;
   padding: calc(0.5vw + 3px) calc(0.5vw + 5px);
   transition: all 300ms linear;
-  margin: calc(1vw + 12px) calc(1vw + 6px);
   &:hover {
     transform: scale(1.05);
   }
@@ -22,21 +19,28 @@ export const SContainer = styled.div`
     display: flex;
     align-items: center;
     /* 이름 */
-    h3 {
-      margin: 0px;
-      /* margin-bottom: calc(0.2vw + 1px); */
-      font-size: ${(props) => props.theme.fontSize.h3};
+    .name {
+      margin: 0;
+      font-size: ${(props) => props.theme.fontSize.h2};
+      font-weight: bold;
     }
     /* 점수 */
-    p {
+    .point {
       margin: 0px;
+      margin-top: 0.5vw;
+      font-size: ${(props) => props.theme.fontSize.h4};
     }
     /* 프로필 사진 */
     img {
-      width: calc(1vw + 40px);
-      height: calc(1vh + 45px);
-      border-radius: 50%;
+      width: 4.5vw;
+      height: 4.5vw;
       margin-right: calc(0.5vw + 2px);
+      border: 3px solid transparent;
+      border-radius: 50%;
+      background-image: linear-gradient(#fff, #fff),
+        linear-gradient(to right, #ff6a00 0%, #ffb700 100%);
+      background-origin: border-box;
+      background-clip: content-box, border-box;
     }
   }
 `;
@@ -45,10 +49,13 @@ export const SContainer = styled.div`
 export const SSNSContainer = styled.div`
   display: flex;
   justify-content: start;
+  gap: 0.67vw;
+  bottom: 1vw;
+  margin-top: 1vw;
+  margin-bottom: 0.5vw;
   .icon {
     font-size: calc(1vw + 4px);
     color: #000000;
-    margin: calc(1vw + 4px) calc(0.4vw + 0.5px);
     margin-bottom: 0px;
     transition: all 300ms linear;
   }
