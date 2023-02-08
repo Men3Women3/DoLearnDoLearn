@@ -4,6 +4,7 @@ import com.example.dolearn.domain.Lecture;
 import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserLecture;
 import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.dto.LectureDto;
 import com.example.dolearn.jwt.JwtTokenProvider;
 import com.example.dolearn.service.LectureService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,8 +22,7 @@ import java.util.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,9 +53,9 @@ public class LectureControllerTest {
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).board(board.toEntity()).isDeleted(0).userCnt(0).build();
+                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
 
-        when(lectureService.update(any(),any())).thenReturn(lecture.toDto());
+        when(lectureService.updateFix(any(),any())).thenReturn(lecture.toDto());
 
         mockMvc.perform(post("/api/lecture/fix",board.getId()).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,7 +68,7 @@ public class LectureControllerTest {
     @Test
     public void getInstructorTest() throws Exception {
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).userCnt(0).build();
+                .id(1L).isDeleted(0).memberCnt(0).build();
 
         User user = User.builder().id(1L).name("test").build();
 
@@ -89,7 +89,7 @@ public class LectureControllerTest {
         List<UserLecture> userLectureList = new ArrayList<>();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).userCnt(0).build();
+                .id(1L).isDeleted(0).memberCnt(0).build();
 
         UserLecture userLecture1 = UserLecture.builder()
                 .lecture(lecture).memberType("학생").build();
@@ -103,6 +103,21 @@ public class LectureControllerTest {
         when(lectureService.getList(any())).thenReturn(userLectureList);
 
         mockMvc.perform(get("/api/lecture/list/{lecture_id}",lecture.getId()))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 업데이트 테스트")
+    @Test
+    public void updateLectureTest() throws Exception{
+        LectureDto lectureDto = LectureDto.builder()
+                .id(1L).memberCnt(0).isDeleted(0).endRealTime(null).startRealTime(null).build();
+
+        when(lectureService.updateLecture(any())).thenReturn(lectureDto);
+
+        mockMvc.perform(put("/api/lecture").with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(lectureDto)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

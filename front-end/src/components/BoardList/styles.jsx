@@ -22,3 +22,8 @@ export const SUniDiv = styled.div`
   /* margin: 1vh 2vw 1vh 2vw; */
   // padding-top: 10%;
 `;
+
+export const SNoBoard = styled.div`
+  font-family: ${(props) => props.theme.fontFamily.Medium};
+  font-size: ${(props) => props.theme.fontSize.h1};
+`;

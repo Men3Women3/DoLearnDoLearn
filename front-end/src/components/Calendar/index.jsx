@@ -45,12 +45,12 @@ const Calendar = () => {
       maxCnt: arg.event._def.extendedProps.maxCnt,
       isFixed: arg.event._def.extendedProps.isFixed,
     };
-    // getFixedLectureInfo(
-    //   arg.event._def.extendedProps.bid,
-    //   setInstructorInfo,
-    //   setStudentsInfo,
-    //   setCheckModalState
-    // )
+    getFixedLectureInfo(
+      arg.event._def.extendedProps.bid,
+      setInstructorInfo,
+      setStudentsInfo,
+      setCheckModalState
+    );
     console.log("들어가는 값", dataForm);
     // setData(dataForm)
     // setCheckModalState(true)
