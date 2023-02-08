@@ -1,10 +1,10 @@
-import styled from "styled-components"
-import { Tooltip } from "@mui/material"
-import { SCard } from "../ProfileCardBox/styles"
+import styled from "styled-components";
+import { Tooltip } from "@mui/material";
+import { SCard } from "../ProfileCardBox/styles";
 
 export const SSCard = styled(SCard)`
   position: relative;
-  height: 33vw;
+  height: ${(props) => (props.chick ? "29vw" : "33vw")};
   box-shadow: 5px 5px 30px #c4c4c454;
   .button__section {
     position: absolute;
@@ -12,7 +12,7 @@ export const SSCard = styled(SCard)`
     left: 50%;
     transform: translate(-50%);
   }
-`
+`;
 
 export const SProfileContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -47,7 +47,7 @@ export const SProfileContainer = styled.div`
       border-radius: 10px;
     }
   }
-`
+`;
 
 export const SSubContainerUp = styled.div`
   display: flex;
@@ -99,7 +99,7 @@ export const SSubContainerUp = styled.div`
       flex: 1;
     }
   }
-`
+`;
 
 export const SSnsContainer = styled.div`
   display: flex;
@@ -110,7 +110,7 @@ export const SSnsContainer = styled.div`
     height: calc(1.5vw + 0.1px);
     cursor: pointer;
   }
-`
+`;
 
 export const SSubContainerDown = styled.div`
   width: 100%;
@@ -119,7 +119,7 @@ export const SSubContainerDown = styled.div`
   line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const SBlackButton = styled.button`
   width: calc(2vw + 80px);
@@ -129,15 +129,27 @@ export const SBlackButton = styled.button`
   padding: 8px 10px;
   border-radius: 8px;
   color: white;
-  /* margin: 0 auto;
-  margin-top: 40px; */
   cursor: pointer;
   :hover {
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bolder;
   }
-`
+`;
 
 export const SCustomToolTip = styled(Tooltip)`
   background-color: yellow;
-`
+`;
+
+export const SPointContainer = styled.div`
+  padding-left: ${(props) => String((Number(props.point) / 5070) * 100) + "%"};
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  .point {
+    color: #9a9a9a;
+    font-size: calc(0.85vw + 1px);
+    margin-left: 0.5vw;
+  }
+`;

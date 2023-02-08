@@ -6,7 +6,6 @@ const useResultOfIntervalCalculator = (calculator, delay) => {
   const [result, setResult] = useState(calculator());
   useInterval(() => {
     const newResult = calculator();
-    console.log({ result, newResult });
     if (newResult !== result) {
       setResult(newResult);
     } else {
@@ -36,7 +35,19 @@ const Timer = (props) => {
       Number(props.endTime.slice(11, 13));
   }
 
-  const [time, setTime] = useState(durationTime * 60 * 60); // 여기서 타이머 시간 설정(1시간 or 2시간)
+  const initTime = () => {
+    if (new Date(classTime) - new Date() < 0) {
+      return Math.floor(
+        (durationTime * 60 * 60 * 1000 - (new Date() - new Date(classTime))) /
+          1000
+      );
+    } else {
+      return durationTime * 60 * 60;
+    }
+  };
+
+  // const [time, setTime] = useState(durationTime * 60 * 60); // 여기서 타이머 시간 설정(1시간 or 2시간)
+  const [time, setTime] = useState(initTime()); // 여기서 타이머 시간 설정(1시간 or 2시간)
   const [targetTime, setTargetTime] = useState(0); // 마지막 시간(0시 0분 0초)
 
   const isNotYet = useResultOfIntervalCalculator(
@@ -48,6 +59,7 @@ const Timer = (props) => {
     if (isNotYet) {
       setTime(durationTime * 60 * 60);
     }
+
     const id = setInterval(() => {
       if (time === targetTime) {
         // alert('강의가 종료되었습니다. 수고하셨습니다.');

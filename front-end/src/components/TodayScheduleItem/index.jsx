@@ -7,8 +7,6 @@ import { getLecturerId } from "../../utils/api/lectureAPI";
 import { getUserInfo } from "../../utils/api/userAPI";
 
 const TodayScheduleItem = (props) => {
-  console.log(props, 1023910239);
-
   const [lecturerId, setLecturerId] = useState(null);
   const [lecturerInfo, setLecturerInfo] = useState(null);
 
