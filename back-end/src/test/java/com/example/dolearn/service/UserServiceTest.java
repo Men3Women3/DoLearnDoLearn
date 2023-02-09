@@ -3,14 +3,12 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.*;
 import com.example.dolearn.exception.CustomException;
-import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -366,7 +364,7 @@ class UserServiceTest {
                 .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build().toEntity();
         Lecture lecture = Lecture.builder()
-                .id(1L).board(board).isDeleted(0).memberCnt(0).build();
+                .id(1L).board(board).memberCnt(0).build();
         UserBoard userBoard = UserBoardDto.builder()
                 .id(1L).bid(board.getId()).uid(reqUserDto.getId()).board(board).user(reqUserDto.toEntity()).userType("강사").build().toEntity();
         UserLecture userLecture = UserLectureDto.builder()
