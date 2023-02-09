@@ -114,6 +114,9 @@ const Login = () => {
   }, []);
 
   const handleOnPassword = useCallback((e) => {
+    if (e.target.value.length === 0) {
+      setIsCorrectPassword("");
+    }
     setPassword(e.target.value);
   }, []);
 
@@ -175,9 +178,9 @@ const Login = () => {
                 </p>
               )}
             </SInputContainer>
-            {/* <SFindPassword>
-              <div>비밀번호 찾기</div>
-            </SFindPassword> */}
+            <SFindPassword>
+              <div style={{ margin: "15px 0px" }}></div>
+            </SFindPassword>
             <SLoginButton type="submit" onClick={(e) => handleOpen(e)}>
               로그인
             </SLoginButton>
