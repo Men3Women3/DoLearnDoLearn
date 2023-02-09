@@ -54,7 +54,8 @@ const Lecture = () => {
   const lecturerId = location.state.lecturerId;
   const lecturerInfo = location.state.lecturerInfo;
 
-  const ws = new WebSocket(`${WEBRTC_URL}`);
+  // const ws = new WebSocket(`${WEBRTC_URL}`);
+  const ws = new WebSocket("wss://localhost:8443/groupcall");
 
   var participants = {};
   var name = username;
@@ -674,7 +675,11 @@ const Lecture = () => {
         <Grid item xs={12} md={11}>
           <SHeader>
             <img className="logo" src={logoImg} alt="" />
-            <Timer startTime={startTime} endTime={endTime} />
+            <Timer
+              lecturerId={lecturerId}
+              startTime={startTime}
+              endTime={endTime}
+            />
           </SHeader>
         </Grid>
         <Grid item xs={0} md={0.5} />
