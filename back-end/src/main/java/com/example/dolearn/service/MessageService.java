@@ -42,7 +42,7 @@ public class MessageService {
             Long lectureId = lecture.getId();
 
             //강의 아이디로 정보 가져오기
-            List<UserLecture> userLectureList = userLectureRepository.findByLectureId(lectureId);
+            List<UserLecture> userLectureList = userLectureRepository.searchLecture(lectureId);
 
             log.info("개수 : {}",userLectureList.size());
             //위에서 받아온 수신자로 메세지 받도록
