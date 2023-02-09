@@ -100,7 +100,7 @@ public class LectureService {
 
         for(UserBoard userBoard: applicantList){
             UserLecture userLecture = UserLecture.builder()
-                    .user(userBoard.getUser()).lecture(updatedLecture).memberType(userBoard.getUserType()).evaluateStatus(0).build();//member_board table에 저장하기 위해 UserLecture로 재구성
+                    .user(userBoard.getUser()).lecture(updatedLecture).evaluateStatus(0).memberType(userBoard.getUserType()).evaluateStatus(0).build();//member_board table에 저장하기 위해 UserLecture로 재구성
 
             userLectureRepository.save(userLecture);//member_board table에 저장
         }
