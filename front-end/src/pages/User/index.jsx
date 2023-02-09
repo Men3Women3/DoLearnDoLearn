@@ -41,7 +41,16 @@ import { LoginStateContext } from "../../App";
 // };
 
 const User = () => {
+  // let location = useLocation();
+  // if (location.state.message) {
+  //   isFromMessageNotice = location.state.message;
+
+  //   isFromMessageNotice = null;
+  // }
+
   const location = useLocation();
+
+  // console.log(isFromMessageNotice, 293293293);
   const getUserInfo = useContext(LoginStateContext);
 
   const [isProfileTabActive, setIsProfileTabActive] = useState(true);
@@ -95,6 +104,22 @@ const User = () => {
   const handleProfileEditBtn = (e) => {
     setIsProfileEditActive(!isProfileEditActive);
   };
+
+  useEffect(() => {
+    let isFromMessageNotice;
+    if (location.state?.message) {
+      isFromMessageNotice = location.state.message;
+      if (isFromMessageNotice) {
+        // console.log("메시지 공지로 들어옴")
+        setIsProfileTabActive(false);
+        setIsScheduleTabActive(false);
+        setIsUnScheduleTabActive(false);
+        setIsMessageTabActive(true);
+        setIsProfileEditActive(false);
+        isFromMessageNotice = null;
+      }
+    }
+  }, []);
 
   // useEffect(() => {
   //   console.log("바뀜!");
