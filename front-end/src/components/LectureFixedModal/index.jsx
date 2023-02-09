@@ -1,51 +1,51 @@
-import React, { useContext, useEffect, useState } from "react"
-import { Box, Modal, Typography } from "@mui/material"
+import React, { useContext, useEffect, useState } from "react";
+import { Box, Modal, Typography } from "@mui/material";
 import {
   faClock,
   faFileLines,
   faPersonChalkboard,
   faUsers,
-} from "@fortawesome/free-solid-svg-icons"
-import { SButtonBox, SButton } from "../LectureModalButton/styles"
-import defaultProfile from "../../assets/images/defaultProfile.png"
+} from "@fortawesome/free-solid-svg-icons";
+import { SButtonBox, SButton } from "../LectureModalButton/styles";
+import defaultProfile from "../../assets/images/defaultProfile.png";
 import {
   SCustomFontAwesomeIcon,
   SSpan,
   SInfoItem,
   SContent,
   SDetail,
-} from "./styles"
-import { cancelEnrollAPI } from "../../utils/api/boardAPI"
+} from "./styles";
+import { cancelEnrollAPI } from "../../utils/api/boardAPI";
 import {
   BoardDataContext,
   LoginStateContext,
   LoginStateHandlerContext,
   UnreadMessageContext,
-} from "../../App"
-import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI"
-import WarningModal from "../WarningModal"
-import { useNavigate } from "react-router"
+} from "../../App";
+import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
+import WarningModal from "../WarningModal";
+import { useNavigate } from "react-router";
 import {
   sendCnacleMessageAPI,
   sendMessageAPI,
-} from "../../utils/api/messageAPI"
+} from "../../utils/api/messageAPI";
 
 const customLecTime = (start, end) => {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  const year = startDate.getFullYear().toString().slice(-2)
-  const month = (startDate.getMonth() + 1).toString().padStart(2, "0")
-  const day = startDate.getDate().toString().padStart(2, "0")
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const year = startDate.getFullYear().toString().slice(-2);
+  const month = (startDate.getMonth() + 1).toString().padStart(2, "0");
+  const day = startDate.getDate().toString().padStart(2, "0");
   const time = startDate.toLocaleTimeString("ko-KR", {
     hour: "numeric",
     minute: "numeric",
     hour12: false,
-  })
-  let remain = endDate.getHours() - startDate.getHours()
-  if (remain < 0) remain += 24
-  const custom = `${year}.${month}.${day} ${time} (${remain}시간)`
-  return custom
-}
+  });
+  let remain = endDate.getHours() - startDate.getHours();
+  if (remain < 0) remain += 24;
+  const custom = `${year}.${month}.${day} ${time} (${remain}시간)`;
+  return custom;
+};
 
 const style = {
   position: "absolute",
@@ -58,7 +58,7 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "20px 30px",
-}
+};
 
 const LectureFixedModal = ({
   open,
@@ -69,25 +69,26 @@ const LectureFixedModal = ({
   setScheduledLecture,
   isLecturer,
 }) => {
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL
-  const { flag, setFlag } = useContext(BoardDataContext)
-  const { userInfo } = useContext(LoginStateContext)
-  const [cancleText, setCancleText] = useState("")
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+  const { flag, setFlag } = useContext(BoardDataContext);
+  const { userInfo } = useContext(LoginStateContext);
+  const [cancleText, setCancleText] = useState("");
   const { unreadMessageCnt, setStateMessageUpdate } =
-    useContext(UnreadMessageContext)
-  const { handleUserInfo } = useContext(LoginStateHandlerContext)
+    useContext(UnreadMessageContext);
+  const { handleUserInfo } = useContext(LoginStateHandlerContext);
+  const navigate = useNavigate();
 
   // 강사 프로필 섹션 눌렀을 때 프로필 상세보기 새 창으로 이동
   const handleOpenProfile = (uid) => {
-    window.open(`board/profile/${uid}`)
-  }
+    window.open(`board/profile/${uid}`);
+  };
 
   // 수강생 신청 취소(강사 제외)
   const cancelClass = async () => {
     // 수강생의 경우 신청 취소
-    cancleFixedLectureAPI(lectureInfo.id, userInfo.id, setScheduledLecture)
-    handleClose()
-  }
+    cancleFixedLectureAPI(lectureInfo.id, userInfo.id, setScheduledLecture);
+    handleClose();
+  };
 
   // 강사 신청 취소
   const handleCancleLecture = () => {
@@ -101,31 +102,47 @@ const LectureFixedModal = ({
       userInfo.id,
       setScheduledLecture,
       handleUserInfo
-    )
-    handleClose()
-    handleClose()
-    console.log("신청취소 사유", cancleText)
-  }
+    );
+    handleClose();
+    handleClose();
+    console.log("신청취소 사유", cancleText);
+  };
 
   // 라이브 강의 입장
   const handleMoveToLecture = () => {
-    // navigate("/lecture", {
-    //   state: {
-    //     roomId: props.item.id,
-    //     lecturerId: lecturerId,
-    //     lecturerInfo: lecturerInfo,
-    //     time: {
-    //       startTime: lectureInfo.board.startTime,
-    //       endTime: lectureInfo.board.endTime,
-    //     },
-    //   },
-    // });
-  }
+    navigate("/lecture", {
+      state: {
+        roomId: lectureInfo.board.id,
+        lecturerId: instructorInfo.id,
+        lecturerInfo: instructorInfo,
+        time: {
+          startTime: lectureInfo.board.startTime,
+          endTime: lectureInfo.board.endTime,
+        },
+      },
+    });
+  };
 
-  console.log("유저", userInfo)
-  console.log("강의", lectureInfo)
-  console.log("강사", instructorInfo)
-  console.log("학생", studentsInfo)
+  // 강의 시작 10분 전 ~ 강의 끝날때까지 Live 입장 버튼 활성화
+  const handleActiveClassName = () => {
+    if (
+      Math.floor(
+        (new Date(lectureInfo.board.startTime) - new Date()) / (1000 * 60) <=
+          10 &&
+          // new Date() - new Date(props.item.endTime) <= 0
+          new Date() <= new Date(lectureInfo.board.endTime)
+      )
+    ) {
+      return "active";
+    } else {
+      return "inactive";
+    }
+  };
+
+  console.log("유저", userInfo);
+  console.log("강의", lectureInfo);
+  console.log("강사", instructorInfo);
+  console.log("학생", studentsInfo);
   return (
     <>
       <Modal open={open} onClose={handleClose}>
@@ -214,12 +231,17 @@ const LectureFixedModal = ({
               // 수강생에게 보여지는 취소 버튼
               <SButton onClick={(e) => cancelClass()}>신청취소</SButton>
             )}
-            <SButton onClick={handleMoveToLecture}>Live 입장</SButton>
+            <SButton
+              className={handleActiveClassName()}
+              onClick={handleMoveToLecture}
+            >
+              Live 입장
+            </SButton>
           </SButtonBox>
         </Box>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default LectureFixedModal
+export default LectureFixedModal;

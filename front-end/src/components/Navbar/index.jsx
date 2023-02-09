@@ -36,8 +36,9 @@ const Navbar = () => {
   // 종(bell) 아이콘 눌렀을 때 메시지함으로 이동
   const handleMoveToMessage = () => {
     navigate("/mypage", {
-      state: "message",
-      replace: true,
+      state: {
+        message: "message",
+      },
     });
   };
 

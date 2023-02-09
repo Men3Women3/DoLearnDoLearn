@@ -200,6 +200,7 @@ export const getFixedLectureInfo = async (
   setStudentsInfo,
   setCheckModalState
 ) => {
+  console.log(lid, 333333333);
   const res = await axios.get(`${LECTURE_URL}/list/${lid}`);
   // console.log("정보 받아오기 성공", res.data.response);
   let lecture;
