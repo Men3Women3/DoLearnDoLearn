@@ -109,3 +109,24 @@ export const updatePoint = (lecturerId, point, handleUserInfo) => {
       console.log(error.response, "점수 업데이트 실패!");
     });
 };
+
+export const updatePoint2 = (lecturerId, point) => {
+  const accessToken = localStorage.getItem("accessToken");
+  axios
+    .put(
+      `${BASE_URL}/user/point`,
+      {
+        id: lecturerId,
+        point: point,
+      },
+      {
+        Authentication: accessToken,
+      }
+    )
+    .then((response) => {
+      console.log(response, "점수 업데이트 성공!");
+    })
+    .catch((error) => {
+      console.log(error.response, "점수 업데이트 실패!");
+    });
+};
