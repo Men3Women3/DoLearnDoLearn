@@ -17,7 +17,7 @@ public class LectureDto {
     private Long id;
     private Long bid; //thumbnail table의 id (foreign key)
     private int memberCnt;
-    private int isDeleted;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endRealTime;
 
@@ -30,7 +30,6 @@ public class LectureDto {
     public Lecture toEntity() throws ParseException {
         return Lecture.builder()
                 .createdDate(createdTime)
-                .isDeleted(isDeleted)
                 .memberCnt(memberCnt)
                 .endRealTime(endRealTime)
                 .startRealTime(startRealTime)

@@ -84,7 +84,7 @@ public class LectureService {
         Board updatedBoard = boardRepository.save(board.toEntity());//수정한 정보 저장
 
         Lecture lecture = Lecture.builder()
-                .memberCnt(0).isDeleted(0).board(updatedBoard).build(); //Lecture 생성
+                .memberCnt(0).board(updatedBoard).build(); //Lecture 생성
 
         Lecture updatedLecture = lectureRepository.save(lecture);//생성되었던 lecture 저장
 
@@ -114,7 +114,6 @@ public class LectureService {
 
         Lecture updateLecture = lecture.get();
 
-        updateLecture.setIsDeleted(lectureDto.getIsDeleted());
         updateLecture.setMemberCnt(lectureDto.getMemberCnt());
         updateLecture.setStartRealTime(lectureDto.getStartRealTime());
         updateLecture.setEndRealTime(lectureDto.getEndRealTime());
@@ -134,6 +133,19 @@ public class LectureService {
         return userLectureRepository.searchLecture(lid);
     }
 
+    public int deleteLecture(Long lid){
+        Optional<Lecture> lecture = lectureRepository.findById(lid);
+
+        if(lecture.isEmpty()) throw new CustomException(ErrorCode.NO_LECTURE);
+
+        try{
+            lectureRepository.deleteById(lid);
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
     @Transactional
     public int cancelApply(Long lid, Long uid){
         UserLecture userLecture = userLectureRepository.searchLectureMember(lid, uid);
@@ -142,11 +154,15 @@ public class LectureService {
         if(userLecture==null || updateLecture.isEmpty()) throw new CustomException(ErrorCode.NO_APPLICANT);
 
         if(userLecture.getMemberType().equals("강사")){
-            LectureDto lectureDto = updateLecture.get().toDto();
 
-            lectureDto.setIsDeleted(1);
+            userLectureRepository.deleteByLid(lid);
 
-            updateLecture(lectureDto);
+            int result = deleteLecture(lid);
+
+            log.info("Lecture 삭제 :{}",result);
+
+            if(result ==0) throw new CustomException(ErrorCode.NO_LECTURE);
+
         }
 
         return userLectureRepository.deleteLectureMember(lid,uid);

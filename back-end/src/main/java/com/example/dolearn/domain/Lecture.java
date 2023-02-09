@@ -24,9 +24,6 @@ public class Lecture {
     @Column(name="member_cnt", nullable = false)
     private int memberCnt;
 
-    @Column(name="is_deleted", columnDefinition = "TINYINT", length=1)
-    private int isDeleted;
-
     @Column(name="created_time")
     @CreationTimestamp
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -53,7 +50,7 @@ public class Lecture {
 
     public LectureDto toDto(){
         return LectureDto.builder()
-                .id(id).bid(board.getId()).memberCnt(memberCnt).isDeleted(isDeleted).createdTime(createdDate)
+                .id(id).bid(board.getId()).memberCnt(memberCnt).createdTime(createdDate)
                 .startRealTime(startRealTime).endRealTime(endRealTime).build();
     }
 }
