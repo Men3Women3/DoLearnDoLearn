@@ -28,6 +28,21 @@ const TodayScheduleItem = (props) => {
     });
   };
 
+  // 강의 시작 10분 전 ~ 강의 끝날때까지 Live 입장 버튼 활성화
+  const handleActiveClassName = () => {
+    if (
+      Math.floor(
+        (new Date(props.item.startTime) - new Date()) / (1000 * 60) <= 10 &&
+          // new Date() - new Date(props.item.endTime) <= 0
+          new Date() <= new Date(props.item.endTime)
+      )
+    ) {
+      return "active";
+    } else {
+      return "inactive";
+    }
+  };
+
   useEffect(() => {
     getLecturerId(props.item.id, setLecturerId);
   }, []);
@@ -45,8 +60,19 @@ const TodayScheduleItem = (props) => {
         {startTime} ~ {endTime}
       </p>
       <div>
-        <p>{props.item.title}</p>
-        <button onClick={handleMoveToLecture}>Live 입장</button>
+        <p>
+          {props.item.title.length > 15
+            ? props.item.title.slice(0, 15) + "..."
+            : props.item.title}
+        </p>
+        <button
+          className={handleActiveClassName()}
+          // 테스트용
+          // className={"active"}
+          onClick={handleMoveToLecture}
+        >
+          Live 입장
+        </button>
       </div>
     </SContainer>
   );

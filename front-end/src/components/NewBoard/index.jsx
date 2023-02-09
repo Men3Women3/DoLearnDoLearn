@@ -65,6 +65,10 @@ const NewBoard = () => {
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
   const [check, setCheck] = useState(""); // 입력 안된 정보 저장
+  const time = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24,
+  ];
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -127,6 +131,7 @@ const NewBoard = () => {
 
   // 등록 버튼 클릭으로 작동
   const handleRegister = async () => {
+    console.log(lectureTime);
     await newBoardAPI(
       userInfo.id,
       imgSelect,
@@ -162,6 +167,28 @@ const NewBoard = () => {
     prevArrow: <SamplePrevArrow />,
   };
 
+  const slectableTime = Array(24)
+    .fill()
+    .map((v, i) => i + 1);
+
+  const isToday = () => {
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const day = new Date().getDate();
+    const slectedYear = +lectureDay.slice(0, 4);
+    const slectedMonth = +lectureDay.slice(5, 7);
+    const slectedDay = +lectureDay.slice(8, 10);
+    if (year !== slectedYear || month !== slectedMonth || day !== slectedDay) {
+      return false;
+    } else if (
+      year === slectedYear &&
+      month === slectedMonth &&
+      day === slectedDay
+    ) {
+      return true;
+    }
+  };
+
   return (
     <S.SCardBox>
       <S.SContainer>
@@ -178,8 +205,9 @@ const NewBoard = () => {
           <h3>강의 제목</h3>
           <S.STitleInput
             value={title}
-            placeholder="강의 제목을 입력해주세요."
+            placeholder="강의 제목을 50자 이내로 입력해주세요."
             onChange={(e) => setTitle(e.target.value)}
+            maxLength={50}
           ></S.STitleInput>
         </S.SBoardTitle>
 
@@ -235,32 +263,24 @@ const NewBoard = () => {
             min={deadline}
             onChange={(e) => setLectureDay(e.target.value)}
           ></S.SLectureInput>
-          {/* <h3>-</h3> */}
           <S.STimeInput onChange={(e) => setLectureTime(e.target.value)}>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-            <option value="19">19</option>
-            <option value="20">20</option>
-            <option value="21">21</option>
-            <option value="22">22</option>
-            <option value="23">23</option>
-            <option value="24">24</option>
+            {slectableTime.map((item) => {
+              if (isToday()) {
+                return item > new Date().getHours() ? (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ) : (
+                  ""
+                );
+              } else {
+                return (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                );
+              }
+            })}
           </S.STimeInput>
           <h3>&nbsp;시</h3>
 

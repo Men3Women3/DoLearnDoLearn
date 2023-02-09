@@ -68,6 +68,7 @@ export const SListBox = styled.div`
 `;
 
 export const SList = styled.fieldset`
+  transition: all 300ms linear;
   border: none;
   display: flex;
   .instructor {

@@ -1,7 +1,8 @@
 import axios from "axios";
-// import { baseURL } from "./baseURL";
+import { cancleFixedLectureAPI, updatePoint } from "./lectureAPI";
+import { BASE_URL } from "./URL";
 
-const axiosDefaultURL = process.env.REACT_APP_BASE_URL;
+const axiosDefaultURL = BASE_URL;
 
 // 유저 정보를 최신화하는 함수 (유저 정보를 가져와서 갱신시키는 함수)
 export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
@@ -123,12 +124,43 @@ export const changeMessageReadStateAPI = async (
   setStateMessageUpdate(true);
 };
 
-// 메시지 보내기
+// 메시지 보내기(확정)
 export const sendMessageAPI = async (
   bid,
   content,
   type,
   setStateMessageUpdate
+) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const res = await axios.post(
+    `${axiosDefaultURL}/message`,
+    { bid, content, type },
+    {
+      headers: {
+        // ------------------------------------------
+        // -----------------수정 필요----------------
+        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
+        // ------------------------------------------
+        // ------------------------------------------
+        Authentication: accessToken,
+      },
+    }
+  );
+  setStateMessageUpdate(true);
+  console.log(res);
+  console.log("메시지 보내기 성공");
+};
+
+// 메시지 보내기(폐강)
+export const sendCnacleMessageAPI = async (
+  bid,
+  content,
+  type,
+  setStateMessageUpdate,
+  lid,
+  uid,
+  setScheduledLecture,
+  handleUserInfo
 ) => {
   const accessToken = localStorage.getItem("accessToken");
   await axios.post(
@@ -147,4 +179,8 @@ export const sendMessageAPI = async (
   );
   setStateMessageUpdate(true);
   console.log("메시지 보내기 성공");
+  // 메시지 보내기 성공했으면, 일정에서 삭제하는 api 호출
+  cancleFixedLectureAPI(lid, uid, setScheduledLecture);
+  // 취소한 강사의 마일리지 점수 업데이트(-10점)
+  updatePoint(uid, -10, handleUserInfo);
 };

@@ -28,9 +28,9 @@ const LecturerList = ({ data, setLuid }) => {
           <SContent>
             {nameList.length ? (
               <SListBox>
-                {nameList.map((item) => {
+                {nameList.map((item, i) => {
                   return (
-                    <SList key={item}>
+                    <SList key={i}>
                       <div
                         className="full-list"
                         onChange={(e) => setLuid(e.target.value)}
