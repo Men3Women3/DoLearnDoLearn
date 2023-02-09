@@ -12,17 +12,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 @Slf4j
@@ -39,6 +48,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private ServletContext servletContext;
 
     @Value("${file.path}")
     String filePath;
@@ -133,28 +145,41 @@ public class UserController {
                 return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
             }
 
-            String folderPath = request.getSession().getServletContext().getRealPath(filePath);
-            logger.info("folderPath: "+folderPath);
-            File folder = new File(folderPath);
-            if(!folder.exists())
-                folder.mkdirs();
-
             // 저장될 파일 명명
             String originalFileName = img.getOriginalFilename();
             String saveFileName = System.nanoTime()+originalFileName.substring(originalFileName.lastIndexOf('.'));
 
-            String imgPath = folderPath + File.separator + saveFileName;
-            String imgUrl = filePath+ "/" + saveFileName;
-            result = userService.updateImgInfo(id, imgPath, imgUrl);
-
             // 파일 저장
-            img.transferTo(new File(folder, saveFileName));
+            byte[] bytes = img.getBytes();
+            Path path = Paths.get(filePath + saveFileName);
+
+            File folder = new File(filePath);
+            if(!folder.exists())
+                folder.mkdirs();
+            Files.write(path, bytes);
+
+            String contextPath = servletContext.getContextPath();
+            String imgUrl = contextPath+"/profile-img/"+saveFileName;
+
+            result = userService.updateImgInfo(id, path.toString(), imgUrl);
 
             return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/profile-img/{filename}")
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        Resource file = new FileSystemResource(filePath + filename);
+        String mimeType = null;
+        try {
+            mimeType = Files.probeContentType(file.getFile().toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType)).body(file);
     }
     
     @PostMapping("/check-email/{email}")
