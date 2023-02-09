@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/joy/Input";
 import { SSearchContainer, SWarning } from "./styles";
@@ -17,12 +17,6 @@ const SearchBar = () => {
   // 검색 input값
   const [search, setSearch] = useState("");
 
-  // 처음 렌더링 되면 검색바에 focus 되도록
-  const inputRef = useRef();
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-
   // input에 입력된 값을 search에 저장
   const onChange = (e) => {
     setSearch(e.currentTarget.value);
@@ -32,7 +26,7 @@ const SearchBar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     doSearch();
-    setSearch("");
+    // setSearch("");
   };
 
   return (
@@ -40,13 +34,17 @@ const SearchBar = () => {
       <form className="search-bar" onSubmit={(e) => handleSearch(e)}>
         <Input
           className="input-box"
-          ref={inputRef}
           onChange={onChange}
           value={search}
           placeholder="원하는 강의를 검색하세요"
           aria-label="Search"
           size="sm"
-          endDecorator={<SearchIcon />}
+          endDecorator={
+            <SearchIcon
+              onClick={(e) => handleSearch(e)}
+              style={{ cursor: "pointer" }}
+            />
+          }
         />
       </form>
       {isEmpty ? <SWarning>검색 결과를 찾을 수 없습니다.</SWarning> : ""}
