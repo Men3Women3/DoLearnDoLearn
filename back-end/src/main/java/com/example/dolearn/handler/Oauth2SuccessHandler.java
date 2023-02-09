@@ -7,6 +7,7 @@ import com.example.dolearn.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -17,21 +18,17 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
+@Configuration
 public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private JwtTokenProvider jwtTokenProvider;
     private UserRepository userRepository;
-    private ObjectMapper objectMapper;
-
-    @Value("${serverUrl}")
-    private String serverUrl;
 
     public Oauth2SuccessHandler(JwtTokenProvider jwtTokenProvider,
-                                UserRepository userRepository,
-                                ObjectMapper objectMapper) {
+                                UserRepository userRepository
+                                ) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
-        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -51,10 +48,10 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
             userRepository.save(user.get());
         }
         Long userId = user.get().getId();
-        log.info("id : {}",userId);
+        log.info("social login user id {} :",userId);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(serverUrl).append("/oauth-redirect?refreshToken=")
+        sb.append("https://i8a802.p.ssafy.io").append("/oauth-redirect?refreshToken=")
                 .append(refreshToken)
                 .append("&&accessToken=")
                 .append(accessToken)
