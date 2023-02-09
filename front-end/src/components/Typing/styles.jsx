@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SSection = styled.section`
+  user-select: none;
   width: 100%;
   height: calc(1vh + 150px);
   display: flex;
