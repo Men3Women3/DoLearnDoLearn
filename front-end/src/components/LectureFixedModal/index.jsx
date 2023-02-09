@@ -68,6 +68,7 @@ const LectureFixedModal = ({
   studentsInfo,
   setScheduledLecture,
   isLecturer,
+  lectureTime,
 }) => {
   const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
   const { flag, setFlag } = useContext(BoardDataContext);
@@ -116,8 +117,8 @@ const LectureFixedModal = ({
         lecturerId: instructorInfo.id,
         lecturerInfo: instructorInfo,
         time: {
-          startTime: lectureInfo.board.startTime,
-          endTime: lectureInfo.board.endTime,
+          startTime: lectureTime.startTime,
+          endTime: lectureTime.endTime,
         },
       },
     });
@@ -127,10 +128,9 @@ const LectureFixedModal = ({
   const handleActiveClassName = () => {
     if (
       Math.floor(
-        (new Date(lectureInfo.board.startTime) - new Date()) / (1000 * 60) <=
-          10 &&
+        (new Date(lectureTime.startTime) - new Date()) / (1000 * 60) <= 10 &&
           // new Date() - new Date(props.item.endTime) <= 0
-          new Date() <= new Date(lectureInfo.board.endTime)
+          new Date() <= new Date(lectureTime.endTime)
       )
     ) {
       return "active";
@@ -139,6 +139,7 @@ const LectureFixedModal = ({
     }
   };
 
+  console.log("강의시간", lectureTime);
   console.log("유저", userInfo);
   console.log("강의", lectureInfo);
   console.log("강사", instructorInfo);
@@ -189,10 +190,7 @@ const LectureFixedModal = ({
             <SCustomFontAwesomeIcon icon={faClock} />
             <SSpan>
               <b>강의 시간</b> |{" "}
-              {customLecTime(
-                lectureInfo.board.startTime,
-                lectureInfo.board.endTime
-              )}
+              {customLecTime(lectureTime.startTime, lectureTime.endTime)}
             </SSpan>
           </SInfoItem>
           <SInfoItem>
