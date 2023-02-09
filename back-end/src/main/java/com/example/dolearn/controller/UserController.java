@@ -7,6 +7,7 @@ import com.example.dolearn.jwt.JwtTokenProvider;
 import com.example.dolearn.response.ErrorResponse;
 import com.example.dolearn.response.SuccessResponse;
 import com.example.dolearn.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+@Slf4j
 @Validated
 @RestController
 @RequestMapping("/api/user")
@@ -119,6 +121,7 @@ public class UserController {
             // 기존 파일 삭제
             UserDto userDto = userService.getInfo(id);
             if(userDto.getImgPath() != "" && !userDto.getImgPath().equals("")){
+                logger.info("before: "+userDto.getImgPath());
                 String prevFileName = userDto.getImgPath();
                 new File(prevFileName).delete();
             }
@@ -131,7 +134,7 @@ public class UserController {
             }
 
             String folderPath = request.getSession().getServletContext().getRealPath(filePath);
-
+            logger.info("folderPath: "+folderPath);
             File folder = new File(folderPath);
             if(!folder.exists())
                 folder.mkdirs();

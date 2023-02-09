@@ -1,6 +1,10 @@
 package com.example.dolearn.controller;
 
 import com.example.dolearn.config.SecurityConfig;
+import com.example.dolearn.domain.Lecture;
+import com.example.dolearn.dto.BoardDto;
+import com.example.dolearn.dto.FixedLectureDto;
+import com.example.dolearn.dto.SummaryUserDto;
 import com.example.dolearn.dto.UserDto;
 import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.exception.error.ErrorCode;
@@ -23,16 +27,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,229 +67,570 @@ public class UserControllerTest {
                 .build();
     }
 
-    @Nested
-    class signup{
 
-        @Test
-        @DisplayName("회원가입 성공")
-        void success() throws Exception {
-            UserDto userDto = UserDto.builder().build();
+    @Test
+    void 회원가입성공() throws Exception {
+        UserDto userDto = UserDto.builder().build();
 
-            when(userService.signup(any(UserDto.class))).thenReturn(userDto);
+        when(userService.signup(any(UserDto.class))).thenReturn(userDto);
 
-            mockMvc.perform(post("/api/user")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .content(toJson(userDto)))
-                    .andExpect(status().isOk());
-        }
-
-        @Test
-        @DisplayName("회원가입 실패 - 이메일 중복")
-        void failByEmail() throws Exception {
-            UserDto userDto = UserDto.builder().build();
-
-            when(userService.signup(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION));
-
-            mockMvc.perform(post("/api/user")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .content(toJson(userDto)))
-                    .andExpect(status().isConflict());
-        }
+        mockMvc.perform(post("/api/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content(toJson(userDto)))
+                .andExpect(status().isOk());
     }
 
-    @Nested
-    class login{
+    @Test
+    void 회원가입실패_이메일중복() throws Exception {
+        UserDto userDto = UserDto.builder().build();
 
-        @Test
-        @DisplayName("로그인 성공")
-        void success() throws Exception {
-            UserDto userDto = UserDto.builder().build();
+        when(userService.signup(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION));
 
-            when(userService.login(any(UserDto.class))).thenReturn(userDto);
-            when(jwtTokenProvider.createRefreshToken(any(String.class))).thenReturn("refresh-token");
-            when(jwtTokenProvider.createAccessToken(any(String.class))).thenReturn("access-token");
-            when(userService.updateToken(any(UserDto.class), any(String.class), any(String.class))).thenReturn(userDto);
-
-            mockMvc.perform(post("/api/user/login")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .content(toJson(userDto)))
-                    .andExpect(status().isOk());
-        }
-
-        @Test
-        @DisplayName("로그인 실패 - 존재하지 않는 이메일")
-        void failByEmail() throws Exception {
-            UserDto userDto = UserDto.builder().build();
-
-            when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
-
-            mockMvc.perform(post("/api/user/login")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .content(toJson(userDto)))
-                    .andExpect(status().isBadRequest());
-        }
-
-        @Test
-        @DisplayName("로그인 실패 - 비밀번호 오류")
-        void failByPassword() throws Exception {
-            UserDto userDto = UserDto.builder().build();
-
-            when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_PASSWORD));
-
-            mockMvc.perform(post("/api/user/login")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .content(toJson(userDto)))
-                    .andExpect(status().isBadRequest());
-        }
+        mockMvc.perform(post("/api/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(userDto)))
+                .andExpect(status().isConflict());
     }
 
-    @Nested
-    class update{
+    @Test
+    void 회원가입실패_서버에러() throws Exception {
+        UserDto userDto = UserDto.builder().build();
 
-        @Test
-        @DisplayName("사용자 정보 수정 성공")
-        void success() throws Exception {
-            MockMultipartFile imgSrc = new MockMultipartFile("data", "other-file-name.data", "text/plain", "some other type".getBytes());
-            UserDto userDto = UserDto.builder().build();
+        when(userService.signup(any(UserDto.class))).thenThrow(new RuntimeException());
 
-            when(userService.getInfo(any(Long.class))).thenReturn(userDto);
-            when(userService.updateInfo(any(UserDto.class))).thenReturn(userDto);
-
-            MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart("/api/user");
-            builder.with(request -> {
-                request.setMethod("PUT");
-                return request;
-            });
-            mockMvc.perform(builder.file(imgSrc)
-                            .content(toJson(userDto))
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf()))
-                    .andExpect(status().isOk());
-        }
-
-        @Test
-        @DisplayName("사용자 정부 수정 실패 - 기입하지 않은 정보")
-        void failByInput() throws Exception {
-            UserDto userDto = UserDto.builder().build();
-
-            when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
-
-            mockMvc.perform(put("/api/user")
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(toJson(userDto)))
-                    .andExpect(status().isMethodNotAllowed());
-        }
-
-        @Test
-        @DisplayName("사용자 정부 수정 실패 - 존재하지 않는 사용자")
-        void failByNoUser() throws Exception {
-            UserDto userDto = UserDto.builder().build();
-
-            when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
-
-            mockMvc.perform(put("/api/user")
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(toJson(userDto)))
-                    .andExpect(status().isBadRequest());
-        }
+        mockMvc.perform(post("/api/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(userDto)))
+                .andExpect(status().isInternalServerError());
     }
 
-    @Nested
-    class checkEmail{
+    @Test
+    void 로그인성공() throws Exception {
+        UserDto userDto = UserDto.builder().build();
 
-        @Test
-        @DisplayName("중복되지 않은 이메일")
-        void success() throws Exception {
-            mockMvc.perform(post("/api/user/check-email/ssafy@naver.com")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8))
-                    .andExpect(status().isOk());
-        }
+        when(userService.login(any(UserDto.class))).thenReturn(userDto);
+        when(jwtTokenProvider.createRefreshToken(any(String.class))).thenReturn("refresh-token");
+        when(jwtTokenProvider.createAccessToken(any(String.class))).thenReturn("access-token");
+        when(userService.updateToken(any(UserDto.class), any(String.class), any(String.class))).thenReturn(userDto);
 
-        @Test
-        @DisplayName("중복된 이메일")
-        void failByEmail() throws Exception {
-            doThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION)).when(userService).checkEmail(any(String.class));
-
-            mockMvc.perform(post("/api/user/check-email/ssafy@naver.com")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8))
-                    .andExpect(status().isConflict());
-        }
+        mockMvc.perform(post("/api/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content(toJson(userDto)))
+                .andExpect(status().isOk());
     }
 
-    @Nested
-    class delete{
+    @Test
+    @DisplayName("로그인 실패 - 존재하지 않는 이메일")
+    void 로그인실패_존재하지않는이메일() throws Exception {
+        UserDto userDto = UserDto.builder().build();
 
-        @Test
-        @DisplayName("사용작 삭제 성공")
-        void success() throws Exception {
-            mockMvc.perform(delete("/api/user/1")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8))
-                    .andExpect(status().isOk());
-        }
+        when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
 
-        @Test
-        @DisplayName("사용자 삭제 실패 - 존재하지 않는 사용자")
-        void failByNoUser() throws Exception {
-            doThrow(new CustomException(ErrorCode.NO_USER)).when(userService).delete(any(Long.class));
-
-            mockMvc.perform(delete("/api/user/1")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8))
-                    .andExpect(status().isBadRequest());
-        }
+        mockMvc.perform(post("/api/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(userDto)))
+                .andExpect(status().isBadRequest());
     }
 
-    @Nested
-    class updatePoint{
+    @Test
+    void 로그인실패_비번오류() throws Exception {
+        UserDto userDto = UserDto.builder().build();
 
-        @Test
-        @DisplayName("사용자 포인트 수정 성공")
-        void success() throws Exception {
-            Map<String, Object> params = new HashMap<>();
+        when(userService.login(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_PASSWORD));
 
-            when(userService.updatePoint(params)).thenReturn(any(UserDto.class));
-
-            mockMvc.perform(put("/api/user/point")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .content(toJson(params)))
-                    .andExpect(status().isOk());
-        }
-
-        @Test
-        @DisplayName("사용자 포인트 수정 실패 - 기입하지 않은 정보")
-        void failByInput() throws Exception {
-            Map<String, Object> params = new HashMap<>();
-
-            when(userService.updatePoint(params)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
-
-            mockMvc.perform(put("/api/user/point")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .content(toJson(params)))
-                    .andExpect(status().isMethodNotAllowed());
-        }
+        mockMvc.perform(post("/api/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(userDto)))
+                .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void 로그인실패_서버에러() throws Exception {
+        UserDto userDto = UserDto.builder().build();
+
+        when(userService.login(any(UserDto.class))).thenThrow(new RuntimeException());
+
+        mockMvc.perform(post("/api/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(userDto)))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void 접근토큰재발급성공() throws Exception {
+
+        when(jwtTokenProvider.createAccessToken(any(String.class))).thenReturn("ABSLDKJALSKJFDSALKFDJASKFDLJS");
+
+        mockMvc.perform(post("/api/user/access")
+                        .header("Authentication", "SDSKLDJFALSKJDFASLKDFJS")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 접근토큰재발급실패() throws Exception {
+
+        when(jwtTokenProvider.createAccessToken(any(String.class))).thenThrow(new RuntimeException());
+
+        mockMvc.perform(post("/api/user/access")
+                        .header("Authentication", "SDSKLDJFALSKJDFASLKDFJS")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void 로그아웃성공() throws Exception {
+        when(userService.logout(1L)).thenReturn(any(UserDto.class));
+
+        mockMvc.perform(post("/api/user/logout/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 로그아웃실패_없는사용자() throws Exception {
+        when(userService.logout(1L)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(post("/api/user/logout/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 사용자정보수정성공() throws Exception {
+        MockMultipartFile imgSrc = new MockMultipartFile("data", "other-file-name.data", "text/plain", "some other type".getBytes());
+        UserDto userDto = UserDto.builder().build();
+
+        when(userService.getInfo(any(Long.class))).thenReturn(userDto);
+        when(userService.updateInfo(any(UserDto.class))).thenReturn(userDto);
+
+        MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart("/api/user");
+        builder.with(request -> {
+            request.setMethod("PUT");
+            return request;
+        });
+        mockMvc.perform(builder.file(imgSrc)
+                        .content(toJson(userDto))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 사용자정보수정실패_부족한정보() throws Exception {
+        UserDto userDto = UserDto.builder().build();
+
+        when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+        mockMvc.perform(put("/api/user")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(userDto)))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void 사용자정보수정실패_없는사용자() throws Exception {
+        UserDto userDto = UserDto.builder().build();
+
+        when(userService.updateInfo(any(UserDto.class))).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(put("/api/user")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(userDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 사용자정보수정실패_서버에러() throws Exception {
+        UserDto userDto = UserDto.builder().build();
+
+        when(userService.updateInfo(any(UserDto.class))).thenThrow(new RuntimeException());
+
+        mockMvc.perform(put("/api/user")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(userDto)))
+                .andExpect(status().isInternalServerError());
+    }
+
+    // 프로필 사진 업로드 테스트 자리
+
+    @Test
+    void 중복되지않은이메일() throws Exception {
+        mockMvc.perform(post("/api/user/check-email/ssafy@naver.com")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("중복된 이메일")
+    void 중복된이메일() throws Exception {
+        doThrow(new CustomException(ErrorCode.EMAIL_DUPLICATION)).when(userService).checkEmail(any(String.class));
+
+        mockMvc.perform(post("/api/user/check-email/ssafy@naver.com")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    void 사용자정보조회성공() throws Exception {
+        when(userService.getInfo(1L)).thenReturn(any(UserDto.class));
+
+        mockMvc.perform(get("/api/user/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 사용자정보조회실패_없는사용자() throws Exception {
+        when(userService.getInfo(1L)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(get("/api/user/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 사용자프로필정보조회성공() throws Exception {
+        when(userService.getSummaryInfo(1L)).thenReturn(any(SummaryUserDto.class));
+
+        mockMvc.perform(get("/api/user/summary-info/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 사용자프로필정보조회성공_없는사용자() throws Exception {
+        when(userService.getSummaryInfo(1L)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(get("/api/user/summary-info/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 사용자삭제성공() throws Exception {
+        mockMvc.perform(delete("/api/user/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 사용자삭제실패_없는사용자() throws Exception {
+        doThrow(new CustomException(ErrorCode.NO_USER)).when(userService).delete(any(Long.class));
+
+        mockMvc.perform(delete("/api/user/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    void 미확정강의조회성공() throws Exception {
+        when(userService.getRequestLecture(1L)).thenReturn((List<BoardDto>) any(BoardDto.class));
+
+        mockMvc.perform(get("/api/user/request-lecture/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 미확정강의조회실패_부족한정보() throws Exception {
+        when(userService.getRequestLecture(1L)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+        mockMvc.perform(get("/api/user/request-lecture/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void 미확정강의조회실패_없는사용자() throws Exception {
+        when(userService.getRequestLecture(1L)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(get("/api/user/request-lecture/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 미확정강의조회실패_서버에러() throws Exception {
+        when(userService.getRequestLecture(1L)).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/user/request-lecture/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void 미확정강의_방장_조회성공() throws Exception {
+        when(userService.getRequestLectureByHost(1L)).thenReturn((List<BoardDto>) any(BoardDto.class));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/host")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 미확정강의_방장_조회실패_부족한정보() throws Exception {
+        when(userService.getRequestLectureByHost(1L)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/host")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void 미확정강의조회실패_방장_없는사용자() throws Exception {
+        when(userService.getRequestLectureByHost(1L)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/host")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 미확정강의조회실패_방장_서버에러() throws Exception {
+        when(userService.getRequestLectureByHost(1L)).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/user/request-lecture/1/host")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void 미확정강의_강사_조회성공() throws Exception {
+        when(userService.getRequestLectureByInst(1L)).thenReturn((List<BoardDto>) any(BoardDto.class));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/instructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 미확정강의_강사_조회실패_부족한정보() throws Exception {
+        when(userService.getRequestLectureByInst(1L)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/instructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void 미확정강의조회실패_강사_없는사용자() throws Exception {
+        when(userService.getRequestLectureByInst(1L)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/instructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 미확정강의조회실패_강사_서버에러() throws Exception {
+        when(userService.getRequestLectureByInst(1L)).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/user/request-lecture/1/instructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void 미확정강의_학생_조회성공() throws Exception {
+        when(userService.getRequestLectureByStud(1L)).thenReturn((List<BoardDto>) any(BoardDto.class));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/student")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 미확정강의조회실패_학생_부족한정보() throws Exception {
+        when(userService.getRequestLectureByStud(1L)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/student")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void 미확정강의조회실패_학생_없는사용자() throws Exception {
+        when(userService.getRequestLectureByStud(1L)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(get("/api/user/request-lecture/1/student")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 미확정강의조회실패_학생_서버에러() throws Exception {
+        when(userService.getRequestLectureByStud(1L)).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/user/request-lecture/1/student")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void 확정강의조회성공() throws Exception {
+        when(userService.getFixedLecture(1L)).thenReturn((List<FixedLectureDto>) any(BoardDto.class));
+
+        mockMvc.perform(get("/api/user/fixed-lecture/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 확정강의조회실패_학생_부족한정보() throws Exception {
+        when(userService.getFixedLecture(1L)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+        mockMvc.perform(get("/api/user/fixed-lecture/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void 확정강의조회실패_없는사용자() throws Exception {
+        when(userService.getFixedLecture(1L)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(get("/api/user/fixed-lecture/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 확정강의조회실패_서버에러() throws Exception {
+        when(userService.getFixedLecture(1L)).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/user/fixed-lecture/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void 사용자포인트수정성공() throws Exception {
+        Map<String, Object> params = new HashMap<>();
+
+        when(userService.updatePoint(params)).thenReturn(any(UserDto.class));
+
+        mockMvc.perform(put("/api/user/point")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(params)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 사용자포인트수정실패_부족한정보() throws Exception {
+        Map<String, Object> params = new HashMap<>();
+
+        when(userService.updatePoint(params)).thenThrow(new CustomException(ErrorCode.INVALID_INPUT));
+
+        mockMvc.perform(put("/api/user/point")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(params)))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void 사용자포인트수정실패_없는사용자() throws Exception {
+        Map<String, Object> params = new HashMap<>();
+
+        when(userService.updatePoint(params)).thenThrow(new CustomException(ErrorCode.NO_USER));
+
+        mockMvc.perform(put("/api/user/point")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(params)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 사용자포인트수정실패_서버에러() throws Exception {
+        Map<String, Object> params = new HashMap<>();
+
+        when(userService.updatePoint(params)).thenThrow(new RuntimeException());
+
+        mockMvc.perform(put("/api/user/point")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(toJson(params)))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void 랭킹조회성공() throws Exception {
+        when(userService.getAllSortByPoint()).thenReturn(new ArrayList<>());
+
+        mockMvc.perform(get("/api/user/sort-point")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 랭킹조회실패() throws Exception {
+        when(userService.getAllSortByPoint()).thenThrow(new CustomException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+        mockMvc.perform(get("/api/user/sort-point")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+    
     private static String toJson(Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
