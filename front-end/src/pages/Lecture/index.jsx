@@ -22,6 +22,7 @@ import { useContext } from "react";
 import { LoginStateContext } from "../../App";
 import { getLecturerId } from "../../utils/api/lectureAPI";
 import Timer from "../../components/Timer";
+import { WEBRTC_URL } from "../../utils/api/URL";
 
 /*
  * (C) Copyright 2014 Kurento (http://kurento.org/)
@@ -53,11 +54,7 @@ const Lecture = () => {
   const lecturerId = location.state.lecturerId;
   const lecturerInfo = location.state.lecturerInfo;
 
-  // .env.local에 URL 저장하고 사용 ==================
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-  // const ws = new WebSocket(`${SOCKET_URL}`);
-  const ws = new WebSocket("wss://i8a802.p.ssafy.io//groupcall");
-  // =================================================
+  const ws = new WebSocket(`${WEBRTC_URL}`);
 
   var participants = {};
   var name = username;

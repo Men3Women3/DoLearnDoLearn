@@ -23,6 +23,7 @@ import {
   faPersonRunning,
 } from "@fortawesome/free-solid-svg-icons";
 import walkingChick from "../../assets/images/walkingChick.gif";
+import { IMAGE_URL } from "../../utils/api/URL";
 
 const Profile = ({
   handleProfileEditBtn,
@@ -31,8 +32,6 @@ const Profile = ({
   userState,
   chick,
 }) => {
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
-
   const blog = user.blog;
   const youtube = user.youtube;
   const instagram = user.instagram;

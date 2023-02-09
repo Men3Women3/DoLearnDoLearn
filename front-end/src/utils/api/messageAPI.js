@@ -1,13 +1,13 @@
-import axios from "axios"
-import { cancleFixedLectureAPI, updatePoint } from "./lectureAPI"
-// import { baseURL } from "./baseURL";
+import axios from "axios";
+import { cancleFixedLectureAPI, updatePoint } from "./lectureAPI";
+import { BASE_URL } from "./URL";
 
-const axiosDefaultURL = process.env.REACT_APP_BASE_URL
+const axiosDefaultURL = BASE_URL;
 
 // 유저 정보를 최신화하는 함수 (유저 정보를 가져와서 갱신시키는 함수)
 export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
-  const id = localStorage.getItem("id")
-  const accessToken = localStorage.getItem("accessToken")
+  const id = localStorage.getItem("id");
+  const accessToken = localStorage.getItem("accessToken");
   // api를 통해 유저 정보를 받아와서 저장
   axios
     // ####################################################
@@ -20,15 +20,15 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
     })
     .then((response) => {
       // 유저 정보 갱신
-      const unreadMessage = response.data.response
-      setUnreadMessageCnt(unreadMessage.length)
+      const unreadMessage = response.data.response;
+      setUnreadMessageCnt(unreadMessage.length);
     })
     .catch((error) => {
       // 실패하면
-      const errorCode = error.response.data.code
+      const errorCode = error.response.data.code;
       if (errorCode === "403") {
         // 로컬스토리지에 있는 리프레시 토큰으로 엑세스 토큰 재발급 api 요청
-        const refreshToken = localStorage.getItem("refreshToken")
+        const refreshToken = localStorage.getItem("refreshToken");
         axios
           .post(
             `${axiosDefaultURL}/user/access`,
@@ -41,12 +41,12 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
           )
           .then((response) => {
             // 요청 성공하면 응답받은 엑세스 토큰을 로컬 스토리지에 저장
-            const responseData = response.data.response
-            localStorage.setItem("accessToken", responseData)
+            const responseData = response.data.response;
+            localStorage.setItem("accessToken", responseData);
           })
           .then((response) => {
-            const id = localStorage.getItem("id")
-            const accessToken = localStorage.getItem("accessToken")
+            const id = localStorage.getItem("id");
+            const accessToken = localStorage.getItem("accessToken");
             // api를 통해 메시지 정보를 받아와서 저장
             axios
               // ####################################################
@@ -59,29 +59,29 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
               })
               .then((response) => {
                 // 유저 정보 갱신
-                const unreadMessage = response.data.response
-                setUnreadMessageCnt(unreadMessage.length)
+                const unreadMessage = response.data.response;
+                setUnreadMessageCnt(unreadMessage.length);
               })
               .catch((error) => {
-                console.log(error.response)
-              })
+                console.log(error.response);
+              });
           })
           .catch((error) => {
-            console.log(error.response)
-          })
+            console.log(error.response);
+          });
       }
-    })
-}
+    });
+};
 
 // 받은 메시지 모두 불러오는 요청
 export const getMessageListAPI = async (userId, setMessageData) => {
-  const res = await axios.get(`${axiosDefaultURL}/message/user/${userId}`)
-  setMessageData(res.data.response)
-}
+  const res = await axios.get(`${axiosDefaultURL}/message/user/${userId}`);
+  setMessageData(res.data.response);
+};
 
 // 메시지 삭제 요청
 export const deleteMessageAPI = async (messageId, setStateMessageUpdate) => {
-  const accessToken = localStorage.getItem("accessToken")
+  const accessToken = localStorage.getItem("accessToken");
   axios.delete(
     `${axiosDefaultURL}/message/${messageId}`,
     {},
@@ -95,9 +95,9 @@ export const deleteMessageAPI = async (messageId, setStateMessageUpdate) => {
         Authentication: accessToken,
       },
     }
-  )
-  setStateMessageUpdate(true)
-}
+  );
+  setStateMessageUpdate(true);
+};
 
 // 메시지 읽음 상태로 상태 변경
 export const changeMessageReadStateAPI = async (
@@ -105,7 +105,7 @@ export const changeMessageReadStateAPI = async (
   setStateMessageUpdate,
   setCheckState
 ) => {
-  const accessToken = localStorage.getItem("accessToken")
+  const accessToken = localStorage.getItem("accessToken");
   await axios.put(
     `${axiosDefaultURL}/message`,
     { id },
@@ -119,10 +119,10 @@ export const changeMessageReadStateAPI = async (
         Authentication: accessToken,
       },
     }
-  )
-  setCheckState(true)
-  setStateMessageUpdate(true)
-}
+  );
+  setCheckState(true);
+  setStateMessageUpdate(true);
+};
 
 // 메시지 보내기(확정)
 export const sendMessageAPI = async (
@@ -131,7 +131,7 @@ export const sendMessageAPI = async (
   type,
   setStateMessageUpdate
 ) => {
-  const accessToken = localStorage.getItem("accessToken")
+  const accessToken = localStorage.getItem("accessToken");
   const res = await axios.post(
     `${axiosDefaultURL}/message`,
     { bid, content, type },
@@ -145,11 +145,11 @@ export const sendMessageAPI = async (
         Authentication: accessToken,
       },
     }
-  )
-  setStateMessageUpdate(true)
-  console.log(res)
-  console.log("메시지 보내기 성공")
-}
+  );
+  setStateMessageUpdate(true);
+  console.log(res);
+  console.log("메시지 보내기 성공");
+};
 
 // 메시지 보내기(폐강)
 export const sendCnacleMessageAPI = async (
@@ -162,7 +162,7 @@ export const sendCnacleMessageAPI = async (
   setScheduledLecture,
   handleUserInfo
 ) => {
-  const accessToken = localStorage.getItem("accessToken")
+  const accessToken = localStorage.getItem("accessToken");
   await axios.post(
     `${axiosDefaultURL}/message`,
     { bid, content, type },
@@ -176,11 +176,11 @@ export const sendCnacleMessageAPI = async (
         Authentication: accessToken,
       },
     }
-  )
-  setStateMessageUpdate(true)
-  console.log("메시지 보내기 성공")
+  );
+  setStateMessageUpdate(true);
+  console.log("메시지 보내기 성공");
   // 메시지 보내기 성공했으면, 일정에서 삭제하는 api 호출
-  cancleFixedLectureAPI(lid, uid, setScheduledLecture)
+  cancleFixedLectureAPI(lid, uid, setScheduledLecture);
   // 취소한 강사의 마일리지 점수 업데이트(-10점)
-  updatePoint(uid, -10, handleUserInfo)
-}
+  updatePoint(uid, -10, handleUserInfo);
+};

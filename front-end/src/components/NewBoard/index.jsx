@@ -65,6 +65,10 @@ const NewBoard = () => {
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
   const [check, setCheck] = useState(""); // 입력 안된 정보 저장
+  const time = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24,
+  ];
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -201,8 +205,9 @@ const NewBoard = () => {
           <h3>강의 제목</h3>
           <S.STitleInput
             value={title}
-            placeholder="강의 제목을 입력해주세요."
+            placeholder="강의 제목을 50자 이내로 입력해주세요."
             onChange={(e) => setTitle(e.target.value)}
+            maxLength={50}
           ></S.STitleInput>
         </S.SBoardTitle>
 
@@ -258,7 +263,6 @@ const NewBoard = () => {
             min={deadline}
             onChange={(e) => setLectureDay(e.target.value)}
           ></S.SLectureInput>
-          {/* <h3>-</h3> */}
           <S.STimeInput onChange={(e) => setLectureTime(e.target.value)}>
             {slectableTime.map((item) => {
               if (isToday()) {
