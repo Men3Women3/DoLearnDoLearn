@@ -55,6 +55,7 @@ const Lecture = () => {
   const lecturerInfo = location.state.lecturerInfo;
 
   const ws = new WebSocket(`${WEBRTC_URL}`);
+  // const ws = new WebSocket("wss://localhost:8443/groupcall");
 
   var participants = {};
   var name = username;
