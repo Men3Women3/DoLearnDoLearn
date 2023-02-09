@@ -43,9 +43,6 @@ public class LectureServiceTest {
     @Mock
     UserLectureRepository userLectureRepository;
 
-    @Mock
-    MessageRepository messageRepository;
-
     @DisplayName("강의 확정 테스트")
     @Test
     public void FixUpdateTest() throws Exception{
@@ -197,7 +194,7 @@ public class LectureServiceTest {
 
     @DisplayName("강의 취소 테스트")
     @Test
-    public void UserLectureCanlcelTest() throws Exception{
+    public void UserLectureCancelTest() throws Exception{
         BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
                 .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build();

@@ -5,10 +5,12 @@ import { SCard } from "../ProfileCardBox/styles";
 export const SSCard = styled(SCard)`
   position: relative;
   height: ${(props) => (props.chick ? "29vw" : "33vw")};
+  border: ${(props) => (props.chick ? "10px ridge #ffb700" : "")};
+  border-radius: ${(props) => (props.chick ? "40px" : "")};
   box-shadow: 5px 5px 30px #c4c4c454;
   .button__section {
     position: absolute;
-    bottom: 2.5vw;
+    bottom: 2vw;
     left: 50%;
     transform: translate(-50%);
   }
@@ -24,7 +26,7 @@ export const SProfileContainer = styled.div`
 
   .tip {
     width: 100%;
-    height: 15vw;
+    height: 13vw;
     word-wrap: break-word;
     white-space: -moz-pre-wrap;
     white-space: pre-wrap;
@@ -54,12 +56,16 @@ export const SSubContainerUp = styled.div`
   align-items: center;
   /* 프로필 이미지 */
   .profile-img {
-    height: calc(3vw + 70px);
-    width: calc(3vw + 70px);
-    border-radius: 50%;
-    border: calc(0.1vw + 1px) solid #6e6e6eec;
+    height: 8vw;
+    width: 8vw;
     object-fit: cover;
     text-align: center;
+    border: 4px solid transparent;
+    border-radius: 50%;
+    background-image: linear-gradient(#fff, #fff),
+      linear-gradient(to right, #ff6a00 0%, #ffb700 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
   }
   /* 이름 + 이메일 + 마일리지바 */
   section {
@@ -147,9 +153,37 @@ export const SPointContainer = styled.div`
   align-items: center;
   margin-top: 10px;
   margin-bottom: 5px;
+  .point-icon {
+    color: black;
+    height: 1.7vw;
+    -webkit-animation: action 1s infinite alternate;
+    animation: action 1s infinite alternate;
+  }
   .point {
     color: #9a9a9a;
+    /* color: black; */
+    /* background-color: ${(props) => props.theme.lightYellow}; */
     font-size: calc(0.85vw + 1px);
     margin-left: 0.5vw;
+    -webkit-animation: action 1s infinite alternate;
+    animation: action 1s infinite alternate;
+  }
+
+  @-webkit-keyframes action {
+    0% {
+      transform: translateY(3px);
+    }
+    100% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes action {
+    0% {
+      transform: translateY(3px);
+    }
+    100% {
+      transform: translateY(-4px);
+    }
   }
 `;

@@ -128,14 +128,9 @@ const User = () => {
 
   return (
     <div>
-      <Grid container>
-        {/* navbar 부분 그리드 설정 */}
-        <Grid item xs={0} md={1.5} />
-        <Grid item xs={12} md={9}>
-          <Navbar />
-        </Grid>
-        <Grid item xs={0} md={1.5} />
+      <Navbar />
 
+      <Grid container>
         {/* content 부분 그리드 설정 */}
         <Grid item xs={0} md={1.5} />
         <Grid item xs={2} md={1.5}>

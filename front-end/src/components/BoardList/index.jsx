@@ -1,22 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { SContainer, SNoBoard, SUniDiv } from "./styles";
 import Pagination from "../Pagination";
 import UniBoard from "../UniBoard";
-import { boardListAPI } from "../../utils/api/boardAPI";
 import { BoardDataContext } from "../../App";
 
 const BoardList = () => {
-  const { flag, list, setList } = useContext(BoardDataContext);
+  const { list } = useContext(BoardDataContext);
 
   // Pagination ===========================================
   const limit = 6; // 페이지 당 게시물 수
   const [page, setPage] = useState(1); // 현재 페이지 번호
   const offset = (page - 1) * limit; // 첫 게시물의 위치
   // ======================================================
-
-  // useEffect(() => {
-  //   boardListAPI(setList);
-  // }, [flag]);
 
   return (
     <>

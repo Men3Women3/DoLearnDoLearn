@@ -16,10 +16,19 @@ import {
   SDetail,
 } from "./styles";
 import { cancelEnrollAPI } from "../../utils/api/boardAPI";
-import { BoardDataContext, LoginStateContext } from "../../App";
+import {
+  BoardDataContext,
+  LoginStateContext,
+  LoginStateHandlerContext,
+  UnreadMessageContext,
+} from "../../App";
 import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
 import WarningModal from "../WarningModal";
 import { useNavigate } from "react-router";
+import {
+  sendCnacleMessageAPI,
+  sendMessageAPI,
+} from "../../utils/api/messageAPI";
 
 const customLecTime = (start, end) => {
   const startDate = new Date(start);
@@ -60,27 +69,43 @@ const LectureFixedModal = ({
   setScheduledLecture,
   isLecturer,
 }) => {
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
   const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
-  const [openCancleModal, setOpenCancleModal] = useState(false);
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+  const [cancleText, setCancleText] = useState("");
+  const { unreadMessageCnt, setStateMessageUpdate } =
+    useContext(UnreadMessageContext);
+  const { handleUserInfo } = useContext(LoginStateHandlerContext);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (openCancleModal) {
-  //   }
-  // }, [openCancleModal]);
 
   // 강사 프로필 섹션 눌렀을 때 프로필 상세보기 새 창으로 이동
   const handleOpenProfile = (uid) => {
     window.open(`board/profile/${uid}`);
   };
 
-  // 신청 취소
+  // 수강생 신청 취소(강사 제외)
   const cancelClass = async () => {
-    // 강사의 경우 신청 취소
+    // 수강생의 경우 신청 취소
     cancleFixedLectureAPI(lectureInfo.id, userInfo.id, setScheduledLecture);
     handleClose();
+  };
+
+  // 강사 신청 취소
+  const handleCancleLecture = () => {
+    // 폐강 메시지 보내기
+    sendCnacleMessageAPI(
+      lectureInfo.board.id,
+      cancleText,
+      "cancle",
+      setStateMessageUpdate,
+      lectureInfo.id,
+      userInfo.id,
+      setScheduledLecture,
+      handleUserInfo
+    );
+    handleClose();
+    handleClose();
+    console.log("신청취소 사유", cancleText);
   };
 
   // 라이브 강의 입장
@@ -182,8 +207,9 @@ const LectureFixedModal = ({
             {isLecturer ? (
               <WarningModal
                 title="강의 취소 확인"
-                warningContent="강의를 취소하면 점수 패널티를 받게 됩니다."
-                content="강의 취소를 원하시면 확인을 눌러주세요."
+                warningContent="강의를 취소하시면 -10점의 마일리지 패널티를 받게 됩니다."
+                content="강의 취소를 원하시면 취소 사유 기입 후, 확인을 눌러주세요."
+                handler={handleCancleLecture}
                 lectureCancel
               >
                 <textarea
@@ -191,15 +217,18 @@ const LectureFixedModal = ({
                     resize: "none",
                     borderRadius: "8px",
                     fontFamily: "Pretendard-Regular",
-                    fontSize: "calc(0.6vw + 5px)",
-                    padding: "calc(0.5vw + 2px)",
-                    width: "calc(1vw + 380px)",
+                    fontSize: "1vw",
+                    padding: "1vw",
+                    width: "95%",
                   }}
-                  cols="52"
+                  value={cancleText}
+                  onChange={(e) => setCancleText(e.target.value)}
                   rows="6"
+                  placeholder="수강생들에게 공유되는 정보이므로 취소 사유를 반드시 입력해주세요!"
                 ></textarea>
               </WarningModal>
             ) : (
+              // 수강생에게 보여지는 취소 버튼
               <SButton onClick={(e) => cancelClass()}>신청취소</SButton>
             )}
             <SButton
