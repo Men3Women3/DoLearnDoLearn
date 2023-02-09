@@ -4,16 +4,40 @@ export const SSection = styled.section`
   font-family: ${(props) => props.theme.fontFamily.Medium};
 
   .modal-button {
-    font-size: ${(props) => props.theme.fontSize.p};
-    font-family: ${(props) => props.theme.fontFamily.Regular};
+    /* font-size: ${(props) => props.theme.fontSize.p};
+    font-family: ${(props) => props.theme.fontFamily.Regular}; */
+    /* border: none;
+  background-color: black;
+  margin: 0 1rem;
+  color: white;
+  font-family: ${(props) => props.theme.fontFamily.Medium};
+  font-size: calc(0.8vw + 0.5px);
+  width: 5rem;
+  height: 2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  place-items: center;
+  text-align: center; */
   }
   .lecture__cancel-button {
-    background-color: ${(props) => props.theme.deeperYellow};
+    border: none;
+    background-color: black;
+    margin: 0 1rem;
     color: white;
+    font-family: ${(props) => props.theme.fontFamily.Medium};
+    font-size: calc(0.8vw + 0.5px);
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    place-items: center;
+    text-align: center;
   }
   .lecture__cancel-button:hover {
-    background-color: ${(props) => props.theme.deeperYellow};
-    color: white;
+    font-family: ${(props) => props.theme.fontFamily.Bold};
+    transform: translateY(-1px);
+    color: ${(props) => props.theme.deeperYellow};
+    background-color: black;
   }
 `;
 

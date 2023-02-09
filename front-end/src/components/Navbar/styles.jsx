@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components"
+import styled, { keyframes } from "styled-components";
 
 export const Box = styled.main`
   width: 100%;
@@ -138,4 +138,4 @@ export const Box = styled.main`
     margin: 0px 12px;
     cursor: default;
   }
-`
+`;

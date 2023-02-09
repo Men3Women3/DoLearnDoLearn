@@ -29,14 +29,8 @@ const Home = () => {
 
   return (
     <SContainer>
-      <Grid container>
-        {/* navbar 부분 그리드 */}
-        <Grid item xs={0} md={1.5} />
-        <Grid item xs={12} md={9}>
-          <Navbar />
-        </Grid>
-        <Grid item xs={0} md={1.5} />
-      </Grid>
+      {/* navbar 부분 그리드 */}
+      <Navbar />
 
       <section className="main__section">
         <div>

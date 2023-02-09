@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 
 import Navbar from "../../components/Navbar";
@@ -13,50 +13,50 @@ import Message from "../../components/Message";
 import { useLocation } from "react-router";
 import { LoginStateContext } from "../../App";
 
-const checkMoveToMessageTab = (target, state) => {
-  // 넘겨받은 상태가 메시지인 경우
-  if (state === "message") {
-    // 메인에서 요청을 보내고 있으면 false
-    if (target === "main") {
-      return false;
-    }
-    // 메인이 아니라면(메시지) true
-    else if (target === "message") {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  // 넘겨받은 상태가 메시지가 아닌 경우
-  else {
-    // 메인에서 요청을 보내고 있으면 true
-    if (target === "main") {
-      return true;
-    }
-    // 메인이 아니라면(메시지) false
-    else {
-      return false;
-    }
-  }
-};
+// const checkMoveToMessageTab = (target, location) => {
+//   // 넘겨받은 상태가 메시지인 경우
+//   if (location.state === "message") {
+//     // 메인에서 요청을 보내고 있으면 false
+//     if (target === "main") {
+//       return false;
+//     }
+//     // 메인이 아니라면(메시지) true
+//     else if (target === "message") {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
+//   // 넘겨받은 상태가 메시지가 아닌 경우
+//   else {
+//     // 메인에서 요청을 보내고 있으면 true
+//     if (target === "main") {
+//       return true;
+//     }
+//     // 메인이 아니라면(메시지) false
+//     else {
+//       return false;
+//     }
+//   }
+// };
 
 const User = () => {
   const location = useLocation();
   const getUserInfo = useContext(LoginStateContext);
 
-  const [isProfileTabActive, setIsProfileTabActive] = useState(
-    checkMoveToMessageTab("main", location.state)
-  );
-  const [isScheduleTabActive, setIsScheduleTabActive] = useState(
-    checkMoveToMessageTab("schedule", location.state)
-  );
-  const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(
-    checkMoveToMessageTab("unSchedule", location.state)
-  );
-  const [isMessageTabActive, setIsMessageTabActive] = useState(
-    checkMoveToMessageTab("message", location.state)
-  );
+  const [isProfileTabActive, setIsProfileTabActive] = useState(true);
+  const [isScheduleTabActive, setIsScheduleTabActive] = useState(false);
+  const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(false);
+  const [isMessageTabActive, setIsMessageTabActive] = useState(false);
   const [isProfileEditActive, setIsProfileEditActive] = useState(false);
+
+  // 처음 렌더링 될 때
+  // useEffect(() => {
+  //   setIsProfileTabActive(checkMoveToMessageTab("main", location));
+  //   setIsScheduleTabActive(checkMoveToMessageTab("schedule", location));
+  //   setIsUnScheduleTabActive(checkMoveToMessageTab("unSchedule", location));
+  //   setIsMessageTabActive(checkMoveToMessageTab("message", location));
+  // }, [location.state]);
 
   // ProfileSidebar에 내려줄 함수
   // ProfileSidebar에 있는 4개의 탭 중 하나를 클릭하면 그 탭의 클래스네임을 매칭해서
@@ -103,14 +103,9 @@ const User = () => {
 
   return (
     <div>
-      <Grid container>
-        {/* navbar 부분 그리드 설정 */}
-        <Grid item xs={0} md={1.5} />
-        <Grid item xs={12} md={9}>
-          <Navbar />
-        </Grid>
-        <Grid item xs={0} md={1.5} />
+      <Navbar />
 
+      <Grid container>
         {/* content 부분 그리드 설정 */}
         <Grid item xs={0} md={1.5} />
         <Grid item xs={2} md={1.5}>
