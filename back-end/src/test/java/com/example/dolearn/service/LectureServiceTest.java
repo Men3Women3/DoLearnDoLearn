@@ -216,4 +216,22 @@ public class LectureServiceTest {
         assertEquals(result,1);
     }
 
+    @DisplayName("강의 삭제 테스트")
+    @Test
+    public void deleteLectureTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        User user = User.builder().id(1L).name("test").build();
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
+
+        when(lectureRepository.findById(any())).thenReturn(Optional.ofNullable(lecture));
+
+        int result = lectureService.deleteLecture(1L);
+
+        assertEquals(1,result);
+    }
+
 }
