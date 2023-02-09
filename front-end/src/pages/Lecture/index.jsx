@@ -567,24 +567,13 @@ const Lecture = () => {
       }
       // mainStage에 tatget 화면 추가
       mainStage.appendChild(userVideoContainer);
-    }
-
-    // else if (e.target.previousSibling.className.includes("mainScreen")) {
-    //   console.log("여긴가???");
-    // }
-    else {
-      console.log("설마 여기?");
-      console.log(participants);
-      console.log(Object.keys(participants).length);
-      // lecturer에 스크린이 없으면....
+    } else {
       if (Object.keys(participants).length === 1) {
         const mainStage = document.querySelector("#lectuerer");
 
         const mainVideoContainer = mainStage.firstChild;
         const mainVideo = mainVideoContainer.firstChild;
-        console.log(mainVideo, "메인 비디오");
         if (mainVideo.className.includes("mainScreen")) {
-          console.log("여긴가?????????");
           mainVideo.classList.remove("mainScreen");
           mainVideo.classList.add("subScreen");
 
@@ -595,7 +584,6 @@ const Lecture = () => {
           // subStage에 mainStage에 있던 화면 추가
           participants.appendChild(mainVideoContainer);
         } else if (mainVideo.className.includes("main")) {
-          console.log("왜 여기로 들어오는거지?");
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("main");
           mainVideo.classList.add("sub");
