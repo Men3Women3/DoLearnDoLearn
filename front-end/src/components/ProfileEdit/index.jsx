@@ -26,7 +26,7 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
-import { IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
 
 const ProfileEdit = (props) => {
   // context API에서 유저 정보 가져오기
@@ -45,7 +45,7 @@ const ProfileEdit = (props) => {
   const [profileImg, setProfileImg] = useState({
     image_file: "default",
     preview_URL: getUserInfo.userInfo.imgUrl
-      ? `${IMAGE_URL}${getUserInfo.userInfo.imgUrl}`
+      ? `${BASE_URL}/user${getUserInfo.userInfo.imgUrl}`
       : defaultProfileImg,
   });
 
