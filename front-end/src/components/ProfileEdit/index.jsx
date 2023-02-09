@@ -26,9 +26,9 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
-const ProfileEdit = (props) => {
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+import { IMAGE_URL } from "../../utils/api/URL";
 
+const ProfileEdit = (props) => {
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext);
   const { handleUserInfo } = useContext(LoginStateHandlerContext);
@@ -138,12 +138,6 @@ const ProfileEdit = (props) => {
             </div>
 
             <section>
-              {/* 배지 */}
-              {/* <img
-                src={startRankImg}
-                alt="start_rank_Img"
-                // style={{ height: "calc(1vw + 8px) !important" }}
-              /> */}
               <div>
                 {/* 이름 */}
                 <span>{getUserInfo.userInfo.name}</span>
@@ -170,7 +164,7 @@ const ProfileEdit = (props) => {
                 value={blogLink}
                 onChange={(e) => setBlogLink(e.target.value)}
                 type="text"
-                placeholder="블로그 링크를 입력해 주세요"
+                placeholder="블로그 링크를 입력해 주세요. ex) https://www.blog.com/"
               />
               <SInputIcon
                 className={blogLink ? "active__icon" : ""}
@@ -183,7 +177,7 @@ const ProfileEdit = (props) => {
                 value={youtubeLink}
                 onChange={(e) => setYoutubeLink(e.target.value)}
                 type="text"
-                placeholder="유튜브 링크를 입력해 주세요"
+                placeholder="유튜브 링크를 입력해 주세요. ex) https://www.youtube.com/"
               />
               <SInputIcon
                 className={youtubeLink ? "active__icon" : " "}
@@ -196,7 +190,7 @@ const ProfileEdit = (props) => {
                 value={instagram}
                 onChange={(e) => setInstagram(e.target.value)}
                 type="text"
-                placeholder="인스타그램 계정을 입력해 주세요"
+                placeholder="인스타그램 계정을 입력해 주세요. ex) instagram_username"
               />
               <SInputIcon
                 className={instagram ? "active__icon" : ""}
@@ -209,7 +203,7 @@ const ProfileEdit = (props) => {
                 value={facebook}
                 onChange={(e) => setFacebook(e.target.value)}
                 type="text"
-                placeholder="페이스북 계정을 입력해 주세요"
+                placeholder="페이스북 계정을 입력해 주세요. ex) facebook_username"
               />
               <SInputIcon
                 className={facebook ? "active__icon" : " "}
@@ -223,7 +217,7 @@ const ProfileEdit = (props) => {
                 value={selfIntroduction}
                 onChange={(e) => setSelfIntroduction(e.target.value)}
                 type="text"
-                placeholder="자기소개를 입력해 주세요"
+                placeholder="자기소개를 입력해 주세요."
               />
               <STextAreaIcon
                 className={

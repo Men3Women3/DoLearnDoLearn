@@ -123,7 +123,7 @@ function App() {
                       element={<LecturerProfile />}
                     />
                     <Route
-                      path={"/mypage"}
+                      path="/mypage"
                       element={isLogined ? <User /> : <Home />}
                     />
                     <Route path="/lecture" element={<Lecture />} />

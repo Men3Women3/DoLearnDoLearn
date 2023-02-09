@@ -18,8 +18,12 @@ import instagramImg from "../../assets/images/sns/instagram.png";
 import facebookImg from "../../assets/images/sns/facebook.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationPin,
+  faPersonRunning,
+} from "@fortawesome/free-solid-svg-icons";
 import walkingChick from "../../assets/images/walkingChick.gif";
+import { IMAGE_URL } from "../../utils/api/URL";
 
 const Profile = ({
   handleProfileEditBtn,
@@ -28,8 +32,6 @@ const Profile = ({
   userState,
   chick,
 }) => {
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
-
   const blog = user.blog;
   const youtube = user.youtube;
   const instagram = user.instagram;
@@ -70,10 +72,9 @@ const Profile = ({
                   {blog && (
                     <Tooltip
                       title={`${user.name}님의 블로그 바로가기`}
-                      // placement="top"
                       followCursor
                     >
-                      <a href={`${blog}`} target="_blank">
+                      <a href={`${blog}`} target="_blank" rel="noreferrer">
                         <img src={blogImg} alt="" />
                       </a>
                     </Tooltip>
@@ -81,11 +82,13 @@ const Profile = ({
                   {youtube && (
                     <Tooltip
                       title={`${user.name}님의 유튜브 채널 바로가기`}
-                      // placement="top"
-                      // arrow
                       followCursor
                     >
-                      <a href={`${user.youtube}`} target="_blank">
+                      <a
+                        href={`${user.youtube}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         <img src={youtubeImg} alt="" />
                       </a>
                     </Tooltip>
@@ -93,13 +96,12 @@ const Profile = ({
                   {instagram && (
                     <Tooltip
                       title={`${user.name}님의 인스타그램 바로가기`}
-                      // placement="top"
-                      // arrow
                       followCursor
                     >
                       <a
                         href={`https://www.instagram.com/${user.instagram}/`}
                         target="_blank"
+                        rel="noreferrer"
                       >
                         <img src={instagramImg} alt="" />
                       </a>
@@ -108,13 +110,12 @@ const Profile = ({
                   {facebook && (
                     <Tooltip
                       title={`${user.name}님의 페이스북 바로가기`}
-                      // placement="top"
-                      // arrow
                       followCursor
                     >
                       <a
                         href={`https://facebook.com/${user.facebook}/`}
                         target="_blank"
+                        rel="noreferrer"
                       >
                         <img src={facebookImg} alt="" />
                       </a>
@@ -126,16 +127,14 @@ const Profile = ({
               <div>
                 <SPointContainer point={point}>
                   <FontAwesomeIcon
-                    icon={faLocationPin}
-                    style={{
-                      color: "black",
-                      height: "calc(1vw + 1px)",
-                    }}
+                    className="point-icon"
+                    icon={faPersonRunning}
+                    // beat
                   />
                   <span className="point">{point}</span>
                 </SPointContainer>
 
-                <div className="wrapper"></div>
+                <div className="wrapper" />
               </div>
             </section>
           </SSubContainerUp>

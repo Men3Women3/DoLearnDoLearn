@@ -22,6 +22,7 @@ export const SContainer = styled.div`
       margin-bottom: 0px;
     }
     button {
+      cursor: pointer;
       font-size: calc(0.5vw + 1px);
       font-weight: bold;
       border: none;

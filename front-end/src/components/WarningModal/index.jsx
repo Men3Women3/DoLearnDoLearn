@@ -1,11 +1,11 @@
-import React, { Children, useState } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { SSection, SSpan, SUl, SButtonContainer } from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
+import React, { Children, useState } from "react"
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import Modal from "@mui/material/Modal"
+import { SSection, SSpan, SUl, SButtonContainer } from "./styles"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUserSlash } from "@fortawesome/free-solid-svg-icons"
 
 const style = {
   position: "absolute",
@@ -18,12 +18,12 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "20px 30px",
-};
+}
 
 const WarningModal = (props) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   return (
     <SSection>
@@ -34,11 +34,12 @@ const WarningModal = (props) => {
         </Button>
       )}
       {props.lectureCancel && (
+        // 강사에게 보여지는 취소 버튼
         <Button
           className="modal-button lecture__cancel-button"
           onClick={handleOpen}
         >
-          수강취소
+          신청취소
         </Button>
       )}
       <Modal
@@ -75,7 +76,7 @@ const WarningModal = (props) => {
         </Box>
       </Modal>
     </SSection>
-  );
-};
+  )
+}
 
-export default WarningModal;
+export default WarningModal
