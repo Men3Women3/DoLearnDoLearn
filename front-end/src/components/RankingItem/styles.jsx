@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import rankItemImg from "../../assets/images/rankItem.png";
+import styled from "styled-components"
+import rankItemImg from "../../assets/images/rankItem.png"
 
 export const SContainer = styled.div`
   cursor: pointer;
@@ -7,6 +7,7 @@ export const SContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Light};
   background-image: url(${rankItemImg});
   background-size: cover;
+  height: 7.8vw;
   border-radius: 12px;
   color: #000000;
   padding: calc(0.5vw + 3px) calc(0.5vw + 5px);
@@ -43,7 +44,7 @@ export const SContainer = styled.div`
       background-clip: content-box, border-box;
     }
   }
-`;
+`
 
 // SNS 링크를 묶는 div
 export const SSNSContainer = styled.div`
@@ -62,7 +63,7 @@ export const SSNSContainer = styled.div`
   .icon:hover {
     color: #f3bd2a;
   }
-`;
+`
 
 export const SRank = styled.div`
   user-select: none;
@@ -72,4 +73,4 @@ export const SRank = styled.div`
   position: absolute;
   bottom: calc(0.8vw + 1px);
   right: calc(1vw + 12px);
-`;
+`

@@ -15,7 +15,6 @@ export const SUniDiv = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
 `;
 
-export const SNoBoard = styled.div`
-  font-family: ${(props) => props.theme.fontFamily.Medium};
-  font-size: ${(props) => props.theme.fontSize.h1};
+export const SNoBoard = styled.h3`
+  font-family: ${(props) => props.theme.fontFamily.Light};
 `;

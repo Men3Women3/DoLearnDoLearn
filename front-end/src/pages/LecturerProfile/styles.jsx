@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SContainer = styled.div`
   position: relative;
@@ -14,6 +14,7 @@ export const SContainer = styled.div`
     border-bottom: 6px solid #ffc29f;
     font-family: "GmarketSansBold";
     color: black;
+    padding-bottom: 10px;
     margin-bottom: 30px;
   }
-`;
+`

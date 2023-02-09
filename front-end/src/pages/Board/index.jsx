@@ -12,48 +12,45 @@ const Board = () => {
   const { isLogined } = useContext(LoginStateContext);
 
   return (
-    <Grid container>
-      <Grid item xs={0} md={1.5} />
-      <Grid item xs={12} md={9}>
-        <Navbar />
+    <>
+      <Navbar />
+      <Grid container>
+        {isLogined ? (
+          <>
+            <Grid item xs={0} md={1.5} />
+            <Grid item xs={12} md={9}>
+              <SOutterBox>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <SearchBar />
+                  <SInnerBox>
+                    <WriteButton />
+                    <BoardList />
+                  </SInnerBox>
+                </div>
+                <SmallSchedule />
+              </SOutterBox>
+            </Grid>
+            <Grid item xs={0} md={1.5} />
+          </>
+        ) : (
+          <>
+            <Grid item xs={0} md={3} />
+            <Grid item xs={12} md={6}>
+              <SOutterBox>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <SearchBar />
+                  <SInnerBox>
+                    <WriteButton />
+                    <BoardList />
+                  </SInnerBox>
+                </div>
+              </SOutterBox>
+            </Grid>
+            <Grid item xs={0} md={3} />
+          </>
+        )}
       </Grid>
-      <Grid item xs={0} md={1.5} />
-
-      {isLogined ? (
-        <>
-          <Grid item xs={0} md={1.5} />
-          <Grid item xs={12} md={9}>
-            <SOutterBox>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <SearchBar />
-                <SInnerBox>
-                  <WriteButton />
-                  <BoardList />
-                </SInnerBox>
-              </div>
-              <SmallSchedule />
-            </SOutterBox>
-          </Grid>
-          <Grid item xs={0} md={1.5} />
-        </>
-      ) : (
-        <>
-          <Grid item xs={0} md={3} />
-          <Grid item xs={12} md={6}>
-            <SOutterBox>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <SearchBar />
-                <SInnerBox>
-                  <WriteButton />
-                  <BoardList />
-                </SInnerBox>
-              </div>
-            </SOutterBox>
-          </Grid>
-          <Grid item xs={0} md={3} />
-        </>
-      )}
-    </Grid>
+    </>
   );
 };
 
