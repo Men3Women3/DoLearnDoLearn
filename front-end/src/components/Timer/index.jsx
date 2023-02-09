@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SAlert, STimer } from "./styles";
 import useInterval from "../../hooks/useInterval";
+import { LoginStateHandlerContext } from "../../App";
+import { updatePoint, updatePoint2 } from "../../utils/api/lectureAPI";
+import { useNavigate } from "react-router";
 
 const useResultOfIntervalCalculator = (calculator, delay) => {
   const [result, setResult] = useState(calculator());
@@ -17,6 +20,8 @@ const useResultOfIntervalCalculator = (calculator, delay) => {
 };
 
 const Timer = (props) => {
+  const { handleUserInfo } = useContext(LoginStateHandlerContext);
+  const navigate = useNavigate();
   // 테스트용
   // const classTime = "2023-02-07 16:28:00";
   const classTime = props.startTime;
@@ -62,8 +67,12 @@ const Timer = (props) => {
 
     const id = setInterval(() => {
       if (time === targetTime) {
+        // 0초 되면 강사 기본 점수 지급
+        updatePoint2(props.lecturerId, 10);
         // alert('강의가 종료되었습니다. 수고하셨습니다.');
         clearInterval(id); // clearing을 통해 해당 interval 정리
+        // 메인으로 보내기
+        navigate("/", { replace: true });
       } else {
         setTime(time - 1);
       }
