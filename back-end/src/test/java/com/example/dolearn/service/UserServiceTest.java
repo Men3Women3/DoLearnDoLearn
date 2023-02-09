@@ -3,6 +3,7 @@ package com.example.dolearn.service;
 import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.*;
 import com.example.dolearn.exception.CustomException;
+import com.example.dolearn.exception.error.ErrorCode;
 import com.example.dolearn.repository.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,585 +25,499 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
+    private Long id;
+    private String name;
+    private String email;
+    private String password;
+    private String encodedPassword;
+    private String imgPath;
+    private String imgUrl;
+    private String info;
+    private String blog;
+    private String facebook;
+    private String instagram;
+    private Integer point;
+    private String youtube;
+
     @InjectMocks
     UserService userService;
-
     @Mock
     UserRepository userRepository;
-
     @Mock
     BoardRepository boardRepository;
-
     @Mock
     FixedLectureRepository fixedLectureRepository;
-
     @Mock
     UserBoardRepository userBoardRepository;
-
     @Mock
     UserLectureRepository userLectureRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
 
-    @Nested
+    @BeforeEach
+    void setup(){
+        id = 1L;
+        name = "민싸피";
+        email = "ssafy@naver.com";
+        password = "abcd!1234";
+        encodedPassword = "$2a$10$Ul5NqDvSKVE/pbZhr5TlduldDXNk8ZztWAg8gWGxjB0zuK9tn9QHy";
+        imgPath = "새로운 이미지 path";
+        imgUrl = "새로운 이미지 url";
+        info = "안녕하세요";
+        blog = "새로운 블로그 링크";
+        facebook = "새로운 페이스북 링크";
+        instagram = "새로운 인스타 링크";
+        youtube = "새로운 유튜브 링크";
+        point = 100;
+    }
+
+    @Test
     @Transactional
-    class signup{
+    void 회원가입성공() {
+        UserDto userDto = UserDto.builder().email(email).password(password).build();
 
-        private String email;
-        private String password;
+        when(userRepository.save(any(User.class))).thenReturn(userDto.toEntity());
 
-        @Test
-        @DisplayName("회원가입 성공")
-        void success() {
-            UserDto userDto = UserDto.builder().email(email).password(password).build();
+        UserDto result = userService.signup(userDto);
 
-            when(userRepository.save(any(User.class))).thenReturn(userDto.toEntity());
+        assertThat(result.getEmail()).isEqualTo(email);
+    }
 
+    @Test
+    @Transactional
+    void 회원가입실패_중복이메일() {
+        UserDto userDto = UserDto.builder().email(email).password(password).build();
+
+        when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(userDto.toEntity()));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
             UserDto result = userService.signup(userDto);
+        });
 
-            assertThat(result.getEmail()).isEqualTo(email);
-        }
-
-        @Test
-        @DisplayName("회원가입 실패 - 중복된 이메일")
-        void failByEmail() {
-            UserDto userDto = UserDto.builder().email(email).password(password).build();
-
-            when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(userDto.toEntity()));
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.signup(userDto);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("이미 존재하는 이메일입니다.", exception.getMessage());
-        }
+        assertTrue(exception instanceof CustomException);
+        assertEquals("이미 존재하는 이메일입니다.", exception.getMessage());
     }
 
-    @Nested
+    @Test
     @Transactional
-    class login{
+    void 로그인성공() {
+        UserDto reqUserDto = UserDto.builder().email(email).password(password).build();
+        UserDto loginuUserDto = UserDto.builder().name(name).email(email).password(encodedPassword).build();
 
-        private String name;
-        private String email;
-        private String password;
-        private String encodedPassword;
+        when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(loginuUserDto.toEntity()));
+        when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
 
-        @BeforeEach
-        void setup(){
-            name = "민싸피";
-            email = "ssafy@naver.com";
-            password = "abcd!1234";
-            encodedPassword = "$2a$10$Ul5NqDvSKVE/pbZhr5TlduldDXNk8ZztWAg8gWGxjB0zuK9tn9QHy";
+        UserDto userDto = userService.login(reqUserDto);
 
-        }
-
-        @Test
-        @DisplayName("로그인 성공")
-        void success() {
-            UserDto reqUserDto = UserDto.builder().email(email).password(password).build();
-            UserDto loginuUserDto = UserDto.builder().name(name).email(email).password(encodedPassword).build();
-
-            when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(loginuUserDto.toEntity()));
-            when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
-
-            UserDto userDto = userService.login(reqUserDto);
-
-            assertEquals(name, userDto.getName());
-        }
-
-        @Test
-        @DisplayName("로그인 실패 - 존재하지 않은 이메일")
-        void failByEmail() {
-            UserDto userDto = UserDto.builder().build();
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.login(userDto);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
-        }
-
-        @Test
-        @DisplayName("로그인 실패 - 잘못된 비밀번호")
-        void failByPassword() {
-            password = "이상한 비번";
-
-            UserDto reqUserDto = UserDto.builder().email(email).password(password).build();
-            UserDto loginuUserDto = UserDto.builder().name(name).email(email).password(encodedPassword).build();
-
-            when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(loginuUserDto.toEntity()));
-            when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.login(reqUserDto);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("비밀번호가 옳지 않습니다.", exception.getMessage());
-        }
+        assertEquals(name, userDto.getName());
     }
 
-    @Nested
+    @Test
     @Transactional
-    class logout{
+    void 로그인실패_없는사용자() {
+        UserDto userDto = UserDto.builder().build();
 
-        private Long id;
-        private String name;
-        private String email;
-        private String password;
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.login(userDto);
+        });
 
-        @BeforeEach
-        void setup(){
-            id = 1L;
-            email = "ssafy@naver.com";
-        }
-
-        @Test
-        @DisplayName("로그아웃 성공")
-        void success() {
-            UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
-
-            when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
-            when(userRepository.findOneById(any(Long.class))).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
-
-            UserDto userDto = userService.logout(id);
-
-            assertNull(userDto.getRefreshToken());
-        }
-
-        @Test
-        @DisplayName("로그아웃 실패 - 존재하지 않은 사용자")
-        void failById() {
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.logout(id);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals(exception.getMessage(), "없는 사용자입니다.");
-        }
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
     }
 
-    @Nested
+    @Test
     @Transactional
-    class updateInfo{
+    void 로그인실패_이상한비번() {
+        password = "이상한 비번";
 
-        private Long id;
-        private String email;
-        private String imgPath;
-        private String imgUrl;
-        private String info;
-        private String blog;
-        private String facebook;
-        private String instagram;
-        private String youtube;
+        UserDto reqUserDto = UserDto.builder().email(email).password(password).build();
+        UserDto loginuUserDto = UserDto.builder().name(name).email(email).password(encodedPassword).build();
 
-        @BeforeEach
-        void setup(){
-            id = 1L;
-            email = "ssafy@naver.com";
-            imgPath = "새로운 이미지 path";
-            imgUrl = "새로운 이미지 url";
-            info = "안녕하세요";
-            blog = "새로운 블로그 링크";
-            facebook = "새로운 페이스북 링크";
-            instagram = "새로운 인스타 링크";
-            youtube = "새로운 유튜브 링크";
-        }
+        when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(loginuUserDto.toEntity()));
+        when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
 
-        @Test
-        @DisplayName("사용자 정보 수정 성공")
-        void success() {
-            UserDto reqUserDto = UserDto.builder().id(id).email(email)
-                    .imgPath(imgPath).imgUrl(imgUrl).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
-                    .build();
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.login(reqUserDto);
+        });
 
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
-            when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
-
-            UserDto userDto = userService.updateInfo(reqUserDto);
-
-            assertEquals(email, userDto.getEmail());
-        }
-
-        @Test
-        @DisplayName("사용자 정보 수정 실패 - 기입되지 않은 정보")
-        void failByRequiredInput() {
-            UserDto reqUserDto = UserDto.builder().id(id).email(email)
-                    .blog(blog).build();
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.updateInfo(reqUserDto);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
-        }
-
-        @Test
-        @DisplayName("사용자 정보 수정 실패 - 존재하지 않는 사용자")
-        void failById() {
-            UserDto reqUserDto = UserDto.builder().id(id).email(email)
-                    .imgPath(imgPath).imgUrl(imgUrl).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
-                    .build();
-
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.updateInfo(reqUserDto);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
-        }
+        assertTrue(exception instanceof CustomException);
+        assertEquals("비밀번호가 옳지 않습니다.", exception.getMessage());
     }
 
-    @Nested
+    @Test
     @Transactional
-    class updateImgInfo{
-        Long id;
-        String imgPath;
-        String imgUrl;
+    void 토큰재발급성공() {
+        UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
 
-        @Test
-        @DisplayName("프로필 이미지 업데이트 성공")
-        void success(){
-            id = 1L;
-            imgPath = "imgpath";
-            imgUrl = "imgurl";
-            UserDto reqUserDto = UserDto.builder().id(id).imgPath(imgPath).imgUrl(imgUrl).build();
+        when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
 
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
-            when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
+        UserDto userDto = userService.updateToken(reqUserDto, "refresh-token", "access-token");
 
-            UserDto userDto = userService.updateImgInfo(id, imgPath, imgUrl);
-
-            assertEquals(imgPath, userDto.getImgPath());
-        }
-
-        @Test
-        @DisplayName("프로필 이미지 업데이트 실패 - 기입되지 않은 정보")
-        void failByInput(){
-            id = 1L;
-            imgPath = "imgpath";
-            imgUrl = "imgurl";
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.updateImgInfo(null, imgPath, imgUrl);
-            });
-            assertTrue(exception instanceof CustomException);
-            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
-
-            exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.updateImgInfo(id, null, imgUrl);
-            });
-            assertTrue(exception instanceof CustomException);
-            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
-
-            exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.updateImgInfo(id, imgPath, null);
-            });
-            assertTrue(exception instanceof CustomException);
-            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
-        }
-
-        @Test
-        @DisplayName("프로필 이미지 업데이트 실패 - 존재하지 않는 사용자")
-        void failById(){
-            id = 1L;
-            imgPath = "imgpath";
-            imgUrl = "imgurl";
-
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.updateImgInfo(id, imgPath, imgUrl);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
-        }
+        assertThat(userDto.getRefreshToken().equals("refresh-token"));
     }
 
-    @Nested
-    class getInfo{
+    @Test
+    @Transactional
+    void 로그아웃성공() {
+        UserDto reqUserDto = UserDto.builder().name(name).email(email).password(password).build();
 
-        private Long id;
-        private String email;
+        when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
+        when(userRepository.findOneById(any(Long.class))).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
 
-        @BeforeEach
-        void setup(){
-            id = 1L;
-            email = "ssafy@naver.com";
-        }
+        UserDto userDto = userService.logout(id);
 
-        @Test
-        @DisplayName("사용자 정보 조회 성공")
-        void success() {
-            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
-
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
-
-            UserDto userDto = userService.getInfo(id);
-
-            assertEquals(email, userDto.getEmail());
-        }
-
-        @Test
-        @DisplayName("사용자 정보 조회 실패 - 존재하지 않는 사용자")
-        void failById() {
-            id = 150L;
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto result = userService.getInfo(id);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
-        }
+        assertNull(userDto.getRefreshToken());
     }
 
-    @Nested
-    class checkEmail{
+    @Test
+    @Transactional
+    void 로그아웃실패_없는사용자() {
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
 
-        private Long id;
-        private String email;
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.logout(id);
+        });
 
-        @BeforeEach
-        void setup(){
-            id = 1L;
-            email = "ssafy@naver.com";
-        }
+        assertTrue(exception instanceof CustomException);
+        assertEquals(exception.getMessage(), "없는 사용자입니다.");
+    }
 
-        @Test
-        @DisplayName("중복되지 않는 이메일")
-        void success() {
-            when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(null));
+    @Test
+    @Transactional
+    void 사용자정보수정성공() {
+        UserDto reqUserDto = UserDto.builder().id(id).email(email)
+                .imgPath(imgPath).imgUrl(imgUrl).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
+                .build();
 
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+        when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
+
+        UserDto userDto = userService.updateInfo(reqUserDto);
+
+        assertEquals(email, userDto.getEmail());
+    }
+
+    @Test
+    @Transactional
+    void 사용자정보수정실패_부족한정보() {
+        UserDto reqUserDto = UserDto.builder().id(id).email(email)
+                .blog(blog).build();
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.updateInfo(reqUserDto);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+    }
+
+    @Test
+    @Transactional
+    void 사용자정보수정실패_없는사용자() {
+        UserDto reqUserDto = UserDto.builder().id(id).email(email)
+                .imgPath(imgPath).imgUrl(imgUrl).info(info).instagram(instagram).blog(blog).facebook(facebook).youtube(youtube)
+                .build();
+
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.updateInfo(reqUserDto);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
+    }
+
+    @Test
+    @Transactional
+    void 프로필사진업데이트성공(){
+        id = 1L;
+        imgPath = "imgpath";
+        imgUrl = "imgurl";
+        UserDto reqUserDto = UserDto.builder().id(id).imgPath(imgPath).imgUrl(imgUrl).build();
+
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+        when(userRepository.save(any(User.class))).thenReturn(reqUserDto.toEntity());
+
+        UserDto userDto = userService.updateImgInfo(id, imgPath, imgUrl);
+
+        assertEquals(imgPath, userDto.getImgPath());
+    }
+
+    @Test
+    @Transactional
+    void 프로필사진업데이트실패_부족한정보(){
+        id = 1L;
+        imgPath = "imgpath";
+        imgUrl = "imgurl";
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.updateImgInfo(null, imgPath, imgUrl);
+        });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+
+        exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.updateImgInfo(id, null, imgUrl);
+        });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+
+        exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.updateImgInfo(id, imgPath, null);
+        });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+    }
+
+    @Test
+    @Transactional
+    void 프로필사진업데이트실패_없는사용자(){
+        id = 1L;
+        imgPath = "imgpath";
+        imgUrl = "imgurl";
+
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(null));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.updateImgInfo(id, imgPath, imgUrl);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
+    }
+
+    @Test
+    void 사용자정보조회성공() {
+        UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+
+        UserDto userDto = userService.getInfo(id);
+
+        assertEquals(email, userDto.getEmail());
+    }
+
+    @Test
+    void 사용자정보조회실패_없는사용자() {
+        id = 150L;
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto result = userService.getInfo(id);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
+    }
+
+    @Test
+    void 사용자요약정보조회(){
+        UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+
+        SummaryUserDto userDto = userService.getSummaryInfo(id);
+
+        assertEquals(email, userDto.getEmail());
+    }
+
+    @Test
+    void 사용자요약정보조회실패_없는사용자(){
+        UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+        when(userRepository.findOneById(id)).thenReturn((Optional.ofNullable(null)));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            userService.getSummaryInfo(id);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
+    }
+
+    @Test
+    void 중복되지않는이메일() {
+        when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(null));
+
+        userService.checkEmail(email);
+    }
+
+    @Test
+    void 중복된이메일() {
+        UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
+
+        when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
             userService.checkEmail(email);
-        }
+        });
 
-        @Test
-        @DisplayName("중복된 이메일")
-        void failByEmail() {
-            UserDto reqUserDto = UserDto.builder().id(id).email(email).build();
-
-            when(userRepository.findOneByEmail(email)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                userService.checkEmail(email);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("이미 존재하는 이메일입니다.", exception.getMessage());
-        }
+        assertTrue(exception instanceof CustomException);
+        assertEquals("이미 존재하는 이메일입니다.", exception.getMessage());
     }
 
-    @Nested
+    @Test
     @Transactional
-    class delete{
-
-        private Long id;
-
-        @BeforeEach
-        void setup(){
-            id = 1L;
-        }
-
-        @Test
-        @DisplayName("사용자 정보 조회 성공")
-        void success() throws ParseException {
-            UserDto reqUserDto = UserDto.builder().id(id).build();
-            Board board = BoardDto.builder()
-                    .id(1L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
-                    .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
-                    .isFixed(0).maxCnt(5).summary("summary").title("title").build().toEntity();
-            Lecture lecture = Lecture.builder()
-                    .id(1L).board(board).isDeleted(0).memberCnt(0).build();
-            UserBoard userBoard = UserBoardDto.builder()
-                    .id(1L).bid(board.getId()).uid(reqUserDto.getId()).board(board).user(reqUserDto.toEntity()).userType("강사").build().toEntity();
-            UserLecture userLecture = UserLectureDto.builder()
-                    .id(1L).lid(1L).uid(1L).user(reqUserDto.toEntity()).lecture(lecture).memberType("학생").evaluateStatus(0).build().toEntity();
+    void 사용자삭제성공() throws ParseException {
+        UserDto reqUserDto = UserDto.builder().id(id).build();
+        Board board = BoardDto.builder()
+                .id(1L).uid(2L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build().toEntity();
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board).isDeleted(0).memberCnt(0).build();
+        UserBoard userBoard = UserBoardDto.builder()
+                .id(1L).bid(board.getId()).uid(reqUserDto.getId()).board(board).user(reqUserDto.toEntity()).userType("강사").build().toEntity();
+        UserLecture userLecture = UserLectureDto.builder()
+                .id(1L).lid(1L).uid(1L).user(reqUserDto.toEntity()).lecture(lecture).memberType("학생").evaluateStatus(0).build().toEntity();
 
 
-            List<UserBoard> userBoardList = new ArrayList<UserBoard>();
-            userBoardList.add(userBoard);
-            List<UserLecture> userLectureList = new ArrayList<UserLecture>();
-            userLectureList.add(userLecture);
-            List<Board> boardList = new ArrayList<Board>();
-            boardList.add(board);
+        List<UserBoard> userBoardList = new ArrayList<UserBoard>();
+        userBoardList.add(userBoard);
+        List<UserLecture> userLectureList = new ArrayList<UserLecture>();
+        userLectureList.add(userLecture);
+        List<Board> boardList = new ArrayList<Board>();
+        boardList.add(board);
 
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
-            when(userBoardRepository.findByUid(id)).thenReturn(userBoardList);
-            when(userBoardRepository.save(any(UserBoard.class))).thenReturn(userBoard);
-            when(userLectureRepository.findByUser(any(User.class))).thenReturn(userLectureList);
-            when(userLectureRepository.save(any(UserLecture.class))).thenReturn(userLecture);
-            when(boardRepository.findByUid(id)).thenReturn(boardList);
-            when(boardRepository.save(any(Board.class))).thenReturn(board);
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+        when(userBoardRepository.findByUid(id)).thenReturn(userBoardList);
+        when(userBoardRepository.save(any(UserBoard.class))).thenReturn(userBoard);
+        when(userLectureRepository.findByUser(any(User.class))).thenReturn(userLectureList);
+        when(userLectureRepository.save(any(UserLecture.class))).thenReturn(userLecture);
+        when(boardRepository.findByUid(id)).thenReturn(boardList);
+        when(boardRepository.save(any(Board.class))).thenReturn(board);
 
+        userService.delete(id);
+    }
+
+    @Test
+    @Transactional
+    void 사용자삭제실패_없는사용자() {
+        Exception exception = assertThrows(CustomException.class, ()->{
             userService.delete(id);
-        }
+        });
 
-        @Test
-        @DisplayName("사용자 정보 조회 실패 - 존재하지 않는 사용자")
-        void failById() {
-            Exception exception = assertThrows(CustomException.class, ()->{
-                userService.delete(id);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
-        }
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
     }
 
-    @Nested
+    @Test
     @Transactional
-    class updatePoint{
+    void 포인트수정성공() {
+        UserDto reqUserDto = UserDto.builder().id(id).email(email).point(point).build();
+        UserDto resUserDto = UserDto.builder().id(id).email(email).point(point+50).build();
 
-        private Long id;
-        private Integer point;
-        private String email;
+        when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
+        when(userRepository.save(any(User.class))).thenReturn(resUserDto.toEntity());
 
-        @BeforeEach
-        void setup(){
-            id = 1L;
-            email = "ssafy@naver.com";
-            point = 100;
-        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("point", point);
+        UserDto userDto = userService.updatePoint(params);
 
-        @Test
-        @DisplayName("포인트 수정 성공")
-        void success() {
-            UserDto reqUserDto = UserDto.builder().id(id).email(email).point(point).build();
-            UserDto resUserDto = UserDto.builder().id(id).email(email).point(point+50).build();
+        assertEquals(50, userDto.getPoint() - reqUserDto.getPoint());
+    }
 
-            when(userRepository.findOneById(id)).thenReturn(Optional.ofNullable(reqUserDto.toEntity()));
-            when(userRepository.save(any(User.class))).thenReturn(resUserDto.toEntity());
+    @Test
+    @Transactional
+    void 포인트수정실패_부족한정보() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
 
-            Map<String, Object> params = new HashMap<>();
-            params.put("id", id);
-            params.put("point", point);
+        Exception exception = assertThrows(CustomException.class, ()->{
             UserDto userDto = userService.updatePoint(params);
+        });
 
-            assertEquals(50, userDto.getPoint() - reqUserDto.getPoint());
-        }
-
-        @Test
-        @DisplayName("사용자 정보 수정 실패 - 기입되지 않은 정보")
-        void failByRequiredInput() {
-            Map<String, Object> params = new HashMap<>();
-            params.put("id", id);
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto userDto = userService.updatePoint(params);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
-        }
-
-        @Test
-        @DisplayName("사용자 정보 수정 실패 - 존재하지 않는 사용자")
-        void failById() {
-            Map<String, Object> params = new HashMap<>();
-            params.put("id", 100L);
-            params.put("point", point);
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                UserDto userDto = userService.updatePoint(params);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
-        }
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
     }
 
-    @Nested
-    class getRequestLecture{
-        Long id;
+    @Test
+    @Transactional
+    void 포인트수정실패_없는사용자() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", 100L);
+        params.put("point", point);
 
-        @Test
-        @DisplayName("미확정 강의 조회 성공")
-        void success() throws ParseException {
-            id = 1L;
-            UserDto resUserDto = UserDto.builder().id(id).build();
-            List<Board> reqBoardEntity = new ArrayList<>();
+        Exception exception = assertThrows(CustomException.class, ()->{
+            UserDto userDto = userService.updatePoint(params);
+        });
 
-            when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
-            when(boardRepository.findRequestLecture(id)).thenReturn(reqBoardEntity);
-
-            userService.getRequestLecture(id);
-        }
-
-        @Test
-        @DisplayName("미확정 강의 조회 실패 - 기입되지 않은 정보")
-        void failByInput() throws ParseException {
-            Exception exception = assertThrows(CustomException.class, ()->{
-                List<BoardDto> result = userService.getRequestLecture(null);
-            });
-            assertTrue(exception instanceof CustomException);
-            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
-        }
-
-        @Test
-        @DisplayName("미확정 강의 조회 실패 - 기입되지 않은 정보")
-        void failById() throws ParseException {
-            id = 1L;
-
-            when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
-
-            Exception exception = assertThrows(CustomException.class, ()->{
-                List<BoardDto> result = userService.getRequestLecture(id);
-            });
-
-            assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
-        }
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
     }
 
-    @Nested
-    class getFixedLecture{
-        Long id;
+    @Test
+    void 미확정강의조회성공() throws ParseException {
+        id = 1L;
+        UserDto resUserDto = UserDto.builder().id(id).build();
+        List<Board> boards = new ArrayList<>();
+        boards.add(BoardDto.builder()
+                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build().toEntity());
 
-        @Test
-        @DisplayName("확정 강의 조회 성공")
-        void success() throws ParseException {
-            id = 1L;
-            UserDto resUserDto = UserDto.builder().id(id).build();
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
+        when(boardRepository.findRequestLecture(id)).thenReturn(boards);
 
-            when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
-            when(fixedLectureRepository.findFixedLecture(id)).thenReturn(new ArrayList<>());
+        userService.getRequestLecture(id);
+    }
 
-            userService.getFixedLecture(id);
-        }
+    @Test
+    void 미확정강의조회실패_부족한정보() {
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<BoardDto> result = userService.getRequestLecture(null);
+        });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+    }
 
-        @Test
-        @DisplayName("확정 강의 조회 실패 - 기입되지 않은 정보")
-        void failByInput() throws ParseException {
-            Exception exception = assertThrows(CustomException.class, ()->{
-                List<FixedLectureDto> result = userService.getFixedLecture(id);
-            });
-            assertTrue(exception instanceof CustomException);
-            assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
-        }
+    @Test
+    void 미확정강의조회실패_없는사용자() {
+        id = 1L;
 
-        @Test
-        @DisplayName("확정 강의 조회 실패 - 기입되지 않은 정보")
-        void failById() throws ParseException {
-            id = 1L;
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
 
-            when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<BoardDto> result = userService.getRequestLecture(id);
+        });
 
-            Exception exception = assertThrows(CustomException.class, ()->{
-                List<FixedLectureDto> result = userService.getFixedLecture(id);
-            });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
+    }
 
-            assertTrue(exception instanceof CustomException);
-            assertEquals("없는 사용자입니다.", exception.getMessage());
-        }
+    @Test
+    void 확정강의조회성공() throws ParseException {
+        id = 1L;
+        UserDto resUserDto = UserDto.builder().id(id).build();
+
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
+        when(fixedLectureRepository.findFixedLecture(id)).thenReturn(new ArrayList<>());
+
+        userService.getFixedLecture(id);
+    }
+
+    @Test
+    void 확정강의조회실패_부족한정보() {
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<FixedLectureDto> result = userService.getFixedLecture(null);
+        });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+    }
+
+    @Test
+    void 확정강의조회실패_없는사용자() {
+        id = 1L;
+
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<FixedLectureDto> result = userService.getFixedLecture(id);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
     }
 }
