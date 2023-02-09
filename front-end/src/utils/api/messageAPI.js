@@ -77,51 +77,69 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
 export const getMessageListAPI = async (userId, setMessageData) => {
   const res = await axios.get(`${axiosDefaultURL}/message/user/${userId}`);
   setMessageData(res.data.response);
+  console.log("메시지 목록 확인", res.data.response);
+  console.log("메시지 불러오기 성공");
 };
 
 // 메시지 삭제 요청
-export const deleteMessageAPI = async (messageId, setStateMessageUpdate) => {
+export const deleteMessageAPI = (
+  // messageId,
+  // setStateMessageUpdate,
+  messageId,
+  setStateMessageUpdate,
+  checkState,
+  setCheckState
+) => {
   const accessToken = localStorage.getItem("accessToken");
-  axios.delete(
-    `${axiosDefaultURL}/message/${messageId}`,
-    {},
-    {
-      headers: {
-        // ------------------------------------------
-        // -----------------수정 필요----------------
-        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-        // ------------------------------------------
-        // ------------------------------------------
-        Authentication: accessToken,
-      },
-    }
-  );
-  setStateMessageUpdate(true);
+  axios
+    .delete(
+      `${axiosDefaultURL}/message/${messageId}`,
+      {},
+      {
+        headers: {
+          // ------------------------------------------
+          // -----------------수정 필요----------------
+          // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
+          // ------------------------------------------
+          // ------------------------------------------
+          Authentication: accessToken,
+        },
+      }
+    )
+    .then(() => {
+      console.log("메시지가 삭제되었습니다");
+      setStateMessageUpdate(true);
+      setCheckState(!checkState);
+    });
 };
 
 // 메시지 읽음 상태로 상태 변경
 export const changeMessageReadStateAPI = async (
   id,
   setStateMessageUpdate,
+  checkState,
   setCheckState
 ) => {
   const accessToken = localStorage.getItem("accessToken");
-  await axios.put(
-    `${axiosDefaultURL}/message`,
-    { id },
-    {
-      headers: {
-        // ------------------------------------------
-        // -----------------수정 필요----------------
-        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-        // ------------------------------------------
-        // ------------------------------------------
-        Authentication: accessToken,
-      },
-    }
-  );
-  setCheckState(true);
-  setStateMessageUpdate(true);
+  await axios
+    .put(
+      `${axiosDefaultURL}/message`,
+      { id },
+      {
+        headers: {
+          // ------------------------------------------
+          // -----------------수정 필요----------------
+          // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
+          // ------------------------------------------
+          // ------------------------------------------
+          Authentication: accessToken,
+        },
+      }
+    )
+    .then(() => {
+      setStateMessageUpdate(true);
+      setCheckState(!checkState);
+    });
 };
 
 // 메시지 보내기(확정)
