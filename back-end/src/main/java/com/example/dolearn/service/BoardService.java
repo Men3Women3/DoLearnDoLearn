@@ -87,9 +87,6 @@ public class BoardService {
     public List<BoardDto> searchResult(List<Board> bListByTitle, List<Board> bListByContent, List<Board> bListBySummary){
         List<BoardDto> result = new ArrayList<>();
 
-        //검색 결과가 없는 경우 오류 발생
-        if(bListByContent.isEmpty() && bListByTitle.isEmpty() && bListBySummary.isEmpty()) throw new CustomException(ErrorCode.NO_BOARD);
-
         Set<Board> set = new LinkedHashSet<>(bListByTitle); //검색결과 중복 방지를 위해 set 선언 후 각 리스트 set에 추가
         set.addAll(bListByContent);
         set.addAll(bListBySummary);
@@ -118,4 +115,5 @@ public class BoardService {
     public List<Board> searchBoardSummary(String keyword){
         return boardRepository.findBySummaryContaining(keyword);
     }
+
 }

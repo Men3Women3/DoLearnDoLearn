@@ -26,4 +26,8 @@ public interface UserLectureRepository extends JpaRepository<UserLecture,Long> {
     @Modifying
     @Query(value = "delete from member_lecture where lid=:lid and uid=:uid", nativeQuery = true)
     int deleteLectureMember(@Param("lid") Long lid, @Param("uid") Long uid);
+
+    @Modifying
+    @Query(value = "delete from member_lecture where lid=:lid", nativeQuery = true)
+    int deleteByLid(@Param("lid") Long lid);
 }

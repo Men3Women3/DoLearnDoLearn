@@ -24,6 +24,7 @@ export const SUniBoard = styled.div`
     transform: scale(1.05);
   }
 
+  h3,
   p {
     // 초과 텍스트 ... 처리
     word-wrap: break-word;
