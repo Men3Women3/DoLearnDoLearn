@@ -1,13 +1,11 @@
 import axios from "axios";
 import { getScheduledLectureAPI, updateUserInfoAPI } from "./userAPI";
-// import { baseURL } from "./baseURL";
-
-const baseURL = process.env.REACT_APP_BASE_URL;
+import { BASE_URL } from "./URL";
 
 // 확정된 강의의 강사 id를 가져오는 함수
 export const getLecturerId = (roomId, setLecturerId) => {
   axios
-    .get(`${baseURL}/lecture/instructor/${roomId}`)
+    .get(`${BASE_URL}/lecture/instructor/${roomId}`)
     .then((response) => {
       setLecturerId(response.data.response);
     })
@@ -16,7 +14,7 @@ export const getLecturerId = (roomId, setLecturerId) => {
 
 export const cancleFixedLectureAPI = (lid, uid, setScheduledLecture) => {
   axios
-    .delete(`${baseURL}/lecture/apply`, {
+    .delete(`${BASE_URL}/lecture/apply`, {
       data: { lid, uid },
     })
     .then((res) => {
@@ -38,7 +36,7 @@ export const getLecturePacitipants = (
   exitRoom
 ) => {
   axios
-    .get(`${baseURL}/lecture/list/${roomId}`)
+    .get(`${BASE_URL}/lecture/list/${roomId}`)
     .then((response) => {
       const responseData = response.data.response;
       let userInfo = responseData.filter((item) => {
@@ -73,7 +71,7 @@ export const updateCheck = (
   handleUserInfo
 ) => {
   axios
-    .put(`${baseURL}/lecture/member-update`, {
+    .put(`${BASE_URL}/lecture/member-update`, {
       lid: roomId,
       uid: userId,
     })
@@ -94,7 +92,7 @@ export const updatePoint = (lecturerId, point, handleUserInfo) => {
   const accessToken = localStorage.getItem("accessToken");
   const res = axios
     .put(
-      `${baseURL}/user/point`,
+      `${BASE_URL}/user/point`,
       {
         id: lecturerId,
         point: point,

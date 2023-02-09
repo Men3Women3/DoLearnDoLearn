@@ -15,13 +15,14 @@ import Stomp from "stompjs";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
+import { SOCKET_URL } from "../../utils/api/URL";
 
 const LectureChattingContainer = (props) => {
   const [contents, setContents] = useState([]);
   const [inputData, setInputData] = useState("");
   const messageBoxRef = useRef();
 
-  let sockJS = new SockJS("http://localhost:8080/ws");
+  let sockJS = new SockJS(`${SOCKET_URL}`);
   let client = Stomp.over(sockJS);
   const accessToken = localStorage.getItem("accessToken");
 

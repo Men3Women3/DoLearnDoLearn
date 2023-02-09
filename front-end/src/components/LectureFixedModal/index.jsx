@@ -25,6 +25,7 @@ import {
 import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
 import WarningModal from "../WarningModal";
 import { useNavigate } from "react-router";
+import { IMAGE_URL } from "../../utils/api/URL";
 import { sendCnacleMessageAPI } from "../../utils/api/messageAPI";
 
 const customLecTime = (startTime, endTime) => {
@@ -79,7 +80,6 @@ const LectureFixedModal = ({
   isLecturer,
   lectureTime,
 }) => {
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
   const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
   const [cancleText, setCancleText] = useState("");
