@@ -58,7 +58,12 @@ public class BoardDto {
 
         startTime = this.startTime.concat(":00:00");
         endTime = temp[0].concat(String.format(" %d:00:00",hour));
-        deadline = deadline.concat(" 23:59:59");
+
+        if(temp[0].equals(deadline)){
+            String[] start = startTime.split(" ");
+            deadline= deadline.concat(" "+ start[1]);
+        }
+        else deadline = deadline.concat(" 23:59:59");
 
         log.info("startTime: {} endTime:{}",startTime, endTime);
     }

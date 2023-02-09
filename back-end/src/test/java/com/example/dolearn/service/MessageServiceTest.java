@@ -69,7 +69,7 @@ public class MessageServiceTest {
         //when
         when(boardRepository.findById(anyLong())).thenReturn(Optional.of(board));
         when(lectureRepository.findByBoardId(anyLong())).thenReturn(lecture.get());
-        when(userLectureRepository.findByLectureId(anyLong())).thenReturn(result);
+        when(userLectureRepository.searchLecture(anyLong())).thenReturn(result);
 
         //then
         List<MessageDto> mList = messageService.createMessage(messageDto);

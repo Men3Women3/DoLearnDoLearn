@@ -52,7 +52,7 @@ public class LectureServiceTest {
 
         User user = User.builder().id(1L).name("test").build();
         Lecture lecture = Lecture.builder()
-                .board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+                .board(board.toEntity()).memberCnt(0).build();
         Board updatedBoard = Board.builder().id(1L).title("좋은 강의입니다.").isFixed(1).build();
 
         when(userRepository.findOneById(any())).thenReturn(Optional.ofNullable(user));
@@ -71,7 +71,7 @@ public class LectureServiceTest {
         List<UserLecture> userLectureList = new ArrayList<>();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).memberCnt(0).build();
+                .id(1L).memberCnt(0).build();
 
         User user = User.builder().id(1L).name("test").build();
 
@@ -93,7 +93,7 @@ public class LectureServiceTest {
         List<UserLecture> userLectureList = new ArrayList<>();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).memberCnt(0).build();
+                .id(1L).memberCnt(0).build();
 
         UserLecture userLecture1 = UserLecture.builder()
                 .lecture(lecture).memberType("학생").build();
@@ -121,7 +121,7 @@ public class LectureServiceTest {
         User user = User.builder().id(1L).name("test").build();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
 
         UserLectureDto userLectureDto = UserLectureDto.builder()
                 .id(1L).lid(1L).uid(1L).user(user).lecture(lecture).memberType("학생").evaluateStatus(0).build();
@@ -144,7 +144,7 @@ public class LectureServiceTest {
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
 
         when(lectureRepository.findById(any())).thenReturn(Optional.ofNullable(lecture));
         when(lectureRepository.save(any())).thenReturn(lecture);
@@ -162,7 +162,7 @@ public class LectureServiceTest {
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
 
         when(lectureRepository.save(any())).thenReturn(lecture);
 
@@ -180,7 +180,7 @@ public class LectureServiceTest {
 
         User user = User.builder().id(1L).name("test").build();
         Lecture lecture = Lecture.builder()
-                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
 
         UserLecture userLecture = UserLecture.builder()
                 .id(1L).user(user).lecture(lecture).memberType("학생").evaluateStatus(0).build();
@@ -201,7 +201,7 @@ public class LectureServiceTest {
 
         User user = User.builder().id(1L).name("test").build();
         Lecture lecture = Lecture.builder()
-                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
 
         UserLecture userLecture = UserLecture.builder()
                 .id(1L).user(user).lecture(lecture).memberType("강사").evaluateStatus(0).build();
@@ -214,6 +214,24 @@ public class LectureServiceTest {
         int result = lectureService.cancelApply(lecture.getId(),user.getId());
 
         assertEquals(result,1);
+    }
+
+    @DisplayName("강의 삭제 테스트")
+    @Test
+    public void deleteLectureTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        User user = User.builder().id(1L).name("test").build();
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
+
+        when(lectureRepository.findById(any())).thenReturn(Optional.ofNullable(lecture));
+
+        int result = lectureService.deleteLecture(1L);
+
+        assertEquals(1,result);
     }
 
 }
