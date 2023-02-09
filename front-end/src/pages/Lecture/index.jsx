@@ -22,6 +22,7 @@ import { useContext } from "react";
 import { LoginStateContext } from "../../App";
 import { getLecturerId } from "../../utils/api/lectureAPI";
 import Timer from "../../components/Timer";
+import { WEBRTC_URL } from "../../utils/api/URL";
 
 /*
  * (C) Copyright 2014 Kurento (http://kurento.org/)
@@ -53,10 +54,7 @@ const Lecture = () => {
   const lecturerId = location.state.lecturerId;
   const lecturerInfo = location.state.lecturerInfo;
 
-  // .env.local에 URL 저장하고 사용 ==================
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-  const ws = new WebSocket(`${SOCKET_URL}`);
-  // =================================================
+  const ws = new WebSocket(`${WEBRTC_URL}`);
 
   var participants = {};
   var name = username;
@@ -491,47 +489,7 @@ const Lecture = () => {
   };
 
   const handleMainStage = (e) => {
-    if (e.target.previousSibling.className.includes("sub")) {
-      // 비디오 클릭시 참가자들에서 해당 타겟 제거
-      const participants = document.querySelector("#participants");
-      const userVideoContainer = e.target.parentNode;
-      const userVideo = userVideoContainer.firstChild;
-      // 비디오 화면 크기 조정
-      userVideo.classList.remove("sub");
-      userVideo.classList.add("main");
-      participants.removeChild(userVideoContainer);
-
-      // 강사 화면을 타겟 화면으로 대체
-      const mainStage = document.querySelector("#lectuerer");
-      // mainStage에 비디오가 있으면 대체
-      // 없으면 target화면만 이동
-      if (mainStage.firstChild) {
-        const mainVideoContainer = mainStage.firstChild;
-        const mainVideo = mainVideoContainer.firstChild;
-
-        if (mainVideo.className.includes("main")) {
-          // 비디오 화면 크기 조정
-          mainVideo.classList.remove("main");
-          mainVideo.classList.add("sub");
-
-          // mainStage에서 화면 제거
-          mainStage.removeChild(mainVideoContainer);
-          // subStage에 mainStage에 있던 화면 추가
-          participants.appendChild(mainVideoContainer);
-        } else if (mainVideo.className.includes("mainScreen")) {
-          // 비디오 화면 크기 조정
-          mainVideo.classList.remove("mainScreen");
-          mainVideo.classList.add("subScreen");
-
-          // mainStage에서 화면 제거
-          mainStage.removeChild(mainVideoContainer);
-          // subStage에 mainStage에 있던 화면 추가
-          participants.appendChild(mainVideoContainer);
-        }
-      }
-      // mainStage에 tatget 화면 추가
-      mainStage.appendChild(userVideoContainer);
-    } else if (e.target.previousSibling.className.includes("subScreen")) {
+    if (e.target.previousSibling.className.includes("subScreen")) {
       // 비디오 클릭시 참가자들에서 해당 타겟 제거
       const participants = document.querySelector("#participants");
       const userVideoContainer = e.target.parentNode;
@@ -548,8 +506,16 @@ const Lecture = () => {
       if (mainStage.firstChild) {
         const mainVideoContainer = mainStage.firstChild;
         const mainVideo = mainVideoContainer.firstChild;
+        if (mainVideo.className.includes("mainScreen")) {
+          // 비디오 화면 크기 조정
+          mainVideo.classList.remove("mainScreen");
+          mainVideo.classList.add("subScreen");
 
-        if (mainVideo.className.includes("main")) {
+          // mainStage에서 화면 제거
+          mainStage.removeChild(mainVideoContainer);
+          // subStage에 mainStage에 있던 화면 추가
+          participants.appendChild(mainVideoContainer);
+        } else if (mainVideo.className.includes("main")) {
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("main");
           mainVideo.classList.add("sub");
@@ -558,10 +524,40 @@ const Lecture = () => {
           mainStage.removeChild(mainVideoContainer);
           // subStage에 mainStage에 있던 화면 추가
           participants.appendChild(mainVideoContainer);
-        } else if (mainVideo.className.includes("mainScreen")) {
+        }
+      }
+      // mainStage에 tatget 화면 추가
+      mainStage.appendChild(userVideoContainer);
+    } else if (e.target.previousSibling.className.includes("sub")) {
+      // 비디오 클릭시 참가자들에서 해당 타겟 제거
+      const participants = document.querySelector("#participants");
+      const userVideoContainer = e.target.parentNode;
+      const userVideo = userVideoContainer.firstChild;
+      // 비디오 화면 크기 조정
+      userVideo.classList.remove("sub");
+      userVideo.classList.add("main");
+      participants.removeChild(userVideoContainer);
+
+      // 강사 화면을 타겟 화면으로 대체
+      const mainStage = document.querySelector("#lectuerer");
+      // mainStage에 비디오가 있으면 대체
+      // 없으면 target화면만 이동
+      if (mainStage.firstChild) {
+        const mainVideoContainer = mainStage.firstChild;
+        const mainVideo = mainVideoContainer.firstChild;
+        if (mainVideo.className.includes("mainScreen")) {
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("mainScreen");
           mainVideo.classList.add("subScreen");
+
+          // mainStage에서 화면 제거
+          mainStage.removeChild(mainVideoContainer);
+          // subStage에 mainStage에 있던 화면 추가
+          participants.appendChild(mainVideoContainer);
+        } else if (mainVideo.className.includes("main")) {
+          // 비디오 화면 크기 조정
+          mainVideo.classList.remove("main");
+          mainVideo.classList.add("sub");
 
           // mainStage에서 화면 제거
           mainStage.removeChild(mainVideoContainer);
@@ -572,14 +568,22 @@ const Lecture = () => {
       // mainStage에 tatget 화면 추가
       mainStage.appendChild(userVideoContainer);
     } else {
-      // lecturer에 스크린이 없으면....
       if (Object.keys(participants).length === 1) {
         const mainStage = document.querySelector("#lectuerer");
 
         const mainVideoContainer = mainStage.firstChild;
         const mainVideo = mainVideoContainer.firstChild;
+        if (mainVideo.className.includes("mainScreen")) {
+          mainVideo.classList.remove("mainScreen");
+          mainVideo.classList.add("subScreen");
 
-        if (mainVideo.className.includes("main")) {
+          const participants = document.querySelector("#participants");
+
+          // mainStage에서 화면 제거
+          mainStage.removeChild(mainVideoContainer);
+          // subStage에 mainStage에 있던 화면 추가
+          participants.appendChild(mainVideoContainer);
+        } else if (mainVideo.className.includes("main")) {
           // 비디오 화면 크기 조정
           mainVideo.classList.remove("main");
           mainVideo.classList.add("sub");
@@ -590,18 +594,11 @@ const Lecture = () => {
           mainStage.removeChild(mainVideoContainer);
           // subStage에 mainStage에 있던 화면 추가
           participants.appendChild(mainVideoContainer);
-        } else if (mainVideo.className.includes("mainScreen")) {
-          mainVideo.classList.remove("mainScreen");
-          mainVideo.classList.add("subScreen");
-
-          const participants = document.querySelector("#participants");
-
-          // mainStage에서 화면 제거
-          mainStage.removeChild(mainVideoContainer);
-          // subStage에 mainStage에 있던 화면 추가
-          participants.appendChild(mainVideoContainer);
         }
       }
+      // if (!e.target.previousSibling.className.includes("mainScreen") && !e.target.previousSibling.className.includes("main")) {
+
+      // }
     }
   };
 

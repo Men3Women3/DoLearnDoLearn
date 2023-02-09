@@ -20,7 +20,11 @@ const TotalScheduleItem = (props) => {
         {`${year}. ${month}. ${day}.`} &nbsp; {`${startTime} ~ ${endTime}`}
       </p>
       <div>
-        <p>{props.item.title}</p>
+        <p>
+          {props.item.title.length > 15
+            ? props.item.title.slice(0, 15) + "..."
+            : props.item.title}
+        </p>
         <button>수강 취소</button>
       </div>
     </SContainer>

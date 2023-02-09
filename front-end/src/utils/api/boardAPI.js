@@ -1,10 +1,10 @@
 import axios from "axios";
-// import { baseURL } from "./baseURL";
+import { BASE_URL } from "./URL";
 import { sendMessageAPI } from "./messageAPI";
 
-const BOARD_URL = `${process.env.REACT_APP_BASE_URL}/board`;
-const PROFILE_URL = `${process.env.REACT_APP_BASE_URL}/user`;
-const LECTURE_URL = `${process.env.REACT_APP_BASE_URL}/lecture`;
+const BOARD_URL = `${BASE_URL}/board`;
+const PROFILE_URL = `${BASE_URL}/user`;
+const LECTURE_URL = `${BASE_URL}/lecture`;
 
 // 강의 목록 요청 API
 export const boardListAPI = async (setList) => {
@@ -200,6 +200,7 @@ export const getFixedLectureInfo = async (
   setStudentsInfo,
   setCheckModalState
 ) => {
+  console.log(lid, 333333333);
   const res = await axios.get(`${LECTURE_URL}/list/${lid}`);
   // console.log("정보 받아오기 성공", res.data.response);
   let lecture;
