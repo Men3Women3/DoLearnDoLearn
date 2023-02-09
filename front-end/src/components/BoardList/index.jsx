@@ -28,9 +28,9 @@ const BoardList = () => {
         <SContainer className="container">
           {/* offset으로 slicing해서 limit 만큼만 한 화면에 표시 */}
           {list.length > 0 &&
-            list.slice(offset, offset + limit).map((data) => {
+            list.slice(offset, offset + limit).map((data, i) => {
               return (
-                <SUniDiv key={data.id}>
+                <SUniDiv key={i}>
                   <UniBoard className="uni-board" data={data} />
                 </SUniDiv>
               );

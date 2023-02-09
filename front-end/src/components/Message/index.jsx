@@ -48,9 +48,9 @@ const Message = () => {
         ) : (
           <div>
             <h3>📮 아직 읽지 않은 메시지가 {unreadMessageCnt}통 있습니다</h3>
-            {messageData.slice(offset, offset + limit).map((item) => {
+            {messageData.slice(offset, offset + limit).map((item, i) => {
               return (
-                <div key={item.id} style={{ margin: "15px 0" }}>
+                <div key={i} style={{ margin: "15px 0" }}>
                   <MessageItem
                     data={item}
                     // readMessage={readMessage}

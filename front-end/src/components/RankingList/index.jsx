@@ -26,7 +26,7 @@ const RankingList = () => {
           </h1>
           <SRankingItemContainer>
             {rankingList.map((item, index) => (
-              <RankingItem key={item.id} item={item} index={index} />
+              <RankingItem key={index} item={item} index={index} />
             ))}
           </SRankingItemContainer>
         </Grid>
