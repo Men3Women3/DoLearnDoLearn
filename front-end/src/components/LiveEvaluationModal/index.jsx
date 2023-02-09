@@ -16,7 +16,7 @@ import {
   faFaceSmile,
 } from "@fortawesome/free-regular-svg-icons";
 import { updateCheck, updatePoint } from "../../utils/api/lectureAPI";
-import { LoginStateContext } from "../../App";
+import { LoginStateContext, LoginStateHandlerContext } from "../../App";
 
 const style = {
   position: "absolute",
@@ -40,6 +40,7 @@ const LiveEvaluationModal = ({
   lecturerId,
 }) => {
   const { userInfo } = useContext(LoginStateContext);
+  const { handleUserInfo } = useContext(LoginStateHandlerContext);
   const [gradeSelect, setGradeSelect] = useState(0);
   const toggleSelect = (e, grade) => {
     setGradeSelect(grade);
@@ -47,7 +48,14 @@ const LiveEvaluationModal = ({
 
   // 제출 버튼 눌렀을 때
   const handleSubmit = () => {
-    updateCheck(roomId, userInfo.id, lecturerId, gradeSelect, exitRoom);
+    updateCheck(
+      roomId,
+      userInfo.id,
+      lecturerId,
+      gradeSelect,
+      exitRoom,
+      handleUserInfo
+    );
     console.log("제출 확인", gradeSelect, "포인트");
     // setCheckEvalState(true);
     // handleClose();

@@ -8,4 +8,4 @@ COPY build/libs/kurento-0.0.1-SNAPSHOT.jar kurentoApplication.jar
 
 EXPOSE 8443
 
-CMD ["java", "-jar", "kurentoApplication.jar"]
+CMD ["java", "-jar","-Dkms.url=ws://52.79.213.254:8888/kurento", "kurentoApplication.jar"]
