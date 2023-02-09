@@ -12,6 +12,11 @@ export const Scontainer = styled.div`
 export const SSCard = styled(SCard)`
   position: relative;
   height: 80vh;
+  .title__section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .pagination__section {
     position: absolute;
     bottom: 30px;

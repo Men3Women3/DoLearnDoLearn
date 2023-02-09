@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState } from "react";
 import {
   SProfileContainer,
   SSubContainerUp,
@@ -6,49 +6,55 @@ import {
   SBlackButton,
   SSnsContainer,
   SSCard,
-} from "./styles"
-import { Tooltip } from "@mui/material"
+  SPointContainer,
+} from "./styles";
+import { Tooltip } from "@mui/material";
 
-import defaultProfile from "../../assets/images/defaultProfile.png"
-// import startRankImg from "../../assets/images/rank/start_rank.svg";
+import defaultProfile from "../../assets/images/defaultProfile.png";
 
-import blogImg from "../../assets/images/sns/blog.png"
-import youtubeImg from "../../assets/images/sns/youtube.png"
-import instagramImg from "../../assets/images/sns/instagram.png"
-import facebookImg from "../../assets/images/sns/facebook.png"
+import blogImg from "../../assets/images/sns/blog.png";
+import youtubeImg from "../../assets/images/sns/youtube.png";
+import instagramImg from "../../assets/images/sns/instagram.png";
+import facebookImg from "../../assets/images/sns/facebook.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
-import ProfileCardBox from "../ProfileCardBox"
-import { baseURL, imageURL } from "../../utils/api/baseURL"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import walkingChick from "../../assets/images/walkingChick.gif";
 
 const Profile = ({
   handleProfileEditBtn,
   // isProfileEditActive,
   user,
   userState,
+  chick,
 }) => {
-  // console.log("유저정보", user)
-  const blog = user.blog
-  const youtube = user.youtube
-  const instagram = user.instagram
-  const facebook = user.facebook
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+
+  const blog = user.blog;
+  const youtube = user.youtube;
+  const instagram = user.instagram;
+  const facebook = user.facebook;
+  const point = user.point;
+  // 테스트용
+  // const point = 5000;
+  // const point = 0;
+  // const point = 2500;
 
   // 받은 유저정보가 본인인지 확인하는 변수
-  const isMe = userState === "me" ? true : false
+  const isMe = userState === "me" ? true : false;
 
   return (
     <>
       {/* <div style={{ width: "100%", height: "100px", backgroundColor: "aqua" }}> */}
       {/* <Lottie options={defaultOptions} width={500} /> */}
       {/* </div> */}
-      <SSCard>
+      <SSCard chick={chick}>
         <SProfileContainer>
           <SSubContainerUp>
             {/* 프로필 이미지 */}
             <img
               className="profile-img"
-              src={user.imgUrl ? `${imageURL}${user.imgUrl}` : defaultProfile}
+              src={user.imgUrl ? `${IMAGE_URL}${user.imgUrl}` : defaultProfile}
               alt="defaultProfile"
             />
             <section>
@@ -68,7 +74,7 @@ const Profile = ({
                       followCursor
                     >
                       <a href={`${blog}`} target="_blank">
-                        <img src={blogImg} />
+                        <img src={blogImg} alt="" />
                       </a>
                     </Tooltip>
                   )}
@@ -80,7 +86,7 @@ const Profile = ({
                       followCursor
                     >
                       <a href={`${user.youtube}`} target="_blank">
-                        <img src={youtubeImg} />
+                        <img src={youtubeImg} alt="" />
                       </a>
                     </Tooltip>
                   )}
@@ -95,7 +101,7 @@ const Profile = ({
                         href={`https://www.instagram.com/${user.instagram}/`}
                         target="_blank"
                       >
-                        <img src={instagramImg} />
+                        <img src={instagramImg} alt="" />
                       </a>
                     </Tooltip>
                   )}
@@ -110,7 +116,7 @@ const Profile = ({
                         href={`https://facebook.com/${user.facebook}/`}
                         target="_blank"
                       >
-                        <img src={facebookImg} />
+                        <img src={facebookImg} alt="" />
                       </a>
                     </Tooltip>
                   )}
@@ -118,45 +124,18 @@ const Profile = ({
               </div>
               {/* 마일리지 바 */}
               <div>
-                <FontAwesomeIcon
-                  icon={faLocationPin}
-                  style={{
-                    color: "black",
-                    height: "calc(1vw + 1px)",
-                    marginTop: "10px",
-                  }}
-                />
-                <div className="wrapper">
-                  {/* <div
-                  style={{
-                    backgroundColor: "#24E843",
-                    borderTopLeftRadius: "50px",
-                    borderBottomLeftRadius: "50px",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#9f551c",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#DCD7D4",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#FFD258",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    backgroundColor: "#FF0C63",
-                    borderTopRightRadius: "50px",
-                    borderBottomRightRadius: "50px",
-                  }}
-                ></div> */}
-                </div>
+                <SPointContainer point={point}>
+                  <FontAwesomeIcon
+                    icon={faLocationPin}
+                    style={{
+                      color: "black",
+                      height: "calc(1vw + 1px)",
+                    }}
+                  />
+                  <span className="point">{point}</span>
+                </SPointContainer>
+
+                <div className="wrapper"></div>
               </div>
             </section>
           </SSubContainerUp>
@@ -169,15 +148,17 @@ const Profile = ({
             </div>
             {/* 본인일 경우에만 프로필 수정 버튼 보이도록 */}
             {isMe ? (
-              <SBlackButton onClick={handleProfileEditBtn}>
-                프로필 수정
-              </SBlackButton>
+              <div className="button__section">
+                <SBlackButton onClick={handleProfileEditBtn}>
+                  프로필 수정
+                </SBlackButton>
+              </div>
             ) : null}
           </SSubContainerDown>
         </SProfileContainer>
       </SSCard>
     </>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

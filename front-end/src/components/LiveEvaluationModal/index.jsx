@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Modal, Typography } from "@mui/material";
 
 import {
@@ -15,6 +15,8 @@ import {
   faFaceMeh,
   faFaceSmile,
 } from "@fortawesome/free-regular-svg-icons";
+import { updateCheck, updatePoint } from "../../utils/api/lectureAPI";
+import { LoginStateContext } from "../../App";
 
 const style = {
   position: "absolute",
@@ -34,7 +36,10 @@ const LiveEvaluationModal = ({
   handleClose,
   setCheckEvalState,
   exitRoom,
+  roomId,
+  lecturerId,
 }) => {
+  const { userInfo } = useContext(LoginStateContext);
   const [gradeSelect, setGradeSelect] = useState(0);
   const toggleSelect = (e, grade) => {
     setGradeSelect(grade);
@@ -42,10 +47,11 @@ const LiveEvaluationModal = ({
 
   // 제출 버튼 눌렀을 때
   const handleSubmit = () => {
+    updateCheck(roomId, userInfo.id, lecturerId, gradeSelect, exitRoom);
     console.log("제출 확인", gradeSelect, "포인트");
-    setCheckEvalState(true);
-    handleClose();
-    exitRoom();
+    // setCheckEvalState(true);
+    // handleClose();
+    // exitRoom();
   };
   return (
     <div>

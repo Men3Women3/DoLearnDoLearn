@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import { useState } from "react";
 
 import Navbar from "../../components/Navbar";
-import CardBox from "../../components/CardBox";
-import ProfileCardBox from "../../components/ProfileCardBox";
 import Profile from "../../components/Profile/index";
 import ProfileSidebar from "../../components/ProfileSidebar";
 import ProfileEdit from "../../components/ProfileEdit";
@@ -11,18 +9,53 @@ import Calendar from "../../components/Calendar";
 import UnScheduleLecture from "../../components/UnScheduleLecture";
 
 import Grid from "@mui/material/Grid";
-import { useEffect } from "react";
 import Message from "../../components/Message";
-import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import { LoginStateContext } from "../../App";
 
+const checkMoveToMessageTab = (target, state) => {
+  // 넘겨받은 상태가 메시지인 경우
+  if (state === "message") {
+    // 메인에서 요청을 보내고 있으면 false
+    if (target === "main") {
+      return false;
+    }
+    // 메인이 아니라면(메시지) true
+    else if (target === "message") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  // 넘겨받은 상태가 메시지가 아닌 경우
+  else {
+    // 메인에서 요청을 보내고 있으면 true
+    if (target === "main") {
+      return true;
+    }
+    // 메인이 아니라면(메시지) false
+    else {
+      return false;
+    }
+  }
+};
+
 const User = () => {
+  const location = useLocation();
   const getUserInfo = useContext(LoginStateContext);
 
-  const [isProfileTabActive, setIsProfileTabActive] = useState(true);
-  const [isScheduleTabActive, setIsScheduleTabActive] = useState(false);
-  const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(false);
-  const [isMessageTabActive, setIsMessageTabActive] = useState(false);
+  const [isProfileTabActive, setIsProfileTabActive] = useState(
+    checkMoveToMessageTab("main", location.state)
+  );
+  const [isScheduleTabActive, setIsScheduleTabActive] = useState(
+    checkMoveToMessageTab("schedule", location.state)
+  );
+  const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(
+    checkMoveToMessageTab("unSchedule", location.state)
+  );
+  const [isMessageTabActive, setIsMessageTabActive] = useState(
+    checkMoveToMessageTab("message", location.state)
+  );
   const [isProfileEditActive, setIsProfileEditActive] = useState(false);
 
   // ProfileSidebar에 내려줄 함수

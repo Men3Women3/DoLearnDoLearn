@@ -89,9 +89,9 @@ const MessageDetailModal = ({ data, open, handleClose, setCheckState }) => {
   const handleReadMessage = () => {
     // 읽지 않은 경우에 axios 요청
     if (data.isChecked === 0) {
-      changeMessageReadStateAPI(data.id, setStateMessageUpdate);
+      changeMessageReadStateAPI(data.id, setStateMessageUpdate, setCheckState);
       // axios_put();
-      setCheckState(true);
+      // setCheckState(true);
       // setStateMessageUpdate(true);
     }
     handleClose();
