@@ -16,7 +16,7 @@ import {
 } from "../../App";
 import { Badge, Grid } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
-import { IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
@@ -62,7 +62,7 @@ const Navbar = () => {
                 <img
                   src={
                     getUserInfo.userInfo.imgUrl
-                      ? `${IMAGE_URL}${getUserInfo.userInfo.imgUrl}`
+                      ? `${BASE_URL}/user${getUserInfo.userInfo.imgUrl}`
                       : defaultProfile
                   }
                   alt="profileImg"
