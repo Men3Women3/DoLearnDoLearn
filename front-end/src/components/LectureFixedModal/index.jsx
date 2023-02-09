@@ -25,15 +25,12 @@ import {
 import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
 import WarningModal from "../WarningModal";
 import { useNavigate } from "react-router";
-import {
-  sendCnacleMessageAPI,
-  sendMessageAPI,
-} from "../../utils/api/messageAPI";
-import { imageURL } from "../../utils/api/baseURL";
+import { IMAGE_URL } from "../../utils/api/URL";
+import { sendCnacleMessageAPI } from "../../utils/api/messageAPI";
 
-const customLecTime = (start, end) => {
-  const startDate = new Date(start);
-  const endDate = new Date(end);
+const customLecTime = (startTime, endTime) => {
+  const startDate = new Date(startTime);
+  const endDate = new Date(endTime);
   const year = startDate.getFullYear().toString().slice(-2);
   const month = (startDate.getMonth() + 1).toString().padStart(2, "0");
   const day = startDate.getDate().toString().padStart(2, "0");
@@ -46,6 +43,18 @@ const customLecTime = (start, end) => {
   if (remain < 0) remain += 24;
   const custom = `${year}.${month}.${day} ${time} (${remain}시간)`;
   return custom;
+};
+
+const checkButtonState = (endTime) => {
+  const today = new Date();
+  const endDate = new Date(endTime);
+
+  // 지금 시간보다 강의 마감 시간이 이르다면 버튼 사라지게
+  if (endDate < today) {
+    return false;
+  } else {
+    return true;
+  }
 };
 
 const style = {
@@ -69,8 +78,8 @@ const LectureFixedModal = ({
   studentsInfo,
   setScheduledLecture,
   isLecturer,
+  lectureTime,
 }) => {
-  const IMAGE_URL = imageURL;
   const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
   const [cancleText, setCancleText] = useState("");
@@ -78,6 +87,7 @@ const LectureFixedModal = ({
     useContext(UnreadMessageContext);
   const { handleUserInfo } = useContext(LoginStateHandlerContext);
   const navigate = useNavigate();
+  const buttonActive = checkButtonState(lectureTime.endTime);
 
   // 강사 프로필 섹션 눌렀을 때 프로필 상세보기 새 창으로 이동
   const handleOpenProfile = (uid) => {
@@ -117,8 +127,8 @@ const LectureFixedModal = ({
         lecturerId: instructorInfo.id,
         lecturerInfo: instructorInfo,
         time: {
-          startTime: lectureInfo.board.startTime,
-          endTime: lectureInfo.board.endTime,
+          startTime: lectureTime.startTime,
+          endTime: lectureTime.endTime,
         },
       },
     });
@@ -128,10 +138,9 @@ const LectureFixedModal = ({
   const handleActiveClassName = () => {
     if (
       Math.floor(
-        (new Date(lectureInfo.board.startTime) - new Date()) / (1000 * 60) <=
-          10 &&
+        (new Date(lectureTime.startTime) - new Date()) / (1000 * 60) <= 10 &&
           // new Date() - new Date(props.item.endTime) <= 0
-          new Date() <= new Date(lectureInfo.board.endTime)
+          new Date() <= new Date(lectureTime.endTime)
       )
     ) {
       return "active";
@@ -140,6 +149,7 @@ const LectureFixedModal = ({
     }
   };
 
+  console.log("강의시간", lectureTime);
   console.log("유저", userInfo);
   console.log("강의", lectureInfo);
   console.log("강사", instructorInfo);
@@ -190,10 +200,7 @@ const LectureFixedModal = ({
             <SCustomFontAwesomeIcon icon={faClock} />
             <SSpan>
               <b>강의 시간</b> |{" "}
-              {customLecTime(
-                lectureInfo.board.startTime,
-                lectureInfo.board.endTime
-              )}
+              {customLecTime(lectureTime.startTime, lectureTime.endTime)}
             </SSpan>
           </SInfoItem>
           <SInfoItem>
@@ -204,41 +211,43 @@ const LectureFixedModal = ({
           </SInfoItem>
 
           <SDetail>{lectureInfo.board.content}</SDetail>
-          <SButtonBox>
-            {isLecturer ? (
-              <WarningModal
-                title="강의 취소 확인"
-                warningContent="강의를 취소하시면 -10점의 마일리지 패널티를 받게 됩니다."
-                content="강의 취소를 원하시면 취소 사유 기입 후, 확인을 눌러주세요."
-                handler={handleCancleLecture}
-                lectureCancel
+          {buttonActive && (
+            <SButtonBox>
+              {isLecturer ? (
+                <WarningModal
+                  title="강의 취소 확인"
+                  warningContent="강의를 취소하시면 -10점의 마일리지 패널티를 받게 됩니다."
+                  content="강의 취소를 원하시면 취소 사유 기입 후, 확인을 눌러주세요."
+                  handler={handleCancleLecture}
+                  lectureCancel
+                >
+                  <textarea
+                    style={{
+                      resize: "none",
+                      borderRadius: "8px",
+                      fontFamily: "Pretendard-Regular",
+                      fontSize: "1vw",
+                      padding: "1vw",
+                      width: "95%",
+                    }}
+                    value={cancleText}
+                    onChange={(e) => setCancleText(e.target.value)}
+                    rows="6"
+                    placeholder="수강생들에게 공유되는 정보이므로 취소 사유를 반드시 입력해주세요!"
+                  ></textarea>
+                </WarningModal>
+              ) : (
+                // 수강생에게 보여지는 취소 버튼
+                <SButton onClick={(e) => cancelClass()}>신청취소</SButton>
+              )}
+              <SButton
+                className={handleActiveClassName()}
+                onClick={handleMoveToLecture}
               >
-                <textarea
-                  style={{
-                    resize: "none",
-                    borderRadius: "8px",
-                    fontFamily: "Pretendard-Regular",
-                    fontSize: "1vw",
-                    padding: "1vw",
-                    width: "95%",
-                  }}
-                  value={cancleText}
-                  onChange={(e) => setCancleText(e.target.value)}
-                  rows="6"
-                  placeholder="수강생들에게 공유되는 정보이므로 취소 사유를 반드시 입력해주세요!"
-                ></textarea>
-              </WarningModal>
-            ) : (
-              // 수강생에게 보여지는 취소 버튼
-              <SButton onClick={(e) => cancelClass()}>신청취소</SButton>
-            )}
-            <SButton
-              className={handleActiveClassName()}
-              onClick={handleMoveToLecture}
-            >
-              Live 입장
-            </SButton>
-          </SButtonBox>
+                Live 입장
+              </SButton>
+            </SButtonBox>
+          )}
         </Box>
       </Modal>
     </>

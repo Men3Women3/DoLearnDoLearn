@@ -16,7 +16,7 @@ import {
 } from "../../App";
 import { Badge, Grid } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
-import { imageURL } from "../../utils/api/baseURL";
+import { IMAGE_URL } from "../../utils/api/URL";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
@@ -24,7 +24,6 @@ const Navbar = () => {
   // context api를 통해 로그인 상태 받아오기
   const { isLogined, userInfo } = useContext(LoginStateContext);
   const getUserInfo = useContext(LoginStateContext);
-  const IMAGE_URL = imageURL;
 
   // context api를 통해 로그인 상태 관리 함수들 받아오기
   const { handleIsLogined, handleLogout } = useContext(

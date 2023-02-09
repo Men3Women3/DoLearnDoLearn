@@ -1,8 +1,8 @@
 import axios from "axios";
 import { cancleFixedLectureAPI, updatePoint } from "./lectureAPI";
-import { baseURL } from "./baseURL";
+import { BASE_URL } from "./URL";
 
-const axiosDefaultURL = baseURL;
+const axiosDefaultURL = BASE_URL;
 
 // 유저 정보를 최신화하는 함수 (유저 정보를 가져와서 갱신시키는 함수)
 export const getUnreadMessageCnt = (setUnreadMessageCnt) => {

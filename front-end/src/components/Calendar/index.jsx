@@ -23,6 +23,7 @@ const Calendar = () => {
   // 일정 상세 api 통해 받아올 변수
   const { userInfo } = useContext(LoginStateContext);
   const [lectureInfo, setLectureInfo] = useState([]);
+  const [lectureTime, setLectureTime] = useState([]);
   const [instructorInfo, setInstructorInfo] = useState([]);
   const [studentsInfo, setStudentsInfo] = useState([]);
   // 렌더링 됐을 때, 일정 정보 불러오기
@@ -47,6 +48,10 @@ const Calendar = () => {
     //   maxCnt: arg.event._def.extendedProps.maxCnt,
     //   isFixed: arg.event._def.extendedProps.isFixed,
     // }
+    setLectureTime({
+      startTime: arg.event.startStr,
+      endTime: arg.event.endStr,
+    });
     getFixedLectureInfo(
       arg.event.id,
       setLectureInfo,
@@ -125,6 +130,7 @@ const Calendar = () => {
             setCheckModalState={setCheckModalState}
             setScheduledLecture={setScheduledLecture}
             isLecturer={userInfo.id === instructorInfo.id ? true : false}
+            lectureTime={lectureTime}
           />
         ) : null}
       </SCalendar>

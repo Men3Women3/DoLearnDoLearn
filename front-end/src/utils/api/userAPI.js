@@ -1,7 +1,7 @@
 import axios from "axios";
-import { baseURL } from "./baseURL";
+import { BASE_URL } from "./URL";
 
-const axiosDefaultURL = baseURL;
+const axiosDefaultURL = BASE_URL;
 
 // 유저 회원탈퇴 api를 요청하는 함수
 export const deleteUserAPI = () => {
