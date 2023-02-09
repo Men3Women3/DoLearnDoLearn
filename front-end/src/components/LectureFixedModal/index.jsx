@@ -29,6 +29,7 @@ import {
   sendCnacleMessageAPI,
   sendMessageAPI,
 } from "../../utils/api/messageAPI";
+import { imageURL } from "../../utils/api/baseURL";
 
 const customLecTime = (start, end) => {
   const startDate = new Date(start);
@@ -69,7 +70,7 @@ const LectureFixedModal = ({
   setScheduledLecture,
   isLecturer,
 }) => {
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+  const IMAGE_URL = imageURL;
   const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
   const [cancleText, setCancleText] = useState("");

@@ -26,8 +26,10 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
+import { imageURL } from "../../utils/api/baseURL";
+
 const ProfileEdit = (props) => {
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+  const IMAGE_URL = imageURL;
 
   // context API에서 유저 정보 가져오기
   const getUserInfo = useContext(LoginStateContext);

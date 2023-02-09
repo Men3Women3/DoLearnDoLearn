@@ -10,9 +10,10 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import defaultProfile from "../../assets/images/defaultProfile.png";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { imageURL } from "../../utils/api/baseURL";
 
 const RankingItem = (props) => {
-  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+  const IMAGE_URL = imageURL;
 
   const handleMoveToProfile = (e) => {
     console.log(e.target);
