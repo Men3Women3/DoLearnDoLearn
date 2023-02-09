@@ -6,6 +6,7 @@ import com.example.dolearn.jwt.JwtTokenProvider;
 import com.example.dolearn.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -21,6 +22,9 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
     private JwtTokenProvider jwtTokenProvider;
     private UserRepository userRepository;
     private ObjectMapper objectMapper;
+
+    @Value("${serverUrl}")
+    private String serverUrl;
 
     public Oauth2SuccessHandler(JwtTokenProvider jwtTokenProvider,
                                 UserRepository userRepository,
@@ -50,7 +54,7 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         log.info("id : {}",userId);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("http://localhost:3000/oauth-redirect?refreshToken=")
+        sb.append(serverUrl).append("/oauth-redirect?refreshToken=")
                 .append(refreshToken)
                 .append("&&accessToken=")
                 .append(accessToken)
