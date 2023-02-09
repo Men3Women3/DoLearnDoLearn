@@ -124,12 +124,12 @@ const MessageDetailModal = ({ data, open, handleClose, setCheckState }) => {
               </div>
               <div>
                 <p>
-                  {mainText.split("\n").map((txt) => {
+                  {mainText.split("\n").map((txt, i) => {
                     return (
-                      <>
+                      <div key={i}>
                         {txt}
                         <br />
-                      </>
+                      </div>
                     );
                   })}
                   <div className="additional-text">{additionalText}</div>
