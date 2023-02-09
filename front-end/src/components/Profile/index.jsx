@@ -23,7 +23,7 @@ import {
   faPersonRunning,
 } from "@fortawesome/free-solid-svg-icons";
 import walkingChick from "../../assets/images/walkingChick.gif";
-import { IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
 
 const Profile = ({
   handleProfileEditBtn,
@@ -56,7 +56,9 @@ const Profile = ({
             {/* 프로필 이미지 */}
             <img
               className="profile-img"
-              src={user.imgUrl ? `${IMAGE_URL}${user.imgUrl}` : defaultProfile}
+              src={
+                user.imgUrl ? `${BASE_URL}/user${user.imgUrl}` : defaultProfile
+              }
               alt="defaultProfile"
             />
             <section>

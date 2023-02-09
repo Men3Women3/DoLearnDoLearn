@@ -25,7 +25,7 @@ import {
 import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
 import WarningModal from "../WarningModal";
 import { useNavigate } from "react-router";
-import { IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
 import { sendCnacleMessageAPI } from "../../utils/api/messageAPI";
 
 const customLecTime = (startTime, endTime) => {
@@ -178,7 +178,7 @@ const LectureFixedModal = ({
                   className="profile-img"
                   src={
                     instructorInfo.imgUrl
-                      ? `${IMAGE_URL}${instructorInfo.imgUrl}`
+                      ? `${BASE_URL}/user${instructorInfo.imgUrl}`
                       : defaultProfile
                   }
                   alt=""
