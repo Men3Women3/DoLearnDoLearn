@@ -14,7 +14,7 @@ import {
   LoginStateHandlerContext,
   UnreadMessageContext,
 } from "../../App";
-import { Badge } from "@mui/material";
+import { Badge, Grid } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
@@ -42,78 +42,84 @@ const Navbar = () => {
   };
 
   return (
-    <Box>
-      <div className="left-item">
-        <NavLink to={"/"}>
-          <img src={logoImg} alt="logo" />
-        </NavLink>
-        <NavLink to={"/board"} className="link link__board">
-          강의장
-        </NavLink>
-        <NavLink className="link link__board">이용안내</NavLink>
-      </div>
-      <div className="right-item">
-        {isLogined && (
-          <NavLink to={"/mypage"} className="link username">
-            <img
-              src={
-                getUserInfo.userInfo.imgUrl
-                  ? `${IMAGE_URL}${getUserInfo.userInfo.imgUrl}`
-                  : defaultProfile
-              }
-              alt="profileImg"
-            />
-            <span
-              style={{
-                margin: "auto 10px auto 5px",
-                cursor: "pointer",
-              }}
-            >
-              {userInfo.name}
-            </span>
-          </NavLink>
-        )}
-        {isLogined && (
-          <div className="unread-container">
-            <Badge
-              // variant="dot"
-              badgeContent={unreadMessageCnt}
-              color="warning"
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            >
-              <FontAwesomeIcon
-                className="unread__notification"
-                icon={faBell}
-                onClick={handleMoveToMessage}
-              />
-            </Badge>
+    <Grid container>
+      <Grid item xs={0} md={1.5} />
+      <Grid item xs={12} md={9}>
+        <Box>
+          <div className="left-item">
+            <NavLink to={"/"}>
+              <img src={logoImg} alt="logo" />
+            </NavLink>
+            <NavLink to={"/board"} className="link link__board">
+              강의장
+            </NavLink>
+            <NavLink className="link link__board">이용안내</NavLink>
           </div>
-        )}
+          <div className="right-item">
+            {isLogined && (
+              <NavLink to={"/mypage"} className="link username">
+                <img
+                  src={
+                    getUserInfo.userInfo.imgUrl
+                      ? `${IMAGE_URL}${getUserInfo.userInfo.imgUrl}`
+                      : defaultProfile
+                  }
+                  alt="profileImg"
+                />
+                <span
+                  style={{
+                    margin: "auto 10px auto 5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {userInfo.name}
+                </span>
+              </NavLink>
+            )}
+            {isLogined && (
+              <div className="unread-container">
+                <Badge
+                  // variant="dot"
+                  badgeContent={unreadMessageCnt}
+                  color="warning"
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    className="unread__notification"
+                    icon={faBell}
+                    onClick={handleMoveToMessage}
+                  />
+                </Badge>
+              </div>
+            )}
 
-        <div className="user-state">
-          {isLogined ? (
-            <>
-              <p className="link logout" onClick={handleLogout}>
-                로그아웃
-              </p>
-            </>
-          ) : (
-            <>
-              <Link to={"/login"} className="link user-state-nuLogined">
-                로그인
-              </Link>
-              <span id="division">|</span>
-              <Link to={"/signup"} className="link user-state-nuLogined">
-                회원가입
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    </Box>
+            <div className="user-state">
+              {isLogined ? (
+                <>
+                  <p className="link logout" onClick={handleLogout}>
+                    로그아웃
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Link to={"/login"} className="link user-state-nuLogined">
+                    로그인
+                  </Link>
+                  <span id="division">|</span>
+                  <Link to={"/signup"} className="link user-state-nuLogined">
+                    회원가입
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        </Box>
+      </Grid>
+      <Grid item xs={0} md={1.5} />
+    </Grid>
   );
 };
 

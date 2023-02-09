@@ -175,9 +175,9 @@ const Login = () => {
                 </p>
               )}
             </SInputContainer>
-            <SFindPassword>
+            {/* <SFindPassword>
               <div>비밀번호 찾기</div>
-            </SFindPassword>
+            </SFindPassword> */}
             <SLoginButton type="submit" onClick={(e) => handleOpen(e)}>
               로그인
             </SLoginButton>
