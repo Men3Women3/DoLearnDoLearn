@@ -56,7 +56,7 @@ public class LectureControllerTest {
                 .isFixed(0).maxCnt(5).summary("summary").title("title").build();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).board(board.toEntity()).isDeleted(0).memberCnt(0).build();
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
 
         when(lectureService.updateFix(any(),any())).thenReturn(lecture.toDto());
 
@@ -88,7 +88,7 @@ public class LectureControllerTest {
     @Test
     public void getInstructorTest() throws Exception {
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).memberCnt(0).build();
+                .id(1L).memberCnt(0).build();
 
         User user = User.builder().id(1L).name("test").build();
 
@@ -120,7 +120,7 @@ public class LectureControllerTest {
         List<UserLecture> userLectureList = new ArrayList<>();
 
         Lecture lecture = Lecture.builder()
-                .id(1L).isDeleted(0).memberCnt(0).build();
+                .id(1L).memberCnt(0).build();
 
         UserLecture userLecture1 = UserLecture.builder()
                 .lecture(lecture).memberType("학생").build();
@@ -152,7 +152,7 @@ public class LectureControllerTest {
     @Test
     public void updateLectureTest() throws Exception{
         LectureDto lectureDto = LectureDto.builder()
-                .id(1L).memberCnt(0).isDeleted(0).endRealTime(null).startRealTime(null).build();
+                .id(1L).memberCnt(0).endRealTime(null).startRealTime(null).build();
 
         when(lectureService.updateLecture(any())).thenReturn(lectureDto);
 
@@ -167,7 +167,7 @@ public class LectureControllerTest {
     @Test
     public void updateLectureExceptionTest() throws Exception{
         LectureDto lectureDto = LectureDto.builder()
-                .id(1L).memberCnt(0).isDeleted(0).endRealTime(null).startRealTime(null).build();
+                .id(1L).memberCnt(0).endRealTime(null).startRealTime(null).build();
 
         when(lectureService.updateLecture(any())).thenThrow(new CustomException(ErrorCode.NO_LECTURE));
 

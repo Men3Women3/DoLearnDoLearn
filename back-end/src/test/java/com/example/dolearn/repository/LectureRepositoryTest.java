@@ -31,12 +31,11 @@ public class LectureRepositoryTest {
     public void LectureRepositorySaveTest() {
         Lecture lecture = Lecture
                 .builder()
-                .id(1L).
-                isDeleted(0).build();
+                .id(1L).build();
 
         Lecture result = lectureRepository.save(lecture);
 
-        assertThat(result.getIsDeleted()).isEqualTo(lecture.getIsDeleted());
+        assertThat(result.getId()).isEqualTo(lecture.getId());
     }
 
     @DisplayName("lecture repository findByBoardId 테스트")
@@ -52,7 +51,6 @@ public class LectureRepositoryTest {
         Lecture lecture = Lecture
                 .builder()
                 .id(1L)
-                .isDeleted(0)
                 .board(board).build();
 
         Board boardResult = boardRepository.save(board);
@@ -60,7 +58,6 @@ public class LectureRepositoryTest {
 
         Lecture result = lectureRepository.findByBoardId(boardResult.getId());
 
-        assertThat(result.getIsDeleted()).isEqualTo(lecture.getIsDeleted());
         assertThat(result.getBoard().getId()).isEqualTo(boardResult.getId());
     }
 }
