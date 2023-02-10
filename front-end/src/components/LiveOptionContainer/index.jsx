@@ -53,30 +53,30 @@ const LiveOptionContainer = (props) => {
         style={{ display: "none" }}
         onClick={(e) => props.handleOnClickHelpRequest(e)}
       >
-        <FontAwesomeIcon className="icon" icon={faRegularHand} />
+        <FontAwesomeIcon className="icon" icon={faHand} />
       </button>
       <button id="helpOn" onClick={(e) => props.handleOnClickHelpRequest(e)}>
-        <FontAwesomeIcon className="icon" icon={faHand} />
+        <FontAwesomeIcon className="icon" icon={faRegularHand} />
       </button>
       <button
         id="vidOff"
         onClick={(e) => props.vidOnOff(e)}
         style={{ display: "none" }}
       >
-        <FontAwesomeIcon className="icon camera-icon" icon={faVideo} />
+        <FontAwesomeIcon className="icon camera-icon" icon={faVideoSlash} />
       </button>
       <button id="vidOn" onClick={(e) => props.vidOnOff(e)}>
-        <FontAwesomeIcon className="icon camera-icon" icon={faVideoSlash} />
+        <FontAwesomeIcon className="icon camera-icon" icon={faVideo} />
       </button>
       <button
         id="audOff"
         onClick={(e) => props.audOnOff(e)}
         style={{ display: "none" }}
       >
-        <FontAwesomeIcon className="icon mike-icon" icon={faMicrophone} />
+        <FontAwesomeIcon className="icon mike-icon" icon={faMicrophoneSlash} />
       </button>
       <button id="audOn" onClick={(e) => props.audOnOff(e)}>
-        <FontAwesomeIcon className="icon mike-icon" icon={faMicrophoneSlash} />
+        <FontAwesomeIcon className="icon mike-icon" icon={faMicrophone} />
       </button>
       <button
         id="shareScreenOff"
