@@ -7,12 +7,10 @@ const OauthRedirect = () => {
   useEffect(() => {
     const search = params.search;
     const splitedSearch = search.split("&&");
+    console.log(splitedSearch);
     localStorage.setItem("accessToken", splitedSearch[1].slice(12));
     localStorage.setItem("refreshToken", splitedSearch[0].slice(14));
-    localStorage.setItem(
-      "id",
-      splitedSearch[2].slice(splitedSearch[2].length - 1)
-    );
+    localStorage.setItem("id", splitedSearch[2].slice(7));
     navigate("/");
   }, []);
 
