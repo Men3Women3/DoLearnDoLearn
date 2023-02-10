@@ -115,7 +115,6 @@ const User = () => {
           {isProfileTabActive && !isProfileEditActive && (
             <Profile
               handleProfileEditBtn={handleProfileEditBtn}
-              // isProfileEditActive={isProfileEditActive}
               user={getUserInfo.userInfo}
               userState="me"
             />
