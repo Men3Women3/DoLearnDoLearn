@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useLocation } from "react-router";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
@@ -54,6 +55,11 @@ const NewBoard = () => {
   const { flag, setFlag } = useContext(BoardDataContext);
   const today = new Date().toISOString().substring(0, 10);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const scheduled = location.state.scheduled;
+  const unscheduled = location.state.unscheduled;
+  const allSchedule = scheduled.concat(unscheduled);
 
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(1); // 참가인원(5명까지만!)
@@ -63,12 +69,9 @@ const NewBoard = () => {
   const [classTime, setClassTime] = useState(""); // 강의 시간
   const [summary, setSummary] = useState(""); // 강의 요약
   const [detail, setDetail] = useState(""); // 강의 상세
+  const [ableTime, setAbleTime] = useState(0); // 중복된 시간 체크
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
   const [check, setCheck] = useState(""); // 입력 안된 정보 저장
-  const time = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24,
-  ];
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -100,38 +103,51 @@ const NewBoard = () => {
   };
 
   const handleOpen = () => {
-    if (!title) {
-      setCheck("제목을");
-      setOpen(true);
-    } else if (!imgSelect) {
-      setCheck("대표 이미지를");
-      setOpen(true);
-    } else if (!deadline) {
-      setCheck("모집 기간을");
-      setOpen(true);
-    } else if (!lectureDay) {
-      setCheck("강의 날짜를");
-      setOpen(true);
-    } else if (!classTime) {
-      setCheck("강의 시간을");
-      setOpen(true);
-    } else if (!summary) {
-      setCheck("내용 요약을");
-      setOpen(true);
-    } else if (!detail) {
-      setCheck("내용 상세를");
-      setOpen(true);
+    // =========== 시간 비교를 위해 필요한 정보 ==================
+    const finalTime = Number(lectureTime) + Number(classTime); // 종료 시간
+    const st = new Date(lectureDay + " " + lectureTime + ":00:00"); // 입력된 수업 시작시간
+    const ed = new Date(lectureDay + " " + finalTime + ":00:00"); // 입력된 수업 종료시간
+    // ===========================================================
+
+    if (allSchedule.length) {
+      for (const data of allSchedule) {
+        if (data.start) {
+          if (new Date(data.start) <= st && new Date(data.end) > st) {
+            setAbleTime(2);
+            break;
+          } else if (new Date(data.start) < ed && new Date(data.end) >= ed) {
+            setAbleTime(2);
+            break;
+          } else {
+            setAbleTime(1);
+          }
+        } else {
+          if (new Date(data.startTime) <= st && new Date(data.endTime) > st) {
+            setAbleTime(2);
+            break;
+          } else if (
+            new Date(data.startTime) < ed &&
+            new Date(data.endTime) >= ed
+          ) {
+            setAbleTime(2);
+            break;
+          } else {
+            setAbleTime(1);
+          }
+        }
+      }
     } else {
-      handleRegister(); // 모두 잘 작성됐으면 등록
-      // setFlag(!flag);
+      setAbleTime(1);
     }
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setAbleTime(0);
+  };
 
   // 등록 버튼 클릭으로 작동
   const handleRegister = async () => {
-    console.log(lectureTime);
     await newBoardAPI(
       userInfo.id,
       imgSelect,
@@ -167,9 +183,10 @@ const NewBoard = () => {
     prevArrow: <SamplePrevArrow />,
   };
 
+  // 1 ~ 24시 중 선택
   const slectableTime = Array(24)
     .fill()
-    .map((v, i) => i + 1);
+    .map((_, i) => i + 1);
 
   const isToday = () => {
     const year = new Date().getFullYear();
@@ -188,6 +205,38 @@ const NewBoard = () => {
       return true;
     }
   };
+
+  useEffect(() => {
+    if (ableTime !== 0) {
+      if (!title) {
+        setCheck("제목을 입력해주세요");
+        setOpen(true);
+      } else if (!imgSelect) {
+        setCheck("대표 이미지를 선택해주세요");
+        setOpen(true);
+      } else if (!deadline) {
+        setCheck("모집 기간을 입력해주세요");
+        setOpen(true);
+      } else if (!lectureDay) {
+        setCheck("강의 날짜를 입력해주세요");
+        setOpen(true);
+      } else if (!classTime) {
+        setCheck("강의 시간을 입력해주세요");
+        setOpen(true);
+      } else if (!summary) {
+        setCheck("내용 요약을 작성해주세요");
+        setOpen(true);
+      } else if (!detail) {
+        setCheck("내용 상세를 작성해주세요");
+        setOpen(true);
+      } else if (ableTime === 2) {
+        setCheck("해당 강의 시간에 신청된 강의가 이미 존재합니다");
+        setOpen(true);
+      } else {
+        handleRegister(); // 모두 잘 작성됐으면 등록
+      }
+    }
+  }, [ableTime]);
 
   useEffect(() => {
     // 오늘이면
@@ -359,7 +408,7 @@ const NewBoard = () => {
               variant="h6"
               component="h2"
             >
-              <S.SModal>{check} 입력해주세요</S.SModal>
+              <S.SModal>{check}</S.SModal>
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               <S.SCancelButton onClick={(e) => setOpen(false)}>

@@ -25,7 +25,7 @@ import {
 import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
 import WarningModal from "../WarningModal";
 import { useNavigate } from "react-router";
-import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL } from "../../utils/api/URL";
 import { sendCnacleMessageAPI } from "../../utils/api/messageAPI";
 
 const customLecTime = (startTime, endTime) => {

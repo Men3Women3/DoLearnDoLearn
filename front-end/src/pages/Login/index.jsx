@@ -40,6 +40,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoginStateContext, LoginStateHandlerContext } from "../../App";
 import { loginAPI } from "../../utils/api/userAPI";
+import { SOCIAL_LOGIN_URL } from "../../utils/api/URL";
 
 const style = {
   position: "absolute",
@@ -61,8 +62,6 @@ const defaultOptions = {
     preserveAspectRatio: "xMidYMid slice",
   },
 };
-
-const axiosDefaultURL = "http://localhost:8080";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -202,7 +201,7 @@ const Login = () => {
               onClick={(e) =>
                 (window.location.href =
                   // 주소 수정해야 됨
-                  "http://localhost:8080/oauth2/authorization/naver")
+                  `${SOCIAL_LOGIN_URL}/oauth2/authorization/naver`)
               }
             >
               <img src={naverLogoImg} alt="naver_logo" />
@@ -214,7 +213,7 @@ const Login = () => {
               onClick={(e) =>
                 (window.location.href =
                   // 주소 수정해야 됨
-                  "http://localhost:8080/oauth2/authorization/kakao")
+                  `${SOCIAL_LOGIN_URL}/oauth2/authorization/kakao`)
               }
             >
               <img src={kakaoLogoImg} alt="kakao_logo" />
@@ -224,8 +223,7 @@ const Login = () => {
             <SgoogleLoginButton
               type="button"
               onClick={(e) =>
-                (window.location.href =
-                  "http://localhost:8080/oauth2/authorization/google")
+                (window.location.href = `${SOCIAL_LOGIN_URL}/oauth2/authorization/google`)
               }
             >
               <img src={googleLogoImg} alt="google_logo" />
