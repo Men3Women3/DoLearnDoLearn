@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useLocation } from "react-router";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
@@ -54,6 +55,15 @@ const NewBoard = () => {
   const { flag, setFlag } = useContext(BoardDataContext);
   const today = new Date().toISOString().substring(0, 10);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const scheduled = location.state.scheduled;
+  const unscheduled = location.state.unscheduled;
+
+  console.log("확정: ", scheduled);
+  console.log("미확정: ", unscheduled);
+  // console.log("확정: ", scheduled[0].start.slice(0, 10));
+  // console.log("미확정: ", unscheduled[0].start.slice(0, 10));
 
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(1); // 참가인원(5명까지만!)
@@ -65,10 +75,6 @@ const NewBoard = () => {
   const [detail, setDetail] = useState(""); // 강의 상세
   const [open, setOpen] = React.useState(false); // 모달 open / close 여부
   const [check, setCheck] = useState(""); // 입력 안된 정보 저장
-  const time = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24,
-  ];
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -123,15 +129,25 @@ const NewBoard = () => {
       setOpen(true);
     } else {
       handleRegister(); // 모두 잘 작성됐으면 등록
-      // setFlag(!flag);
     }
   };
 
   const handleClose = () => setOpen(false);
 
   // 등록 버튼 클릭으로 작동
+  // const handleRegister = () => {
+  //   console.log(userInfo.id);
+  //   console.log(imgSelect);
+  //   console.log(title);
+  //   console.log(participant);
+  //   console.log(detail);
+  //   console.log(summary);
+  //   console.log(lectureDay + " " + lectureTime);
+  //   console.log(classTime);
+  //   console.log(deadline);
+  // };
+
   const handleRegister = async () => {
-    console.log(lectureTime);
     await newBoardAPI(
       userInfo.id,
       imgSelect,
@@ -144,6 +160,15 @@ const NewBoard = () => {
       deadline,
       0
     );
+    // console.log(userInfo.id);
+    // console.log(imgSelect);
+    // console.log(title);
+    // console.log(participant);
+    // console.log(detail);
+    // console.log(summary);
+    // console.log(lectureDay + " " + lectureTime);
+    // console.log(classTime);
+    // console.log(deadline);
     await setFlag(!flag);
     navigate("/board", {
       state: {
@@ -167,6 +192,7 @@ const NewBoard = () => {
     prevArrow: <SamplePrevArrow />,
   };
 
+  // 1 ~ 24시 중 선택
   const slectableTime = Array(24)
     .fill()
     .map((v, i) => i + 1);
