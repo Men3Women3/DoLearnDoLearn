@@ -109,31 +109,35 @@ const NewBoard = () => {
     const ed = new Date(lectureDay + " " + finalTime + ":00:00"); // 입력된 수업 종료시간
     // ===========================================================
 
-    for (const data of allSchedule) {
-      if (data.start) {
-        if (new Date(data.start) <= st && new Date(data.end) > st) {
-          setAbleTime(2);
-          break;
-        } else if (new Date(data.start) < ed && new Date(data.end) >= ed) {
-          setAbleTime(2);
-          break;
+    if (allSchedule.length) {
+      for (const data of allSchedule) {
+        if (data.start) {
+          if (new Date(data.start) <= st && new Date(data.end) > st) {
+            setAbleTime(2);
+            break;
+          } else if (new Date(data.start) < ed && new Date(data.end) >= ed) {
+            setAbleTime(2);
+            break;
+          } else {
+            setAbleTime(1);
+          }
         } else {
-          setAbleTime(1);
-        }
-      } else {
-        if (new Date(data.startTime) <= st && new Date(data.endTime) > st) {
-          setAbleTime(2);
-          break;
-        } else if (
-          new Date(data.startTime) < ed &&
-          new Date(data.endTime) >= ed
-        ) {
-          setAbleTime(2);
-          break;
-        } else {
-          setAbleTime(1);
+          if (new Date(data.startTime) <= st && new Date(data.endTime) > st) {
+            setAbleTime(2);
+            break;
+          } else if (
+            new Date(data.startTime) < ed &&
+            new Date(data.endTime) >= ed
+          ) {
+            setAbleTime(2);
+            break;
+          } else {
+            setAbleTime(1);
+          }
         }
       }
+    } else {
+      setAbleTime(1);
     }
   };
 
