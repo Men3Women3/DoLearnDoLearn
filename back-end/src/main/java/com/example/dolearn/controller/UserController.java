@@ -150,6 +150,7 @@ public class UserController {
             String saveFileName = System.nanoTime()+originalFileName.substring(originalFileName.lastIndexOf('.'));
 
             // 파일 저장
+            filePath = System.getProperty("user.dir") + "/"+filePath;
             byte[] bytes = img.getBytes();
             Path path = Paths.get(filePath + saveFileName);
 
