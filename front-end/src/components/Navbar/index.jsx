@@ -16,7 +16,7 @@ import {
 } from "../../App";
 import { Badge, Grid } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
-import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL } from "../../utils/api/URL";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 

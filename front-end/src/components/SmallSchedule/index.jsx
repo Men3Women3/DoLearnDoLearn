@@ -4,7 +4,10 @@ import { Scrollbars } from "react-custom-scrollbars";
 import TodayScheduleItem from "../TodayScheduleItem";
 import TotalScheduleItem from "../TotalScheduleItem";
 import { BoardDataContext, LoginStateContext } from "../../App";
-import { getFixedLecture, getRequestLecture } from "../../utils/api/userAPI";
+import {
+  getFixedLecture,
+  getUnScheduledLectureAPI,
+} from "../../utils/api/userAPI";
 
 const SmallSchedule = () => {
   const { userInfo } = useContext(LoginStateContext);
@@ -19,7 +22,7 @@ const SmallSchedule = () => {
     getFixedLecture(userInfo, setTodayScedule);
 
     // 유저가 신청한 전체 목록 api를 요청하는 함수
-    getRequestLecture(userInfo, setTotalSchedule);
+    getUnScheduledLectureAPI(userInfo, setTotalSchedule);
   }, [flag]);
 
   useEffect(() => {
