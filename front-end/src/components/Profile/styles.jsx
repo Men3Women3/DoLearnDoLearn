@@ -62,6 +62,8 @@ export const SSubContainerUp = styled.div`
     text-align: center;
     border: 4px solid transparent;
     border-radius: 50%;
+    object-fit: cover;
+    text-align: center;
     background-image: linear-gradient(#fff, #fff),
       linear-gradient(to right, #ff6a00 0%, #ffb700 100%);
     background-origin: border-box;
