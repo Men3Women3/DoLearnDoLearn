@@ -114,9 +114,11 @@ const LectureFixedModal = ({
       setScheduledLecture,
       handleUserInfo
     );
-    handleClose();
-    handleClose();
-    console.log("신청취소 사유", cancleText);
+    // 취소사유 작성해야만 모달 닫기도록
+    if (cancleText) {
+      handleClose();
+      handleClose();
+    }
   };
 
   // 라이브 강의 입장
@@ -149,11 +151,6 @@ const LectureFixedModal = ({
     }
   };
 
-  console.log("강의시간", lectureTime);
-  console.log("유저", userInfo);
-  console.log("강의", lectureInfo);
-  console.log("강사", instructorInfo);
-  console.log("학생", studentsInfo);
   return (
     <>
       <Modal open={open} onClose={handleClose}>
@@ -235,6 +232,15 @@ const LectureFixedModal = ({
                     rows="6"
                     placeholder="수강생들에게 공유되는 정보이므로 취소 사유를 반드시 입력해주세요!"
                   ></textarea>
+                  <div
+                    style={{
+                      color: "blue",
+                      fontSize: "0.8vw",
+                      marginBottom: "1vw",
+                    }}
+                  >
+                    {cancleText ? "" : "필수 입력사항입니다!"}
+                  </div>
                 </WarningModal>
               ) : (
                 // 수강생에게 보여지는 취소 버튼
