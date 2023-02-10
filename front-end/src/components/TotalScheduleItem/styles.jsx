@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SContainer = styled.div`
+  cursor: pointer;
   .totalSchedule__calendar {
     margin-right: calc(0.3vw + 1px);
   }
