@@ -22,7 +22,7 @@ const SmallSchedule = () => {
     getFixedLecture(userInfo, setTodayScedule);
 
     // 유저가 신청한 전체 목록 api를 요청하는 함수
-    getUnScheduledLectureAPI(userInfo, setTotalSchedule);
+    getUnScheduledLectureAPI(userInfo.id, setTotalSchedule);
   }, [flag]);
 
   useEffect(() => {
