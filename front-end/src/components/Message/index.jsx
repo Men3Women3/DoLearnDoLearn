@@ -10,10 +10,10 @@ const Message = () => {
   const { unreadMessageCnt, setStateMessageUpdate } =
     useContext(UnreadMessageContext);
   const [messageData, setMessageData] = useState([]);
-  // 메시지 읽음 여부 처리할 변수
+  // 메시지 읽음 or 삭제 여부 처리할 변수
   const [checkState, setCheckState] = useState(false);
   // 메시지 삭제 여부 처리할 변수
-  const [checkDeleteState, setCheckDeleteState] = useState(false);
+  // const [checkDeleteState, setCheckDeleteState] = useState(false);
   const limit = 7;
   const [page, setPage] = useState(1); // 현재 페이지 번호
   const offset = (page - 1) * limit; // 첫 게시물의 위치
@@ -25,20 +25,20 @@ const Message = () => {
 
   useEffect(() => {
     // 메시지를 읽었다면(checkState가 true일 때), 다시 모든 메시지 불러옴
-    if (checkState) {
-      // 다시 체크해주기 위해 초기화
-      setCheckState(false);
-      getMessageListAPI(userId, setMessageData);
-    }
+    // if (checkState) {
+    // 다시 체크해주기 위해 초기화
+    // setCheckState(false);
+    getMessageListAPI(userId, setMessageData);
+    // }
   }, [checkState]);
 
-  useEffect(() => {
-    // 메시지 지웠다면(checkDeleteState가 true일 때), 다시 모든 메시지 불러옴
-    if (checkDeleteState) {
-      setCheckDeleteState(false);
-      getMessageListAPI(userId, setMessageData);
-    }
-  }, [checkDeleteState]);
+  // useEffect(() => {
+  //   // 메시지 지웠다면(checkDeleteState가 true일 때), 다시 모든 메시지 불러옴
+  //   if (checkDeleteState) {
+  //     setCheckDeleteState(false);
+  //     getMessageListAPI(userId, setMessageData);
+  //   }
+  // }, [checkDeleteState]);
 
   return (
     <>
@@ -54,8 +54,9 @@ const Message = () => {
                   <MessageItem
                     data={item}
                     // readMessage={readMessage}
+                    checkState={checkState}
                     setCheckState={setCheckState}
-                    setCheckDeleteState={setCheckDeleteState}
+                    // setCheckDeleteState={setCheckDeleteState}
                   />
                 </div>
               );

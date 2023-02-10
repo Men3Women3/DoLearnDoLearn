@@ -26,7 +26,9 @@ const MessageDeleteModal = ({
   messageId,
   open,
   handleClose,
-  setCheckDeleteState,
+  checkState,
+  setCheckState,
+  // setCheckDeleteState,
 }) => {
   const { unreadMessageCnt, setStateMessageUpdate } =
     useContext(UnreadMessageContext);
@@ -51,9 +53,14 @@ const MessageDeleteModal = ({
   };
 
   const handleDeleteMessage = () => {
-    deleteMessageAPI(messageId, setStateMessageUpdate);
+    deleteMessageAPI(
+      messageId,
+      setStateMessageUpdate,
+      checkState,
+      setCheckState
+    );
     handleClose();
-    setCheckDeleteState(true);
+    // setCheckDeleteState(true);
     // setStateMessageUpdate(true);
     handleSnackbarOpen();
   };
