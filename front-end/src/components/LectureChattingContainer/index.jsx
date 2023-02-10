@@ -51,8 +51,7 @@ const LectureChattingContainer = (props) => {
     }
   };
 
-  const handleMeesageSendKeyEvent = (e) => {
-    // e.preventDefault();
+  const handleMeesageSendKeyEvent = async (e) => {
     // if (e.nativeEvent.isComposing) {
     // return;
     // }
@@ -61,8 +60,10 @@ const LectureChattingContainer = (props) => {
     // return;
     // }
     if (e.key === "Enter") {
+      console.log(inputData);
       if (!e.shiftKey) {
-        client.send(
+        await client.send(
+          // await client.send(
           `/pub/normal/${props.roomId}`,
           {
             Authentication: accessToken,
@@ -73,10 +74,19 @@ const LectureChattingContainer = (props) => {
             content: inputData,
           })
         );
-        setInputData("");
-        console.log();
+        console.log(1);
+        console.log(2);
+        const textt = document.querySelector("textarea");
+        textt.value = "";
+        await e.preventDefault();
       }
     }
+  };
+
+  const test = () => {
+    // const ttest = inputData.replace("\n", "");
+    setInputData("");
+    console.log(4);
   };
 
   const handleInnerMessage = (meesage) => {
