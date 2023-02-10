@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import rankItemImg from "../../assets/images/rankItem.png"
+import styled from "styled-components";
+import rankItemImg from "../../assets/images/rankItem.png";
 
 export const SContainer = styled.div`
   cursor: pointer;
@@ -38,13 +38,15 @@ export const SContainer = styled.div`
       margin-right: calc(0.5vw + 2px);
       border: 3px solid transparent;
       border-radius: 50%;
+      object-fit: cover;
+      text-align: center;
       background-image: linear-gradient(#fff, #fff),
         linear-gradient(to right, #ff6a00 0%, #ffb700 100%);
       background-origin: border-box;
       background-clip: content-box, border-box;
     }
   }
-`
+`;
 
 // SNS 링크를 묶는 div
 export const SSNSContainer = styled.div`
@@ -63,7 +65,7 @@ export const SSNSContainer = styled.div`
   .icon:hover {
     color: #f3bd2a;
   }
-`
+`;
 
 export const SRank = styled.div`
   user-select: none;
@@ -73,4 +75,4 @@ export const SRank = styled.div`
   position: absolute;
   bottom: calc(0.8vw + 1px);
   right: calc(1vw + 12px);
-`
+`;

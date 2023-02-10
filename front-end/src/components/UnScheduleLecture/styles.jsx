@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
-import { SCard } from "../CardBox/styles"
+import { SCard } from "../CardBox/styles";
 
 export const Scontainer = styled.div`
   display: grid;
@@ -8,10 +8,10 @@ export const Scontainer = styled.div`
   column-gap: 15px;
   row-gap: 22px;
   margin-top: 15px;
-`
+`;
 export const SSCard = styled(SCard)`
   position: relative;
-  height: 80vh;
+  height: 90vh;
   .title__section {
     display: flex;
     justify-content: space-between;
@@ -23,4 +23,4 @@ export const SSCard = styled(SCard)`
     left: 50%;
     transform: translateX(-50%);
   }
-`
+`;

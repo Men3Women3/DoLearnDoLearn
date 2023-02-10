@@ -121,7 +121,7 @@ public class BoardControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("강의 게시물 불러오기 오류 테스트")
+    @DisplayName("강의 게시물 불러오기 Exception 테스트")
     @Test
     public void BoardListExceptionTest() throws Exception{
         when(boardService.selectAll()).thenThrow(new Exception());
@@ -153,6 +153,17 @@ public class BoardControllerTest {
                 .andDo(print());
     }
 
+    @DisplayName("글 상세보기 Exception 테스트")
+    @Test
+    public void boardDetailExceptionTest() throws Exception{
+
+        when(boardService.selectDetail(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/board/200"))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
     @DisplayName("글 삭제 테스트")
     @Test
     public void boardDeleteTest() throws Exception{
@@ -165,12 +176,23 @@ public class BoardControllerTest {
 
     @DisplayName("글 삭제 오류 테스트")
     @Test
-    public void boardDeleteExceptionTest() throws Exception{
+    public void boardDeleteErrorTest() throws Exception{
 
         when(boardService.deleteBoard(any())).thenThrow(new CustomException(ErrorCode.NO_BOARD));
 
         mockMvc.perform(delete("/api/board/{board_id}","11").with(csrf()))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("글 삭제 Exception 테스트")
+    @Test
+    public void boardDeleteExceptionTest() throws Exception{
+
+        when(boardService.deleteBoard(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(delete("/api/board/{board_id}","11").with(csrf()))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 
@@ -202,6 +224,25 @@ public class BoardControllerTest {
                 .andDo(print());
     }
 
+    @DisplayName("강사가 없는 경우 Exception 테스트")
+    @Test
+    public void noinstructorsest() throws Exception{
+
+        mockMvc.perform(get("/api/board/instructor-list/{board_id}",1))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("강사가 없는 경우 Exception 테스트")
+    @Test
+    public void instructorsExceptionTest() throws Exception{
+        when(userBoardService.getInstructors(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/board/instructor-list/{board_id}",1))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
     @DisplayName("학생 목록")
     @Test
     public void getStudentsTest() throws Exception{
@@ -223,8 +264,18 @@ public class BoardControllerTest {
 
     @DisplayName("학생 목록 오류 테스트")
     @Test
-    public void getStudentsExceptionTest() throws Exception{
+    public void getStudentsErrorTest() throws Exception{
         when(userBoardService.getStudents(any())).thenThrow(new CustomException(ErrorCode.NO_STUDENTS));
+
+        mockMvc.perform(get("/api/board/student-list/{board_id}",1))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("학생 목록 Exception 테스트")
+    @Test
+    public void getStudentsExceptionTest() throws Exception{
+        when(userBoardService.getStudents(any())).thenThrow(new RuntimeException());
 
         mockMvc.perform(get("/api/board/student-list/{board_id}",1))
                 .andExpect(status().isInternalServerError())
@@ -250,10 +301,23 @@ public class BoardControllerTest {
 
     @DisplayName("강의 검색 오류 테스트")
     @Test
-    public void searchBoardExceptionTest() throws Exception{
+    public void searchBoardErrorTest() throws Exception{
 
         when(boardService.searchBoardContent(any())).thenThrow(new CustomException(ErrorCode.INTERNAL_SERVER_ERROR));
         when(boardService.searchBoardTitle(any())).thenThrow(new CustomException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+
+        mockMvc.perform(get("/api/board/search/{keyword}","1"))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 검색 Exception 테스트")
+    @Test
+    public void searchBoardExceptionTest() throws Exception{
+
+        when(boardService.searchBoardContent(any())).thenThrow(new RuntimeException());
+        when(boardService.searchBoardTitle(any())).thenThrow(new RuntimeException());
 
 
         mockMvc.perform(get("/api/board/search/{keyword}","1"))
@@ -338,7 +402,7 @@ public class BoardControllerTest {
 
     @DisplayName("강사 신청 오류 테스트")
     @Test
-    public void applyInstructorExceptionTest() throws Exception{
+    public void applyInstructorErrorTest() throws Exception{
         Map<String,Long> data =new HashMap<>();
 
         when(userBoardService.applyClass(any())).thenThrow(new CustomException(ErrorCode.NO_BOARD));
@@ -347,6 +411,20 @@ public class BoardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(data)))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("강사 신청 Exception 테스트")
+    @Test
+    public void applyInstructorExceptionTest() throws Exception{
+        Map<String,Long> data =new HashMap<>();
+
+        when(userBoardService.applyClass(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(post("/api/board/instructor").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(data)))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 
@@ -367,13 +445,23 @@ public class BoardControllerTest {
 
     @DisplayName("강의 신청 취소 오류")
     @Test
-    public void cancelApplyExceptionTest() throws Exception{
-        Map<String,Long> data = new HashMap<>();
+    public void cancelApplyErrorTest() throws Exception{
 
         when(userBoardService.cancelApply(any(),any())).thenThrow(new CustomException(ErrorCode.NO_BOARD));
 
         mockMvc.perform(delete("/api/board/apply/{uid}/{bid}","1","2").with(csrf()))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 신청 취소 Exception")
+    @Test
+    public void cancelApplyExceptionTest() throws Exception{
+
+        when(userBoardService.cancelApply(any(),any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(delete("/api/board/apply/{uid}/{bid}","1","2").with(csrf()))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 }
