@@ -43,6 +43,40 @@ public class LectureControllerTest {
     @MockBean
     JwtTokenProvider jwtTokenProvider;
 
+    @DisplayName("강의 상세 테스트")
+    @Test
+    public void getLectureDetailTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
+
+        when(lectureService.getDetail(any())).thenReturn(lecture.toMessageDto());
+
+        mockMvc.perform(get("/api/lecture/{lecture_id}",lecture.getId()))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 상세 Exception 테스트")
+    @Test
+    public void getLectureDetailExceptionTest() throws Exception{
+        BoardDto board = BoardDto.builder().id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build();
+
+        Lecture lecture = Lecture.builder()
+                .id(1L).board(board.toEntity()).memberCnt(0).build();
+
+        when(lectureService.getDetail(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/lecture/{lecture_id}",lecture.getId()))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
     @DisplayName("강의 확정 테스트")
     @Test
     public void FixUpdateTest() throws Exception{
@@ -69,7 +103,7 @@ public class LectureControllerTest {
 
     @DisplayName("강의 확정 오류 테스트")
     @Test
-    public void FixUpdateExceptionTest() throws Exception{
+    public void FixUpdateErrorTest() throws Exception{
         Map<String,Long> data = new HashMap<>();
 
         data.put("bid",1L);
@@ -81,6 +115,23 @@ public class LectureControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(data)))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 확정 Exception 테스트")
+    @Test
+    public void FixUpdateExceptionTest() throws Exception{
+        Map<String,Long> data = new HashMap<>();
+
+        data.put("bid",1L);
+        data.put("Luid",1L);
+
+        when(lectureService.updateFix(any(),any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(post("/api/lecture/fix").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(data)))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 
@@ -105,12 +156,23 @@ public class LectureControllerTest {
 
     @DisplayName("강사 id 가져오기 오류 테스트")
     @Test
-    public void getInstructorExceptionTest() throws Exception {
+    public void getInstructorErrorTest() throws Exception {
 
         when(lectureService.getInstructor(any())).thenThrow(new CustomException(ErrorCode.NO_BOARD));
 
         mockMvc.perform(get("/api/lecture/instructor/1"))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("강사 id 가져오기 Exception 테스트")
+    @Test
+    public void getInstructorExceptionTest() throws Exception {
+
+        when(lectureService.getInstructor(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/lecture/instructor/1"))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 
@@ -140,11 +202,21 @@ public class LectureControllerTest {
 
     @DisplayName("강의 신청자 목록 가져오기 오류 테스트")
     @Test
-    public void getListExceptionTest() throws Exception{
+    public void getListErrorTest() throws Exception{
         when(lectureService.getList(any())).thenThrow(new CustomException(ErrorCode.NO_APPLICANT));
 
         mockMvc.perform(get("/api/lecture/list/1"))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 신청자 목록 가져오기 Exception 테스트")
+    @Test
+    public void getListExceptionTest() throws Exception{
+        when(lectureService.getList(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/lecture/list/1"))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 
@@ -165,7 +237,7 @@ public class LectureControllerTest {
 
     @DisplayName("강의 업데이트 오류 테스트")
     @Test
-    public void updateLectureExceptionTest() throws Exception{
+    public void updateLectureErrorTest() throws Exception{
         LectureDto lectureDto = LectureDto.builder()
                 .id(1L).memberCnt(0).endRealTime(null).startRealTime(null).build();
 
@@ -175,6 +247,21 @@ public class LectureControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(lectureDto)))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 업데이트 오류 테스트")
+    @Test
+    public void updateLectureExceptionTest() throws Exception{
+        LectureDto lectureDto = LectureDto.builder()
+                .id(1L).memberCnt(0).endRealTime(null).startRealTime(null).build();
+
+        when(lectureService.updateLecture(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(put("/api/lecture").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(lectureDto)))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 
@@ -200,7 +287,7 @@ public class LectureControllerTest {
 
     @DisplayName("강의 평가 여부 업데이트 오류 테스트")
     @Test
-    public void updateMemberLectureExceptionTest() throws Exception{
+    public void updateMemberLectureErrorTest() throws Exception{
         Map<String,Long> info = new HashMap<>();
 
         when(lectureService.updateLectureMember(any(),any())).thenThrow(new CustomException(ErrorCode.NO_APPLICANT));
@@ -209,6 +296,20 @@ public class LectureControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(info)))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 평가 여부 업데이트 오류 테스트")
+    @Test
+    public void updateMemberLectureExceptionTest() throws Exception{
+        Map<String,Long> info = new HashMap<>();
+
+        when(lectureService.updateLectureMember(any(),any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(put("/api/lecture/member-update").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(info)))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 
@@ -231,7 +332,7 @@ public class LectureControllerTest {
 
     @DisplayName("강의 취소 오류 테스트")
     @Test
-    public void cancelApplyExceptionTest() throws Exception{
+    public void cancelApplyErrorTest() throws Exception{
         Map<String,Long> info = new HashMap<>();
 
         info.put("lid",1L);
@@ -243,6 +344,23 @@ public class LectureControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(info)))
                 .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("강의 취소 오류 테스트")
+    @Test
+    public void cancelApplyExceptionTest() throws Exception{
+        Map<String,Long> info = new HashMap<>();
+
+        info.put("lid",1L);
+        info.put("uid",1L);
+
+        when(lectureService.cancelApply(info.get("lid"),info.get("uid"))).thenThrow(new RuntimeException());
+
+        mockMvc.perform(delete("/api/lecture/apply").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(info)))
+                .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
 }
