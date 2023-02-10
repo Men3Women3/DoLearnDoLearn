@@ -59,11 +59,14 @@ const NewBoard = () => {
 
   const scheduled = location.state.scheduled;
   const unscheduled = location.state.unscheduled;
+  const allSchedule = scheduled.concat(unscheduled);
 
-  console.log("확정: ", scheduled);
-  console.log("미확정: ", unscheduled);
-  // console.log("확정: ", scheduled[0].start.slice(0, 10));
-  // console.log("미확정: ", unscheduled[0].start.slice(0, 10));
+  console.log(allSchedule);
+
+  // console.log("시작: ", allSchedule[0].start.slice(0, 10));
+  // console.log("시작 시간: ", allSchedule[0].start.slice(12, 13));
+  // console.log("끝: ", allSchedule[0].end.slice(0, 10));
+  // console.log("끝 시간: ", allSchedule[0].end.slice(12, 13));
 
   const [title, setTitle] = useState(""); // 강의의 제목
   const [participant, setParticipant] = useState(1); // 참가인원(5명까지만!)
@@ -135,18 +138,6 @@ const NewBoard = () => {
   const handleClose = () => setOpen(false);
 
   // 등록 버튼 클릭으로 작동
-  // const handleRegister = () => {
-  //   console.log(userInfo.id);
-  //   console.log(imgSelect);
-  //   console.log(title);
-  //   console.log(participant);
-  //   console.log(detail);
-  //   console.log(summary);
-  //   console.log(lectureDay + " " + lectureTime);
-  //   console.log(classTime);
-  //   console.log(deadline);
-  // };
-
   const handleRegister = async () => {
     await newBoardAPI(
       userInfo.id,
