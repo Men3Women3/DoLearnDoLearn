@@ -225,7 +225,7 @@ const Login = () => {
               type="button"
               onClick={(e) =>
                 (window.location.href =
-                  "http://localhost:8080/oauth2/authorization/google")
+                  "https://i8a802.p.ssafy.io/oauth2/authorization/google")
               }
             >
               <img src={googleLogoImg} alt="google_logo" />
