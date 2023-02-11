@@ -1,27 +1,31 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useLocation } from "react-router";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import cookingImg from "../../assets/images/thumbnail/cooking.svg";
-import drawingImg from "../../assets/images/thumbnail/drawing.svg";
-import meetingImg from "../../assets/images/thumbnail/meeting.svg";
-import conferenceImg from "../../assets/images/thumbnail/conference.svg";
-import exerciseImg from "../../assets/images/thumbnail/exercise.svg";
-import scrumImg from "../../assets/images/thumbnail/scrum.svg";
-import studyImg from "../../assets/images/thumbnail/study.svg";
-import teamworkImg from "../../assets/images/thumbnail/teamwork.svg";
-import * as S from "./styles.jsx";
-import { useNavigate } from "react-router";
-import { BoardDataContext, LoginStateContext } from "../../App";
-import { newBoardAPI } from "../../utils/api/boardAPI";
+import React, { useState, useContext, useEffect } from "react"
+import { useLocation } from "react-router"
+import Box from "@mui/material/Box"
+import Modal from "@mui/material/Modal"
+import Fade from "@mui/material/Fade"
+import Typography from "@mui/material/Typography"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import cookingImg from "../../assets/images/thumbnail/cooking.svg"
+import drawingImg from "../../assets/images/thumbnail/drawing.svg"
+import meetingImg from "../../assets/images/thumbnail/meeting.svg"
+import conferenceImg from "../../assets/images/thumbnail/conference.svg"
+import exerciseImg from "../../assets/images/thumbnail/exercise.svg"
+import scrumImg from "../../assets/images/thumbnail/scrum.svg"
+import studyImg from "../../assets/images/thumbnail/study.svg"
+import teamworkImg from "../../assets/images/thumbnail/teamwork.svg"
+import * as S from "./styles.jsx"
+import { useNavigate } from "react-router"
+import {
+  BoardDataContext,
+  LoginStateContext,
+  LoginStateHandlerContext,
+} from "../../App"
+import { newBoardAPI } from "../../utils/api/boardAPI"
 
 const SampleNextArrow = (props) => {
-  const { className, style, onClick } = props;
+  const { className, style, onClick } = props
   return (
     <div
       className={className}
@@ -32,11 +36,11 @@ const SampleNextArrow = (props) => {
       }}
       onClick={onClick}
     />
-  );
-};
+  )
+}
 
 const SamplePrevArrow = (props) => {
-  const { className, style, onClick } = props;
+  const { className, style, onClick } = props
   return (
     <div
       className={className}
@@ -47,31 +51,32 @@ const SamplePrevArrow = (props) => {
       }}
       onClick={onClick}
     />
-  );
-};
+  )
+}
 
 const NewBoard = () => {
-  const { userInfo } = useContext(LoginStateContext);
-  const { flag, setFlag } = useContext(BoardDataContext);
-  const today = new Date().toISOString().substring(0, 10);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { userInfo } = useContext(LoginStateContext)
+  const { handleSnackbarInfo } = useContext(LoginStateHandlerContext)
+  const { flag, setFlag } = useContext(BoardDataContext)
+  const today = new Date().toISOString().substring(0, 10)
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  const scheduled = location.state.scheduled;
-  const unscheduled = location.state.unscheduled;
-  const allSchedule = scheduled.concat(unscheduled);
+  const scheduled = location.state.scheduled
+  const unscheduled = location.state.unscheduled
+  const allSchedule = scheduled.concat(unscheduled)
 
-  const [title, setTitle] = useState(""); // 강의의 제목
-  const [participant, setParticipant] = useState(1); // 참가인원(5명까지만!)
-  const [deadline, setDeadline] = useState(""); // 모집 종료 날짜
-  const [lectureDay, setLectureDay] = useState(""); // 강의 날짜
-  const [lectureTime, setLectureTime] = useState(1); // 강의 시작 시간
-  const [classTime, setClassTime] = useState(""); // 강의 시간
-  const [summary, setSummary] = useState(""); // 강의 요약
-  const [detail, setDetail] = useState(""); // 강의 상세
-  const [ableTime, setAbleTime] = useState(0); // 중복된 시간 체크
-  const [open, setOpen] = React.useState(false); // 모달 open / close 여부
-  const [check, setCheck] = useState(""); // 입력 안된 정보 저장
+  const [title, setTitle] = useState("") // 강의의 제목
+  const [participant, setParticipant] = useState(1) // 참가인원(5명까지만!)
+  const [deadline, setDeadline] = useState("") // 모집 종료 날짜
+  const [lectureDay, setLectureDay] = useState("") // 강의 날짜
+  const [lectureTime, setLectureTime] = useState(1) // 강의 시작 시간
+  const [classTime, setClassTime] = useState("") // 강의 시간
+  const [summary, setSummary] = useState("") // 강의 요약
+  const [detail, setDetail] = useState("") // 강의 상세
+  const [ableTime, setAbleTime] = useState(0) // 중복된 시간 체크
+  const [open, setOpen] = React.useState(false) // 모달 open / close 여부
+  const [check, setCheck] = useState("") // 입력 안된 정보 저장
   const thumbnails = [
     scrumImg,
     cookingImg,
@@ -81,13 +86,13 @@ const NewBoard = () => {
     conferenceImg,
     studyImg,
     teamworkImg,
-  ];
+  ]
   // 현재 썸네일로 어떤 이미지가 선택됐는지(지금은 인덱스 번호로 들어가있음)
-  const [imgSelect, setImgSelect] = useState(0);
+  const [imgSelect, setImgSelect] = useState(0)
   // 이미지 클릭했을 때 해당 인덱스 번호로 imgSelect 갱신
   const toggleSelect = (e) => {
-    setImgSelect(e.target.className);
-  };
+    setImgSelect(e.target.className)
+  }
 
   // 모달 스타일
   const style = {
@@ -100,51 +105,51 @@ const NewBoard = () => {
     borderRadius: "8px",
     boxShadow: 24,
     outline: "none",
-  };
+  }
 
   const handleOpen = () => {
     // =========== 시간 비교를 위해 필요한 정보 ==================
-    const finalTime = Number(lectureTime) + Number(classTime); // 종료 시간
-    const st = new Date(lectureDay + " " + lectureTime + ":00:00"); // 입력된 수업 시작시간
-    const ed = new Date(lectureDay + " " + finalTime + ":00:00"); // 입력된 수업 종료시간
+    const finalTime = Number(lectureTime) + Number(classTime) // 종료 시간
+    const st = new Date(lectureDay + " " + lectureTime + ":00:00") // 입력된 수업 시작시간
+    const ed = new Date(lectureDay + " " + finalTime + ":00:00") // 입력된 수업 종료시간
     // ===========================================================
 
     if (allSchedule.length) {
       for (const data of allSchedule) {
         if (data.start) {
           if (new Date(data.start) <= st && new Date(data.end) > st) {
-            setAbleTime(2);
-            break;
+            setAbleTime(2)
+            break
           } else if (new Date(data.start) < ed && new Date(data.end) >= ed) {
-            setAbleTime(2);
-            break;
+            setAbleTime(2)
+            break
           } else {
-            setAbleTime(1);
+            setAbleTime(1)
           }
         } else {
           if (new Date(data.startTime) <= st && new Date(data.endTime) > st) {
-            setAbleTime(2);
-            break;
+            setAbleTime(2)
+            break
           } else if (
             new Date(data.startTime) < ed &&
             new Date(data.endTime) >= ed
           ) {
-            setAbleTime(2);
-            break;
+            setAbleTime(2)
+            break
           } else {
-            setAbleTime(1);
+            setAbleTime(1)
           }
         }
       }
     } else {
-      setAbleTime(1);
+      setAbleTime(1)
     }
-  };
+  }
 
   const handleClose = () => {
-    setOpen(false);
-    setAbleTime(0);
-  };
+    setOpen(false)
+    setAbleTime(0)
+  }
 
   // 등록 버튼 클릭으로 작동
   const handleRegister = async () => {
@@ -159,14 +164,18 @@ const NewBoard = () => {
       classTime,
       deadline,
       0
-    );
-    await setFlag(!flag);
+    )
+    await setFlag(!flag)
     navigate("/board", {
       state: {
         isWritten: "true",
       },
-    });
-  };
+    })
+    handleSnackbarInfo({
+      state: true,
+      message: "강의 게시글이 정상적으로 작성되었습니다",
+    })
+  }
 
   // 이미지 캐러쉘 세팅 옵션
   const settings = {
@@ -181,74 +190,74 @@ const NewBoard = () => {
     draggable: false,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-  };
+  }
 
   // 1 ~ 24시 중 선택
   const slectableTime = Array(24)
     .fill()
-    .map((_, i) => i + 1);
+    .map((_, i) => i + 1)
 
   const isToday = () => {
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth() + 1;
-    const day = new Date().getDate();
-    const slectedYear = +lectureDay.slice(0, 4);
-    const slectedMonth = +lectureDay.slice(5, 7);
-    const slectedDay = +lectureDay.slice(8, 10);
+    const year = new Date().getFullYear()
+    const month = new Date().getMonth() + 1
+    const day = new Date().getDate()
+    const slectedYear = +lectureDay.slice(0, 4)
+    const slectedMonth = +lectureDay.slice(5, 7)
+    const slectedDay = +lectureDay.slice(8, 10)
     if (year !== slectedYear || month !== slectedMonth || day !== slectedDay) {
-      return false;
+      return false
     } else if (
       year === slectedYear &&
       month === slectedMonth &&
       day === slectedDay
     ) {
-      return true;
+      return true
     }
-  };
+  }
 
   useEffect(() => {
     if (ableTime !== 0) {
       if (!title) {
-        setCheck("제목을 입력해주세요");
-        setOpen(true);
+        setCheck("제목을 입력해주세요")
+        setOpen(true)
       } else if (!imgSelect) {
-        setCheck("대표 이미지를 선택해주세요");
-        setOpen(true);
+        setCheck("대표 이미지를 선택해주세요")
+        setOpen(true)
       } else if (!deadline) {
-        setCheck("모집 기간을 입력해주세요");
-        setOpen(true);
+        setCheck("모집 기간을 입력해주세요")
+        setOpen(true)
       } else if (!lectureDay) {
-        setCheck("강의 날짜를 입력해주세요");
-        setOpen(true);
+        setCheck("강의 날짜를 입력해주세요")
+        setOpen(true)
       } else if (!classTime) {
-        setCheck("강의 시간을 입력해주세요");
-        setOpen(true);
+        setCheck("강의 시간을 입력해주세요")
+        setOpen(true)
       } else if (!summary) {
-        setCheck("내용 요약을 작성해주세요");
-        setOpen(true);
+        setCheck("내용 요약을 작성해주세요")
+        setOpen(true)
       } else if (!detail) {
-        setCheck("내용 상세를 작성해주세요");
-        setOpen(true);
+        setCheck("내용 상세를 작성해주세요")
+        setOpen(true)
       } else if (ableTime === 2) {
-        setCheck("해당 강의 시간에 신청된 강의가 이미 존재합니다");
-        setOpen(true);
+        setCheck("해당 강의 시간에 신청된 강의가 이미 존재합니다")
+        setOpen(true)
       } else {
-        handleRegister(); // 모두 잘 작성됐으면 등록
+        handleRegister() // 모두 잘 작성됐으면 등록
       }
     }
-  }, [ableTime]);
+  }, [ableTime])
 
   useEffect(() => {
     // 오늘이면
     if (isToday()) {
       for (let i = 1; i <= 24; i++) {
         if (i > new Date().getHours()) {
-          setLectureTime(i);
-          break;
+          setLectureTime(i)
+          break
         }
       }
     }
-  }, [lectureDay]);
+  }, [lectureDay])
 
   return (
     <S.SCardBox>
@@ -333,13 +342,13 @@ const NewBoard = () => {
                   </option>
                 ) : (
                   ""
-                );
+                )
               } else {
                 return (
                   <option value={item} key={item}>
                     {item}
                   </option>
-                );
+                )
               }
             })}
           </S.STimeInput>
@@ -419,7 +428,7 @@ const NewBoard = () => {
         </Fade>
       </Modal>
     </S.SCardBox>
-  );
-};
+  )
+}
 
-export default NewBoard;
+export default NewBoard
