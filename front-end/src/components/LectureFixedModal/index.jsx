@@ -104,18 +104,18 @@ const LectureFixedModal = ({
   // 강사 신청 취소
   const handleCancleLecture = () => {
     // 폐강 메시지 보내기
-    sendCnacleMessageAPI(
-      lectureInfo.board.id,
-      cancleText,
-      "cancle",
-      setStateMessageUpdate,
-      lectureInfo.id,
-      userInfo.id,
-      setScheduledLecture,
-      handleUserInfo
-    );
     // 취소사유 작성해야만 모달 닫기도록
     if (cancleText) {
+      sendCnacleMessageAPI(
+        lectureInfo.board.id,
+        cancleText,
+        "cancle",
+        setStateMessageUpdate,
+        lectureInfo.id,
+        userInfo.id,
+        setScheduledLecture,
+        handleUserInfo
+      );
       handleClose();
       handleClose();
     }
