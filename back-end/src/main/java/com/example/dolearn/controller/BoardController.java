@@ -131,6 +131,10 @@ public class BoardController {
 
             List<BoardDto> result = boardService.searchResult(bListByTitle,bListByContent,bListBySummary);
 
+            for(BoardDto boardDto: result){
+                boardDto.setCounts(userBoardService.getInstructors(boardDto.getId()).size(),userBoardService.getStudents(boardDto.getId()).size());
+            }
+
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();

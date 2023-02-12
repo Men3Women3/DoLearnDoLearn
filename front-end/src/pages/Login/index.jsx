@@ -214,7 +214,7 @@ const Login = () => {
               onClick={(e) =>
                 (window.location.href =
                   // 주소 수정해야 됨
-                  "http://localhost:8080/oauth2/authorization/kakao")
+                  "https://i8a802.p.ssafy.io/oauth2/authorization/kakao")
               }
             >
               <img src={kakaoLogoImg} alt="kakao_logo" />
@@ -225,7 +225,7 @@ const Login = () => {
               type="button"
               onClick={(e) =>
                 (window.location.href =
-                  "http://localhost:8080/oauth2/authorization/google")
+                  "https://i8a802.p.ssafy.io/oauth2/authorization/google")
               }
             >
               <img src={googleLogoImg} alt="google_logo" />

@@ -3,6 +3,7 @@ package com.example.dolearn.dto;
 import com.example.dolearn.domain.User;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -10,7 +11,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @Getter
-public class OAuthAttributes implements OAuth2User {
+public class OAuthAttributes implements OAuth2User, Authentication {
 
     private Map<String, Object> attributes;
     private String registrationId;
@@ -83,5 +84,30 @@ public class OAuthAttributes implements OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public Object getCredentials() {
+        return null;
+    }
+
+    @Override
+    public Object getDetails() {
+        return null;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return this;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return false;
+    }
+
+    @Override
+    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
     }
 }

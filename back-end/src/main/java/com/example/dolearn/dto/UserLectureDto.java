@@ -5,11 +5,10 @@ import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserLecture;
 import lombok.*;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
-@ToString
 public class UserLectureDto {
 
     private Long id;

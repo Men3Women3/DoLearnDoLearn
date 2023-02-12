@@ -5,8 +5,6 @@ import com.example.dolearn.domain.User;
 import com.example.dolearn.domain.UserBoard;
 import lombok.*;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
