@@ -51,32 +51,35 @@ const LectureChattingContainer = (props) => {
     }
   };
 
-  const handleMeesageSendKeyEvent = (e) => {
+  const handleMeesageSendKeyEvent = async (e) => {
     // e.preventDefault();
     // if (e.nativeEvent.isComposing) {
     // return;
     // }
-
     // if (inputData && e.key === "Enter" && !e.shiftKey) {
     // return;
     // }
-    if (e.key === "Enter") {
-      if (!e.shiftKey) {
-        client.send(
-          `/pub/normal/${props.roomId}`,
-          {
-            Authentication: accessToken,
-          },
-          JSON.stringify({
-            roomId: props.roomId,
-            sender: props.username,
-            content: inputData,
-          })
-        );
-        setInputData("");
-        console.log();
+    if (inputData) {
+      if (e.key === "Enter") {
+        if (!e.shiftKey) {
+          await client.send(
+            `/pub/normal/${props.roomId}`,
+            {
+              Authentication: accessToken,
+            },
+            JSON.stringify({
+              roomId: props.roomId,
+              sender: props.username,
+              content: inputData,
+            })
+          );
+          await setInputData("");
+          console.log(11);
+        }
       }
     }
+    console.log(3, inputData, 4);
+    console.log(4, inputData.trim(), 5);
   };
 
   const handleInnerMessage = (meesage) => {
@@ -136,7 +139,7 @@ const LectureChattingContainer = (props) => {
           rows="1"
           value={inputData}
           onChange={(e) => setInputData(e.target.value)}
-          onKeyDown={(e) => handleMeesageSendKeyEvent(e)}
+          onKeyPress={(e) => handleMeesageSendKeyEvent(e)}
         />
         {/* 메시지 전송 버튼 */}
         <button onClick={(e) => handleMessageSend(e)}>
