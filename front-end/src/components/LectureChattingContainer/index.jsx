@@ -16,10 +16,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
 import { SOCKET_URL } from "../../utils/api/URL";
+import MessageContainer from "../MessageContainer";
 
 const LectureChattingContainer = (props) => {
   const [contents, setContents] = useState([]);
-  const [inputData, setInputData] = useState("");
+  // const [inputData, setInputData] = useState("");
   const messageBoxRef = useRef();
 
   let sockJS = new SockJS(`${SOCKET_URL}`);
@@ -32,7 +33,7 @@ const LectureChattingContainer = (props) => {
     }
   };
 
-  const handleMessageSend = (e) => {
+  const handleMessageSend = (e, inputData, setInputData) => {
     e.preventDefault();
     if (inputData) {
       client.send(
@@ -51,31 +52,28 @@ const LectureChattingContainer = (props) => {
     }
   };
 
-  const handleMeesageSendKeyEvent = async (e) => {
-    // e.preventDefault();
+  const handleMeesageSendKeyEvent = async (e, inputData, setInputdata) => {
     // if (e.nativeEvent.isComposing) {
     // return;
     // }
     // if (inputData && e.key === "Enter" && !e.shiftKey) {
     // return;
     // }
-    if (inputData) {
-      if (e.key === "Enter") {
-        if (!e.shiftKey) {
-          await client.send(
-            `/pub/normal/${props.roomId}`,
-            {
-              Authentication: accessToken,
-            },
-            JSON.stringify({
-              roomId: props.roomId,
-              sender: props.username,
-              content: inputData,
-            })
-          );
-          await setInputData("");
-          console.log(11);
-        }
+    if (e.key === "Enter") {
+      if (!e.shiftKey) {
+        await client.send(
+          `/pub/normal/${props.roomId}`,
+          {
+            Authentication: accessToken,
+          },
+          JSON.stringify({
+            roomId: props.roomId,
+            sender: props.username,
+            content: inputData,
+          })
+        );
+        setInputdata("");
+        await e.preventDefault();
       }
     }
     console.log(3, inputData, 4);
@@ -133,19 +131,23 @@ const LectureChattingContainer = (props) => {
           </div> */}
         </SChattingContent>
       </SChattingContainer>
-      <SMessageContainer>
+      <MessageContainer
+        handleMeesageSendKeyEvent={handleMeesageSendKeyEvent}
+        handleMessageSend={handleMessageSend}
+      />
+      {/* <SMessageContainer>
         <textarea
           cols="38"
           rows="1"
           value={inputData}
           onChange={(e) => setInputData(e.target.value)}
-          onKeyPress={(e) => handleMeesageSendKeyEvent(e)}
-        />
-        {/* 메시지 전송 버튼 */}
-        <button onClick={(e) => handleMessageSend(e)}>
+          onKeyDown={(e) => handleMeesageSendKeyEvent(e)}
+        /> */}
+      {/* 메시지 전송 버튼 */}
+      {/* <button onClick={(e) => handleMessageSend(e)}>
           <FontAwesomeIcon className="send-icon" icon={faPaperPlane} />
         </button>
-      </SMessageContainer>
+      </SMessageContainer> */}
     </SContainer>
   );
 };

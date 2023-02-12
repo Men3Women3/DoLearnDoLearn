@@ -23,7 +23,7 @@ import {
   faPersonRunning,
 } from "@fortawesome/free-solid-svg-icons";
 import walkingChick from "../../assets/images/walkingChick.gif";
-import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL } from "../../utils/api/URL";
 
 const Profile = ({
   handleProfileEditBtn,

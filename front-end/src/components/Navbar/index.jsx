@@ -16,7 +16,7 @@ import {
 } from "../../App";
 import { Badge, Grid } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
-import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL } from "../../utils/api/URL";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
@@ -34,13 +34,13 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // 종(bell) 아이콘 눌렀을 때 메시지함으로 이동
-  const handleMoveToMessage = () => {
-    navigate("/mypage", {
-      state: {
-        message: "message",
-      },
-    });
-  };
+  // const handleMoveToMessage = () => {
+  //   navigate("/mypage", {
+  //     state: {
+  //       message: "message",
+  //     },
+  //   });
+  // };
 
   return (
     <Grid container>
@@ -54,11 +54,10 @@ const Navbar = () => {
             <NavLink to={"/board"} className="link link__board">
               강의장
             </NavLink>
-            <NavLink className="link link__board">이용안내</NavLink>
           </div>
           <div className="right-item">
             {isLogined && (
-              <NavLink to={"/mypage"} className="link username">
+              <NavLink to={"/mypage"} className="link username" state="main">
                 <img
                   src={
                     getUserInfo.userInfo.imgUrl
@@ -88,11 +87,17 @@ const Navbar = () => {
                     horizontal: "right",
                   }}
                 >
-                  <FontAwesomeIcon
-                    className="unread__notification"
-                    icon={faBell}
-                    onClick={handleMoveToMessage}
-                  />
+                  <Link
+                    to={"/mypage"}
+                    state="message"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <FontAwesomeIcon
+                      className="unread__notification"
+                      icon={faBell}
+                      // onClick={handleMoveToMessage}
+                    />
+                  </Link>
                 </Badge>
               </div>
             )}
