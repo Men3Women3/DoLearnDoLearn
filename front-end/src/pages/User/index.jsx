@@ -1,5 +1,7 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router";
+import { LoginStateContext } from "../../App";
 
 import Navbar from "../../components/Navbar";
 import Profile from "../../components/Profile/index";
@@ -10,69 +12,57 @@ import UnScheduleLecture from "../../components/UnScheduleLecture";
 
 import Grid from "@mui/material/Grid";
 import Message from "../../components/Message";
-import { useLocation } from "react-router";
-import { LoginStateContext } from "../../App";
-
-// const checkMoveToMessageTab = (target, location) => {
-//   // 넘겨받은 상태가 메시지인 경우
-//   if (location.state === "message") {
-//     // 메인에서 요청을 보내고 있으면 false
-//     if (target === "main") {
-//       return false;
-//     }
-//     // 메인이 아니라면(메시지) true
-//     else if (target === "message") {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-//   // 넘겨받은 상태가 메시지가 아닌 경우
-//   else {
-//     // 메인에서 요청을 보내고 있으면 true
-//     if (target === "main") {
-//       return true;
-//     }
-//     // 메인이 아니라면(메시지) false
-//     else {
-//       return false;
-//     }
-//   }
-// };
 
 const User = () => {
-  // let location = useLocation();
-  // if (location.state.message) {
-  //   isFromMessageNotice = location.state.message;
-
-  //   isFromMessageNotice = null;
-  // }
-
   const location = useLocation();
+  const [checkLocationState, setCheckLocationState] = useState(location.state);
 
-  // console.log(isFromMessageNotice, 293293293);
   const getUserInfo = useContext(LoginStateContext);
 
-  const [isProfileTabActive, setIsProfileTabActive] = useState(true);
+  const [isProfileTabActive, setIsProfileTabActive] = useState(false);
   const [isScheduleTabActive, setIsScheduleTabActive] = useState(false);
   const [isUnScheduleTabActive, setIsUnScheduleTabActive] = useState(false);
   const [isMessageTabActive, setIsMessageTabActive] = useState(false);
   const [isProfileEditActive, setIsProfileEditActive] = useState(false);
 
   // 처음 렌더링 될 때
-  // useEffect(() => {
-  //   setIsProfileTabActive(checkMoveToMessageTab("main", location));
-  //   setIsScheduleTabActive(checkMoveToMessageTab("schedule", location));
-  //   setIsUnScheduleTabActive(checkMoveToMessageTab("unSchedule", location));
-  //   setIsMessageTabActive(checkMoveToMessageTab("message", location));
-  // }, [location.state]);
+  useEffect(() => {
+    setCheckLocationState(location.state);
+  }, [location.state]);
+
+  useEffect(() => {
+    if (checkLocationState === "main") {
+      setIsProfileTabActive(true);
+      setIsScheduleTabActive(false);
+      setIsUnScheduleTabActive(false);
+      setIsMessageTabActive(false);
+      setIsProfileEditActive(false);
+    } else if (checkLocationState === "schedule") {
+      setIsProfileTabActive(false);
+      setIsScheduleTabActive(true);
+      setIsUnScheduleTabActive(false);
+      setIsMessageTabActive(false);
+      setIsProfileEditActive(false);
+    } else if (checkLocationState === "unschedule") {
+      setIsProfileTabActive(false);
+      setIsScheduleTabActive(false);
+      setIsUnScheduleTabActive(true);
+      setIsMessageTabActive(false);
+      setIsProfileEditActive(false);
+    } else if (checkLocationState === "message") {
+      setIsProfileTabActive(false);
+      setIsScheduleTabActive(false);
+      setIsUnScheduleTabActive(false);
+      setIsMessageTabActive(true);
+      setIsProfileEditActive(false);
+    }
+  }, [checkLocationState]);
 
   // ProfileSidebar에 내려줄 함수
   // ProfileSidebar에 있는 4개의 탭 중 하나를 클릭하면 그 탭의 클래스네임을 매칭해서
   // state를 변경하는 함수
   // 이 함수를 내려주면 ProfileSidebar에 state들만 내려주면 된다. 상태관리는 이 함수가 맡는다.
   const handleTabValue = (e) => {
-    console.log(e.target);
     if (e.target.className.includes("profile-page")) {
       setIsProfileTabActive(true);
       setIsScheduleTabActive(false);
@@ -105,31 +95,9 @@ const User = () => {
     setIsProfileEditActive(!isProfileEditActive);
   };
 
-  useEffect(() => {
-    let isFromMessageNotice;
-    if (location.state?.message) {
-      isFromMessageNotice = location.state.message;
-      if (isFromMessageNotice) {
-        // console.log("메시지 공지로 들어옴")
-        setIsProfileTabActive(false);
-        setIsScheduleTabActive(false);
-        setIsUnScheduleTabActive(false);
-        setIsMessageTabActive(true);
-        setIsProfileEditActive(false);
-        isFromMessageNotice = null;
-      }
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   console.log("바뀜!");
-  //   console.log({ isProfileEditActive });
-  // }, [isProfileEditActive]);
-
   return (
     <div>
       <Navbar />
-
       <Grid container>
         {/* content 부분 그리드 설정 */}
         <Grid item xs={0} md={1.5} />
@@ -147,11 +115,11 @@ const User = () => {
           {isProfileTabActive && !isProfileEditActive && (
             <Profile
               handleProfileEditBtn={handleProfileEditBtn}
-              // isProfileEditActive={isProfileEditActive}
               user={getUserInfo.userInfo}
               userState="me"
             />
           )}
+
           {isProfileTabActive && isProfileEditActive && (
             <ProfileEdit
               handleProfileEditBtn={handleProfileEditBtn}
