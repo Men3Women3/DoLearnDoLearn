@@ -56,7 +56,6 @@ const LectureChattingContainer = (props) => {
     // if (e.nativeEvent.isComposing) {
     // return;
     // }
-
     // if (inputData && e.key === "Enter" && !e.shiftKey) {
     // return;
     // }
@@ -77,6 +76,8 @@ const LectureChattingContainer = (props) => {
         await e.preventDefault();
       }
     }
+    console.log(3, inputData, 4);
+    console.log(4, inputData.trim(), 5);
   };
 
   const handleInnerMessage = (meesage) => {

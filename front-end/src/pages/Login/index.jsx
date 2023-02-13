@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from "react"
-import loginImg from "../../assets/images/login_img.svg"
-import logoImg from "../../assets/images/logo.png"
-import Backdrop from "@mui/material/Backdrop"
-import Box from "@mui/material/Box"
-import Modal from "@mui/material/Modal"
-import Fade from "@mui/material/Fade"
-import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
-import naverLogoImg from "../../assets/images/login/naver_logo.png"
-import kakaoLogoImg from "../../assets/images/login/kakao_logo.png"
-import googleLogoImg from "../../assets/images/login/google_logo.png"
+import React, { useCallback, useEffect, useState } from "react";
+import loginImg from "../../assets/images/login_img.svg";
+import logoImg from "../../assets/images/logo.png";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import naverLogoImg from "../../assets/images/login/naver_logo.png";
+import kakaoLogoImg from "../../assets/images/login/kakao_logo.png";
+import googleLogoImg from "../../assets/images/login/google_logo.png";
 import {
   SMain,
   SForm,
@@ -31,16 +31,16 @@ import {
   SSignUpButton,
   SFindPassword,
   SCancelButton,
-} from "./styles"
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
-import { NavLink, useNavigate } from "react-router-dom"
-import Lottie from "react-lottie"
-import animationData from "../../assets/images/LOGIN"
-import axios from "axios"
-import { useContext } from "react"
-import { LoginStateContext, LoginStateHandlerContext } from "../../App"
-import { loginAPI } from "../../utils/api/userAPI"
-import { SOCIAL_LOGIN_URL } from "../../utils/api/URL"
+} from "./styles";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { NavLink, useNavigate } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from "../../assets/images/LOGIN";
+import axios from "axios";
+import { useContext } from "react";
+import { LoginStateContext, LoginStateHandlerContext } from "../../App";
+import { loginAPI } from "../../utils/api/userAPI";
+import { SOCIAL_LOGIN_URL } from "../../utils/api/URL";
 
 const style = {
   position: "absolute",
@@ -52,7 +52,7 @@ const style = {
   borderRadius: "8px",
   boxShadow: 24,
   outline: "none",
-}
+};
 
 const defaultOptions = {
   loop: true,
@@ -61,24 +61,25 @@ const defaultOptions = {
   rendererSettings: {
     preserveAspectRatio: "xMidYMid slice",
   },
-}
+};
 
 const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [isEmpty, setIsEmpty] = useState("")
-  const [isCorrectPassword, setIsCorrectPassword] = useState("")
-  const [isCorrectEmail, setIsCorrectEmail] = useState("")
-  const [open, setOpen] = React.useState(false)
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isEmpty, setIsEmpty] = useState("");
+  const [isCorrectPassword, setIsCorrectPassword] = useState("");
+  const [isCorrectEmail, setIsCorrectEmail] = useState("");
+  const [open, setOpen] = React.useState(false);
+  const [isNaverLogin, setIsNaverLogin] = useState(false);
+  const navigate = useNavigate();
 
   // context api를 통해 handleIsLogined 함수 가져오기
   const { handleIsLogined, handleUserInfo } = useContext(
     LoginStateHandlerContext
-  )
+  );
 
   const onSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!open) {
       // 로그인 api 요청
       loginAPI(
@@ -89,35 +90,47 @@ const Login = () => {
         setIsCorrectEmail,
         setIsCorrectPassword,
         navigate
-      )
+      );
     }
-  }
+  };
 
   // 회원가입으로 이동시키는 함수
   const handleMoveToSignUp = () => {
-    navigate("/signup")
-  }
+    navigate("/signup");
+  };
 
   // 모달을 여는 핸들러 함수
   const handleOpen = (e) => {
     if (!email || !password) {
-      setOpen(true)
+      setOpen(true);
     }
-  }
+  };
 
   // 모달을 닫는 핸들러 함수
-  const handleClose = () => setOpen(false)
+  const handleClose = async () => {
+    let timeout = null;
+    await setOpen(false);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      setIsNaverLogin(false);
+    }, 150);
+  };
 
   const handleOnChangeEmail = useCallback((e) => {
-    setEmail(e.target.value)
-  }, [])
+    setEmail(e.target.value);
+  }, []);
 
   const handleOnPassword = useCallback((e) => {
     if (e.target.value.length === 0) {
-      setIsCorrectPassword("")
+      setIsCorrectPassword("");
     }
-    setPassword(e.target.value)
-  }, [])
+    setPassword(e.target.value);
+  }, []);
+
+  const openNaverLogin = () => {
+    setIsNaverLogin(true);
+    setOpen(true);
+  };
 
   return (
     <SMain>
@@ -174,7 +187,7 @@ const Login = () => {
             <SLoginButton type="submit" onClick={(e) => handleOpen(e)}>
               로그인
             </SLoginButton>
-            <SSignUpButton onClick={handleMoveToSignUp}>
+            <SSignUpButton type="button" onClick={handleMoveToSignUp}>
               새로운 계정 만들기
             </SSignUpButton>
             <hr
@@ -187,14 +200,7 @@ const Login = () => {
                 marginBottom: "30px",
               }}
             />
-            <SnaverLoginButton
-              type="button"
-              onClick={(e) =>
-                (window.location.href =
-                  // 주소 수정해야 됨
-                  `${SOCIAL_LOGIN_URL}/oauth2/authorization/naver`)
-              }
-            >
+            <SnaverLoginButton type="button" onClick={() => openNaverLogin()}>
               <img src={naverLogoImg} alt="naver_logo" />
               네이버로 로그인
             </SnaverLoginButton>
@@ -246,7 +252,9 @@ const Login = () => {
               variant="h6"
               component="h2"
             >
-              {email
+              {isNaverLogin
+                ? "서비스 예정입니다."
+                : email
                 ? password
                   ? ""
                   : "비밀번호를 입력해주세요."
@@ -261,7 +269,7 @@ const Login = () => {
         </Fade>
       </Modal>
     </SMain>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
