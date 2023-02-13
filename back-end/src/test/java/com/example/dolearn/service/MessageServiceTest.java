@@ -2,6 +2,7 @@ package com.example.dolearn.service;
 
 import com.example.dolearn.domain.*;
 import com.example.dolearn.dto.MessageDto;
+import com.example.dolearn.exception.CustomException;
 import com.example.dolearn.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,11 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -56,12 +59,11 @@ public class MessageServiceTest {
         Board board = Board.builder().id(1L).title("좋은 강의입니다.").build();
 
         User user1 = User.builder().id(1L).name("test1").build();
-        User user2 = User.builder().id(2L).name("test2").build();
 
         List<UserLecture> result = new ArrayList<>();
 
-        UserLecture userLecture1 = UserLecture.builder().user(user1).id(1L).build();
-        UserLecture userLecture2 = UserLecture.builder().user(user2).id(2L).build();
+        UserLecture userLecture1 = UserLecture.builder().id(1L).build();
+        UserLecture userLecture2 = UserLecture.builder().user(user1).id(2L).build();
 
         result.add(userLecture1);
         result.add(userLecture2);
@@ -73,7 +75,7 @@ public class MessageServiceTest {
 
         //then
         List<MessageDto> mList = messageService.createMessage(messageDto);
-        assertThat(mList.size()).isEqualTo(result.size());
+        assertThat(mList.size()).isEqualTo(1);
     }
 
 
@@ -178,4 +180,66 @@ public class MessageServiceTest {
         assertThat(messageDto.getContent()).isEqualTo(result.get().getContent());
     }
 
+    @DisplayName("특정 메세지 삭제 테스트")
+    @Test
+    public void deleteMessage() throws Exception {
+
+        Message message = Message
+                .builder()
+                .content("test content")
+                .build();
+
+        when(messageRepository.findById(anyLong())).thenReturn(Optional.of(message));
+
+        messageService.deleteMessage(1L);
+    }
+
+    @DisplayName("특정 메세지 삭제 에러 발생 테스트")
+    @Test
+    public void deleteMessageNoMessage() {
+
+        Exception exception = assertThrows(CustomException.class, () -> {
+            messageService.deleteMessage(2L);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals(exception.getMessage(),"없는 메세지 입니다.");
+    }
+
+    @DisplayName("읽지 않은 메세지 가져오기 테스트")
+    @Test
+    public void getUnCheckMessageList() {
+
+        User user = User
+                .builder()
+                .email("cksgnlcjswoo@nVER.COM")
+                .name("test1")
+                .build();
+
+        Board board = Board
+                .builder()
+                .title("tmp")
+                .build();
+
+        Message message1 = Message
+                .builder()
+                .content("강의확정")
+                .isChecked(1)
+                .build();
+
+        Message message2 = Message
+                .builder()
+                .content("강의확정")
+                .isChecked(0)
+                .build();
+
+        message1.setUser(user); message1.setBoard(board);
+        message2.setUser(user); message2.setBoard(board);
+
+        when(userRepository.findOneById(anyLong())).thenReturn(Optional.of(user));
+
+        List<MessageDto> result = messageService.getUnCheckMessageList(1L);
+
+        assertThat(result.size()).isEqualTo(1);
+    }
 }
