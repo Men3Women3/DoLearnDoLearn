@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import loginImg from "../../assets/images/login_img.svg";
 import logoImg from "../../assets/images/logo.png";
 import Backdrop from "@mui/material/Backdrop";
@@ -40,6 +40,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoginStateContext, LoginStateHandlerContext } from "../../App";
 import { loginAPI } from "../../utils/api/userAPI";
+import { SOCIAL_LOGIN_URL } from "../../utils/api/URL";
 
 const style = {
   position: "absolute",
@@ -62,8 +63,6 @@ const defaultOptions = {
   },
 };
 
-const axiosDefaultURL = "http://localhost:8080";
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,10 +70,11 @@ const Login = () => {
   const [isCorrectPassword, setIsCorrectPassword] = useState("");
   const [isCorrectEmail, setIsCorrectEmail] = useState("");
   const [open, setOpen] = React.useState(false);
+  const [isNaverLogin, setIsNaverLogin] = useState(false);
   const navigate = useNavigate();
 
   // context api를 통해 handleIsLogined 함수 가져오기
-  const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
+  const { handleIsLogined, handleUserInfo } = useContext(
     LoginStateHandlerContext
   );
 
@@ -107,7 +107,14 @@ const Login = () => {
   };
 
   // 모달을 닫는 핸들러 함수
-  const handleClose = () => setOpen(false);
+  const handleClose = async () => {
+    let timeout = null;
+    await setOpen(false);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      setIsNaverLogin(false);
+    }, 150);
+  };
 
   const handleOnChangeEmail = useCallback((e) => {
     setEmail(e.target.value);
@@ -120,14 +127,14 @@ const Login = () => {
     setPassword(e.target.value);
   }, []);
 
+  const openNaverLogin = () => {
+    setIsNaverLogin(true);
+    setOpen(true);
+  };
+
   return (
     <SMain>
       <SMainContainer>
-        {/* <div className="nav__section">
-          <NavLink to={"/"}>
-            <img src={logoImg} alt="logo_img" />
-          </NavLink>
-        </div> */}
         <SImgSection>
           <div className="nav__section">
             <NavLink className="Home-link" to={"/"}>
@@ -136,11 +143,7 @@ const Login = () => {
           </div>
           <h1>Welcome Back!</h1>
           <div>
-            <Lottie
-              options={defaultOptions}
-              // height={400}
-              // width={600}
-            />
+            <Lottie options={defaultOptions} />
           </div>
         </SImgSection>
         <SForm onSubmit={onSubmit}>
@@ -184,7 +187,7 @@ const Login = () => {
             <SLoginButton type="submit" onClick={(e) => handleOpen(e)}>
               로그인
             </SLoginButton>
-            <SSignUpButton onClick={handleMoveToSignUp}>
+            <SSignUpButton type="button" onClick={handleMoveToSignUp}>
               새로운 계정 만들기
             </SSignUpButton>
             <hr
@@ -197,14 +200,7 @@ const Login = () => {
                 marginBottom: "30px",
               }}
             />
-            <SnaverLoginButton
-              type="button"
-              onClick={(e) =>
-                (window.location.href =
-                  // 주소 수정해야 됨
-                  "http://localhost:8080/oauth2/authorization/naver")
-              }
-            >
+            <SnaverLoginButton type="button" onClick={() => openNaverLogin()}>
               <img src={naverLogoImg} alt="naver_logo" />
               네이버로 로그인
             </SnaverLoginButton>
@@ -214,7 +210,7 @@ const Login = () => {
               onClick={(e) =>
                 (window.location.href =
                   // 주소 수정해야 됨
-                  "https://i8a802.p.ssafy.io/oauth2/authorization/kakao")
+                  `${SOCIAL_LOGIN_URL}/oauth2/authorization/kakao`)
               }
             >
               <img src={kakaoLogoImg} alt="kakao_logo" />
@@ -224,8 +220,7 @@ const Login = () => {
             <SgoogleLoginButton
               type="button"
               onClick={(e) =>
-                (window.location.href =
-                  "https://i8a802.p.ssafy.io/oauth2/authorization/google")
+                (window.location.href = `${SOCIAL_LOGIN_URL}/oauth2/authorization/google`)
               }
             >
               <img src={googleLogoImg} alt="google_logo" />
@@ -257,7 +252,9 @@ const Login = () => {
               variant="h6"
               component="h2"
             >
-              {email
+              {isNaverLogin
+                ? "서비스 예정입니다."
+                : email
                 ? password
                   ? ""
                   : "비밀번호를 입력해주세요."

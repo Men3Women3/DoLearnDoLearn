@@ -1,20 +1,49 @@
 import React from "react"
+import { Snackbar, Slide, AlertTitle, Alert } from "@mui/material"
 import { useState } from "react"
-import { Snackbar } from "@mui/material"
-import Slide from "@mui/material"
+import { useEffect } from "react"
 
-const SimpleSnackbar = ({ content, state, handleClose }) => {
-  console.log({ content }, { state })
+function TransitionUp(props) {
+  return <Slide {...props} direction="right" />
+}
+
+const SimpleSnackbar = ({ message, setOpenSnackbar }) => {
+  const [open, setOpen] = useState(true)
+  const handleClose = (e, reason) => {
+    if (reason === "clickaway") {
+      return
+    }
+    setOpen(false)
+  }
+
+  useEffect(() => {
+    if (!open) {
+      setTimeout(() => {
+        setOpenSnackbar(false)
+      }, 1000)
+    }
+  }, [open])
   return (
-    <div>
+    <>
       <Snackbar
-        open={state.open}
+        open={open}
         onClose={handleClose}
-        autoHideDuration={1000}
-        TransitionComponent={state.Transition}
-        message={content}
-      ></Snackbar>
-    </div>
+        autoHideDuration={3000}
+        transitionDuration={1000}
+        TransitionComponent={TransitionUp}
+      >
+        <Alert
+          severity="success"
+          color="warning"
+          autoHideDuration={3000}
+          sx={{
+            fontWeight: "bold",
+          }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
+    </>
   )
 }
 

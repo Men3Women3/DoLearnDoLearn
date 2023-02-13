@@ -15,8 +15,9 @@ export const SMain = styled.main`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
+    padding: 0 30px;
     border-radius: 10px;
+    height: 4.8vw;
   }
   .message__read {
     background-color: ${(props) => props.theme.lighterGray};
@@ -50,6 +51,7 @@ export const SMain = styled.main`
   .message-time {
     width: 15%;
     text-align: right;
+    white-space: pre-wrap;
   }
   .trash-icon {
     width: 10%;

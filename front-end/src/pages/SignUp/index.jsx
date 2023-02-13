@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from "react";
-import logoImg from "../../assets/images/logo.png";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
+import React, { useCallback, useState } from "react"
+import logoImg from "../../assets/images/logo.png"
+import { Link, NavLink, useNavigate } from "react-router-dom"
+import Backdrop from "@mui/material/Backdrop"
+import Box from "@mui/material/Box"
+import Modal from "@mui/material/Modal"
+import Fade from "@mui/material/Fade"
+import Typography from "@mui/material/Typography"
 import {
   faEnvelope,
   faLock,
@@ -13,12 +13,12 @@ import {
   faUnlock,
   faLink,
   faComment,
-} from "@fortawesome/free-solid-svg-icons";
+} from "@fortawesome/free-solid-svg-icons"
 import {
   faInstagram,
   faFacebook,
   faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
+} from "@fortawesome/free-brands-svg-icons"
 import {
   SMain,
   SForm,
@@ -41,14 +41,16 @@ import {
   SCancelButton,
   SBackToLoginButton,
   SSubmitButton,
-} from "./styles";
-import useInput from "../../hooks/useInput"; // 커스텀 훅
-import axios from "axios";
-import Lottie from "react-lottie";
-import animationData from "../../assets/images/SIGNUP";
-import { useEffect } from "react";
-import { signupAPI } from "../../utils/api/userAPI";
-import { duplicatedEmailCheckAPI } from "../../utils/api/userAPI";
+} from "./styles"
+import useInput from "../../hooks/useInput" // 커스텀 훅
+import axios from "axios"
+import Lottie from "react-lottie"
+import animationData from "../../assets/images/SIGNUP"
+import { useEffect } from "react"
+import { signupAPI } from "../../utils/api/userAPI"
+import { duplicatedEmailCheckAPI } from "../../utils/api/userAPI"
+import { LoginStateHandlerContext } from "../../App"
+import { useContext } from "react"
 
 const style = {
   position: "absolute",
@@ -60,7 +62,7 @@ const style = {
   borderRadius: "8px",
   boxShadow: 24,
   outline: "none",
-};
+}
 
 const defaultOptions = {
   loop: true,
@@ -69,32 +71,34 @@ const defaultOptions = {
   rendererSettings: {
     preserveAspectRatio: "xMidYMid slice",
   },
-};
+}
 
 const SignUp = () => {
-  const [username, onChangeUsername] = useInput("");
-  const [email, onChangeEmail] = useInput("");
-  const [password, onChangePassword] = useInput("");
-  const [passwordCheck, onChangePasswordCheck] = useInput("");
-  const [blogLink, setBlogLink] = useState("");
-  const [youtubeLink, setYoutubeLink] = useState("");
-  const [instagramLink, setInstagramLink] = useState("");
-  const [facebookLink, setFacebookLink] = useState("");
-  const [selfIntroduction, setSelfIntroduction] = useState("");
-  const [isNext, setIsNext] = useState(false);
+  const [username, onChangeUsername] = useInput("")
+  const [email, onChangeEmail] = useInput("")
+  const [password, onChangePassword] = useInput("")
+  const [passwordCheck, onChangePasswordCheck] = useInput("")
+  const [blogLink, setBlogLink] = useState("")
+  const [youtubeLink, setYoutubeLink] = useState("")
+  const [instagramLink, setInstagramLink] = useState("")
+  const [facebookLink, setFacebookLink] = useState("")
+  const [selfIntroduction, setSelfIntroduction] = useState("")
+  const [isNext, setIsNext] = useState(false)
   // const [isEmpty, setIsEmpty] = useState("");
-  const [isDuplicatedEmail, setIsDuplicatedEmail] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [isDuplicatedEmail, setIsDuplicatedEmail] = useState(false)
+  const [isCorrect, setIsCorrect] = useState(false)
+  const [open, setOpen] = useState(false)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const { handleSnackbarInfo } = useContext(LoginStateHandlerContext)
 
   // 이메일 유효성 검사를 위한 정규표현식
-  const regexEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+  const regexEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}")
 
   // 비밀번호 유효성 검사를 위한 정규표현식
   const regExpPassword =
-    /^.*(?=^.{9,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+    /^.*(?=^.{9,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/
 
   // 이름, 이메일, 비밀번호, 비밀번호 확인을 규칙에 맞게 작성했는지 확인하는 함수
   // 규칙에 맞게 작성하지 않았으면 isCorrect를 false로 만들고, 규칙에 맞게 작성했으면 isCorrect를 true로 만든다.
@@ -105,7 +109,7 @@ const SignUp = () => {
       !regExpPassword.test(password) ||
       password !== passwordCheck
     ) {
-      setIsCorrect(false);
+      setIsCorrect(false)
     }
     if (
       username.length <= 30 &&
@@ -113,9 +117,9 @@ const SignUp = () => {
       regExpPassword.test(password) &&
       password === passwordCheck
     ) {
-      setIsCorrect(true);
+      setIsCorrect(true)
     }
-  }, [username, email, password, passwordCheck, isCorrect]);
+  }, [username, email, password, passwordCheck, isCorrect])
 
   // handleNextForm()를 통해 isDuplicatedEmail이 바뀌면 이메일 중복을 검사하는 axios 요청 실행
   // 이메일이 중복되지 않으면 setIsNext(true)를 통해 추가 입력사항 폼을 보여준다.
@@ -127,23 +131,23 @@ const SignUp = () => {
       setIsNext,
       setIsDuplicatedEmail,
       setOpen
-    );
-  }, [isDuplicatedEmail]);
+    )
+  }, [isDuplicatedEmail])
 
   // 필수입력사항을 모두 입력했으면 이메일 중복 검사를 실행시키는 트리거 함수(useEffect를 실행시킴)
   const handleNextForm = () => {
     if (username && email && password && passwordCheck) {
-      setIsNext(true);
+      setIsNext(true)
     } else {
-      setOpen(true);
-      setIsNext(false);
+      setOpen(true)
+      setIsNext(false)
     }
-    setIsDuplicatedEmail(true);
-  };
+    setIsDuplicatedEmail(true)
+  }
 
   // 회원가입 api를 사용하여 회원가입을 진행하는 함수
   const onSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (isNext === true) {
       signupAPI(
         username,
@@ -155,20 +159,24 @@ const SignUp = () => {
         instagramLink,
         facebookLink,
         navigate
-      );
+      )
+      handleSnackbarInfo({
+        state: true,
+        message: "회원가입이 완료되었습니다🎉",
+      })
     }
-  };
+  }
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false)
 
   // 필수 입력사항에서 문제가 발생할 경우 모달에 표시될 문구를 반환해주는 함수
   const handleModalText = () => {
-    if (!username) return "이름(실명)을 입력해주세요.";
-    if (!email) return "이메일을 입력해주세요.";
-    if (!password) return "비밀번호를 입력해주세요.";
-    if (!passwordCheck) return "비밀번호를 다시 입력해주세요.";
-    if (!isDuplicatedEmail) return "이미 존재하는 이메일입니다.";
-  };
+    if (!username) return "이름(실명)을 입력해주세요."
+    if (!email) return "이메일을 입력해주세요."
+    if (!password) return "비밀번호를 입력해주세요."
+    if (!passwordCheck) return "비밀번호를 다시 입력해주세요."
+    if (!isDuplicatedEmail) return "이미 존재하는 이메일입니다."
+  }
 
   return (
     <SMain>
@@ -387,7 +395,7 @@ const SignUp = () => {
         </Fade>
       </Modal>
     </SMain>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp
