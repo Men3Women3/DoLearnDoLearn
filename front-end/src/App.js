@@ -79,7 +79,7 @@ function App() {
       setStateMessageUpdate(false);
       getUnreadMessageCnt(setUnreadMessageCnt);
     }
-  }, [stateMessageUpdate]);
+  }, [stateMessageUpdate, isLogined]);
 
   // 로그인 상태 관리 함수
   const handleIsLogined = () => {

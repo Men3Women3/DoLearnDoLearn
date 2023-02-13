@@ -208,7 +208,11 @@ export const getFixedLectureInfo = async (
   let students = [];
   res.data.response.forEach((element) => {
     if (element.memberType === "강사") {
-      instructor = element.user;
+      if (element.user === null) {
+        instructor = [];
+      } else {
+        instructor = element.user;
+      }
       lecture = element.lecture;
     } else {
       students.push(element.user);
