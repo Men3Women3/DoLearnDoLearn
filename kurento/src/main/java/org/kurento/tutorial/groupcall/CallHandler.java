@@ -67,7 +67,9 @@ public class CallHandler extends TextWebSocketHandler {
         UserSession userSession = registry.getBySession(session);
         Room room = roomManager.getRoom(userSession.getRoomName());
         for (UserSession participant : room.getParticipants()) {
-          participant.sendMessage(jsonMessage);
+          synchronized (session){
+            participant.sendMessage(jsonMessage);
+          }
         }
         break;
       case "receiveVideoFrom":
@@ -80,7 +82,9 @@ public class CallHandler extends TextWebSocketHandler {
         userSession = registry.getBySession(session);
         room = roomManager.getRoom(userSession.getRoomName());
         for (UserSession participant : room.getParticipants()) {
-          participant.sendMessage(jsonMessage);
+          synchronized (session){
+            participant.sendMessage(jsonMessage);
+          }
         }
         leaveRoom(user);
         break;
@@ -91,11 +95,15 @@ public class CallHandler extends TextWebSocketHandler {
         userSession = registry.getBySession(session);
         room = roomManager.getRoom(userSession.getRoomName());
         for (UserSession participant : room.getParticipants()) {
-          participant.sendMessage(jsonMessage);
+          synchronized (session){
+            participant.sendMessage(jsonMessage);
+          }
         }
         break;
       case "shareScreen":
-        shareScreen(jsonMessage, session);
+        synchronized (session){
+          shareScreen(jsonMessage, session);
+        }
         break;
       case "onIceCandidate":
         JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
