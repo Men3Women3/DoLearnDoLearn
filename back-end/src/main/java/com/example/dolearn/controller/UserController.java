@@ -201,6 +201,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/all-id")
+    public ResponseEntity<?> getAllId(){
+        try{
+            return new ResponseEntity<>(new SuccessResponse(userService.getAllId()), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/summary-info/{id}")
     public ResponseEntity<?> getSummaryInfo(@PathVariable("id") Long id){
         try{

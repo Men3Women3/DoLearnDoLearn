@@ -47,6 +47,10 @@ public class MessageService {
             log.info("개수 : {}",userLectureList.size());
             //위에서 받아온 수신자로 메세지 받도록
             for(UserLecture userLecture : userLectureList) {
+
+                //회원탈퇴한 유저
+                if(userLecture.getUser() == null) continue;
+
                 Message message = Message.builder().content(messageDto
                         .getContent())
                         .type(messageDto.getType())
