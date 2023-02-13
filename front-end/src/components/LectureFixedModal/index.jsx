@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Modal, Tooltip, Typography } from "@mui/material";
 import {
   faClock,
   faFileLines,
@@ -15,9 +15,7 @@ import {
   SContent,
   SDetail,
 } from "./styles";
-import { cancelEnrollAPI } from "../../utils/api/boardAPI";
 import {
-  BoardDataContext,
   LoginStateContext,
   LoginStateHandlerContext,
   UnreadMessageContext,
@@ -80,12 +78,14 @@ const LectureFixedModal = ({
   isLecturer,
   lectureTime,
 }) => {
-  const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
   const [cancleText, setCancleText] = useState("");
   const { unreadMessageCnt, setStateMessageUpdate } =
     useContext(UnreadMessageContext);
-  const { handleUserInfo } = useContext(LoginStateHandlerContext);
+  const { handleUserInfo, handleSnackbarInfo } = useContext(
+    LoginStateHandlerContext
+  );
+
   const navigate = useNavigate();
   const buttonActive = checkButtonState(lectureTime.endTime);
 
@@ -99,23 +99,27 @@ const LectureFixedModal = ({
     // 수강생의 경우 신청 취소
     cancleFixedLectureAPI(lectureInfo.id, userInfo.id, setScheduledLecture);
     handleClose();
+    handleSnackbarInfo({
+      state: true,
+      message: "강의 신청이 정상적으로 취소되었습니다",
+    });
   };
 
   // 강사 신청 취소
   const handleCancleLecture = () => {
     // 폐강 메시지 보내기
-    sendCnacleMessageAPI(
-      lectureInfo.board.id,
-      cancleText,
-      "cancle",
-      setStateMessageUpdate,
-      lectureInfo.id,
-      userInfo.id,
-      setScheduledLecture,
-      handleUserInfo
-    );
     // 취소사유 작성해야만 모달 닫기도록
     if (cancleText) {
+      sendCnacleMessageAPI(
+        lectureInfo.board.id,
+        cancleText,
+        "cancle",
+        setStateMessageUpdate,
+        lectureInfo.id,
+        userInfo.id,
+        setScheduledLecture,
+        handleUserInfo
+      );
       handleClose();
       handleClose();
     }
@@ -141,7 +145,6 @@ const LectureFixedModal = ({
     if (
       Math.floor(
         (new Date(lectureTime.startTime) - new Date()) / (1000 * 60) <= 10 &&
-          // new Date() - new Date(props.item.endTime) <= 0
           new Date() <= new Date(lectureTime.endTime)
       )
     ) {
@@ -166,26 +169,40 @@ const LectureFixedModal = ({
                 <b>강사 정보</b>
               </SSpan>
             </SInfoItem>
-            <div
-              className="instructor__section"
-              onClick={(e) => handleOpenProfile(instructorInfo.id)}
+            <Tooltip
+              title={`${instructorInfo.name}님의 프로필 보러가기`}
+              placement="bottom-end"
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    bgcolor: "orange",
+                    fontWeight: "bold",
+                    p: 1,
+                  },
+                },
+              }}
             >
-              <div>
-                <img
-                  className="profile-img"
-                  src={
-                    instructorInfo.imgUrl
-                      ? `${BASE_URL}/user${instructorInfo.imgUrl}`
-                      : defaultProfile
-                  }
-                  alt=""
-                />
+              <div
+                className="instructor__section"
+                onClick={(e) => handleOpenProfile(instructorInfo.id)}
+              >
+                <div>
+                  <img
+                    className="profile-img"
+                    src={
+                      instructorInfo.imgUrl
+                        ? `${BASE_URL}/user${instructorInfo.imgUrl}`
+                        : defaultProfile
+                    }
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <div className="instructor-name">{instructorInfo.name}</div>
+                  <div className="instructor-email">{instructorInfo.email}</div>
+                </div>
               </div>
-              <div>
-                <div className="instructor-name">{instructorInfo.name}</div>
-                <div className="instructor-email">{instructorInfo.email}</div>
-              </div>
-            </div>
+            </Tooltip>
           </SContent>
           <SInfoItem>
             <SCustomFontAwesomeIcon icon={faUsers} />

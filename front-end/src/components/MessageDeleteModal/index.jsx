@@ -1,13 +1,8 @@
-import React, { useContext } from "react";
-import { useState } from "react";
-import SimpleSnackbar from "../SimpleSnackbar";
-
-import { SButtonContainer, SSpan, SScontent } from "./styles";
-
-import { Box, Modal, Slide, Typography } from "@mui/material";
-import axios from "axios";
-import { UnreadMessageContext } from "../../App";
-import { deleteMessageAPI } from "../../utils/api/messageAPI";
+import React, { useContext } from "react"
+import { LoginStateHandlerContext, UnreadMessageContext } from "../../App"
+import { deleteMessageAPI } from "../../utils/api/messageAPI"
+import { SButtonContainer, SSpan, SScontent } from "./styles"
+import { Box, Modal, Typography } from "@mui/material"
 
 const style = {
   position: "absolute",
@@ -20,7 +15,7 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "20px 30px",
-};
+}
 
 const MessageDeleteModal = ({
   messageId,
@@ -28,29 +23,9 @@ const MessageDeleteModal = ({
   handleClose,
   checkState,
   setCheckState,
-  // setCheckDeleteState,
 }) => {
-  const { unreadMessageCnt, setStateMessageUpdate } =
-    useContext(UnreadMessageContext);
-  const slideTransition = (props) => {
-    return <Slide {...props} direction="up" />;
-  };
-  const [state, setState] = useState({
-    open: false,
-    Transition: slideTransition,
-  });
-
-  const handleSnackbarOpen = () => {
-    console.log("snackbar test");
-    setState({ ...state, open: true });
-  };
-
-  const handleSnackbarClose = () => {
-    setState({
-      ...state,
-      open: false,
-    });
-  };
+  const { setStateMessageUpdate } = useContext(UnreadMessageContext)
+  const { handleSnackbarInfo } = useContext(LoginStateHandlerContext)
 
   const handleDeleteMessage = () => {
     deleteMessageAPI(
@@ -58,15 +33,16 @@ const MessageDeleteModal = ({
       setStateMessageUpdate,
       checkState,
       setCheckState
-    );
-    handleClose();
-    // setCheckDeleteState(true);
-    // setStateMessageUpdate(true);
-    handleSnackbarOpen();
-  };
+    )
+    handleClose()
+    handleSnackbarInfo({
+      state: true,
+      message: "메시지가 정상적으로 삭제되었습니다",
+    })
+  }
 
   return (
-    <div>
+    <>
       <Modal open={open} onClose={handleClose} className="modal">
         <Box sx={style}>
           <Typography
@@ -90,15 +66,8 @@ const MessageDeleteModal = ({
           </SButtonContainer>
         </Box>
       </Modal>
-      {state.open ? (
-        <SimpleSnackbar
-          state={state}
-          content="안녕하세요"
-          handleClose={handleSnackbarClose}
-        />
-      ) : null}
-    </div>
-  );
-};
+    </>
+  )
+}
 
-export default MessageDeleteModal;
+export default MessageDeleteModal

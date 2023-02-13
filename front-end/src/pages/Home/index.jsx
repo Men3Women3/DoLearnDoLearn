@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar/index";
-import SmallSchedule from "../../components/SmallSchedule/index";
-import Typing from "../../components/Typing/index";
-import { SContainer } from "./styles";
-import mainImg from "../../assets/images/main_img.svg";
-import { useNavigate } from "react-router";
-import Lottie from "react-lottie";
-import animationData from "../../assets/images/HOME";
-import Grid from "@mui/material/Grid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
-import SmallScheduleToggle from "../../components/SmallScheduleToggle";
-import RankingList from "../../components/RankingList";
-import { LoginStateContext } from "../../App";
-import { useContext } from "react";
+import React, { useEffect, useState } from "react"
+import Navbar from "../../components/Navbar/index"
+import SmallSchedule from "../../components/SmallSchedule/index"
+import Typing from "../../components/Typing/index"
+import { SContainer } from "./styles"
+import mainImg from "../../assets/images/main_img.svg"
+import { useNavigate } from "react-router"
+import Lottie from "react-lottie"
+import animationData from "../../assets/images/HOME"
+import Grid from "@mui/material/Grid"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCalendarDays } from "@fortawesome/free-regular-svg-icons"
+import SmallScheduleToggle from "../../components/SmallScheduleToggle"
+import RankingList from "../../components/RankingList"
+import { LoginStateContext } from "../../App"
+import { useContext } from "react"
+import { borderRadius } from "@mui/system"
 
 const Home = () => {
-  const { isLogined, userInfo } = useContext(LoginStateContext);
+  const { isLogined, userInfo } = useContext(LoginStateContext)
 
   const defaultOptions = {
     loop: true,
@@ -25,7 +26,7 @@ const Home = () => {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
-  };
+  }
 
   return (
     <SContainer>
@@ -47,18 +48,22 @@ const Home = () => {
           </div>
         </div>
         <div className="lottie-container">
-          <Lottie
-            options={defaultOptions}
-            // height={400}
-            // width={600}
-          />
+          <Lottie options={defaultOptions} />
         </div>
         {isLogined && <SmallScheduleToggle />}
       </section>
       <Typing />
-      <RankingList />
+      <div
+        style={{
+          backgroundColor: "#f8f8f8",
+          paddingTop: "30px",
+          borderRadius: "20% 20% 0 0",
+        }}
+      >
+        <RankingList />
+      </div>
     </SContainer>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
