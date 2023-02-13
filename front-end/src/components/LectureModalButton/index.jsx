@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   BoardDataContext,
   LoginStateContext,
+  LoginStateHandlerContext,
   UnreadMessageContext,
 } from "../../App";
 import { SButton, SButtonBox, SNone } from "./styles";
@@ -19,6 +20,7 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
   const { flag, setFlag } = useContext(BoardDataContext);
   const [check, setCheck] = useState(false);
   const { isLogined, userInfo } = useContext(LoginStateContext);
+  const { handleSnackbarInfo } = useContext(LoginStateHandlerContext);
   const { setStateMessageUpdate } = useContext(UnreadMessageContext);
 
   // API 요청 사항 정리 =================================
@@ -41,6 +43,10 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
     await deleteClassAPI(data.id);
     setFlag(!flag);
     setOpen(false);
+    handleSnackbarInfo({
+      state: true,
+      message: "생성한 강의 게시글이 정상적으로 삭제되었습니다",
+    });
   };
 
   // 신청 취소
@@ -48,6 +54,10 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
     await cancelEnrollAPI(userInfo.id, data.id, setCheck);
     setFlag(!flag);
     setOpen(false);
+    handleSnackbarInfo({
+      state: true,
+      message: "강의 신청이 정상적으로 취소되었습니다",
+    });
   };
 
   // 모집 완료
@@ -55,6 +65,10 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
     await fixClassAPI(data.id, Luid, setStateMessageUpdate);
     setFlag(!flag);
     setOpen(false);
+    handleSnackbarInfo({
+      state: true,
+      message: "강의가 정상적으로 확정되었습니다",
+    });
   };
 
   // 강사 목록 호출

@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components"
 
 export const Box = styled.main`
   width: 100%;
@@ -57,6 +57,7 @@ export const Box = styled.main`
       /* border: 0.1vw solid #6e6e6eeb; */
     }
     .unread__notification {
+      color: black;
       cursor: pointer;
       width: calc(1vw + 5px);
       height: calc(1vw + 5px);
@@ -138,4 +139,4 @@ export const Box = styled.main`
     margin: 0px 12px;
     cursor: default;
   }
-`;
+`

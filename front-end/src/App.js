@@ -12,6 +12,7 @@ import { getUserInfoAndUpdate, logoutAPI } from "./utils/api/userAPI";
 import { getUnreadMessageCnt } from "./utils/api/messageAPI";
 import OauthRedirect from "./pages/OauthRedirect";
 import { boardListAPI } from "./utils/api/boardAPI";
+import SimpleSnackbar from "./components/SimpleSnackbar";
 
 // 코드 스플리팅 (Code Splitting)
 const Home = React.lazy(() => pMinDelay(import("./pages/Home/index"), 1000));
@@ -46,6 +47,10 @@ function App() {
   const [userInfo, setUserInfo] = useState({});
   const [unreadMessageCnt, setUnreadMessageCnt] = useState(0);
   const [stateMessageUpdate, setStateMessageUpdate] = useState(false);
+  const [snackbarInfo, setSnackbarInfo] = useState({
+    state: false,
+    message: "",
+  });
 
   // flag의 true/false 여부가 바뀌면 목록 업데이트
   useEffect(() => {
@@ -74,7 +79,7 @@ function App() {
       setStateMessageUpdate(false);
       getUnreadMessageCnt(setUnreadMessageCnt);
     }
-  }, [stateMessageUpdate]);
+  }, [stateMessageUpdate, isLogined]);
 
   // 로그인 상태 관리 함수
   const handleIsLogined = () => {
@@ -91,52 +96,74 @@ function App() {
     setUserInfo(info);
   };
 
+  const handleSnackbarInfo = (info) => {
+    setSnackbarInfo(info);
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <LoginStateContext.Provider value={{ isLogined, userInfo }}>
-        <LoginStateHandlerContext.Provider
-          value={{ handleIsLogined, handleLogout, handleUserInfo }}
-        >
-          <UnreadMessageContext.Provider
+    <>
+      <ThemeProvider theme={theme}>
+        <LoginStateContext.Provider value={{ isLogined, userInfo }}>
+          <LoginStateHandlerContext.Provider
             value={{
-              unreadMessageCnt,
-              setStateMessageUpdate,
+              handleIsLogined,
+              handleLogout,
+              handleUserInfo,
+              handleSnackbarInfo,
             }}
           >
-            <BoardDataContext.Provider value={{ list, flag, setList, setFlag }}>
-              <Suspense fallback={<Loading />}>
-                <BrowserRouter>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route
-                      path="/login"
-                      element={isLogined ? <Home /> : <Login />}
-                    />
-                    <Route
-                      path="/signup"
-                      element={isLogined ? <Home /> : <SingUp />}
-                    />
-                    <Route path="/board" element={<Board />} />
-                    <Route path="/write" element={<WriteBoard />} />
-                    <Route
-                      path="/board/profile/:lid"
-                      element={<LecturerProfile />}
-                    />
-                    <Route
-                      path="/mypage"
-                      element={isLogined ? <User /> : <Home />}
-                    />
-                    <Route path="/lecture" element={<Lecture />} />
-                    <Route path="/oauth-redirect" element={<OauthRedirect />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </BrowserRouter>
-              </Suspense>
-            </BoardDataContext.Provider>
-          </UnreadMessageContext.Provider>
-        </LoginStateHandlerContext.Provider>
-      </LoginStateContext.Provider>
-    </ThemeProvider>
+            <UnreadMessageContext.Provider
+              value={{
+                unreadMessageCnt,
+                setStateMessageUpdate,
+              }}
+            >
+              <BoardDataContext.Provider
+                value={{ list, flag, setList, setFlag }}
+              >
+                <Suspense fallback={<Loading />}>
+                  <BrowserRouter>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route
+                        path="/login"
+                        element={isLogined ? <Home /> : <Login />}
+                      />
+                      <Route
+                        path="/signup"
+                        element={isLogined ? <Home /> : <SingUp />}
+                      />
+                      <Route path="/board" element={<Board />} />
+                      <Route path="/write" element={<WriteBoard />} />
+                      <Route
+                        path="/board/profile/:lid"
+                        element={<LecturerProfile />}
+                      />
+                      <Route
+                        path="/mypage"
+                        element={isLogined ? <User /> : <Home />}
+                      />
+                      <Route path="/lecture" element={<Lecture />} />
+                      <Route
+                        path="/oauth-redirect"
+                        element={<OauthRedirect />}
+                      />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </BrowserRouter>
+                </Suspense>
+              </BoardDataContext.Provider>
+            </UnreadMessageContext.Provider>
+          </LoginStateHandlerContext.Provider>
+        </LoginStateContext.Provider>
+      </ThemeProvider>
+      {snackbarInfo.state && (
+        <SimpleSnackbar
+          message={snackbarInfo.message}
+          setOpenSnackbar={setSnackbarInfo}
+        />
+      )}
+    </>
   );
 }
 

@@ -356,6 +356,30 @@ public class UserControllerTest {
     }
 
     @Test
+    void 전체사용자ID조회성공() throws Exception {
+        List<Long> id = new ArrayList<>();
+        id.add(1L);
+        id.add(2L);
+
+        when(userService.getAllId()).thenReturn(id);
+
+        mockMvc.perform(get("/api/user/all-id")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 전체사용자ID조회실패() throws Exception {
+        when(userService.getAllId()).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/user/all-id")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
     void 사용자프로필정보조회성공() throws Exception {
         when(userService.getSummaryInfo(1L)).thenReturn(any(SummaryUserDto.class));
 

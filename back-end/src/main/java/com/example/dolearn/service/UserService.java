@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -116,6 +117,14 @@ public class UserService {
         return user.get().toDto();
     }
 
+    public List<Long> getAllId(){
+        List<Long> id = new ArrayList<>();
+        for(UserIdMapping uim : userRepository.findAllBy(Sort.by(Sort.Direction.ASC, "id"))){
+            id.add(uim.getId());
+        }
+        return id;
+    }
+
     public SummaryUserDto getSummaryInfo(Long id){
         Optional<User> user = userRepository.findOneById(id);
         if(!user.isPresent()){
@@ -142,6 +151,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void delete(Long id) throws ParseException {
         Optional<User> user = userRepository.findOneById(id);
         if(!user.isPresent()){

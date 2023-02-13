@@ -200,15 +200,18 @@ export const getFixedLectureInfo = async (
   setStudentsInfo,
   setCheckModalState
 ) => {
-  console.log(lid, 333333333);
   const res = await axios.get(`${LECTURE_URL}/list/${lid}`);
-  // console.log("정보 받아오기 성공", res.data.response);
+  console.log("정보 받아오기 성공", res.data.response);
   let lecture;
   let instructor;
   let students = [];
   res.data.response.forEach((element) => {
     if (element.memberType === "강사") {
-      instructor = element.user;
+      if (element.user === null) {
+        instructor = [];
+      } else {
+        instructor = element.user;
+      }
       lecture = element.lecture;
     } else {
       students.push(element.user);
