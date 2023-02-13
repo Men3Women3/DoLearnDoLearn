@@ -74,7 +74,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   // context api를 통해 handleIsLogined 함수 가져오기
-  const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
+  const { handleIsLogined, handleUserInfo } = useContext(
     LoginStateHandlerContext
   );
 
@@ -135,11 +135,6 @@ const Login = () => {
   return (
     <SMain>
       <SMainContainer>
-        {/* <div className="nav__section">
-          <NavLink to={"/"}>
-            <img src={logoImg} alt="logo_img" />
-          </NavLink>
-        </div> */}
         <SImgSection>
           <div className="nav__section">
             <NavLink className="Home-link" to={"/"}>
@@ -148,11 +143,7 @@ const Login = () => {
           </div>
           <h1>Welcome Back!</h1>
           <div>
-            <Lottie
-              options={defaultOptions}
-              // height={400}
-              // width={600}
-            />
+            <Lottie options={defaultOptions} />
           </div>
         </SImgSection>
         <SForm onSubmit={onSubmit}>

@@ -2,6 +2,10 @@ import styled from "styled-components"
 
 export const SRankingSection = styled.section`
   height: 30vw;
+  .headline {
+    font-size: 2vw;
+    border-bottom: 10px double #ff9d64;
+  }
   .ranking-icon {
     margin-right: 6px;
   }

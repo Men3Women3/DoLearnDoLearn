@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react"
 import {
   BoardDataContext,
   LoginStateContext,
+  LoginStateHandlerContext,
   UnreadMessageContext,
-} from "../../App";
-import { SButton, SButtonBox, SNone } from "./styles";
+} from "../../App"
+import { SButton, SButtonBox, SNone } from "./styles"
 import {
   cancelEnrollAPI,
   enrollClassAPI,
@@ -13,62 +14,71 @@ import {
   lecListAPI,
   stuListAPI,
   deleteClassAPI,
-} from "../../utils/api/boardAPI";
+} from "../../utils/api/boardAPI"
 
 const LectureModalButton = ({ data, setOpen, Luid }) => {
-  const { flag, setFlag } = useContext(BoardDataContext);
-  const [check, setCheck] = useState(false);
-  const { isLogined, userInfo } = useContext(LoginStateContext);
-  const { setStateMessageUpdate } = useContext(UnreadMessageContext);
+  const { flag, setFlag } = useContext(BoardDataContext)
+  const [check, setCheck] = useState(false)
+  const { isLogined, userInfo } = useContext(LoginStateContext)
+  const { handleSnackbarInfo } = useContext(LoginStateHandlerContext)
+  const { setStateMessageUpdate } = useContext(UnreadMessageContext)
 
   // API 요청 사항 정리 =================================
   // 수강 신청
   const enrollClass = async () => {
-    await enrollClassAPI(userInfo.id, data.id);
-    setFlag(!flag);
-    setOpen(false);
-  };
+    await enrollClassAPI(userInfo.id, data.id)
+    setFlag(!flag)
+    setOpen(false)
+  }
 
   // 강사 신청
   const enrollLecturer = async () => {
-    await enrollLecturerAPI(userInfo.id, data.id);
-    setFlag(!flag);
-    setOpen(false);
-  };
+    await enrollLecturerAPI(userInfo.id, data.id)
+    setFlag(!flag)
+    setOpen(false)
+  }
 
   // 폐강
   const deleteClass = async () => {
-    await deleteClassAPI(data.id);
-    setFlag(!flag);
-    setOpen(false);
-  };
+    await deleteClassAPI(data.id)
+    setFlag(!flag)
+    setOpen(false)
+    handleSnackbarInfo({
+      state: true,
+      message: "생성한 강의 게시글이 정상적으로 삭제되었습니다",
+    })
+  }
 
   // 신청 취소
   const cancelClass = async () => {
-    await cancelEnrollAPI(userInfo.id, data.id, setCheck);
-    setFlag(!flag);
-    setOpen(false);
-  };
+    await cancelEnrollAPI(userInfo.id, data.id, setCheck)
+    setFlag(!flag)
+    setOpen(false)
+    handleSnackbarInfo({
+      state: true,
+      message: "강의 신청이 정상적으로 취소되었습니다",
+    })
+  }
 
   // 모집 완료
   const fixClass = async () => {
-    await fixClassAPI(data.id, Luid, setStateMessageUpdate);
-    setFlag(!flag);
-    setOpen(false);
-  };
+    await fixClassAPI(data.id, Luid, setStateMessageUpdate)
+    setFlag(!flag)
+    setOpen(false)
+  }
 
   // 강사 목록 호출
   // LectureModal 클릭시 즉시 확인
-  const [stuList, setStuList] = useState([]);
-  const [lecList, setLecList] = useState([]);
+  const [stuList, setStuList] = useState([])
+  const [lecList, setLecList] = useState([])
   useEffect(() => {
-    stuListAPI(data.id, setStuList);
-    lecListAPI(data.id, setLecList, setCheck);
-  }, []);
+    stuListAPI(data.id, setStuList)
+    lecListAPI(data.id, setLecList, setCheck)
+  }, [])
   // ================================================
 
   if (!isLogined) {
-    return "";
+    return ""
   } else {
     if (data.uid === userInfo.id) {
       // 방장이고, 모집완료 이전
@@ -85,7 +95,7 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
               )}
             </SButtonBox>
           </>
-        );
+        )
         // 방장이고, 모집완료 이후
       } else {
         return (
@@ -93,7 +103,7 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
             <SButton onClick={cancelClass}>신청취소</SButton>
             <SButton>Live 입장</SButton>
           </SButtonBox>
-        );
+        )
       }
     } else if (stuList.includes(userInfo.id) || lecList.includes(userInfo.id)) {
       if (data.isFixed === 0) {
@@ -101,14 +111,14 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
           <SButtonBox>
             <SButton onClick={cancelClass}>신청취소</SButton>
           </SButtonBox>
-        );
+        )
       } else {
         return (
           <SButtonBox>
             <SButton onClick={cancelClass}>신청취소</SButton>
             <SButton>Live 입장</SButton>
           </SButtonBox>
-        );
+        )
       }
     } else if (check) {
       return (
@@ -120,9 +130,9 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
             <SButton onClick={enrollClass}>수강생 신청</SButton>
           )}
         </SButtonBox>
-      );
+      )
     }
   }
-};
+}
 
-export default LectureModalButton;
+export default LectureModalButton
