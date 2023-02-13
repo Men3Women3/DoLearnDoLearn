@@ -59,12 +59,11 @@ public class MessageServiceTest {
         Board board = Board.builder().id(1L).title("좋은 강의입니다.").build();
 
         User user1 = User.builder().id(1L).name("test1").build();
-        User user2 = User.builder().id(2L).name("test2").build();
 
         List<UserLecture> result = new ArrayList<>();
 
-        UserLecture userLecture1 = UserLecture.builder().user(user1).id(1L).build();
-        UserLecture userLecture2 = UserLecture.builder().user(user2).id(2L).build();
+        UserLecture userLecture1 = UserLecture.builder().id(1L).build();
+        UserLecture userLecture2 = UserLecture.builder().user(user1).id(2L).build();
 
         result.add(userLecture1);
         result.add(userLecture2);
@@ -76,7 +75,7 @@ public class MessageServiceTest {
 
         //then
         List<MessageDto> mList = messageService.createMessage(messageDto);
-        assertThat(mList.size()).isEqualTo(result.size());
+        assertThat(mList.size()).isEqualTo(1);
     }
 
 
