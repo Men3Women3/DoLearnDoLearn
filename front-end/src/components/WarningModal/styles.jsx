@@ -43,6 +43,7 @@ export const SSection = styled.section`
 
 export const SSpan = styled.span`
   font-size: ${(props) => props.theme.fontSize.h1};
+  font-weight: bold;
   color: #ff7979;
   display: block;
   border-bottom: 2px solid #cbcbcb;
@@ -78,6 +79,6 @@ export const SButtonContainer = styled.div`
     background-color: #ff7979;
   }
   .cancel-button {
-    background-color: #cbcbcb;
+    background-color: black;
   }
 `;

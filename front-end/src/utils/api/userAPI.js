@@ -354,22 +354,22 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
 };
 
 // 유저가 신청한 전체 목록 api를 요청하는 함수
-export const getRequestLecture = (userInfo, setTotalSchedule) => {
-  axios
-    .get(`${axiosDefaultURL}/user/request-lecture/${userInfo.id}`)
-    // 테스트용
-    // .get(`http://localhost:8080/user/request-lecture/1`)
-    .then((response) => {
-      const responseData = response.data.response;
-      setTotalSchedule(responseData);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
+// export const getRequestLecture = (userInfo, setTotalSchedule) => {
+//   axios
+//     .get(`${axiosDefaultURL}/user/request-lecture/${userInfo.id}`)
+//     // 테스트용
+//     // .get(`http://localhost:8080/user/request-lecture/1`)
+//     .then((response) => {
+//       const responseData = response.data.response;
+//       setTotalSchedule(responseData);
+//     })
+//     .catch((error) => {
+//       console.log(error.response);
+//     });
+// };
 
 // 미확정 강의 내역 불러오는 api를 요청하는 함수 (모든 강의)
-export const getUnScheduledLectureAPI = (userId, setUnScheduledLectureList) => {
+export const getUnScheduledLectureAPI = (userId, setFunction) => {
   const accessToken = localStorage.getItem("accessToken");
   axios
     .get(
@@ -382,7 +382,7 @@ export const getUnScheduledLectureAPI = (userId, setUnScheduledLectureList) => {
       }
     )
     .then((res) => {
-      setUnScheduledLectureList(res.data.response);
+      setFunction(res.data.response);
     });
 };
 

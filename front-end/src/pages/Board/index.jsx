@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import SearchBar from "../../components/SearchBar";
 import WriteButton from "../../components/WriteButton";
@@ -7,9 +7,21 @@ import { Grid } from "@mui/material";
 import SmallSchedule from "../../components/SmallSchedule";
 import { SOutterBox, SInnerBox } from "./styles";
 import { LoginStateContext } from "../../App";
+import {
+  getScheduledLectureAPI,
+  getUnScheduledLectureAPI,
+} from "../../utils/api/userAPI";
 
 const Board = () => {
-  const { isLogined } = useContext(LoginStateContext);
+  const { isLogined, userInfo } = useContext(LoginStateContext);
+  const [scheduled, setScheduled] = useState([]); // Scheduled 목록 담을 변수
+  const [unscheduled, setUnscheduled] = useState([]); // UnScheduled 목록 담을 변수
+
+  useEffect(() => {
+    // 동시간대 중복 수강신청 방지를 위한 작업
+    getScheduledLectureAPI(userInfo.id, setScheduled);
+    getUnScheduledLectureAPI(userInfo.id, setUnscheduled);
+  }, []);
 
   return (
     <>
@@ -23,7 +35,10 @@ const Board = () => {
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <SearchBar />
                   <SInnerBox>
-                    <WriteButton />
+                    <WriteButton
+                      scheduled={scheduled}
+                      unscheduled={unscheduled}
+                    />
                     <BoardList />
                   </SInnerBox>
                 </div>
