@@ -9,6 +9,7 @@ import com.example.dolearn.service.CustomOauth2UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -33,8 +34,6 @@ public class SecurityConfig {
     private final CustomOauth2UserService customOauth2UserService;
 
     private final UserRepository userRepository;
-
-    private ObjectMapper objectMapper;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -67,7 +66,7 @@ public class SecurityConfig {
                 //oauth2 관련
                 .and()
                 .oauth2Login()
-                .successHandler(new Oauth2SuccessHandler(jwtTokenProvider,userRepository,objectMapper))
+                .successHandler(new Oauth2SuccessHandler(jwtTokenProvider,userRepository))
                 .userInfoEndpoint()
                 .userService(customOauth2UserService);
 

@@ -1,7 +1,6 @@
 package com.example.dolearn.controller;
 
 import com.example.dolearn.config.SecurityConfig;
-import com.example.dolearn.domain.Lecture;
 import com.example.dolearn.dto.BoardDto;
 import com.example.dolearn.dto.FixedLectureDto;
 import com.example.dolearn.dto.SummaryUserDto;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +59,9 @@ public class UserControllerTest {
 
     @Autowired
     WebApplicationContext context;
+
+    @Value("${file.path}")
+    String filePath;
 
     @BeforeEach
     public void setUp() {
@@ -271,7 +275,44 @@ public class UserControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
-    // 프로필 사진 업로드 테스트 자리
+//    @Test
+//    void 프로필사진업로드성공_기본이미지초기화() throws Exception {
+//        UserDto userDto = UserDto.builder().imgUrl("imgUrl").imgPath("imgPath").build();
+//        MockMultipartFile image = new MockMultipartFile("files", "originalName.jpeg", "image/jpeg", new FileInputStream(filePath+"1470246520943804.jpg"));
+//
+//        when(userService.getInfo(1L)).thenReturn(userDto);
+//
+//        mockMvc.perform(multipart("/api/user/upload-img/1")
+//                        .file(image)
+//                        .with(csrf()))
+//                .andExpect(status().isOk());
+//    }
+
+//    @Test
+//    void 프로필사진업로드성공() throws Exception {
+//        UserDto userDto = UserDto.builder().imgUrl("imgUrl").imgPath("imgPath").build();
+//        MockMultipartFile profileImg = new MockMultipartFile("profileImg", "originalName.jpeg", "image/jpeg", new FileInputStream(filePath+"1470246520943804.jpg"));
+//
+//        when(userService.getInfo(1L)).thenReturn(userDto);
+//        when(userService.updateImgInfo(1L, "path", "imgUrl")).thenReturn(userDto);
+//
+//        mockMvc.perform(multipart("/api/user/upload-img/1")
+//                        .file(profileImg)
+//                        .with(csrf()))
+//                .andExpect(status().isOk());
+//    }
+
+//    @Test
+//    void 프로필사진업로드실패() throws Exception {
+//        MockMultipartFile profileImg = new MockMultipartFile("profileImg", "originalName.jpeg", "image/jpeg", new FileInputStream(filePath+"1470246520943804.jpg"));
+//
+//        when(userService.getInfo(1L)).thenThrow(new RuntimeException());
+//
+//        mockMvc.perform(multipart("/api/user/upload-img/1")
+//                        .file(profileImg)
+//                        .with(csrf()))
+//                .andExpect(status().isInternalServerError());
+//    }
 
     @Test
     void 중복되지않은이메일() throws Exception {
