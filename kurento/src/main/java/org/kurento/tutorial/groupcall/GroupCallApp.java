@@ -70,4 +70,5 @@ public class GroupCallApp implements WebSocketConfigurer {
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry.addHandler(groupCallHandler(), "/groupcall").setAllowedOrigins("*");
   }
+
 }

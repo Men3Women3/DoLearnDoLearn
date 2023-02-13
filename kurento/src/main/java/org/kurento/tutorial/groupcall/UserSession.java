@@ -55,7 +55,7 @@ public class UserSession implements Closeable {
   private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
 
   public UserSession(final String name, String roomName, final WebSocketSession session,
-      MediaPipeline pipeline) {
+                     MediaPipeline pipeline) {
 
     this.pipeline = pipeline;
     this.name = name;
@@ -173,13 +173,13 @@ public class UserSession implements Closeable {
       @Override
       public void onSuccess(Void result) throws Exception {
         log.trace("PARTICIPANT {}: Released successfully incoming EP for {}",
-            UserSession.this.name, senderName);
+                UserSession.this.name, senderName);
       }
 
       @Override
       public void onError(Throwable cause) throws Exception {
         log.warn("PARTICIPANT {}: Could not release incoming EP for {}", UserSession.this.name,
-            senderName);
+                senderName);
       }
     });
   }
@@ -198,13 +198,13 @@ public class UserSession implements Closeable {
         @Override
         public void onSuccess(Void result) throws Exception {
           log.trace("PARTICIPANT {}: Released successfully incoming EP for {}",
-              UserSession.this.name, remoteParticipantName);
+                  UserSession.this.name, remoteParticipantName);
         }
 
         @Override
         public void onError(Throwable cause) throws Exception {
           log.warn("PARTICIPANT {}: Could not release incoming EP for {}", UserSession.this.name,
-              remoteParticipantName);
+                  remoteParticipantName);
         }
       });
     }
@@ -273,4 +273,5 @@ public class UserSession implements Closeable {
     result = 31 * result + roomName.hashCode();
     return result;
   }
+
 }

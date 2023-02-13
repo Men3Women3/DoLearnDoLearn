@@ -176,4 +176,5 @@ public class Room implements Closeable {
 
     log.debug("Room {} closed", this.name);
   }
+
 }

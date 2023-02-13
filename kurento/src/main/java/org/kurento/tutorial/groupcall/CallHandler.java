@@ -134,4 +134,5 @@ public class CallHandler extends TextWebSocketHandler {
         final UserSession user = room.join("screen"+name, session);
         registry.register(user);
     }
+
 }
