@@ -190,7 +190,7 @@ export const lecProfileAPI = async (id, setData, setIsUser, navigate) => {
   } catch (err) {
     console.log(err);
     console.log("프로필 정보 반환 실패");
-    navigate("/");
+    navigate("/not-found");
   }
 };
 
@@ -222,10 +222,4 @@ export const getFixedLectureInfo = async (
   setInstructorInfo(instructor); // 강사 정보
   setStudentsInfo(students); // 수강생(들) 정보
   setCheckModalState(true);
-};
-
-// 서비스에 가입된 이용자 ID 호출 API
-export const UserListAPI = async (setUsers) => {
-  const res = await axios.get(`${PROFILE_URL}/all-id`);
-  console.log(res);
 };

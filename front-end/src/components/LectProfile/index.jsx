@@ -5,16 +5,13 @@ import Profile from "../Profile";
 import { Grid } from "@mui/material";
 import walkingChick from "../../assets/images/walkingChick.gif";
 import { SContainer } from "./styles";
-import NotFound from "../../pages/NotFound";
-import Loading from "../../pages/Loading";
 
 const LecProfile = () => {
   // URL의 강사 아이디를 useParam로 받아오기
   const id = useParams().lid;
   const [data, setData] = useState([]);
-  const [isUser, setIsUser] = useState(false);
+  const [isUser, setIsUser] = useState(false); // 유저 ID 존재 여부 확인
   const navigate = useNavigate();
-  console.log(id);
 
   useEffect(() => {
     lecProfileAPI(id, setData, setIsUser, navigate);
