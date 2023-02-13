@@ -182,15 +182,13 @@ export const stuListAPI = async (board, setStuList) => {
 };
 
 // 강사 프로필 확인 API
-export const lecProfileAPI = async (id, setData, setIsUser, navigate) => {
+export const lecProfileAPI = async (id, setData) => {
   try {
     const res = await axios.get(`${PROFILE_URL}/summary-info/${id}`);
     setData(res.data.response);
-    setIsUser(true);
   } catch (err) {
     console.log(err);
     console.log("프로필 정보 반환 실패");
-    navigate("/not-found");
   }
 };
 
@@ -202,17 +200,15 @@ export const getFixedLectureInfo = async (
   setStudentsInfo,
   setCheckModalState
 ) => {
+  console.log(lid, 333333333);
   const res = await axios.get(`${LECTURE_URL}/list/${lid}`);
+  // console.log("정보 받아오기 성공", res.data.response);
   let lecture;
   let instructor;
   let students = [];
   res.data.response.forEach((element) => {
     if (element.memberType === "강사") {
-      if (element.user === null) {
-        instructor = [];
-      } else {
-        instructor = element.user;
-      }
+      instructor = element.user;
       lecture = element.lecture;
     } else {
       students.push(element.user);
