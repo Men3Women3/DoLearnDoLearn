@@ -16,10 +16,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
 import { SOCKET_URL } from "../../utils/api/URL";
+import MessageContainer from "../MessageContainer";
 
 const LectureChattingContainer = (props) => {
   const [contents, setContents] = useState([]);
-  const [inputData, setInputData] = useState("");
+  // const [inputData, setInputData] = useState("");
   const messageBoxRef = useRef();
 
   let sockJS = new SockJS(`${SOCKET_URL}`);
@@ -32,7 +33,7 @@ const LectureChattingContainer = (props) => {
     }
   };
 
-  const handleMessageSend = (e) => {
+  const handleMessageSend = (e, inputData, setInputData) => {
     e.preventDefault();
     if (inputData) {
       client.send(
@@ -51,8 +52,7 @@ const LectureChattingContainer = (props) => {
     }
   };
 
-  const handleMeesageSendKeyEvent = (e) => {
-    // e.preventDefault();
+  const handleMeesageSendKeyEvent = async (e, inputData, setInputdata) => {
     // if (e.nativeEvent.isComposing) {
     // return;
     // }
@@ -62,7 +62,7 @@ const LectureChattingContainer = (props) => {
     // }
     if (e.key === "Enter") {
       if (!e.shiftKey) {
-        client.send(
+        await client.send(
           `/pub/normal/${props.roomId}`,
           {
             Authentication: accessToken,
@@ -73,8 +73,8 @@ const LectureChattingContainer = (props) => {
             content: inputData,
           })
         );
-        setInputData("");
-        console.log();
+        setInputdata("");
+        await e.preventDefault();
       }
     }
   };
@@ -130,19 +130,23 @@ const LectureChattingContainer = (props) => {
           </div> */}
         </SChattingContent>
       </SChattingContainer>
-      <SMessageContainer>
+      <MessageContainer
+        handleMeesageSendKeyEvent={handleMeesageSendKeyEvent}
+        handleMessageSend={handleMessageSend}
+      />
+      {/* <SMessageContainer>
         <textarea
           cols="38"
           rows="1"
           value={inputData}
           onChange={(e) => setInputData(e.target.value)}
           onKeyDown={(e) => handleMeesageSendKeyEvent(e)}
-        />
-        {/* 메시지 전송 버튼 */}
-        <button onClick={(e) => handleMessageSend(e)}>
+        /> */}
+      {/* 메시지 전송 버튼 */}
+      {/* <button onClick={(e) => handleMessageSend(e)}>
           <FontAwesomeIcon className="send-icon" icon={faPaperPlane} />
         </button>
-      </SMessageContainer>
+      </SMessageContainer> */}
     </SContainer>
   );
 };

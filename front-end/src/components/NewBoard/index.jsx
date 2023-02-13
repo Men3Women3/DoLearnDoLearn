@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
@@ -188,6 +188,18 @@ const NewBoard = () => {
       return true;
     }
   };
+
+  useEffect(() => {
+    // 오늘이면
+    if (isToday()) {
+      for (let i = 1; i <= 24; i++) {
+        if (i > new Date().getHours()) {
+          setLectureTime(i);
+          break;
+        }
+      }
+    }
+  }, [lectureDay]);
 
   return (
     <S.SCardBox>

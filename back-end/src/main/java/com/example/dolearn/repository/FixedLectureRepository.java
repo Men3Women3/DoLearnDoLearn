@@ -5,7 +5,6 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,11 +18,14 @@ import static com.querydsl.core.types.ExpressionUtils.count;
 @Repository
 public class FixedLectureRepository {
 
-    @Autowired
-    private JPAQueryFactory jpaQueryFactory;
+    private final JPAQueryFactory jpaQueryFactory;
+
+    public FixedLectureRepository(JPAQueryFactory jpaQueryFactory) {
+        this.jpaQueryFactory = jpaQueryFactory;
+    }
 
     public List<FixedLectureDto> findFixedLecture(Long uid) {
-        return  jpaQueryFactory
+        return jpaQueryFactory
                 .select(Projections.constructor(
                         FixedLectureDto.class, lecture.id, board.id, board.uid, board.title, board.content, board.summary
                         , board.maxCnt,

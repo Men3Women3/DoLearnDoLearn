@@ -52,7 +52,7 @@ const customTime = (target) => {
   return custom;
 };
 
-const MessageItem = ({ data, setCheckState, setCheckDeleteState }) => {
+const MessageItem = ({ data, checkState, setCheckState }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
 
@@ -128,7 +128,10 @@ const MessageItem = ({ data, setCheckState, setCheckDeleteState }) => {
             messageId={data.id}
             open={deleteModalOpen}
             handleClose={handleDeleteModalClose}
-            setCheckDeleteState={setCheckDeleteState}
+            checkState={checkState}
+            setCheckState={setCheckState}
+
+            // setCheckDeleteState={setCheckDeleteState}
           />
         ) : null}
         {detailModalOpen ? (
@@ -137,6 +140,7 @@ const MessageItem = ({ data, setCheckState, setCheckDeleteState }) => {
             open={detailModalOpen}
             handleClose={handleDetailModalClose}
             checkMessage={checkMessage}
+            checkState={checkState}
             setCheckState={setCheckState}
           />
         ) : null}

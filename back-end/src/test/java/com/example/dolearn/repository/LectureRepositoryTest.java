@@ -31,11 +31,11 @@ public class LectureRepositoryTest {
     public void LectureRepositorySaveTest() {
         Lecture lecture = Lecture
                 .builder()
-                .id(1L).build();
+                .memberCnt(0).build();
 
         Lecture result = lectureRepository.save(lecture);
 
-        assertThat(result.getId()).isEqualTo(lecture.getId());
+        assertThat(result.getMemberCnt()).isEqualTo(lecture.getMemberCnt());
     }
 
     @DisplayName("lecture repository findByBoardId 테스트")

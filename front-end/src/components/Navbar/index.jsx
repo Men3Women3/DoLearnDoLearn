@@ -16,7 +16,7 @@ import {
 } from "../../App";
 import { Badge, Grid } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
-import { IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
@@ -34,13 +34,13 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // 종(bell) 아이콘 눌렀을 때 메시지함으로 이동
-  const handleMoveToMessage = () => {
-    navigate("/mypage", {
-      state: {
-        message: "message",
-      },
-    });
-  };
+  // const handleMoveToMessage = () => {
+  //   navigate("/mypage", {
+  //     state: {
+  //       message: "message",
+  //     },
+  //   });
+  // };
 
   return (
     <Grid container>
@@ -58,11 +58,11 @@ const Navbar = () => {
           </div>
           <div className="right-item">
             {isLogined && (
-              <NavLink to={"/mypage"} className="link username">
+              <NavLink to={"/mypage"} className="link username" state="main">
                 <img
                   src={
                     getUserInfo.userInfo.imgUrl
-                      ? `${IMAGE_URL}${getUserInfo.userInfo.imgUrl}`
+                      ? `${BASE_URL}/user${getUserInfo.userInfo.imgUrl}`
                       : defaultProfile
                   }
                   alt="profileImg"
@@ -88,11 +88,13 @@ const Navbar = () => {
                     horizontal: "right",
                   }}
                 >
-                  <FontAwesomeIcon
-                    className="unread__notification"
-                    icon={faBell}
-                    onClick={handleMoveToMessage}
-                  />
+                  <Link to={"/mypage"} state="message">
+                    <FontAwesomeIcon
+                      className="unread__notification"
+                      icon={faBell}
+                      // onClick={handleMoveToMessage}
+                    />
+                  </Link>
                 </Badge>
               </div>
             )}
