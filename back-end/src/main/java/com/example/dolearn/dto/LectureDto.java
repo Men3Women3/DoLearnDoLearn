@@ -7,9 +7,10 @@ import lombok.*;
 import java.text.ParseException;
 import java.util.Date;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 @ToString
 public class LectureDto {

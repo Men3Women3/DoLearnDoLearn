@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
