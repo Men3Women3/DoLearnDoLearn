@@ -5,7 +5,7 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginStateContext } from "../../App";
 
-const WriteButton = () => {
+const WriteButton = ({ scheduled, unscheduled }) => {
   // context api를 통해 로그인 상태 받아오기
   const { isLogined } = useContext(LoginStateContext);
 
@@ -14,7 +14,10 @@ const WriteButton = () => {
   function handleWriteBoard() {
     // 로그인이 되어있으면 글쓰러 가고, 아니면 로그인창
     if (isLogined) {
-      navigate("/write");
+      navigate("/write", {
+        // 수강 신청 내역(확정, 미확정) 보내기
+        state: { scheduled: scheduled, unscheduled: unscheduled },
+      });
     } else {
       navigate("/login");
     }

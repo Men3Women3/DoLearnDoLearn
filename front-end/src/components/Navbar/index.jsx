@@ -16,7 +16,7 @@ import {
 } from "../../App";
 import { Badge, Grid } from "@mui/material";
 import { NotificationsNone } from "@mui/icons-material";
-import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL } from "../../utils/api/URL";
 
 // import startRankImg from "../../assets/images/rank/start_rank.svg";
 
@@ -54,7 +54,6 @@ const Navbar = () => {
             <NavLink to={"/board"} className="link link__board">
               강의장
             </NavLink>
-            <NavLink className="link link__board">이용안내</NavLink>
           </div>
           <div className="right-item">
             {isLogined && (
@@ -88,7 +87,11 @@ const Navbar = () => {
                     horizontal: "right",
                   }}
                 >
-                  <Link to={"/mypage"} state="message">
+                  <Link
+                    to={"/mypage"}
+                    state="message"
+                    style={{ textDecoration: "none" }}
+                  >
                     <FontAwesomeIcon
                       className="unread__notification"
                       icon={faBell}

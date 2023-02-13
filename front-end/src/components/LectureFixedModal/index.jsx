@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Modal, Tooltip, Typography } from "@mui/material";
 import {
   faClock,
   faFileLines,
@@ -15,9 +15,7 @@ import {
   SContent,
   SDetail,
 } from "./styles";
-import { cancelEnrollAPI } from "../../utils/api/boardAPI";
 import {
-  BoardDataContext,
   LoginStateContext,
   LoginStateHandlerContext,
   UnreadMessageContext,
@@ -25,7 +23,7 @@ import {
 import { cancleFixedLectureAPI } from "../../utils/api/lectureAPI";
 import WarningModal from "../WarningModal";
 import { useNavigate } from "react-router";
-import { BASE_URL, IMAGE_URL } from "../../utils/api/URL";
+import { BASE_URL } from "../../utils/api/URL";
 import { sendCnacleMessageAPI } from "../../utils/api/messageAPI";
 
 const customLecTime = (startTime, endTime) => {
@@ -80,12 +78,14 @@ const LectureFixedModal = ({
   isLecturer,
   lectureTime,
 }) => {
-  const { flag, setFlag } = useContext(BoardDataContext);
   const { userInfo } = useContext(LoginStateContext);
   const [cancleText, setCancleText] = useState("");
   const { unreadMessageCnt, setStateMessageUpdate } =
     useContext(UnreadMessageContext);
-  const { handleUserInfo } = useContext(LoginStateHandlerContext);
+  const { handleUserInfo, handleSnackbarInfo } = useContext(
+    LoginStateHandlerContext
+  );
+
   const navigate = useNavigate();
   const buttonActive = checkButtonState(lectureTime.endTime);
 
@@ -99,24 +99,30 @@ const LectureFixedModal = ({
     // 수강생의 경우 신청 취소
     cancleFixedLectureAPI(lectureInfo.id, userInfo.id, setScheduledLecture);
     handleClose();
+    handleSnackbarInfo({
+      state: true,
+      message: "강의 신청이 정상적으로 취소되었습니다",
+    });
   };
 
   // 강사 신청 취소
   const handleCancleLecture = () => {
     // 폐강 메시지 보내기
-    sendCnacleMessageAPI(
-      lectureInfo.board.id,
-      cancleText,
-      "cancle",
-      setStateMessageUpdate,
-      lectureInfo.id,
-      userInfo.id,
-      setScheduledLecture,
-      handleUserInfo
-    );
-    handleClose();
-    handleClose();
-    console.log("신청취소 사유", cancleText);
+    // 취소사유 작성해야만 모달 닫기도록
+    if (cancleText) {
+      sendCnacleMessageAPI(
+        lectureInfo.board.id,
+        cancleText,
+        "cancle",
+        setStateMessageUpdate,
+        lectureInfo.id,
+        userInfo.id,
+        setScheduledLecture,
+        handleUserInfo
+      );
+      handleClose();
+      handleClose();
+    }
   };
 
   // 라이브 강의 입장
@@ -139,7 +145,6 @@ const LectureFixedModal = ({
     if (
       Math.floor(
         (new Date(lectureTime.startTime) - new Date()) / (1000 * 60) <= 10 &&
-          // new Date() - new Date(props.item.endTime) <= 0
           new Date() <= new Date(lectureTime.endTime)
       )
     ) {
@@ -149,11 +154,6 @@ const LectureFixedModal = ({
     }
   };
 
-  console.log("강의시간", lectureTime);
-  console.log("유저", userInfo);
-  console.log("강의", lectureInfo);
-  console.log("강사", instructorInfo);
-  console.log("학생", studentsInfo);
   return (
     <>
       <Modal open={open} onClose={handleClose}>
@@ -169,26 +169,40 @@ const LectureFixedModal = ({
                 <b>강사 정보</b>
               </SSpan>
             </SInfoItem>
-            <div
-              className="instructor__section"
-              onClick={(e) => handleOpenProfile(instructorInfo.id)}
+            <Tooltip
+              title={`${instructorInfo.name}님의 프로필 보러가기`}
+              placement="bottom-end"
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    bgcolor: "orange",
+                    fontWeight: "bold",
+                    p: 1,
+                  },
+                },
+              }}
             >
-              <div>
-                <img
-                  className="profile-img"
-                  src={
-                    instructorInfo.imgUrl
-                      ? `${BASE_URL}/user${instructorInfo.imgUrl}`
-                      : defaultProfile
-                  }
-                  alt=""
-                />
+              <div
+                className="instructor__section"
+                onClick={(e) => handleOpenProfile(instructorInfo.id)}
+              >
+                <div>
+                  <img
+                    className="profile-img"
+                    src={
+                      instructorInfo.imgUrl
+                        ? `${BASE_URL}/user${instructorInfo.imgUrl}`
+                        : defaultProfile
+                    }
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <div className="instructor-name">{instructorInfo.name}</div>
+                  <div className="instructor-email">{instructorInfo.email}</div>
+                </div>
               </div>
-              <div>
-                <div className="instructor-name">{instructorInfo.name}</div>
-                <div className="instructor-email">{instructorInfo.email}</div>
-              </div>
-            </div>
+            </Tooltip>
           </SContent>
           <SInfoItem>
             <SCustomFontAwesomeIcon icon={faUsers} />
@@ -235,6 +249,15 @@ const LectureFixedModal = ({
                     rows="6"
                     placeholder="수강생들에게 공유되는 정보이므로 취소 사유를 반드시 입력해주세요!"
                   ></textarea>
+                  <div
+                    style={{
+                      color: "blue",
+                      fontSize: "0.8vw",
+                      marginBottom: "1vw",
+                    }}
+                  >
+                    {cancleText ? "" : "필수 입력사항입니다!"}
+                  </div>
                 </WarningModal>
               ) : (
                 // 수강생에게 보여지는 취소 버튼
