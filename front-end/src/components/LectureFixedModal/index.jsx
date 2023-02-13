@@ -43,12 +43,12 @@ const customLecTime = (startTime, endTime) => {
   return custom;
 };
 
-const checkButtonState = (endTime) => {
+const checkButtonState = (endTime, instructorInfo) => {
   const today = new Date();
   const endDate = new Date(endTime);
 
   // 지금 시간보다 강의 마감 시간이 이르다면 버튼 사라지게
-  if (endDate < today) {
+  if ((endDate < today) | !instructorInfo) {
     return false;
   } else {
     return true;
@@ -85,7 +85,6 @@ const LectureFixedModal = ({
   const { handleUserInfo, handleSnackbarInfo } = useContext(
     LoginStateHandlerContext
   );
-
   const navigate = useNavigate();
   const buttonActive = checkButtonState(lectureTime.endTime);
 
@@ -122,6 +121,10 @@ const LectureFixedModal = ({
       );
       handleClose();
       handleClose();
+      handleSnackbarInfo({
+        state: true,
+        message: "강의 신청이 정상적으로 취소되었습니다",
+      });
     }
   };
 
@@ -169,23 +172,45 @@ const LectureFixedModal = ({
                 <b>강사 정보</b>
               </SSpan>
             </SInfoItem>
-            <Tooltip
-              title={`${instructorInfo.name}님의 프로필 보러가기`}
-              placement="bottom-end"
-              componentsProps={{
-                tooltip: {
-                  sx: {
-                    bgcolor: "orange",
-                    fontWeight: "bold",
-                    p: 1,
+            {instructorInfo.name ? (
+              <Tooltip
+                title={`${instructorInfo.name}님의 프로필 보러가기`}
+                placement="bottom-end"
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: "orange",
+                      fontWeight: "bold",
+                      p: 1,
+                    },
                   },
-                },
-              }}
-            >
-              <div
-                className="instructor__section"
-                onClick={(e) => handleOpenProfile(instructorInfo.id)}
+                }}
               >
+                <div
+                  className="instructor__section"
+                  onClick={(e) => handleOpenProfile(instructorInfo.id)}
+                >
+                  <div>
+                    <img
+                      className="profile-img"
+                      src={
+                        instructorInfo.imgUrl
+                          ? `${BASE_URL}/user${instructorInfo.imgUrl}`
+                          : defaultProfile
+                      }
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <div className="instructor-name">{instructorInfo.name}</div>
+                    <div className="instructor-email">
+                      {instructorInfo.email}
+                    </div>
+                  </div>
+                </div>
+              </Tooltip>
+            ) : (
+              <div className="instructor__section">
                 <div>
                   <img
                     className="profile-img"
@@ -198,11 +223,10 @@ const LectureFixedModal = ({
                   />
                 </div>
                 <div>
-                  <div className="instructor-name">{instructorInfo.name}</div>
-                  <div className="instructor-email">{instructorInfo.email}</div>
+                  <div className="instructor-name">탈퇴한 사용자입니다 😥</div>
                 </div>
               </div>
-            </Tooltip>
+            )}
           </SContent>
           <SInfoItem>
             <SCustomFontAwesomeIcon icon={faUsers} />
