@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:11
 
 ENV APP_HOME=/usr/app/
 

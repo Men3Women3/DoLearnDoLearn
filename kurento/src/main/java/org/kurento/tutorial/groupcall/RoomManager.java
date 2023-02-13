@@ -71,5 +71,4 @@ public class RoomManager {
     log.info("Room {} removed and closed", room.getName());
   }
 
-
 }
