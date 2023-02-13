@@ -1,20 +1,23 @@
-import styled from "styled-components";
-import { Tooltip } from "@mui/material";
-import { SCard } from "../ProfileCardBox/styles";
+import styled from "styled-components"
+import { Tooltip } from "@mui/material"
+import { SCard } from "../ProfileCardBox/styles"
 
 export const SSCard = styled(SCard)`
   position: relative;
   height: ${(props) => (props.chick ? "29vw" : "33vw")};
-  border: ${(props) => (props.chick ? "10px ridge #ffb700" : "")};
-  border-radius: ${(props) => (props.chick ? "40px" : "")};
-  box-shadow: 5px 5px 30px #c4c4c454;
+  border: ${(props) => (props.chick ? "8px solid rgb(255, 199, 151)" : "")};
+  border-radius: ${(props) => (props.chick ? "20px" : "")};
+  box-shadow: ${(props) =>
+    props.chick
+      ? "20px 10px 40px rgba(255, 132, 24, 0.47)"
+      : "5px 5px 30px #c4c4c454"};
   .button__section {
     position: absolute;
     bottom: 2vw;
     left: 50%;
     transform: translate(-50%);
   }
-`;
+`
 
 export const SProfileContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -49,7 +52,7 @@ export const SProfileContainer = styled.div`
       border-radius: 10px;
     }
   }
-`;
+`
 
 export const SSubContainerUp = styled.div`
   display: flex;
@@ -107,7 +110,7 @@ export const SSubContainerUp = styled.div`
       flex: 1;
     }
   }
-`;
+`
 
 export const SSnsContainer = styled.div`
   display: flex;
@@ -118,7 +121,7 @@ export const SSnsContainer = styled.div`
     height: calc(1.5vw + 0.1px);
     cursor: pointer;
   }
-`;
+`
 
 export const SSubContainerDown = styled.div`
   width: 100%;
@@ -127,7 +130,7 @@ export const SSubContainerDown = styled.div`
   line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
-`;
+`
 
 export const SBlackButton = styled.button`
   width: calc(2vw + 80px);
@@ -142,11 +145,11 @@ export const SBlackButton = styled.button`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bolder;
   }
-`;
+`
 
 export const SCustomToolTip = styled(Tooltip)`
   background-color: yellow;
-`;
+`
 
 export const SPointContainer = styled.div`
   padding-left: ${(props) => String((Number(props.point) / 5070) * 100) + "%"};
@@ -188,4 +191,4 @@ export const SPointContainer = styled.div`
       transform: translateY(-4px);
     }
   }
-`;
+`

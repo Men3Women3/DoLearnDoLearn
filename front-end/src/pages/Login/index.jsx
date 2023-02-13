@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from "react";
-import loginImg from "../../assets/images/login_img.svg";
-import logoImg from "../../assets/images/logo.png";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import naverLogoImg from "../../assets/images/login/naver_logo.png";
-import kakaoLogoImg from "../../assets/images/login/kakao_logo.png";
-import googleLogoImg from "../../assets/images/login/google_logo.png";
+import React, { useCallback, useState } from "react"
+import loginImg from "../../assets/images/login_img.svg"
+import logoImg from "../../assets/images/logo.png"
+import Backdrop from "@mui/material/Backdrop"
+import Box from "@mui/material/Box"
+import Modal from "@mui/material/Modal"
+import Fade from "@mui/material/Fade"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import naverLogoImg from "../../assets/images/login/naver_logo.png"
+import kakaoLogoImg from "../../assets/images/login/kakao_logo.png"
+import googleLogoImg from "../../assets/images/login/google_logo.png"
 import {
   SMain,
   SForm,
@@ -31,15 +31,16 @@ import {
   SSignUpButton,
   SFindPassword,
   SCancelButton,
-} from "./styles";
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import { NavLink, useNavigate } from "react-router-dom";
-import Lottie from "react-lottie";
-import animationData from "../../assets/images/LOGIN";
-import axios from "axios";
-import { useContext } from "react";
-import { LoginStateContext, LoginStateHandlerContext } from "../../App";
-import { loginAPI } from "../../utils/api/userAPI";
+} from "./styles"
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
+import { NavLink, useNavigate } from "react-router-dom"
+import Lottie from "react-lottie"
+import animationData from "../../assets/images/LOGIN"
+import axios from "axios"
+import { useContext } from "react"
+import { LoginStateContext, LoginStateHandlerContext } from "../../App"
+import { loginAPI } from "../../utils/api/userAPI"
+import { SOCIAL_LOGIN_URL } from "../../utils/api/URL"
 
 const style = {
   position: "absolute",
@@ -51,7 +52,7 @@ const style = {
   borderRadius: "8px",
   boxShadow: 24,
   outline: "none",
-};
+}
 
 const defaultOptions = {
   loop: true,
@@ -60,26 +61,24 @@ const defaultOptions = {
   rendererSettings: {
     preserveAspectRatio: "xMidYMid slice",
   },
-};
-
-const axiosDefaultURL = "http://localhost:8080";
+}
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmpty, setIsEmpty] = useState("");
-  const [isCorrectPassword, setIsCorrectPassword] = useState("");
-  const [isCorrectEmail, setIsCorrectEmail] = useState("");
-  const [open, setOpen] = React.useState(false);
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [isEmpty, setIsEmpty] = useState("")
+  const [isCorrectPassword, setIsCorrectPassword] = useState("")
+  const [isCorrectEmail, setIsCorrectEmail] = useState("")
+  const [open, setOpen] = React.useState(false)
+  const navigate = useNavigate()
 
   // context api를 통해 handleIsLogined 함수 가져오기
-  const { handleIsLogined, handleLogout, handleUserInfo } = useContext(
+  const { handleIsLogined, handleUserInfo } = useContext(
     LoginStateHandlerContext
-  );
+  )
 
   const onSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!open) {
       // 로그인 api 요청
       loginAPI(
@@ -90,44 +89,39 @@ const Login = () => {
         setIsCorrectEmail,
         setIsCorrectPassword,
         navigate
-      );
+      )
     }
-  };
+  }
 
   // 회원가입으로 이동시키는 함수
   const handleMoveToSignUp = () => {
-    navigate("/signup");
-  };
+    navigate("/signup")
+  }
 
   // 모달을 여는 핸들러 함수
   const handleOpen = (e) => {
     if (!email || !password) {
-      setOpen(true);
+      setOpen(true)
     }
-  };
+  }
 
   // 모달을 닫는 핸들러 함수
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false)
 
   const handleOnChangeEmail = useCallback((e) => {
-    setEmail(e.target.value);
-  }, []);
+    setEmail(e.target.value)
+  }, [])
 
   const handleOnPassword = useCallback((e) => {
     if (e.target.value.length === 0) {
-      setIsCorrectPassword("");
+      setIsCorrectPassword("")
     }
-    setPassword(e.target.value);
-  }, []);
+    setPassword(e.target.value)
+  }, [])
 
   return (
     <SMain>
       <SMainContainer>
-        {/* <div className="nav__section">
-          <NavLink to={"/"}>
-            <img src={logoImg} alt="logo_img" />
-          </NavLink>
-        </div> */}
         <SImgSection>
           <div className="nav__section">
             <NavLink className="Home-link" to={"/"}>
@@ -136,11 +130,7 @@ const Login = () => {
           </div>
           <h1>Welcome Back!</h1>
           <div>
-            <Lottie
-              options={defaultOptions}
-              // height={400}
-              // width={600}
-            />
+            <Lottie options={defaultOptions} />
           </div>
         </SImgSection>
         <SForm onSubmit={onSubmit}>
@@ -202,7 +192,7 @@ const Login = () => {
               onClick={(e) =>
                 (window.location.href =
                   // 주소 수정해야 됨
-                  "http://localhost:8080/oauth2/authorization/naver")
+                  `${SOCIAL_LOGIN_URL}/oauth2/authorization/naver`)
               }
             >
               <img src={naverLogoImg} alt="naver_logo" />
@@ -214,7 +204,7 @@ const Login = () => {
               onClick={(e) =>
                 (window.location.href =
                   // 주소 수정해야 됨
-                  "http://localhost:8080/oauth2/authorization/kakao")
+                  `${SOCIAL_LOGIN_URL}/oauth2/authorization/kakao`)
               }
             >
               <img src={kakaoLogoImg} alt="kakao_logo" />
@@ -224,8 +214,7 @@ const Login = () => {
             <SgoogleLoginButton
               type="button"
               onClick={(e) =>
-                (window.location.href =
-                  "http://localhost:8080/oauth2/authorization/google")
+                (window.location.href = `${SOCIAL_LOGIN_URL}/oauth2/authorization/google`)
               }
             >
               <img src={googleLogoImg} alt="google_logo" />
@@ -272,7 +261,7 @@ const Login = () => {
         </Fade>
       </Modal>
     </SMain>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
