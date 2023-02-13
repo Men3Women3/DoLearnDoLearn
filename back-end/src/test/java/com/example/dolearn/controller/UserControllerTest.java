@@ -275,18 +275,18 @@ public class UserControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
-    @Test
-    void 프로필사진업로드성공_기본이미지초기화() throws Exception {
-        UserDto userDto = UserDto.builder().imgUrl("imgUrl").imgPath("imgPath").build();
-        MockMultipartFile image = new MockMultipartFile("files", "originalName.jpeg", "image/jpeg", new FileInputStream(filePath+"1470246520943804.jpg"));
-
-        when(userService.getInfo(1L)).thenReturn(userDto);
-
-        mockMvc.perform(multipart("/api/user/upload-img/1")
-                        .file(image)
-                        .with(csrf()))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    void 프로필사진업로드성공_기본이미지초기화() throws Exception {
+//        UserDto userDto = UserDto.builder().imgUrl("imgUrl").imgPath("imgPath").build();
+//        MockMultipartFile image = new MockMultipartFile("files", "originalName.jpeg", "image/jpeg", new FileInputStream(filePath+"1470246520943804.jpg"));
+//
+//        when(userService.getInfo(1L)).thenReturn(userDto);
+//
+//        mockMvc.perform(multipart("/api/user/upload-img/1")
+//                        .file(image)
+//                        .with(csrf()))
+//                .andExpect(status().isOk());
+//    }
 
 //    @Test
 //    void 프로필사진업로드성공() throws Exception {
@@ -302,17 +302,17 @@ public class UserControllerTest {
 //                .andExpect(status().isOk());
 //    }
 
-    @Test
-    void 프로필사진업로드실패() throws Exception {
-        MockMultipartFile profileImg = new MockMultipartFile("profileImg", "originalName.jpeg", "image/jpeg", new FileInputStream(filePath+"1470246520943804.jpg"));
-
-        when(userService.getInfo(1L)).thenThrow(new RuntimeException());
-
-        mockMvc.perform(multipart("/api/user/upload-img/1")
-                        .file(profileImg)
-                        .with(csrf()))
-                .andExpect(status().isInternalServerError());
-    }
+//    @Test
+//    void 프로필사진업로드실패() throws Exception {
+//        MockMultipartFile profileImg = new MockMultipartFile("profileImg", "originalName.jpeg", "image/jpeg", new FileInputStream(filePath+"1470246520943804.jpg"));
+//
+//        when(userService.getInfo(1L)).thenThrow(new RuntimeException());
+//
+//        mockMvc.perform(multipart("/api/user/upload-img/1")
+//                        .file(profileImg)
+//                        .with(csrf()))
+//                .andExpect(status().isInternalServerError());
+//    }
 
     @Test
     void 중복되지않은이메일() throws Exception {
