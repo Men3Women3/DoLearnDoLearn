@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import rankItemImg from "../../assets/images/rankItem.png";
+import styled from "styled-components"
+import rankItemImg from "../../assets/images/rankItem.png"
 
 export const SContainer = styled.div`
   cursor: pointer;
@@ -7,16 +7,32 @@ export const SContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Light};
   background-image: url(${rankItemImg});
   background-size: cover;
-  height: 7.8vw;
+  height: 9.5vw;
   border-radius: 12px;
   color: #000000;
-  padding: calc(0.5vw + 3px) calc(0.5vw + 5px);
+  box-shadow: 5px 5px 15px #c5c5c5;
   transition: all 300ms linear;
+
   &:hover {
-    transform: scale(1.05);
+    transform: translateY(-5%);
   }
+  &:hover .sns__container {
+    background: linear-gradient(0deg, #ffae00, #ffe07a41);
+    opacity: 1;
+  }
+  .sns__container {
+    width: 100%;
+    height: 80%;
+    position: absolute;
+    bottom: 0;
+    opacity: 0;
+    z-index: -1;
+    border-radius: 12px;
+  }
+
   /* 프로필 사진과 이름, 점수를 묶는 div */
   .profile-container {
+    margin: calc(0.5vw + 3px) calc(0.5vw + 5px);
     display: flex;
     align-items: center;
     /* 이름 */
@@ -24,6 +40,11 @@ export const SContainer = styled.div`
       margin: 0;
       font-size: ${(props) => props.theme.fontSize.h2};
       font-weight: bold;
+    }
+    /* 이메일 */
+    .email {
+      font-size: ${(props) => props.theme.fontSize.p};
+      color: #3c3c3c;
     }
     /* 점수 */
     .point {
@@ -46,7 +67,7 @@ export const SContainer = styled.div`
       background-clip: content-box, border-box;
     }
   }
-`;
+`
 
 // SNS 링크를 묶는 div
 export const SSNSContainer = styled.div`
@@ -54,8 +75,8 @@ export const SSNSContainer = styled.div`
   justify-content: start;
   gap: 0.67vw;
   bottom: 1vw;
-  margin-top: 1vw;
-  margin-bottom: 0.5vw;
+  margin: 1.5vw calc(0.5vw + 5px);
+  z-index: 100;
   .icon {
     font-size: calc(1vw + 4px);
     color: #000000;
@@ -63,16 +84,19 @@ export const SSNSContainer = styled.div`
     transition: all 300ms linear;
   }
   .icon:hover {
-    color: #f3bd2a;
+    color: #ff7300;
+    /* color: #f3bd2a; */
   }
-`;
+`
 
 export const SRank = styled.div`
   user-select: none;
   font-size: calc(1vw + 24px);
   font-family: "Pacifico";
+  /* color: black; */
   color: #ffffff;
   position: absolute;
   bottom: calc(0.8vw + 1px);
   right: calc(1vw + 12px);
-`;
+  z-index: 100;
+`

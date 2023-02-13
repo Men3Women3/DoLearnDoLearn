@@ -486,6 +486,123 @@ class UserServiceTest {
     }
 
     @Test
+    void 미확정강의조회_방장_성공() throws ParseException {
+        id = 1L;
+        UserDto resUserDto = UserDto.builder().id(id).build();
+        List<Board> boards = new ArrayList<>();
+        boards.add(BoardDto.builder()
+                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build().toEntity());
+
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
+        when(boardRepository.findRequestLectureByHost(id)).thenReturn(boards);
+
+        userService.getRequestLectureByHost(id);
+    }
+
+    @Test
+    void 미확정강의조회실패_방장_부족한정보() {
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<BoardDto> result = userService.getRequestLectureByHost(null);
+        });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+    }
+
+    @Test
+    void 미확정강의조회실패_방장_없는사용자() {
+        id = 1L;
+
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<BoardDto> result = userService.getRequestLectureByHost(id);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
+    }
+
+    @Test
+    void 미확정강의조회_강사_성공() throws ParseException {
+        id = 1L;
+        UserDto resUserDto = UserDto.builder().id(id).build();
+        List<Board> boards = new ArrayList<>();
+        boards.add(BoardDto.builder()
+                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build().toEntity());
+
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
+        when(boardRepository.findRequestLectureByInst(id)).thenReturn(boards);
+
+        userService.getRequestLectureByInst(id);
+    }
+
+    @Test
+    void 미확정강의조회실패_강사_부족한정보() {
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<BoardDto> result = userService.getRequestLectureByInst(null);
+        });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+    }
+
+    @Test
+    void 미확정강의조회실패_강사_없는사용자() {
+        id = 1L;
+
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<BoardDto> result = userService.getRequestLectureByInst(id);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
+    }
+
+    @Test
+    void 미확정강의조회_학생_성공() throws ParseException {
+        id = 1L;
+        UserDto resUserDto = UserDto.builder().id(id).build();
+        List<Board> boards = new ArrayList<>();
+        boards.add(BoardDto.builder()
+                .id(1L).uid(1L).tid(1L).content("content").deadline("2023-01-18 14:31:59")
+                .startTime("2023-01-18 14:31:59").endTime("2023-01-18 14:31:59")
+                .isFixed(0).maxCnt(5).summary("summary").title("title").build().toEntity());
+
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(resUserDto.toEntity()));
+        when(boardRepository.findRequestLectureByStud(id)).thenReturn(boards);
+
+        userService.getRequestLectureByStud(id);
+    }
+
+    @Test
+    void 미확정강의조회실패_학생_부족한정보() {
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<BoardDto> result = userService.getRequestLectureByStud(null);
+        });
+        assertTrue(exception instanceof CustomException);
+        assertEquals("기입되지 않은 정보가 있습니다", exception.getMessage());
+    }
+
+    @Test
+    void 미확정강의조회실패_학생_없는사용자() {
+        id = 1L;
+
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+
+        Exception exception = assertThrows(CustomException.class, ()->{
+            List<BoardDto> result = userService.getRequestLectureByStud(id);
+        });
+
+        assertTrue(exception instanceof CustomException);
+        assertEquals("없는 사용자입니다.", exception.getMessage());
+    }
+
+    @Test
     void 확정강의조회성공() throws ParseException {
         id = 1L;
         UserDto resUserDto = UserDto.builder().id(id).build();
