@@ -148,6 +148,7 @@ function App() {
                         path="/oauth-redirect"
                         element={<OauthRedirect />}
                       />
+                      <Route path="/not-found" element={<NotFound />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </BrowserRouter>
