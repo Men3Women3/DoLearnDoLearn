@@ -1,21 +1,12 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SCalendar = styled.div`
   /* 현재 날짜 셀 */
   .fc-day-today {
     background: white !important;
-    /* border: none !important; */
-
-    /* 후보 3 */
-    /* background: ${(props) => props.theme.lightYellow} !important; */
 
     /* 현재 날짜 셀의 우측상단 날짜 */
     .fc-daygrid-day-number {
-      /* 후보 1 */
-      /* border: 2px solid black; */
-
-      /* 후보 2 */
-      /* background-color: black; */
       background-color: #ff9898;
       color: white;
       border-radius: 50%;
@@ -26,15 +17,6 @@ export const SCalendar = styled.div`
       color: white;
     }
   }
-
-  /* 일요일 날짜: 빨간색 */
-  /* .fc-day-sun a {
-    color: #f87b7b;
-  } */
-  /* 토요일 날짜: 파란색 */
-  /* .fc-day-sat a {
-    color: #6767fe;
-  } */
 
   /* 달력 타이틀 */
   .fc-toolbar-title {
@@ -115,19 +97,11 @@ export const SCalendar = styled.div`
 
     /* 이벤트 콘텐츠 */
     .fc-event-title-container {
-      /* background-color: #dd9ae7; */
-      /* background-color: black; */
       border: none;
-      /* color: white; */
-      /* border-radius: 4px; */
     }
     .fc-event {
-      /* background-color: #dd9ae7; */
-      /* background-color: black; */
-      /* border: none; */
       font-family: ${(props) => props.theme.fontFamily.Light};
       font-size: ${(props) => props.theme.fontSize.p};
-      /* border-radius: 4px; */
       cursor: pointer;
     }
     /* 이벤트 배경 설정 */
@@ -136,8 +110,6 @@ export const SCalendar = styled.div`
       border-radius: 8px;
       margin-bottom: 1px;
       padding: 1px;
-      /* margin-left: 1px;
-      margin-right: 1px; */
     }
     .fc-daygrid-event-dot {
       display: none;
@@ -149,9 +121,7 @@ export const SCalendar = styled.div`
     }
     .fc-event-time {
       color: green;
-      /* color: #5335ff; */
       font-weight: bold;
-      /* white-space: normal; */
     }
     .fc-event-title {
       color: black;
@@ -216,4 +186,4 @@ export const SCalendar = styled.div`
       }
     }
   }
-`
+`;

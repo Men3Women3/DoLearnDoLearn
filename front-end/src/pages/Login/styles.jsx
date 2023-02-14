@@ -15,7 +15,6 @@ export const SMain = styled.main`
     rgba(255, 232, 154, 1) 25%,
     rgba(255, 153, 98, 1) 100%
   );
-  /* background-color: ${(props) => props.theme.deepYellow}; */
 `;
 
 export const SMainContainer = styled.div`
@@ -44,7 +43,6 @@ export const SImgSection = styled.section`
   background-color: #fffbe6;
   border-radius: 30px 0 0 30px;
   .nav__section {
-    /* background-color: #fffbe6; */
     position: absolute;
     top: 10px;
     left: 10px;
@@ -56,7 +54,6 @@ export const SImgSection = styled.section`
   h1 {
     font-family: "Pacifico", cursive;
     font-size: calc(1vw + 25px);
-    /* border-bottom: 5px solid ${(props) => props.theme.deeperYellow}; */
     margin-bottom: 10px;
     margin-top: 0px;
     user-select: none;
@@ -68,9 +65,6 @@ export const SImgSection = styled.section`
   }
   img:hover {
     animation: swing 5000ms infinite;
-    /* transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px; */
   }
 
   @keyframes swing {
@@ -98,8 +92,6 @@ export const SForm = styled.form`
   display: flex;
   flex-direction: column;
   width: calc(2vw + 450px);
-  /* box-shadow: 10px 10px 30px 0px rgb(158 158 158); */
-  /* margin: 120px 120px; */
   .warning-message {
     font-size: ${(props) => props.theme.fontSize.h5};
     font-weight: bold;
@@ -159,7 +151,6 @@ export const SEmailInput = styled.input`
   border: 3px solid #cdcdcd;
   border-radius: 8px;
   outline: none;
-  /* margin-bottom: 20px; */
   padding-left: 30px;
   font-size: ${(props) => props.theme.fontSize.p};
   &::placeholder {
@@ -264,17 +255,6 @@ export const SSignUpButton = styled(CustomButton)`
     font-weight: bold;
   }
 `;
-
-/* export const SSignUpButton = styled.button`
-  background-color: white;
-  color: black;
-  font-family: ${(props) => props.theme.fontFamily.Regular};
-  font-size: ${(props) => props.theme.fontSize.p};
-  width: calc(1vw + 280px);
-  height: calc(1vh + 20px);
-  border-radius: 4px;
-  cursor: pointer;
-` */
 
 export const SNaverContainer = styled.div`
   button {

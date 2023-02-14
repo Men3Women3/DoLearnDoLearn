@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SContent = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -39,7 +39,7 @@ export const SContent = styled.div`
       font-size: ${(props) => props.theme.fontSize.p};
     }
   }
-`
+`;
 
 export const SButton = styled.div`
   margin-top: 20px;
@@ -57,4 +57,4 @@ export const SButton = styled.div`
     border-radius: 4px;
     cursor: pointer;
   }
-`
+`;

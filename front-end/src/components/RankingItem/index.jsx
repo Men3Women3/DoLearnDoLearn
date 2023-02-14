@@ -1,28 +1,25 @@
-import React from "react"
-import { NavLink } from "react-router-dom"
-import profileImg from "../../assets/images/thumbnail.png"
-import { SContainer, SSNSContainer, SRank } from "./styles"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React from "react";
+import { SContainer, SSNSContainer, SRank } from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
   faFacebook,
   faYoutube,
-} from "@fortawesome/free-brands-svg-icons"
-import defaultProfile from "../../assets/images/defaultProfile.png"
-import { faLink } from "@fortawesome/free-solid-svg-icons"
-import { BASE_URL } from "../../utils/api/URL"
-import { Tooltip } from "@mui/material"
+} from "@fortawesome/free-brands-svg-icons";
+import defaultProfile from "../../assets/images/defaultProfile.png";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../../utils/api/URL";
+import { Tooltip } from "@mui/material";
 
 const RankingItem = (props) => {
   const handleMoveToProfile = (e) => {
-    console.log(e.target)
     if (
       !e.target.className.includes("link") ||
       !e.target.className.includes("icon")
     ) {
-      window.open(`/board/profile/${props.item.id}`)
+      window.open(`/board/profile/${props.item.id}`);
     }
-  }
+  };
 
   return (
     <SContainer onClick={(e) => handleMoveToProfile(e)}>
@@ -85,7 +82,7 @@ const RankingItem = (props) => {
       {/* 랭크를 표시하기 위한 div */}
       <SRank className="rank">{props.index + 1}</SRank>
     </SContainer>
-  )
-}
+  );
+};
 
-export default RankingItem
+export default RankingItem;
