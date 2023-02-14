@@ -108,49 +108,8 @@ const NewBoard = () => {
     outline: "none",
   };
 
+  // 등록 모달 띄우기
   const handleOpen = () => {
-    // =========== 시간 비교를 위해 필요한 정보 ==================
-    const finalTime = Number(lectureTime) + Number(classTime); // 종료 시간
-    const st = new Date(lectureDay + " " + lectureTime + ":00:00"); // 입력된 수업 시작시간
-    const ed = new Date(lectureDay + " " + finalTime + ":00:00"); // 입력된 수업 종료시간
-    // ============================================================
-
-    // 0: 초기값 1: 가능 2: 불가능
-    // 등록된 일정이 있는 경우
-    if (allSchedule.length) {
-      for (const data of allSchedule) {
-        // start 값이 있는 경우
-        if (data.start) {
-          if (new Date(data.start) <= st && new Date(data.end) > st) {
-            setAbleTime(2);
-            break;
-          } else if (new Date(data.start) < ed && new Date(data.end) >= ed) {
-            setAbleTime(2);
-            break;
-          } else {
-            setAbleTime(1);
-          }
-          // startTime 값이 있는 경우
-        } else {
-          if (new Date(data.startTime) <= st && new Date(data.endTime) > st) {
-            setAbleTime(2);
-            break;
-          } else if (
-            new Date(data.startTime) < ed &&
-            new Date(data.endTime) >= ed
-          ) {
-            setAbleTime(2);
-            break;
-          } else {
-            setAbleTime(1);
-          }
-        }
-      }
-      // 등록된 일정이 없는 경우
-    } else {
-      setAbleTime(1);
-    }
-
     if (!title) {
       setCheck("제목을 입력해주세요");
       setOpen(true);
@@ -250,36 +209,48 @@ const NewBoard = () => {
   };
 
   useEffect(() => {
-    if (ableTime !== 0) {
-      if (!title) {
-        setCheck("제목을 입력해주세요");
-        setOpen(true);
-      } else if (!imgSelect) {
-        setCheck("대표 이미지를 선택해주세요");
-        setOpen(true);
-      } else if (!deadline) {
-        setCheck("모집 기간을 입력해주세요");
-        setOpen(true);
-      } else if (!lectureDay) {
-        setCheck("강의 날짜를 입력해주세요");
-        setOpen(true);
-      } else if (!classTime) {
-        setCheck("강의 시간을 입력해주세요");
-        setOpen(true);
-      } else if (!summary) {
-        setCheck("내용 요약을 작성해주세요");
-        setOpen(true);
-      } else if (!detail) {
-        setCheck("내용 상세를 작성해주세요");
-        setOpen(true);
-      } else if (ableTime === 2) {
-        setCheck("해당 강의 시간에 신청된 강의가 이미 존재합니다");
-        setOpen(true);
-      } else {
-        handleRegister(); // 모두 잘 작성됐으면 등록
+    // ============================================================
+    const finalTime = Number(lectureTime) + Number(classTime); // 종료 시간
+    const st = new Date(lectureDay + " " + lectureTime + ":00:00"); // 입력된 수업 시작시간
+    const ed = new Date(lectureDay + " " + finalTime + ":00:00"); // 입력된 수업 종료시간
+    // ============================================================
+
+    // 0: 초기값 1: 가능 2: 불가능
+    // 등록된 일정이 있는 경우
+    if (allSchedule.length) {
+      for (const data of allSchedule) {
+        // start 값이 있는 경우
+        if (data.start) {
+          if (new Date(data.start) <= st && new Date(data.end) > st) {
+            setAbleTime(2);
+            break;
+          } else if (new Date(data.start) < ed && new Date(data.end) >= ed) {
+            setAbleTime(2);
+            break;
+          } else {
+            setAbleTime(1);
+          }
+          // startTime 값이 있는 경우
+        } else {
+          if (new Date(data.startTime) <= st && new Date(data.endTime) > st) {
+            setAbleTime(2);
+            break;
+          } else if (
+            new Date(data.startTime) < ed &&
+            new Date(data.endTime) >= ed
+          ) {
+            setAbleTime(2);
+            break;
+          } else {
+            setAbleTime(1);
+          }
+        }
       }
+      // 등록된 일정이 없는 경우
+    } else {
+      setAbleTime(1);
     }
-  }, [ableTime]);
+  }, [lectureDay, lectureTime, classTime]);
 
   useEffect(() => {
     // 오늘이면
