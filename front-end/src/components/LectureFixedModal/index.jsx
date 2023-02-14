@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Modal, Tooltip, Typography } from "@mui/material";
 import {
   faClock,
@@ -80,8 +80,7 @@ const LectureFixedModal = ({
 }) => {
   const { userInfo } = useContext(LoginStateContext);
   const [cancleText, setCancleText] = useState("");
-  const { unreadMessageCnt, setStateMessageUpdate } =
-    useContext(UnreadMessageContext);
+  const { setStateMessageUpdate } = useContext(UnreadMessageContext);
   const { handleUserInfo, handleSnackbarInfo } = useContext(
     LoginStateHandlerContext
   );

@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SSpan = styled.span`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -6,11 +6,11 @@ export const SSpan = styled.span`
   color: #ff7979;
   display: block;
   border-bottom: 2px solid #cbcbcb;
-`
+`;
 
 export const SScontent = styled.div`
   font-size: ${(props) => props.theme.fontSize.h4};
-`
+`;
 
 export const SButtonContainer = styled.div`
   margin-top: 50px;
@@ -33,4 +33,4 @@ export const SButtonContainer = styled.div`
   .cancel-button {
     background-color: #cbcbcb;
   }
-`
+`;
