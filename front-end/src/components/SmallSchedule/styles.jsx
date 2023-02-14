@@ -1,13 +1,7 @@
 import styled from "styled-components";
 
 export const SContainer = styled.div`
-  /* 스크롤 시 같이 이동함 */
-  /* position: fixed;
-  top: 90px;
-  right: 180px; */
-
   font-family: ${(props) => props.theme.fontFamily.Medium};
-  /* width: calc(2vw + 290px); */
   min-width: calc(2vw + 260px);
   height: ${(props) =>
     props.isEmpty
@@ -47,10 +41,6 @@ export const SContainer = styled.div`
   }
 
   .totalSchedule {
-    /* height: ${(props) =>
-      props.isIncreaseTotalScheduleHight
-        ? "calc(1vw + 180px)"
-        : "calc(1vw + 300px)"}; */
     height: calc(1vw + 180px);
   }
   .Scrollbars {

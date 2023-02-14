@@ -184,7 +184,6 @@ export const loginAPI = (
   // 자동로그아웃 -> 23시간 후 실행
   const logoutTimeInterval = 1000 * 60 * 60 * 23;
   // 테스트용 5초 후 자동로그아웃
-  // const logoutTimeInterval = 1000 * 5;
 
   axios
     .post(`${axiosDefaultURL}/user/login`, {
@@ -352,21 +351,6 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
       console.log(error.response);
     });
 };
-
-// 유저가 신청한 전체 목록 api를 요청하는 함수
-// export const getRequestLecture = (userInfo, setTotalSchedule) => {
-//   axios
-//     .get(`${axiosDefaultURL}/user/request-lecture/${userInfo.id}`)
-//     // 테스트용
-//     // .get(`http://localhost:8080/user/request-lecture/1`)
-//     .then((response) => {
-//       const responseData = response.data.response;
-//       setTotalSchedule(responseData);
-//     })
-//     .catch((error) => {
-//       console.log(error.response);
-//     });
-// };
 
 // 미확정 강의 내역 불러오는 api를 요청하는 함수 (모든 강의)
 export const getUnScheduledLectureAPI = (userId, setFunction) => {

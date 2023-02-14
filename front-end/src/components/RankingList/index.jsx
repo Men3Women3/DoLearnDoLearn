@@ -1,19 +1,17 @@
-import React from "react"
-import { useState } from "react"
-import RankingItem from "../RankingItem"
-import { SRankingSection, SRankingItemContainer } from "./styles"
-import Grid from "@mui/material/Grid"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faRankingStar, faTrophy } from "@fortawesome/free-solid-svg-icons"
-import { useEffect } from "react"
-import { getSortedUserByPoint } from "../../utils/api/userAPI"
+import React from "react";
+import { useState } from "react";
+import RankingItem from "../RankingItem";
+import { SRankingSection, SRankingItemContainer } from "./styles";
+import Grid from "@mui/material/Grid";
+import { useEffect } from "react";
+import { getSortedUserByPoint } from "../../utils/api/userAPI";
 
 const RankingList = () => {
-  const [rankingList, setRankingList] = useState([])
+  const [rankingList, setRankingList] = useState([]);
   // 데이터 불러오기
   useEffect(() => {
-    getSortedUserByPoint(setRankingList)
-  }, [])
+    getSortedUserByPoint(setRankingList);
+  }, []);
 
   return (
     <SRankingSection>
@@ -30,7 +28,7 @@ const RankingList = () => {
         <Grid item xs={0} md={1.5} />
       </Grid>
     </SRankingSection>
-  )
-}
+  );
+};
 
-export default RankingList
+export default RankingList;

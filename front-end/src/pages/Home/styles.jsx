@@ -1,16 +1,14 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SContainer = styled.main`
   width: 100%;
   /* height: 100%; */
   .main__section {
     font-family: ${(props) => props.theme.fontFamily.Bold};
-    /* font-family: "Noto Sans KR", sans-serif; */
     font-weight: 400;
     position: relative;
     width: 100%;
     height: 550px;
-    /* background-color: #ffe89a; */
     background: rgb(255, 247, 205);
     background: linear-gradient(
       140deg,
@@ -21,7 +19,6 @@ export const SContainer = styled.main`
     justify-content: center;
     align-items: center;
     h1 {
-      /* font-family: ${(props) => props.theme.fontFamily.Light}; */
       font-family: "GmarketSansBold";
 
       margin: 0px;
@@ -30,7 +27,6 @@ export const SContainer = styled.main`
       margin-top: calc(1vw + 1px);
     }
     h3 {
-      /* font-family: ${(props) => props.theme.fontFamily.Thin}; */
       font-family: "GmarketSansLight";
       font-size: calc(1vw + 11px);
       margin: 0px;
@@ -47,8 +43,6 @@ export const SContainer = styled.main`
       display: flex;
       justify-content: center;
       .main__content {
-        /* min-width: 525px; */
-        /* padding-left: 50px; */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -58,7 +52,6 @@ export const SContainer = styled.main`
       cursor: pointer;
       width: calc(2vw + 600px);
       margin-left: calc(2vw + 80px);
-      /* transform: translateX(60px); */
     }
   }
 
@@ -89,4 +82,4 @@ export const SContainer = styled.main`
       }
     }
   }
-`
+`;

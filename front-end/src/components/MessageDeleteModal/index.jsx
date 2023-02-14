@@ -1,8 +1,8 @@
-import React, { useContext } from "react"
-import { LoginStateHandlerContext, UnreadMessageContext } from "../../App"
-import { deleteMessageAPI } from "../../utils/api/messageAPI"
-import { SButtonContainer, SSpan, SScontent } from "./styles"
-import { Box, Modal, Typography } from "@mui/material"
+import React, { useContext } from "react";
+import { LoginStateHandlerContext, UnreadMessageContext } from "../../App";
+import { deleteMessageAPI } from "../../utils/api/messageAPI";
+import { SButtonContainer, SSpan, SScontent } from "./styles";
+import { Box, Modal, Typography } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -15,7 +15,7 @@ const style = {
   boxShadow: 24,
   outline: "none",
   padding: "20px 30px",
-}
+};
 
 const MessageDeleteModal = ({
   messageId,
@@ -24,8 +24,8 @@ const MessageDeleteModal = ({
   checkState,
   setCheckState,
 }) => {
-  const { setStateMessageUpdate } = useContext(UnreadMessageContext)
-  const { handleSnackbarInfo } = useContext(LoginStateHandlerContext)
+  const { setStateMessageUpdate } = useContext(UnreadMessageContext);
+  const { handleSnackbarInfo } = useContext(LoginStateHandlerContext);
 
   const handleDeleteMessage = () => {
     deleteMessageAPI(
@@ -33,13 +33,13 @@ const MessageDeleteModal = ({
       setStateMessageUpdate,
       checkState,
       setCheckState
-    )
-    handleClose()
+    );
+    handleClose();
     handleSnackbarInfo({
       state: true,
       message: "메시지가 정상적으로 삭제되었습니다",
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -67,7 +67,7 @@ const MessageDeleteModal = ({
         </Box>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default MessageDeleteModal
+export default MessageDeleteModal;

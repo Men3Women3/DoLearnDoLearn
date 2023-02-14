@@ -1,10 +1,8 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SContainer = styled.div`
   position: relative;
   height: 100%;
-  /* padding-top: 1.5rem; */
-  /* background-image: linear-gradient(147deg, #ff5825 0%, #ffe53b 74%); */
   background: linear-gradient(
     90deg,
     rgba(255, 232, 154, 1) 25%,
@@ -17,4 +15,4 @@ export const SContainer = styled.div`
     padding-bottom: 10px;
     margin-bottom: 30px;
   }
-`
+`;

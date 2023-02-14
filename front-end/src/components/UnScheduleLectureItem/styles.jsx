@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   height: 100%;
@@ -9,7 +9,6 @@ export const SMain = styled.main`
   cursor: pointer;
   .main__container {
     background-color: #fffaef;
-    /* background-color: ${(props) => props.theme.lightYellow}; */
     display: flex;
     align-items: center;
     padding: 15px;
@@ -40,4 +39,4 @@ export const SMain = styled.main`
   &:hover {
     transform: scale(1.02);
   }
-`
+`;
