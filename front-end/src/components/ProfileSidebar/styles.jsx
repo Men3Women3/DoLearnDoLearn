@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SSidebarContainer = styled.section`
   margin-top: calc(1vw + 0.5px);
@@ -11,7 +11,7 @@ export const SSidebarContainer = styled.section`
     padding-top: 2vw;
     background-color: #ff9d00;
   }
-`
+`;
 
 export const SButtonContainer = styled.div`
   position: relative;
@@ -47,10 +47,9 @@ export const SButtonContainer = styled.div`
   .tab-content:hover {
     cursor: pointer;
     color: black;
-    /* transform: scale(1.05); */
     font-weight: bold;
   }
-`
+`;
 
 export const SUserDeleteButtonContainer = styled.div`
   position: absolute;
@@ -68,4 +67,4 @@ export const SUserDeleteButtonContainer = styled.div`
     outline: none;
     cursor: pointer;
   }
-`
+`;

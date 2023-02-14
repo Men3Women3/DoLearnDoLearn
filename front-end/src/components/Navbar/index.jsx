@@ -1,13 +1,10 @@
-import React, { useState } from "react";
-import { Link, Navigate, NavLink, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link, NavLink } from "react-router-dom";
 import { Box } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import logoImg from "../../assets/images/logo.png";
 import defaultProfile from "../../assets/images/defaultProfile.png";
-
-import { useEffect } from "react";
-import axios from "axios";
 import { useContext } from "react";
 import {
   LoginStateContext,
@@ -15,10 +12,7 @@ import {
   UnreadMessageContext,
 } from "../../App";
 import { Badge, Grid } from "@mui/material";
-import { NotificationsNone } from "@mui/icons-material";
 import { BASE_URL } from "../../utils/api/URL";
-
-// import startRankImg from "../../assets/images/rank/start_rank.svg";
 
 const Navbar = () => {
   // context api를 통해 로그인 상태 받아오기
@@ -26,21 +20,8 @@ const Navbar = () => {
   const getUserInfo = useContext(LoginStateContext);
 
   // context api를 통해 로그인 상태 관리 함수들 받아오기
-  const { handleIsLogined, handleLogout } = useContext(
-    LoginStateHandlerContext
-  );
-  const { unreadMessageCnt, setStateMessageUpdate } =
-    useContext(UnreadMessageContext);
-  const navigate = useNavigate();
-
-  // 종(bell) 아이콘 눌렀을 때 메시지함으로 이동
-  // const handleMoveToMessage = () => {
-  //   navigate("/mypage", {
-  //     state: {
-  //       message: "message",
-  //     },
-  //   });
-  // };
+  const { handleLogout } = useContext(LoginStateHandlerContext);
+  const { unreadMessageCnt } = useContext(UnreadMessageContext);
 
   return (
     <Grid container>
@@ -95,7 +76,6 @@ const Navbar = () => {
                     <FontAwesomeIcon
                       className="unread__notification"
                       icon={faBell}
-                      // onClick={handleMoveToMessage}
                     />
                   </Link>
                 </Badge>

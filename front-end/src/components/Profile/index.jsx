@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState } from "react";
 import {
   SProfileContainer,
   SSubContainerUp,
@@ -7,34 +7,29 @@ import {
   SSnsContainer,
   SSCard,
   SPointContainer,
-} from "./styles"
-import { Tooltip } from "@mui/material"
+} from "./styles";
+import { Tooltip } from "@mui/material";
 
-import defaultProfile from "../../assets/images/defaultProfile.png"
+import defaultProfile from "../../assets/images/defaultProfile.png";
 
-import blogImg from "../../assets/images/sns/blog.png"
-import youtubeImg from "../../assets/images/sns/youtube.png"
-import instagramImg from "../../assets/images/sns/instagram.png"
-import facebookImg from "../../assets/images/sns/facebook.png"
+import blogImg from "../../assets/images/sns/blog.png";
+import youtubeImg from "../../assets/images/sns/youtube.png";
+import instagramImg from "../../assets/images/sns/instagram.png";
+import facebookImg from "../../assets/images/sns/facebook.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPersonRunning } from "@fortawesome/free-solid-svg-icons"
-import walkingChick from "../../assets/images/walkingChick.gif"
-import { BASE_URL } from "../../utils/api/URL"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../../utils/api/URL";
 
 const Profile = ({ handleProfileEditBtn, user, userState, chick }) => {
-  const blog = user.blog
-  const youtube = user.youtube
-  const instagram = user.instagram
-  const facebook = user.facebook
-  const point = user.point
-  // 테스트용
-  // const point = 5000;
-  // const point = 0;
-  // const point = 2500;
+  const blog = user.blog;
+  const youtube = user.youtube;
+  const instagram = user.instagram;
+  const facebook = user.facebook;
+  const point = user.point;
 
   // 받은 유저정보가 본인인지 확인하는 변수
-  const isMe = userState === "me" ? true : false
+  const isMe = userState === "me" ? true : false;
 
   return (
     <>
@@ -146,7 +141,7 @@ const Profile = ({ handleProfileEditBtn, user, userState, chick }) => {
         </SProfileContainer>
       </SSCard>
     </>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

@@ -1,26 +1,25 @@
-import React, { useState } from "react"
-import SmallSchedule from "../SmallSchedule"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCalendarDays } from "@fortawesome/free-regular-svg-icons"
-import { faAnglesRight } from "@fortawesome/free-solid-svg-icons"
-import { SSmallScheduleMain } from "./styles"
-import { keyframes } from "styled-components"
+import React, { useState } from "react";
+import SmallSchedule from "../SmallSchedule";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { SSmallScheduleMain } from "./styles";
 
 const SmallScheduleToggle = () => {
-  const [mount, setMount] = useState(true)
-  const [effect, setEffect] = useState("mount")
+  const [mount, setMount] = useState(true);
+  const [effect, setEffect] = useState("mount");
 
   const handleSmallScheduleToggle = () => {
     if (mount) {
-      setEffect("unmount")
+      setEffect("unmount");
       setTimeout(() => {
-        setMount(!mount)
-      }, 1200)
+        setMount(!mount);
+      }, 1200);
     } else {
-      setEffect("mount")
-      setMount(!mount)
+      setEffect("mount");
+      setMount(!mount);
     }
-  }
+  };
 
   return (
     <SSmallScheduleMain>
@@ -38,7 +37,7 @@ const SmallScheduleToggle = () => {
         </button>
       </div>
     </SSmallScheduleMain>
-  )
-}
+  );
+};
 
-export default SmallScheduleToggle
+export default SmallScheduleToggle;

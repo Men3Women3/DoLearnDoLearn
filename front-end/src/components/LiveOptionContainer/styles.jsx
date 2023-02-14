@@ -8,7 +8,6 @@ export const SOptionContainer = styled.div`
   transform: translateX(-50%);
   justify-content: center;
   align-items: center;
-  /* background-color: #242424; */
   background-color: #dedede;
   text-align: center;
   margin: auto;
@@ -41,26 +40,11 @@ export const SOptionContainer = styled.div`
       /* color: ; */
     }
   }
-  /* select {
-    border: none;
-    background-color: transparent;
-    outline: none;
-  } */
   .icon {
     width: calc(1vw + 12px);
     height: calc(1vh + 12px);
     color: #7e7e7e;
   }
-  /* .big-icon {
-    width: calc(1vw + 12px);
-    height: calc(1vh + 12px);
-  } */
-  /* .camera-icon {
-    transform: translateX(32px);
-  }
-  .mike-icon {
-    transform: translateX(32px);
-  } */
   .exit-button:hover {
     background-color: #e53e3e;
     opacity: 1;

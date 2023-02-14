@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 
 export const SContent = styled.div`
   display: flex;
@@ -39,23 +39,23 @@ export const SContent = styled.div`
     color: #9a9a9a;
     margin: 5px 0;
   }
-`
+`;
 
 export const SCustomFontAwesomeIcon = styled(FontAwesomeIcon)`
   width: 2vw;
-`
+`;
 
 export const SSpan = styled.span`
   font-family: ${(props) => props.theme.fontFamily.Medium};
   font-size: ${(props) => props.theme.fontSize.p};
-`
+`;
 
 export const SInfoItem = styled.div`
   display: flex;
   column-gap: 5px;
   align-items: center;
   margin-bottom: 1vw;
-`
+`;
 
 export const SDetail = styled.div`
   font-size: ${(props) => props.theme.fontSize.p};
@@ -81,4 +81,4 @@ export const SDetail = styled.div`
     border-radius: 12px;
     border: 3px solid #f0f0f0;
   }
-`
+`;

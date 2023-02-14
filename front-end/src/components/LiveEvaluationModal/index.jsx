@@ -9,13 +9,12 @@ import {
   SIconContainer,
   SContentContainer,
 } from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFaceFrown,
   faFaceMeh,
   faFaceSmile,
 } from "@fortawesome/free-regular-svg-icons";
-import { updateCheck, updatePoint } from "../../utils/api/lectureAPI";
+import { updateCheck } from "../../utils/api/lectureAPI";
 import { LoginStateContext, LoginStateHandlerContext } from "../../App";
 
 const style = {
@@ -34,7 +33,6 @@ const style = {
 const LiveEvaluationModal = ({
   open,
   handleClose,
-  setCheckEvalState,
   exitRoom,
   roomId,
   lecturerId,
@@ -57,9 +55,6 @@ const LiveEvaluationModal = ({
       handleUserInfo
     );
     console.log("제출 확인", gradeSelect, "포인트");
-    // setCheckEvalState(true);
-    // handleClose();
-    // exitRoom();
   };
   return (
     <div>

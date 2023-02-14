@@ -18,7 +18,6 @@ export const cancleFixedLectureAPI = (lid, uid, setScheduledLecture) => {
       data: { lid, uid },
     })
     .then((res) => {
-      console.log("해당 강의가 정상적으로 취소되었습니다");
       // 다시 확정 강의(일정) 받아오기 요청
       getScheduledLectureAPI(uid, setScheduledLecture);
     })
@@ -51,7 +50,6 @@ export const getLecturePacitipants = (
           exitRoom();
         }
       } else {
-        console.log("강사입니다.");
         setOpen(false);
         exitRoom();
       }
@@ -76,7 +74,6 @@ export const updateCheck = (
       uid: userId,
     })
     .then((response) => {
-      console.log(response, "평가 여부 업데이트 성공");
       updatePoint(lecturerId, point, handleUserInfo);
     })
     .then((response) => {
@@ -102,7 +99,6 @@ export const updatePoint = (lecturerId, point, handleUserInfo) => {
       }
     )
     .then((response) => {
-      console.log(response, "점수 업데이트 성공!");
       handleUserInfo(res.data.response);
     })
     .catch((error) => {
@@ -123,9 +119,7 @@ export const updatePoint2 = (lecturerId, point) => {
         Authentication: accessToken,
       }
     )
-    .then((response) => {
-      console.log(response, "점수 업데이트 성공!");
-    })
+    .then((response) => {})
     .catch((error) => {
       console.log(error.response, "점수 업데이트 실패!");
     });

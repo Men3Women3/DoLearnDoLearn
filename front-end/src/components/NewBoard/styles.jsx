@@ -70,7 +70,6 @@ export const SBoardTitle = styled.div`
   }
 `;
 
-// =========== 수정합시다 ==================
 export const STitleInput = styled.input`
   font-family: ${(props) => props.theme.fontFamily.Regular};
   width: calc(40vw + 10px);

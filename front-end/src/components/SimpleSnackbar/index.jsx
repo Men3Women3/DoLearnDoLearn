@@ -1,28 +1,28 @@
-import React from "react"
-import { Snackbar, Slide, AlertTitle, Alert } from "@mui/material"
-import { useState } from "react"
-import { useEffect } from "react"
+import React from "react";
+import { Snackbar, Slide, Alert } from "@mui/material";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function TransitionUp(props) {
-  return <Slide {...props} direction="right" />
+  return <Slide {...props} direction="right" />;
 }
 
 const SimpleSnackbar = ({ message, setOpenSnackbar }) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(true);
   const handleClose = (e, reason) => {
     if (reason === "clickaway") {
-      return
+      return;
     }
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (!open) {
       setTimeout(() => {
-        setOpenSnackbar(false)
-      }, 1000)
+        setOpenSnackbar(false);
+      }, 1000);
     }
-  }, [open])
+  }, [open]);
   return (
     <>
       <Snackbar
@@ -44,7 +44,7 @@ const SimpleSnackbar = ({ message, setOpenSnackbar }) => {
         </Alert>
       </Snackbar>
     </>
-  )
-}
+  );
+};
 
-export default SimpleSnackbar
+export default SimpleSnackbar;
