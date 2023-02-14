@@ -20,7 +20,6 @@ import MessageContainer from "../MessageContainer";
 
 const LectureChattingContainer = (props) => {
   const [contents, setContents] = useState([]);
-  // const [inputData, setInputData] = useState("");
   const messageBoxRef = useRef();
 
   let sockJS = new SockJS(`${SOCKET_URL}`);
@@ -48,17 +47,10 @@ const LectureChattingContainer = (props) => {
         })
       );
       setInputData("");
-      // scrollToBottom();
     }
   };
 
   const handleMeesageSendKeyEvent = async (e, inputData, setInputdata) => {
-    // if (e.nativeEvent.isComposing) {
-    // return;
-    // }
-    // if (inputData && e.key === "Enter" && !e.shiftKey) {
-    // return;
-    // }
     if (e.key === "Enter") {
       if (!e.shiftKey) {
         await client.send(
@@ -93,9 +85,14 @@ const LectureChattingContainer = (props) => {
     const contentTag = document.createElement("div");
     contentTag.innerText = meesage.content;
     contentTag.className = "content";
+    if (meesage.sender === props.username) {
+      contentContainer.style.textAlign = "right";
+      contentTag.style.backgroundColor = "rgb(255 235 168)";
+    }
 
     if (meesage.sender === props.username) {
       contentContainer.style.textAlign = "right";
+      contentTag.style.backgroundColor = "rgb(255 235 168)";
     }
 
     contentContainer.appendChild(userNameTag);
@@ -122,30 +119,12 @@ const LectureChattingContainer = (props) => {
   return (
     <SContainer>
       <SChattingContainer ref={messageBoxRef}>
-        <SChattingContent id="chatting-Content">
-          {/* <div className="content-container">
-            <p>김싸피 (수강생)</p>
-            <div className="content">다시 설명해주세요!</div>
-          </div> */}
-        </SChattingContent>
+        <SChattingContent id="chatting-Content"></SChattingContent>
       </SChattingContainer>
       <MessageContainer
         handleMeesageSendKeyEvent={handleMeesageSendKeyEvent}
         handleMessageSend={handleMessageSend}
       />
-      {/* <SMessageContainer>
-        <textarea
-          cols="38"
-          rows="1"
-          value={inputData}
-          onChange={(e) => setInputData(e.target.value)}
-          onKeyDown={(e) => handleMeesageSendKeyEvent(e)}
-        /> */}
-      {/* 메시지 전송 버튼 */}
-      {/* <button onClick={(e) => handleMessageSend(e)}>
-          <FontAwesomeIcon className="send-icon" icon={faPaperPlane} />
-        </button>
-      </SMessageContainer> */}
     </SContainer>
   );
 };
