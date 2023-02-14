@@ -85,6 +85,10 @@ const LectureChattingContainer = (props) => {
     const contentTag = document.createElement("div");
     contentTag.innerText = meesage.content;
     contentTag.className = "content";
+    if (meesage.sender === props.username) {
+      contentContainer.style.textAlign = "right";
+      contentTag.style.backgroundColor = "rgb(255 235 168)";
+    }
 
     if (meesage.sender === props.username) {
       contentContainer.style.textAlign = "right";

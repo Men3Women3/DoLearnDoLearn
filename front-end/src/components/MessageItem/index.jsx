@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 const checkType = (target) => {
-  if ((target === "confirm") | (target === "complete")) {
+  if (target === "confirm" || target === "complete") {
     return "확정";
   } else if (target === "cancle") {
     return "취소";
