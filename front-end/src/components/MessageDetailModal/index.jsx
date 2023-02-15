@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
-
 import { SButton, SContent } from "./styles";
-
 import { Box, Modal, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -86,8 +84,7 @@ const MessageDetailModal = ({
   checkState,
   setCheckState,
 }) => {
-  const { unreadMessageCnt, setStateMessageUpdate } =
-    useContext(UnreadMessageContext);
+  const { setStateMessageUpdate } = useContext(UnreadMessageContext);
   const type = checkType(data.type);
   const recieveTime = customRecieveTime(data.createdTime);
   const [mainText, additionalText] = typeMessage(data.type, data.content);
@@ -101,9 +98,6 @@ const MessageDetailModal = ({
         checkState,
         setCheckState
       );
-      // axios_put();
-      // setCheckState(true);
-      // setStateMessageUpdate(true);
     }
     handleClose();
   };

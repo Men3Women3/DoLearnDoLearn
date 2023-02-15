@@ -1,6 +1,6 @@
-import styled from "styled-components"
-import { Tooltip } from "@mui/material"
-import { SCard } from "../ProfileCardBox/styles"
+import styled from "styled-components";
+import { Tooltip } from "@mui/material";
+import { SCard } from "../ProfileCardBox/styles";
 
 export const SSCard = styled(SCard)`
   position: relative;
@@ -17,7 +17,7 @@ export const SSCard = styled(SCard)`
     left: 50%;
     transform: translate(-50%);
   }
-`
+`;
 
 export const SProfileContainer = styled.div`
   font-family: ${(props) => props.theme.fontFamily.Medium};
@@ -52,7 +52,7 @@ export const SProfileContainer = styled.div`
       border-radius: 10px;
     }
   }
-`
+`;
 
 export const SSubContainerUp = styled.div`
   display: flex;
@@ -96,7 +96,6 @@ export const SSubContainerUp = styled.div`
     .wrapper {
       width: 100%;
       height: calc(1vw + 2px);
-      /* 그라데이션 임시로 넣었음. 더 좋은 그라데이션 찾으면 바꾸기 */
       background: rgb(238, 242, 67);
       background: linear-gradient(
         90deg,
@@ -110,7 +109,7 @@ export const SSubContainerUp = styled.div`
       flex: 1;
     }
   }
-`
+`;
 
 export const SSnsContainer = styled.div`
   display: flex;
@@ -121,7 +120,7 @@ export const SSnsContainer = styled.div`
     height: calc(1.5vw + 0.1px);
     cursor: pointer;
   }
-`
+`;
 
 export const SSubContainerDown = styled.div`
   width: 100%;
@@ -130,7 +129,7 @@ export const SSubContainerDown = styled.div`
   line-height: calc(1vw + 5px);
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const SBlackButton = styled.button`
   width: calc(2vw + 80px);
@@ -145,11 +144,11 @@ export const SBlackButton = styled.button`
     color: ${(props) => props.theme.deeperYellow};
     font-weight: bolder;
   }
-`
+`;
 
 export const SCustomToolTip = styled(Tooltip)`
   background-color: yellow;
-`
+`;
 
 export const SPointContainer = styled.div`
   padding-left: ${(props) => String((Number(props.point) / 5070) * 100) + "%"};
@@ -166,8 +165,6 @@ export const SPointContainer = styled.div`
   }
   .point {
     color: #9a9a9a;
-    /* color: black; */
-    /* background-color: ${(props) => props.theme.lightYellow}; */
     font-size: calc(0.85vw + 1px);
     margin-left: 0.5vw;
     -webkit-animation: action 1s infinite alternate;
@@ -191,4 +188,4 @@ export const SPointContainer = styled.div`
       transform: translateY(-4px);
     }
   }
-`
+`;

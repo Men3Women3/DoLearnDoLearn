@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SContainer = styled.div`
   .walkingChick_container {
@@ -25,4 +25,4 @@ export const SContainer = styled.div`
       transform: translateX(100vw);
     }
   }
-`
+`;

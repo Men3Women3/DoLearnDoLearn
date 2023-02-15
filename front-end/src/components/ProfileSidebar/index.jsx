@@ -1,31 +1,23 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   SSidebarContainer,
   SButtonContainer,
   SUserDeleteButtonContainer,
-} from "./styles"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
-import { faUser } from "@fortawesome/free-solid-svg-icons"
-import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons"
-import { faCalendarXmark } from "@fortawesome/free-regular-svg-icons"
-import WarningModal from "../WarningModal"
-import { deleteUserAPI } from "../../utils/api/userAPI"
-import { useContext } from "react"
-import { LoginStateHandlerContext } from "../../App"
-import ProfileClock from "../ProfileClock"
+} from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons";
+import { faCalendarXmark } from "@fortawesome/free-regular-svg-icons";
+import WarningModal from "../WarningModal";
+import { deleteUserAPI } from "../../utils/api/userAPI";
+import ProfileClock from "../ProfileClock";
 
 const ProfileSidebar = (props) => {
-  const { handleSnackbarInfo } = useContext(LoginStateHandlerContext)
-
   const handleDeleteUser = () => {
-    deleteUserAPI()
-    // handleSnackbarInfo({
-    //   state: true,
-    //   message: "정상적으로 회원탈퇴 처리되었습니다😣",
-    // })
-  }
+    deleteUserAPI();
+  };
 
   return (
     <>
@@ -123,7 +115,7 @@ const ProfileSidebar = (props) => {
         <ProfileClock />
       </SSidebarContainer>
     </>
-  )
-}
+  );
+};
 
-export default ProfileSidebar
+export default ProfileSidebar;

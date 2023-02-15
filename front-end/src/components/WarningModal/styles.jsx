@@ -3,22 +3,6 @@ import styled from "styled-components";
 export const SSection = styled.section`
   font-family: ${(props) => props.theme.fontFamily.Medium};
 
-  .modal-button {
-    /* font-size: ${(props) => props.theme.fontSize.p};
-    font-family: ${(props) => props.theme.fontFamily.Regular}; */
-    /* border: none;
-  background-color: black;
-  margin: 0 1rem;
-  color: white;
-  font-family: ${(props) => props.theme.fontFamily.Medium};
-  font-size: calc(0.8vw + 0.5px);
-  width: 5rem;
-  height: 2rem;
-  border-radius: 5px;
-  cursor: pointer;
-  place-items: center;
-  text-align: center; */
-  }
   .lecture__cancel-button {
     border: none;
     background-color: black;
@@ -47,13 +31,11 @@ export const SSpan = styled.span`
   color: #ff7979;
   display: block;
   border-bottom: 2px solid #cbcbcb;
-  /* font-family: ${(props) => props.theme.fontFamily.Regular}; */
 `;
 
 export const SUl = styled.ul`
   margin-top: ${(props) => props.lectureCancel && "0px"};
   padding-left: 30px;
-  /* font-family: ${(props) => props.theme.fontFamily.Regular}; */
   font-size: calc(0.5vw + 8px);
   .delete-warning {
     color: #ff0000;

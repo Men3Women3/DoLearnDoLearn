@@ -158,12 +158,9 @@ const Lecture = () => {
     if (lecturerContainer.childNodes.length === 2) {
       for (const item of lecturerContainer?.childNodes) {
         if (item.firstChild.classList[0] === "main") {
-          // item.style.display = "none";
         }
-        // console.log(item.firstChild.classList);
       }
     } else if (lecturerContainer.childNodes.length === 1) {
-      // console.log(lecturerContainer?.childNodes, 88888);
       lecturerContainer.childNodes[0].style.display = "";
     }
 

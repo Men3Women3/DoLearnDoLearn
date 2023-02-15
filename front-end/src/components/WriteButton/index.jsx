@@ -8,7 +8,6 @@ import { LoginStateContext } from "../../App";
 const WriteButton = ({ scheduled, unscheduled }) => {
   // context api를 통해 로그인 상태 받아오기
   const { isLogined } = useContext(LoginStateContext);
-
   const navigate = useNavigate();
 
   function handleWriteBoard() {
