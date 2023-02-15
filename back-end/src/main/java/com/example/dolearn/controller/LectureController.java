@@ -32,7 +32,6 @@ public class LectureController {
         try {
             return new ResponseEntity<>(new SuccessResponse(lectureService.getDetail(lecture_id)), HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                     HttpStatus.NOT_FOUND);
         }
@@ -46,11 +45,8 @@ public class LectureController {
             LectureDto result = lectureService.updateLecture(lectureDto);
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         }catch (CustomException e){
-
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -62,10 +58,8 @@ public class LectureController {
         try{
             return new ResponseEntity<>(new SuccessResponse(lectureService.getInstructor(lid)), HttpStatus.OK);
         }catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -79,10 +73,8 @@ public class LectureController {
 
             return new ResponseEntity<>(new SuccessResponse(updateBoard), HttpStatus.OK);
         }catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -92,10 +84,8 @@ public class LectureController {
         try{
             return new ResponseEntity<>(new SuccessResponse(lectureService.getList(lid)), HttpStatus.OK);
         }catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -107,10 +97,8 @@ public class LectureController {
 
             return new ResponseEntity<>(new SuccessResponse(userLectureDto),HttpStatus.OK);
         }catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -122,10 +110,8 @@ public class LectureController {
 
             return new ResponseEntity<>(new SuccessResponse("삭제가 완료되었습니다"),HttpStatus.OK);
         }catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

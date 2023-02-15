@@ -58,10 +58,8 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.signup(userDto)), HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.EMAIL_DUPLICATION), HttpStatus.CONFLICT);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,14 +73,12 @@ public class UserController {
             String accessToken = jwtTokenProvider.createAccessToken(refreshToken);
             return new ResponseEntity<>(new SuccessResponse(userService.updateToken(userDto, refreshToken, accessToken)), HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             if (e.getErrorCode() == ErrorCode.INVALID_PASSWORD){
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_PASSWORD), HttpStatus.BAD_REQUEST);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -93,7 +89,6 @@ public class UserController {
             String accessToken = jwtTokenProvider.createAccessToken(token);
             return new ResponseEntity<>(new SuccessResponse(accessToken), HttpStatus.OK);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TOKEN), HttpStatus.FORBIDDEN);
         }
     }
@@ -103,7 +98,6 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.logout(id)), HttpStatus.OK);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
         }
     }
@@ -113,14 +107,12 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.updateInfo(reqUserDto)), HttpStatus.OK);
         } catch (CustomException e) {
-            e.printStackTrace();
             if (e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED){
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -163,7 +155,6 @@ public class UserController {
 
             return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -175,7 +166,6 @@ public class UserController {
         try {
             mimeType = Files.probeContentType(file.getFile().toPath());
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType)).body(file);
     }
@@ -185,7 +175,6 @@ public class UserController {
         try{
             userService.checkEmail(email);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.EMAIL_DUPLICATION), HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(new SuccessResponse(SUCCESS), HttpStatus.OK);
@@ -196,7 +185,6 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getInfo(id)), HttpStatus.OK);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
         }
     }
@@ -206,7 +194,6 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getAllId()), HttpStatus.OK);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -216,7 +203,6 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getSummaryInfo(id)), HttpStatus.OK);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
         }
     }
@@ -227,7 +213,6 @@ public class UserController {
             userService.delete(id);
             return new ResponseEntity<>(new SuccessResponse(SUCCESS), HttpStatus.OK);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
         }
     }
@@ -237,14 +222,12 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.updatePoint(params)), HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -254,14 +237,12 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getRequestLecture(id)), HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -271,14 +252,12 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getRequestLectureByHost(id)), HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -288,14 +267,12 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getRequestLectureByInst(id)), HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -305,14 +282,12 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getRequestLectureByStud(id)), HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -322,14 +297,12 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getFixedLecture(id)), HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             if(e.getErrorCode().getHttpStatus() == HttpStatus.METHOD_NOT_ALLOWED) {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT), HttpStatus.METHOD_NOT_ALLOWED);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -339,7 +312,6 @@ public class UserController {
         try{
             return new ResponseEntity<>(new SuccessResponse(userService.getAllSortByPoint()), HttpStatus.OK);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
