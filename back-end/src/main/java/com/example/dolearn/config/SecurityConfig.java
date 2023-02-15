@@ -45,13 +45,12 @@ public class SecurityConfig {
                 .httpBasic().disable()
 
                 .authorizeRequests()
-//                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-//                .antMatchers("/user/login").permitAll()             // jwt 인증 제외할 url 설정
-//                .antMatchers("/user/check-email/**").permitAll()
-//                .antMatchers("/exception/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/user").permitAll()
-//                .anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers("/api/user/login").permitAll()             // jwt 인증 제외할 url 설정
+                .antMatchers("/api/user/check-email/**").permitAll()
+                .antMatchers("/api/exception/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
+                .anyRequest().authenticated()
                 // login 시 Jwt 검증 필터
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
