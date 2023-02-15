@@ -101,26 +101,12 @@ const LectureModalButton = ({ data, setOpen, Luid }) => {
           </>
         );
         // 방장이고, 모집완료 이후
-      } else {
-        return (
-          <SButtonBox>
-            <SButton onClick={cancelClass}>신청취소</SButton>
-            <SButton>Live 입장</SButton>
-          </SButtonBox>
-        );
       }
     } else if (stuList.includes(userInfo.id) || lecList.includes(userInfo.id)) {
       if (data.isFixed === 0) {
         return (
           <SButtonBox>
             <SButton onClick={cancelClass}>신청취소</SButton>
-          </SButtonBox>
-        );
-      } else {
-        return (
-          <SButtonBox>
-            <SButton onClick={cancelClass}>신청취소</SButton>
-            <SButton>Live 입장</SButton>
           </SButtonBox>
         );
       }
