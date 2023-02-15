@@ -46,7 +46,10 @@ public class SecurityConfig {
 
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers("/api/board/list").permitAll()             // jwt 인증 제외할 url 설정
                 .antMatchers("/api/user/login").permitAll()             // jwt 인증 제외할 url 설정
+                .antMatchers("/api/user/sort-point").permitAll()             // jwt 인증 제외할 url 설정
+                .antMatchers("/api/user/profile-img/**").permitAll()             // jwt 인증 제외할 url 설정
                 .antMatchers("/api/user/check-email/**").permitAll()
                 .antMatchers("/api/exception/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user").permitAll()
