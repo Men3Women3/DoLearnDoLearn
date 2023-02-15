@@ -39,7 +39,6 @@ public class MessageController {
         try {
             return new ResponseEntity<>(new SuccessResponse(messageService.createMessage(messageDto)), HttpStatus.CREATED);
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                     HttpStatus.NOT_FOUND);
         }
@@ -56,7 +55,6 @@ public class MessageController {
             return new ResponseEntity<>(success, HttpStatus.OK);
 
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                     HttpStatus.NOT_FOUND);
         }
@@ -71,7 +69,6 @@ public class MessageController {
         try {
             return new ResponseEntity<>(new SuccessResponse(messageService.getMessageList(user_id)), HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                     HttpStatus.NOT_FOUND);
         }
@@ -86,7 +83,6 @@ public class MessageController {
         try {
             return new ResponseEntity<>(new SuccessResponse(messageService.getUnCheckMessageList(user_id)), HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                     HttpStatus.NOT_FOUND);
         }
@@ -100,7 +96,6 @@ public class MessageController {
         try {
             return new ResponseEntity<>(new SuccessResponse(messageService.getMessage(message_id)), HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                                         HttpStatus.NOT_FOUND);
         }
@@ -116,7 +111,6 @@ public class MessageController {
             return new ResponseEntity<>(new SuccessResponse(success), HttpStatus.OK);
 
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_MESSSAGE),
                                         HttpStatus.NOT_FOUND);
         }
