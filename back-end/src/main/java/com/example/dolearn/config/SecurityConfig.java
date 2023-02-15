@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/api/board/list").permitAll()             // jwt 인증 제외할 url 설정
+                .antMatchers("/api/board/search/**").permitAll()
                 .antMatchers("/api/user/login").permitAll()
                 .antMatchers("/api/user/summary-info/**").permitAll()
                 .antMatchers("/api/user/sort-point").permitAll()

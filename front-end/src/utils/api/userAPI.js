@@ -321,9 +321,16 @@ export const signupAPI = (
 
 // 유저의 확정된 강의 목록 api를 요청하는 함수
 export const getFixedLecture = (userInfo, setTodayScedule) => {
+  const accessToken = localStorage.getItem("accessToken");
   let totalFixedLectures = [];
   axios
-    .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`)
+    .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`,
+    {},
+    {
+      headers: {
+        Authentication: accessToken,
+      },
+    })
     .then((response) => {
       const responseData = response.data.response;
       totalFixedLectures = [...responseData];
