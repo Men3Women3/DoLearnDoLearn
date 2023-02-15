@@ -16,6 +16,7 @@ plugins {
 	//Query dsl 을 프로젝트로 설정할 때 gradle이 5.0 이상일 때 추가 작업
 	id "com.ewerk.gradle.plugins.querydsl" version "${querydslPluginVer}"
 	id 'jacoco'
+	id "org.sonarqube" version "3.0"
 }
 
 group = 'com.example'
