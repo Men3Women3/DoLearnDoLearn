@@ -99,13 +99,110 @@
 | :------------------------------------------------------------------------------: |
 | ![image](./readme_assets/배포 아키텍처.png) |
 
+## 디렉토리 구조 (Front-end)
 
-|  디렉토리 구조 (Front-end)  |   디렉토리 구조 (Back-end) |                       
-| :-------------------- | :----------------------------: | 
-|  ![image](./readme_assets/frontEnd_dir1.PNG)![image](./readme_assets/frontEnd_dir2.PNG)|  ![image](./readme_assets/backEnd_dir.PNG)|
+``` java
+C:.
++---assets
+|   \---images
+|       +---login
+|       +---rank
+|       +---sns
+|       \---thumbnail
++---components
+|   +---BoardList
+|   +---Calendar
+|   +---CardBox
+|   +---LectProfile
+|   +---LectureCameraContainer
+|   +---LectureCancleModal
+|   +---LectureChattingContainer
+|   +---LectureFixedModal
+|   +---LectureModal
+|   +---LectureModalButton
+|   +---LecturerList
+|   +---LiveEvaluationModal
+|   +---LiveOptionContainer
+|   +---Message
+|   +---MessageContainer
+|   +---MessageDeleteModal
+|   +---MessageDetailModal
+|   +---MessageItem
+|   +---Navbar
+|   +---NewBoard
+|   +---Pagination
+|   +---Profile
+|   +---ProfileCardBox
+|   +---ProfileClock
+|   +---ProfileEdit
+|   +---ProfileSidebar
+|   +---RankingItem
+|   +---RankingList
+|   +---SearchBar
+|   +---SimpleSnackbar
+|   +---SmallSchedule
+|   +---SmallScheduleToggle
+|   +---Timer
+|   +---TodayScheduleItem
+|   +---TotalScheduleItem
+|   +---Typing
+|   +---UniBoard
+|   +---UnScheduleLecture
+|   +---UnScheduleLectureItem
+|   +---WarningModal
+|   \---WriteButton
++---hooks
++---pages
+|   +---Board
+|   +---Home
+|   +---Lecture
+|   +---LecturerProfile
+|   +---Loading
+|   +---Login
+|   +---NotFound
+|   +---OauthRedirect
+|   +---SignUp
+|   +---User
+|   \---WriteBoard
+\---utils
+    \---api
+```
 
+## 디렉토리 구조 (Back-end)
 
-
+``` java
+C:.
++---main
+|   +---generated
+|   +---java
+|   |   \---com
+|   |       \---example
+|   |           \---dolearn
+|   |               +---config
+|   |               +---controller
+|   |               +---domain
+|   |               +---dto
+|   |               +---exception
+|   |               |   \---error
+|   |               +---handler
+|   |               +---jwt
+|   |               +---repository
+|   |               +---response
+|   |               \---service
+|   \---resources
+\---test
+    +---java
+    |   \---com
+    |       \---example
+    |           \---dolearn
+    |               +---config
+    |               +---controller
+    |               +---dto
+    |               +---handler
+    |               +---repository
+    |               \---service
+    \---resources
+```
 
 
 <br />
@@ -178,11 +275,11 @@
 
 |                            Jira BurnDown Chart                      |
 | :---------------------------------------------------------------------------: |
-|  |
+| ![image](./readme_assets/burnDown.png)|
 
 |                            Notion                      |
 | :---------------------------------------------------------------------------: |
-|    |
+| ![image](./readme_assets/notion1.PNG)<br/>![image](./readme_assets/notion2.PNG)   |
 
 <br />
 
