@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-  <img src="./readme_assets/logo.png" width="600px" height="300px"/>
+  <img src="./readme_assets/logo.png" width="550px" height="300px"/>
   <br />
   <h1>Dolearn</h1>
   <br />
@@ -60,7 +60,6 @@
 |          | Build                   | Gradle               | 7.5.1       |
 |          | WebRTC                  | Kurento Media Server | 6.18.0      |
 |          | WebRTC                  | Kurento              | \-          |
-|          | API Docs                | Swagger2             | 3.0.0       |
 | FrontEnd | HTML5                   |                      | \-          |
 |          | CSS3                    |                      | \-          |
 |          | JavaScript(ES6)         |                      |\-           |
@@ -100,17 +99,14 @@
 | :------------------------------------------------------------------------------: |
 | ![image](./readme_assets/배포 아키텍처.png) |
 
-|                              디렉토리 구조 (Front-end)                        |
-| :------------------------------------------------------------------------------: |
-|  ![image](./readme_assets/frontEnd_dir1.png) <br /> ![image](./readme_assets/frontEnd_dir2.png)|
 
-|                              디렉토리 구조 (Back-end)                        |
-| :------------------------------------------------------------------------------: |
-|  ![image](./readme_assets/backEnd_dir.png) |
+|  디렉토리 구조 (Front-end)  |   디렉토리 구조 (Back-end) |                       
+| :-------------------- | :----------------------------: | 
+|  ![image](./readme_assets/frontEnd_dir1.PNG)![image](./readme_assets/frontEnd_dir2.PNG)|  ![image](./readme_assets/backEnd_dir.PNG)|
 
-|                              디렉토리 구조 (Kurento)                            |
-| :------------------------------------------------------------------------------: |
-|  ![image](./readme_assets/kurento_dir.png) |
+
+
+
 
 <br />
 
@@ -211,9 +207,9 @@
     <tr>
         <td align="center">REST API<br/>WebRTC<br/>WebSocket<br/>Infra</td>
         <td align="center">REST API<br/>Database<br/>Infra<br/>WebRTC</td>
-        <td align="center">REST API<br/>CI/CD<br/WebSocket</td>
-        <td align="center">UI/UX<br/>React</td>
-        <td align="center">UI/UX<br/>React</td>
+        <td align="center">REST API<br/>CI/CD<br/>WebSocket</td>
+        <td align="center">UI/UX<br/>React<br/>Test</td>
+        <td align="center">UI/UX<br/>React<br/>Design</td>
         <td align="center">UI/UX<br/>React<br/>WebRTC<br/>WebSocket</td>
     </tr>
 </table>
