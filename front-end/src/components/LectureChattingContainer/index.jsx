@@ -68,8 +68,6 @@ const LectureChattingContainer = (props) => {
         await e.preventDefault();
       }
     }
-    console.log(3, inputData, 4);
-    console.log(4, inputData.trim(), 5);
   };
 
   const handleInnerMessage = (meesage) => {

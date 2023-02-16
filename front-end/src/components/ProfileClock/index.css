@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Droid+Sans+Mono");
 @font-face {
-  font-family: "Tenada, Arial, Verdana, Tahoma, sans-serif";
+  font-family: "Tenada";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Tenada.woff2")
     format("woff2");
   font-weight: normal;
@@ -10,7 +10,7 @@
 .today {
   margin-top: 1.5vw;
   font-size: 1.4vw;
-  font-family: "Tenada, Arial, Verdana, Tahoma, sans-serif";
+  font-family: "Tenada";
   color: rgb(49, 49, 49);
   text-shadow: 0 0 0.7em rgba(255, 183, 119, 0.676),
     0 0 0.7em rgba(255, 183, 119, 0.676), 0 0 0.7em rgba(255, 183, 119, 0.676);
