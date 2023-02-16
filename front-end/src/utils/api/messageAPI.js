@@ -10,9 +10,6 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
   const accessToken = localStorage.getItem("accessToken");
   // api를 통해 유저 정보를 받아와서 저장
   axios
-    // ####################################################
-    // 수정 필요!!!!!!!!!!!
-    // ####################################################
     .get(`${axiosDefaultURL}/message/uncheck/user/${id}`, {
       headers: {
         Authentication: accessToken,
@@ -49,9 +46,6 @@ export const getUnreadMessageCnt = (setUnreadMessageCnt) => {
             const accessToken = localStorage.getItem("accessToken");
             // api를 통해 메시지 정보를 받아와서 저장
             axios
-              // ####################################################
-              // 수정 필요!!!!!!!!!!!
-              // ####################################################
               .get(`${axiosDefaultURL}/message/uncheck/user/${id}`, {
                 headers: {
                   Authentication: accessToken,
@@ -95,11 +89,6 @@ export const deleteMessageAPI = (
       {},
       {
         headers: {
-          // ------------------------------------------
-          // -----------------수정 필요----------------
-          // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-          // ------------------------------------------
-          // ------------------------------------------
           Authentication: accessToken,
         },
       }
@@ -124,11 +113,6 @@ export const changeMessageReadStateAPI = async (
       { id },
       {
         headers: {
-          // ------------------------------------------
-          // -----------------수정 필요----------------
-          // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-          // ------------------------------------------
-          // ------------------------------------------
           Authentication: accessToken,
         },
       }
@@ -152,11 +136,6 @@ export const sendMessageAPI = async (
     { bid, content, type },
     {
       headers: {
-        // ------------------------------------------
-        // -----------------수정 필요----------------
-        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-        // ------------------------------------------
-        // ------------------------------------------
         Authentication: accessToken,
       },
     }
@@ -181,11 +160,6 @@ export const sendCnacleMessageAPI = async (
     { bid, content, type },
     {
       headers: {
-        // ------------------------------------------
-        // -----------------수정 필요----------------
-        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-        // ------------------------------------------
-        // ------------------------------------------
         Authentication: accessToken,
       },
     }

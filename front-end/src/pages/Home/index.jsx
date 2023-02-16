@@ -23,7 +23,6 @@ const Home = () => {
 
   return (
     <SContainer>
-      {/* navbar 부분 그리드 */}
       <Navbar />
 
       <section className="main__section">

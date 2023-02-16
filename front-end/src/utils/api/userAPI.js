@@ -324,13 +324,15 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
   const accessToken = localStorage.getItem("accessToken");
   let totalFixedLectures = [];
   axios
-    .get(`${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`,
-    {},
-    {
-      headers: {
-        Authentication: accessToken,
-      },
-    })
+    .get(
+      `${axiosDefaultURL}/user/fixed-lecture/${userInfo.id}`,
+      {},
+      {
+        headers: {
+          Authentication: accessToken,
+        },
+      }
+    )
     .then((response) => {
       const responseData = response.data.response;
       totalFixedLectures = [...responseData];
@@ -339,15 +341,10 @@ export const getFixedLecture = (userInfo, setTodayScedule) => {
         const year = new Date().getFullYear();
         const month = new Date().getMonth() + 1;
         const day = new Date().getDate();
-        // 테스트용
-        // const month = 2;
-        // const day = 6;
         if (
           year === +startTime.slice(0, 4) &&
           month === +startTime.slice(5, 7) &&
           day === +startTime.slice(8, 10)
-          // day1 === +startTime.slice(8, 10)) ||
-          // day2 === +startTime.slice(8, 10)
         ) {
           return true;
         }
@@ -467,7 +464,6 @@ export const getScheduledLectureAPI = (userId, setScheduledLecture) => {
     )
     .then((res) => {
       const result = res.data.response;
-      // console.log("달력 받아온 데이터", result);
       // 받아온 데이터를 전처리해서 반환
       preprocessingData(result);
       setScheduledLecture(result);
@@ -482,11 +478,6 @@ export const updateUserInfoAPI = (data, handleUserInfo) => {
   axios
     .put(`${axiosDefaultURL}/user`, data, {
       headers: {
-        // ------------------------------------------
-        // -----------------수정 필요----------------
-        // 일단은 갱신 신경안쓰고 로컬스토리지에 들어있는 엑세스토큰으로 변경 시도!!
-        // ------------------------------------------
-        // ------------------------------------------
         Authentication: localStorage.getItem("accessToken"),
       },
       // 성공하면 app에서 관리중인 유저 데이터 정보도 업데이트

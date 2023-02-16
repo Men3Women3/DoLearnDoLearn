@@ -67,8 +67,6 @@ const TodayScheduleItem = (props) => {
         </p>
         <button
           className={handleActiveClassName()}
-          // 테스트용
-          // className={"active"}
           onClick={handleMoveToLecture}
         >
           Live 입장

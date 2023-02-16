@@ -142,7 +142,6 @@ export const SContainer = styled.section`
   box-sizing: content-box;
   border-radius: 12px;
   background-color: #dedede;
-  /* height: calc(9vw + 490px); */
   height: 100%;
   width: 100%;
   display: flex;
@@ -192,7 +191,6 @@ export const SOptionContainer = styled.div`
   button:hover {
     background-color: #ffc07d;
     .icon {
-      /* color: ${(props) => props.theme.deeperYellow}; */
       color: white;
     }
   }

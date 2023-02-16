@@ -39,7 +39,6 @@ export const SOptionContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #242424; */
   background-color: #fffbe6;
   text-align: center;
   margin: auto;
@@ -63,30 +62,14 @@ export const SOptionContainer = styled.div`
   button:hover {
     background-color: #ffc07d;
     .icon {
-      /* color: ${(props) => props.theme.deeperYellow}; */
       color: white;
     }
   }
-  /* select {
-    border: none;
-    background-color: transparent;
-    outline: none;
-  } */
   .icon {
     width: calc(1vw + 12px);
     height: calc(1vh + 12px);
     color: #7e7e7e;
   }
-  /* .big-icon {
-    width: calc(1vw + 12px);
-    height: calc(1vh + 12px);
-  } */
-  /* .camera-icon {
-    transform: translateX(32px);
-  }
-  .mike-icon {
-    transform: translateX(32px);
-  } */
   .exit-button:hover {
     background-color: #e53e3e;
     opacity: 1;

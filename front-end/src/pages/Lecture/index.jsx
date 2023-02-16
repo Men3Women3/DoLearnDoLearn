@@ -1,5 +1,4 @@
-import React, { useCallback, useState } from "react";
-import LectureCameraContainer from "../../components/LectureCameraContainer";
+import React, { useState } from "react";
 import LectureChattingContainer from "../../components/LectureChattingContainer";
 import LiveOptionContainer from "../../components/LiveOptionContainer";
 import kurentoUtils from "kurento-utils";
@@ -14,13 +13,11 @@ import {
   SLecturerCamera,
   SLeftItemContainer,
   SHeader,
-  SOptionContainer,
 } from "./styles";
 import { useLocation } from "react-router";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { LoginStateContext } from "../../App";
-import { getLecturerId } from "../../utils/api/lectureAPI";
 import Timer from "../../components/Timer";
 import { WEBRTC_URL } from "../../utils/api/URL";
 
@@ -50,16 +47,14 @@ const Lecture = () => {
 
   const [username, setUsername] = useState(userInfo.name);
   const [roomId, setRoomId] = useState(location.state.roomId);
-  const [helpOnOff, setHelpOnOff] = useState(false);
   const lecturerId = location.state.lecturerId;
   const lecturerInfo = location.state.lecturerInfo;
 
-  const ws = new WebSocket(`${WEBRTC_URL}`);
   // const ws = new WebSocket("wss://localhost:8443/groupcall");
+  const ws = new WebSocket(`${WEBRTC_URL}`);
 
   var participants = {};
   var name = username;
-  let shareFlag = false;
 
   useEffect(() => {
     ws.onopen = () => {
@@ -594,9 +589,6 @@ const Lecture = () => {
           participants.appendChild(mainVideoContainer);
         }
       }
-      // if (!e.target.previousSibling.className.includes("mainScreen") && !e.target.previousSibling.className.includes("main")) {
-
-      // }
     }
   };
 
@@ -627,7 +619,6 @@ const Lecture = () => {
           }
         }
         delete participants[name];
-        // document.getElementById("video-" + name).remove();
 
         const message = {
           id: "shareScreen",
@@ -652,7 +643,6 @@ const Lecture = () => {
         }
       }
       delete participants[name];
-      // document.getElementById("video-" + name).remove();
       const message = {
         id: "joinRoom",
         name: username,
@@ -712,7 +702,6 @@ const Lecture = () => {
           leaveRoom={leaveRoom}
           vidOnOff={vidOnOff}
           audOnOff={audOnOff}
-          // handleHelpRequest={handleHelpRequest}
           handleOnClickHelpRequest={handleOnClickHelpRequest}
           shareScreen={shareScreen}
           roomId={roomId}

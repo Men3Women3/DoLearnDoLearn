@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const SContainer = styled.main`
   width: 100%;
-  /* height: 100%; */
   .main__section {
     font-family: ${(props) => props.theme.fontFamily.Bold};
     font-weight: 400;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getScheduledLectureAPI, updateUserInfoAPI } from "./userAPI";
+import { getScheduledLectureAPI } from "./userAPI";
 import { BASE_URL } from "./URL";
 
 // 확정된 강의의 강사 id를 가져오는 함수
