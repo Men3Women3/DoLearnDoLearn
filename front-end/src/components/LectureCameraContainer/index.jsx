@@ -4,20 +4,7 @@ import {
   SStudentsContainer,
   SLecturerCameraContainer,
   SLecturerCamera,
-  SOptionContainer,
 } from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHand,
-  faVideo,
-  faVideoSlash,
-  faMicrophone,
-  faMicrophoneSlash,
-  faComment,
-  faCommentSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import CastIcon from "@mui/icons-material/Cast";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const LectureCameraContainer = () => {
   return (

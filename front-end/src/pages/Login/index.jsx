@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import loginImg from "../../assets/images/login_img.svg";
+import React, { useCallback, useState } from "react";
 import logoImg from "../../assets/images/logo.png";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import naverLogoImg from "../../assets/images/login/naver_logo.png";
 import kakaoLogoImg from "../../assets/images/login/kakao_logo.png";
@@ -15,7 +13,6 @@ import {
   SForm,
   SImgSection,
   SContainer,
-  SSNSContainer,
   SInputContainer,
   SEmailFontAwesomeIcon,
   SEmailInput,
@@ -24,9 +21,6 @@ import {
   SnaverLoginButton,
   SkakaoLoginButton,
   SgoogleLoginButton,
-  SNaverContainer,
-  SKakaoContainer,
-  SGoogleContainer,
   SMainContainer,
   SSignUpButton,
   SFindPassword,
@@ -36,9 +30,8 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../assets/images/LOGIN";
-import axios from "axios";
 import { useContext } from "react";
-import { LoginStateContext, LoginStateHandlerContext } from "../../App";
+import { LoginStateHandlerContext } from "../../App";
 import { loginAPI } from "../../utils/api/userAPI";
 import { SOCIAL_LOGIN_URL } from "../../utils/api/URL";
 
@@ -66,7 +59,6 @@ const defaultOptions = {
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isEmpty, setIsEmpty] = useState("");
   const [isCorrectPassword, setIsCorrectPassword] = useState("");
   const [isCorrectEmail, setIsCorrectEmail] = useState("");
   const [open, setOpen] = React.useState(false);

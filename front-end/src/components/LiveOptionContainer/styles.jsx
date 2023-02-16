@@ -37,7 +37,6 @@ export const SOptionContainer = styled.div`
     .icon {
       transform: scale(1.2);
       color: ${(props) => props.theme.deepYellow};
-      /* color: ; */
     }
   }
   .icon {

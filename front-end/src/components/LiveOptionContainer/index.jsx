@@ -36,14 +36,6 @@ const LiveOptionContainer = (props) => {
       setOpen,
       exitRoom
     );
-    // // 평가 안했으면 평가 모달 열기
-    // if (!checkEvalState) {
-    //   setOpen(true);
-    // }
-    // // 평가 했으면 방 나가기 (현재 작동 안됨..!)
-    // else {
-    //   exitRoom();
-    // }
   };
 
   return (

@@ -1,25 +1,13 @@
 import React from "react";
-import {
-  SContainer,
-  SUsersContainer,
-  SChattingContainer,
-  SContentCantainer,
-  SMessageContainer,
-  SChattingContent,
-} from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import thumbnailImg from "../../assets/images/thumbnail.png";
+import { SContainer, SChattingContainer, SChattingContent } from "./styles";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useEffect } from "react";
-import { useState } from "react";
 import { useRef } from "react";
 import { SOCKET_URL } from "../../utils/api/URL";
 import MessageContainer from "../MessageContainer";
 
 const LectureChattingContainer = (props) => {
-  const [contents, setContents] = useState([]);
   const messageBoxRef = useRef();
 
   let sockJS = new SockJS(`${SOCKET_URL}`);
