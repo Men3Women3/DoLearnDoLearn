@@ -2,40 +2,37 @@
   <br />
   <img src="./readme_assets/logo.png" width="550px" height="300px"/>
   <br />
-  <h1>Dolearn</h1>
+  <h1>Do Learn Do Learn Project</h1>
   <br />
 </div>
 
 ## 목차
 
-1. [**서비스 소개**](#1)
-2. [**기술 스택**](#2)
-3. [**시스템 아키텍처**](#3)
-4. [**주요기능 및 데모영상**](#4)
-5. [**UCC 보러가기**](#5)
-6. [**협업 관리**](#6)
-7. [**개발 멤버 소개**](#7)
-8. [**프로젝트 기간**](#8)
-9. [**프로젝트 관련 문서**](#9)
+1. [**서비스 소개**](#서비스-소개)
+2. [**기술 스택**](#기술-스택)
+3. [**시스템 아키텍처**](#시스템-아키텍처)
+4. [**주요기능 및 데모영상**](#4주요기능-및-데모영상)
+5. [**UCC 보러가기**](#UCC-보러가기)
+6. [**협업 관리**](#협업-관리)
+7. [**개발 멤버 소개**](#개발-멤버-소개)
+8. [**프로젝트 기간**](#프로젝트-기간)
+9. [**프로젝트 관련 문서**](#프로젝트-관련-문서)
 
 <br/>
 
-
-<div id="1"></div>
 
 ## 💡 서비스 소개
 
 ### 서비스 슬로건
 
-> 학교에 가지 않고 등교를 하는 세상이 찾아왔습니다. <br />
-코로나-19가 앞당긴 비대면 시대, 이제는 너무나 익숙해져 버린 우리의 일상입니다. <br />
-드로잉 드림은 단순한 비대면 수업 플랫폼을 넘어서 학생들의 생활 공간이 되는 학교라는 “공간”에 초점을 맞추었습니다.
+> 넘쳐나는 강의😥 그러나 내게 꼭 맞는 강의 찾기가 힘들지 않으신가요?<br />
+원하는 강의가 없다면 이젠 찾지말고 직접 만들어보세요!!<br />
+즉각적인 소통을 통해 주도적인 학습을 진행할 수 있습니다. 
 >
-#### 모두에게 필요한 맞춤형 학습 도우미, Dolearn에서 함께 공부하세요! 
+#### 더 나은 학습경험을 위한 공간, Dolearn에서 함께 공부하세요! 
 
 <br/>
 
-<div id="2"></div>
 
 ## 🛠️ 기술 스택
 
@@ -86,11 +83,10 @@
 
 <br />
 
-<div id="3"></div>
 
 ## 🗂️ 시스템 아키텍처
 
-|                              시스템 구조                           |
+|                              시스템 아키텍처                           |
 | :------------------------------------------------------------------------------: |
 | ![image](./readme_assets/System Architecture.png) |
 
@@ -98,6 +94,8 @@
 |                              CI/CD 배포 흐름도                           |
 | :------------------------------------------------------------------------------: |
 | ![image](./readme_assets/배포 아키텍처.png) |
+
+<br/>
 
 ## 디렉토리 구조 (Front-end)
 
@@ -207,7 +205,6 @@ C:.
 
 <br />
 
-<div id="4"></div>
 
 ## 🖥️ 주요기능
 
@@ -263,7 +260,6 @@ C:.
 
 <br/>
 
-<div id="5"></div>
 
 ## 🎥 [UCC 보러가기](https://youtu.be/Rg4kOlrdI78) 
 
@@ -273,17 +269,16 @@ C:.
 
 ## 👥 협업 관리 
 
-|                            Jira BurnDown Chart                      |
+|                            [Jira BurnDown Chart](https://ssafy.atlassian.net/jira/software/c/projects/S08P12A802/boards/1321)                      |
 | :---------------------------------------------------------------------------: |
-| ![image](./readme_assets/burnDown.png)|
+| ![image](./readme_assets/burnDown.png)<br>|
 
-|                            Notion                      |
+|                            [Notion](https://www.notion.so/881849199de84e15bc1cd665e629d700)                      |
 | :---------------------------------------------------------------------------: |
-| ![image](./readme_assets/notion1.PNG)<br/>![image](./readme_assets/notion2.PNG)   |
+| ![image](./readme_assets/notion2.PNG)   |
 
 <br />
 
-<div id="7"></div>
 
 ## 👪 개발 멤버 소개 
 <table>
@@ -302,18 +297,16 @@ C:.
             <img src="https://secure.gravatar.com/avatar/74eb94ec8232d32ba8ab5b3d0686fe78?s=800&d=identicon" width="140px" /> <br><br> 🙂 박중원 <br>(Front-End) </a> <br></td>
     </tr>
     <tr>
-        <td align="center">REST API<br/>WebRTC<br/>WebSocket<br/>Infra</td>
-        <td align="center">REST API<br/>Database<br/>Infra<br/>WebRTC</td>
-        <td align="center">REST API<br/>CI/CD<br/>WebSocket</td>
-        <td align="center">UI/UX<br/>React<br/>Test</td>
-        <td align="center">UI/UX<br/>React<br/>Design</td>
-        <td align="center">UI/UX<br/>React<br/>WebRTC<br/>WebSocket</td>
+        <td align="center">REST API<br/>WebRTC<br/>WebSocket<br/>Infra<br/>Message<br/>Social Login</td>
+        <td align="center">REST API<br/>DataBase<br/>Infra<br/>WebRTC<br/>Board<br/>Lecture<br/></td>
+        <td align="center">REST API<br/>CI/CD<br/>Infra<br/>DataBase<br/>JWT Login<br/>User</td>
+        <td align="center">UI/UX<br/>React<br/>UCC<br/>Board<br/>Test<br/>Lecture</td>
+        <td align="center">UI/UX<br/>React<br/>Design<br/>Message<br/>Profile<br/>MyPage</td>
+        <td align="center">UI/UX<br/>React<br/>WebRTC<br/>WebSocket<br/>User<br/>JWT Login</td>
     </tr>
 </table>
 
 <br />
-
-<div id="8"></div>
 
 ## 📆 프로젝트 기간
 ### 23.01.02 ~ 23.02.17
@@ -322,8 +315,6 @@ C:.
 - 버그 수정 및 산출물 정리 : 23.02.13 ~ 23.02.17
 
 <br />
-
-<div id="9"></div>
 
 ## 📋 프로젝트 관련 문서
 |  구분  |  링크  |
