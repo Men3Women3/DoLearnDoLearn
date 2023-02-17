@@ -372,7 +372,7 @@ C:.
 
 <br/>
 
-## 🎥 [UCC 보러가기]()
+## 🎥 [UCC 보러가기](https://www.youtube.com/watch?v=rpZk7addmjQ)
 
 <br />
 
@@ -380,7 +380,7 @@ C:.
 
 ## 👥 협업 관리
 
-### Jira Burn Down Chart
+### I. Jira Burn Down Chart
 
 <details> <summary>1주차</summary> <div markdown="1"><img src="https://user-images.githubusercontent.com/109454527/219352178-825c2693-6bf7-4776-8153-e290c7a05cd6.png"></div> </details>
 
@@ -394,9 +394,9 @@ C:.
 
 <br />
 
-### Notion
+### II. Notion
+<a href="https://petalite-spear-ff0.notion.site/881849199de84e15bc1cd665e629d700" target="_blank">Link</a>
 
-(노션 읽기 허용으로해서 링크 공유)
 
 <br />
 
